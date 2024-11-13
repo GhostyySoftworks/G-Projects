@@ -1,4 +1,6 @@
--- Credits: AnthonyIsntHere.
+local Notify = loadstring(game:HttpGet("https://raw.githubusercontent.com/Kinlei/Dynissimo/main/Scripts/AkaliNotif.lua"))()
+
+-- Credits: AnthonyIsntHere/closet.
 
 if not game:IsLoaded() then
     game.Loaded:wait()
@@ -7,7 +9,7 @@ end
 task.wait(5)
 
 local ACL_LoadTime = tick()
-local NotificationTitle = "Cbb's ACL"
+local NotificationTitle = "Cbb's."
 
 local OldCoreTypeSettings = {}
 local WhitelistedCoreTypes = {
@@ -27,10 +29,6 @@ local Players = game:GetService("Players")
 
 local Player = Players.LocalPlayer
 
-local Notify = function(_Title, _Text , Time)
-    StarterGui:SetCore("SendNotification", {Title = _Title, Text = _Text, Icon = "rbxassetid://2541869220", Duration = Time})
-end
-
 local Tween = function(Object, Time, Style, Direction, Property)
     return TweenService:Create(Object, TweenInfo.new(Time, Enum.EasingStyle[Style], Enum.EasingDirection[Direction]), Property)
 end
@@ -41,13 +39,23 @@ local PlayerGui = Player:FindFirstChildWhichIsA("PlayerGui") do
         repeat task.wait() until Player:FindFirstChildWhichIsA("PlayerGui") or (tick() > Timer)
         PlayerGui = Player:FindFirstChildWhichIsA("PlayerGui") or false
         if not PlayerGui then
-            return Notify(NotificationTitle, "Failed to find PlayerGui!", 10)
+            return
+            Notify.Notify({
+                Title = "Cbb's ACL",
+                Description = "Failed to find PlayerGui!",
+                Duration = 5
+            })
         end
     end
 end
 
 if getgenv().AntiChatLogger then
-    return Notify(NotificationTitle, "Anti Chat & Screenshot Logger already loaded!", 15)
+    return 
+    Notify.Notify({
+        Title = "Cbb's ACL",
+        Description = "Loaded successfully! | AL",
+        Duration = 5
+    })
 else
     getgenv().AntiChatLogger = true
 end
@@ -345,7 +353,7 @@ if setfflag then
         setfflag("AbuseReportScreenshot", "False")
         setfflag("AbuseReportScreenshotPercentage", "0")
     end)
-end -- To prevent roblox from taking screenshots of your client.
+end
 
 local Credits = task.spawn(function()
     local UserIds = {
@@ -376,7 +384,7 @@ local Credits = task.spawn(function()
     Rank.Size = UDim2.new(.75, 0, .5, 0)
     Rank.TextColor3 = Color3.fromRGB(0, 0, 0)
     Rank.TextScaled = true
-    Rank.Text = "< Anti Chat-Logger >"
+    Rank.Text = "< Cbb's ACL >"
     
     Gradient.Color = ColorSequence.new({
         ColorSequenceKeypoint.new(0, Color3.new(.75, .75, .75)),
@@ -466,5 +474,8 @@ if CoreHook then
 end
 setreadonly(Metatable, true)
 
-Notify(NotificationTitle, "Loaded successfully.", 15)
-print(string.format("Anti-ban loaded in %s seconds.", string.format("%.2f", tostring(tick() - ACL_LoadTime))))
+Notify.Notify({
+    Title = "Cbb's ACL",
+    Description = "Loaded successfully!",
+    Duration = 5
+})
