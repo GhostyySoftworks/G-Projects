@@ -53,7 +53,7 @@ if getgenv().AntiChatLogger then
     return 
     Notify.Notify({
         Title = "Cbb's ACL",
-        Description = "Loaded successfully! | AL",
+        Description = "Loaded successfully! | ALC",
         Duration = 5
     })
 else
