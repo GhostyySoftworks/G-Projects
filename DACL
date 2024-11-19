@@ -1,7 +1,5 @@
 local Notify = loadstring(game:HttpGet("https://raw.githubusercontent.com/Kinlei/Dynissimo/main/Scripts/AkaliNotif.lua"))()
 
--- Credits: AnthonyIsntHere/closet.
-
 if not game:IsLoaded() then
     game.Loaded:wait()
 end
@@ -9,7 +7,7 @@ end
 task.wait(5)
 
 local ACL_LoadTime = tick()
-local NotificationTitle = "Cbb's."
+local NotificationTitle = "DD's."
 
 local OldCoreTypeSettings = {}
 local WhitelistedCoreTypes = {
@@ -41,7 +39,7 @@ local PlayerGui = Player:FindFirstChildWhichIsA("PlayerGui") do
         if not PlayerGui then
             return
             Notify.Notify({
-                Title = "Cbb's ACL",
+                Title = "DD's ACL",
                 Description = "Failed to find PlayerGui!",
                 Duration = 5
             })
@@ -52,7 +50,7 @@ end
 if getgenv().AntiChatLogger then
     return 
     Notify.Notify({
-        Title = "Cbb's ACL",
+        Title = "DD's ACL",
         Description = "Loaded successfully! | ALC",
         Duration = 5
     })
@@ -384,7 +382,7 @@ local Credits = task.spawn(function()
     Rank.Size = UDim2.new(.75, 0, .5, 0)
     Rank.TextColor3 = Color3.fromRGB(0, 0, 0)
     Rank.TextScaled = true
-    Rank.Text = "< Cbb's ACL >"
+    Rank.Text = "< DD's ACL >"
     
     Gradient.Color = ColorSequence.new({
         ColorSequenceKeypoint.new(0, Color3.new(.75, .75, .75)),
@@ -475,7 +473,7 @@ end
 setreadonly(Metatable, true)
 
 Notify.Notify({
-    Title = "Cbb's ACL",
+    Title = "DD's ACL",
     Description = "Loaded successfully!",
     Duration = 5
 })
