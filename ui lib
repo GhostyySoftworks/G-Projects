@@ -1867,8 +1867,7 @@ function summitLib:CreateWindow(ConfigArgs)
 		for i,v in pairs(ScrollingFrame555:GetChildren()) do
 			if v:IsA("Frame") then
 				wait(.1)
-				v.Visible = load
-				print(v.Name)	
+				v.Visible = load	
 			end
 		end
 	end
