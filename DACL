@@ -7,7 +7,7 @@ local Players = game:GetService("Players")
 local LocalPlayer = Players.LocalPlayer
 local StarterGui = game:GetService("StarterGui")
 
-if TextChatService.ChatVersion == Enum.ChatVersion.TextChatService then
+local function ensureHasExecuted()
     local hasExecuted = LocalPlayer:FindFirstChild("HasExecuted")
     if not hasExecuted then
         hasExecuted = Instance.new("BoolValue")
@@ -15,31 +15,36 @@ if TextChatService.ChatVersion == Enum.ChatVersion.TextChatService then
         hasExecuted.Value = false
         hasExecuted.Parent = LocalPlayer
     end
+    return hasExecuted
+end
 
-    local startTime = tick()
+local function ensureChatEnabled(maxAttempts)
+    local attempts = 0
+    repeat
+        StarterGui:SetCoreGuiEnabled(Enum.CoreGuiType.Chat, true)
+        task.wait(0.1)
+        attempts += 1
+    until StarterGui:GetCoreGuiEnabled(Enum.CoreGuiType.Chat) or attempts >= maxAttempts
+end
 
-    local function showNotification(title, description, imageId)
-        if StarterGui then
-            StarterGui:SetCore("SendNotification", {
-                Title = title;
-                Text = description;
-                Icon = imageId;
-                Duration = 15;
-            })
-        end
+local function showNotification(title, description, imageId)
+    if StarterGui then
+        StarterGui:SetCore("SendNotification", {
+            Title = title;
+            Text = description;
+            Icon = imageId;
+            Duration = 15;
+        })
     end
+end
 
-    local function executeScript()
-        if hasExecuted.Value then
-            print("ACL already loaded!")
-            return
-        end
+if TextChatService.ChatVersion == Enum.ChatVersion.TextChatService then
+    local hasExecuted = ensureHasExecuted()
 
+    if not hasExecuted.Value then
+        local startTime = tick()
         hasExecuted.Value = true
-
-        local ACLloadTime = tick() - startTime
-
-        print(string.format("ACL successfully loaded in %.2f seconds!", ACLloadTime))
+        print("Executing ACL script...")
 
         if setfflag then
             pcall(function()
@@ -48,36 +53,28 @@ if TextChatService.ChatVersion == Enum.ChatVersion.TextChatService then
             end)
         end
 
-        local function AntiChatLog(message)
-            if message:sub(1, 2) == "/e" then
-                return message
+        TextChatService.OnIncomingMessage = function(message)
+            if message.Text:sub(1, 2) == "/e" then
+                return message.Text
             else
-                return message .. ""
+                message.Text = message.Text .. ""
             end
         end
 
-        TextChatService.OnIncomingMessage = function(message)
-            local modifiedMessage = AntiChatLog(message.Text)
-            message.Text = modifiedMessage
-        end
+        task.spawn(function()
+            ensureChatEnabled(10)
+        end)
+
+        local ACLloadTime = tick() - startTime
+        print(string.format("ACL successfully loaded in %.2f seconds!", ACLloadTime))
+        showNotification("ACL Script", string.format("Loaded in %.2f seconds!", ACLloadTime), "rbxassetid://123456")
+
+    else
+        print("ACL already loaded!")
+        showNotification("ACL Script", "Already loaded!", "rbxassetid://123456")
     end
-
-    wait(0.21)
-    executeScript()
-
-    task.spawn(function()
-        if StarterGui then
-            repeat
-                StarterGui:SetCoreGuiEnabled(Enum.CoreGuiType.Chat, true)
-                task.wait()
-            until StarterGui:GetCoreGuiEnabled(Enum.CoreGuiType.Chat)
-        end
-    end)
-
 else
-    if not pcall(function() loadstring(game:HttpGet("https://gitlab.com/Dypasser/DRepos/-/raw/main/DACL?ref_type=heads"))() end) then
-        loadstring(game:HttpGet("https://gitlab.com/Dypasser/DRepos/-/raw/main/DACL?ref_type=heads"))()
-    end
+    loadstring(game:HttpGet("https://gitlab.com/Dypasser/DRepos/-/raw/main/DACL?ref_type=heads"))()
 end
 
 task.spawn(function()
