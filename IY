@@ -2818,9 +2818,9 @@ currentScroll = Color3.fromRGB(78,78,79)
 defaultsettings = {
 	prefix = ';';
 	StayOpen = false;
-	espTransparency = 0.3;
+	espTransparency = 1.0;
 	keepIY = true;
-	logsEnabled = false;
+	logsEnabled = true;
 	jLogsEnabled = false;
 	aliases = {};
 	binds = {};
@@ -2841,7 +2841,7 @@ useFactorySettings = function()
     prefix = ';'
     StayOpen = false
     KeepInfYield = true
-    espTransparency = 0.3
+    espTransparency = 1.0
     logsEnabled = false
     jLogsEnabled = false
     logsWebhook = nil
@@ -2943,7 +2943,7 @@ function saves()
                     if vtype(json.prefix, "string") then prefix = json.prefix else prefix = ';' end
                     if vtype(json.StayOpen, "boolean") then StayOpen = json.StayOpen else StayOpen = false end
                     if vtype(json.keepIY, "boolean") then KeepInfYield = json.keepIY else KeepInfYield = true end
-                    if vtype(json.espTransparency, "number") then espTransparency = json.espTransparency else espTransparency = 0.3 end
+                    if vtype(json.espTransparency, "number") then espTransparency = json.espTransparency else espTransparency = 1.0 end
                     if vtype(json.logsEnabled, "boolean") then logsEnabled = json.logsEnabled else logsEnabled = false end
                     if vtype(json.jLogsEnabled, "boolean") then jLogsEnabled = json.jLogsEnabled else jLogsEnabled = false end
                     if vtype(json.logsWebhook, "string") then logsWebhook = json.logsWebhook else logsWebhook = nil end
@@ -7853,7 +7853,7 @@ addcmd('noesp',{'unesp'},function(args, speaker)
 end)
 
 addcmd('esptransparency',{},function(args, speaker)
-	espTransparency = (args[1] and isNumber(args[1]) and args[1]) or 0.3
+	espTransparency = (args[1] and isNumber(args[1]) and args[1]) or 1.0
 	updatesaves()
 end)
 
