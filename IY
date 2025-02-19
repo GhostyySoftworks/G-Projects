@@ -4335,6 +4335,7 @@ CMDs[#CMDs + 1] = {NAME = 'notifyjobid', DESC = 'Notifies you the games JobId'}
 CMDs[#CMDs + 1] = {NAME = 'rejoin / rj', DESC = 'Makes you rejoin the game'}
 CMDs[#CMDs + 1] = {NAME = 'autorejoin / autorj', DESC = 'Automatically rejoins the server if you get kicked/disconnected'}
 CMDs[#CMDs + 1] = {NAME = 'serverhop / shop', DESC = 'Teleports you to a different server'}
+CMDs[#CMDs + 1] = {NAME = 'joinplayer [username / ID] [place ID]', DESC = 'Joins a specific players server'}
 CMDs[#CMDs + 1] = {NAME = 'gameteleport / gametp [place ID]', DESC = 'Joins a game by ID'}
 CMDs[#CMDs + 1] = {NAME = 'antiidle / antiafk', DESC = 'Prevents the game from kicking you for being idle/afk'}
 CMDs[#CMDs + 1] = {NAME = 'datalimit [num]', DESC = 'Set outgoing KBPS limit'}
@@ -4371,6 +4372,7 @@ CMDs[#CMDs + 1] = {NAME = 'togglefullscreen / togglefs', DESC = 'Toggles fullscr
 CMDs[#CMDs + 1] = {NAME = 'notify [text]', DESC = 'Sends you a notification with the provided text'}
 CMDs[#CMDs + 1] = {NAME = 'lastcommand / lastcmd', DESC = 'Executes the previous command used'}
 CMDs[#CMDs + 1] = {NAME = 'exit', DESC = 'Kills roblox process'}
+CMDs[#CMDs + 1] = {NAME = '', DESC = ''}
 CMDs[#CMDs + 1] = {NAME = 'noclip', DESC = 'Go through objects'}
 CMDs[#CMDs + 1] = {NAME = 'unnoclip / clip', DESC = 'Disables noclip'}
 CMDs[#CMDs + 1] = {NAME = 'fly [speed]', DESC = 'Makes you fly'}
@@ -4389,6 +4391,7 @@ CMDs[#CMDs + 1] = {NAME = 'float /  platform', DESC = 'Spawns a platform beneath
 CMDs[#CMDs + 1] = {NAME = 'unfloat / noplatform', DESC = 'Removes the platform'}
 CMDs[#CMDs + 1] = {NAME = 'swim', DESC = 'Allows you to swim in the air'}
 CMDs[#CMDs + 1] = {NAME = 'unswim / noswim', DESC = 'Stops you from swimming everywhere'}
+CMDs[#CMDs + 1] = {NAME = '', DESC = ''}
 CMDs[#CMDs + 1] = {NAME = 'setwaypoint / swp [name]', DESC = 'Sets a waypoint at your position'}
 CMDs[#CMDs + 1] = {NAME = 'waypointpos / wpp [name] [X Y Z]', DESC = 'Sets a waypoint with specified coordinates'}
 CMDs[#CMDs + 1] = {NAME = 'waypoints', DESC = 'Shows a list of currently active waypoints'}
@@ -4400,6 +4403,7 @@ CMDs[#CMDs + 1] = {NAME = 'walktowaypoint / wtwp [name]', DESC = 'Walks player t
 CMDs[#CMDs + 1] = {NAME = 'deletewaypoint / dwp [name]', DESC = 'Deletes a waypoint'}
 CMDs[#CMDs + 1] = {NAME = 'clearwaypoints / cwp', DESC = 'Clears all waypoints'}
 CMDs[#CMDs + 1] = {NAME = 'cleargamewaypoints / cgamewp', DESC = 'Clears all waypoints for the game you are in'}
+CMDs[#CMDs + 1] = {NAME = '', DESC = ''}
 CMDs[#CMDs + 1] = {NAME = 'goto [player]', DESC = 'Go to a player'}
 CMDs[#CMDs + 1] = {NAME = 'tweengoto / tgoto [player]', DESC = 'Tween to a player (bypasses some anti cheats)'}
 CMDs[#CMDs + 1] = {NAME = 'tweenspeed / tspeed [num]', DESC = 'Sets how fast all tween commands go (default is 1)'}
@@ -4407,6 +4411,9 @@ CMDs[#CMDs + 1] = {NAME = 'vehiclegoto / vgoto [player]', DESC = 'Go to a player
 CMDs[#CMDs + 1] = {NAME = 'loopgoto [player] [distance] [delay]', DESC = 'Loop teleport to a player'}
 CMDs[#CMDs + 1] = {NAME = 'unloopgoto', DESC = 'Stops teleporting you to a player'}
 CMDs[#CMDs + 1] = {NAME = 'pulsetp / ptp [player] [seconds]', DESC = 'Teleports you to a player for a specified ammount of time'}
+CMDs[#CMDs + 1] = {NAME = 'clientbring / cbring [player] (CLIENT)', DESC = 'Bring a player'}
+CMDs[#CMDs + 1] = {NAME = 'loopbring [player] [distance] [delay] (CLIENT)', DESC = 'Loop brings a player to you (useful for killing)'}
+CMDs[#CMDs + 1] = {NAME = 'unloopbring [player]', DESC = 'Undoes loopbring'}
 CMDs[#CMDs + 1] = {NAME = 'freeze / fr [player] (CLIENT)', DESC = 'Freezes a player'}
 CMDs[#CMDs + 1] = {NAME = 'freezeanims', DESC = 'Freezes your animations / pauses your animations - Does not work on default animations'}
 CMDs[#CMDs + 1] = {NAME = 'unfreezeanims', DESC = 'Unfreezes your animations / plays your animations'}
@@ -4424,6 +4431,7 @@ CMDs[#CMDs + 1] = {NAME = 'flashback / diedtp', DESC = 'Teleports you to where y
 CMDs[#CMDs + 1] = {NAME = 'walltp', DESC = 'Teleports you above/over any wall you run into'}
 CMDs[#CMDs + 1] = {NAME = 'nowalltp / unwalltp', DESC = 'Disables walltp'}
 CMDs[#CMDs + 1] = {NAME = 'teleporttool / tptool', DESC = 'Gives you a teleport tool'}
+CMDs[#CMDs + 1] = {NAME = '', DESC = ''}
 CMDs[#CMDs + 1] = {NAME = 'logs', DESC = 'Opens the logs GUI'}
 CMDs[#CMDs + 1] = {NAME = 'chatlogs / clogs', DESC = 'Log what people say or whisper'}
 CMDs[#CMDs + 1] = {NAME = 'joinlogs / jlogs', DESC = 'Log when people join'}
@@ -4440,6 +4448,7 @@ CMDs[#CMDs + 1] = {NAME = 'bubblechat (CLIENT)', DESC = 'Enables bubble chat for
 CMDs[#CMDs + 1] = {NAME = 'unbubblechat / nobubblechat', DESC = 'Disables the bubblechat command'}
 CMDs[#CMDs + 1] = {NAME = 'safechat', DESC = 'Enables safe chat'}
 CMDs[#CMDs + 1] = {NAME = 'nosafechat / disablesafechat', DESC = 'Disables safechat'}
+CMDs[#CMDs + 1] = {NAME = '', DESC = ''}
 CMDs[#CMDs + 1] = {NAME = 'esp', DESC = 'View all players and their status'}
 CMDs[#CMDs + 1] = {NAME = 'noesp / unesp', DESC = 'Removes esp'}
 CMDs[#CMDs + 1] = {NAME = 'esptransparency [number]', DESC = 'Changes the transparency of esp related commands'}
@@ -4453,6 +4462,7 @@ CMDs[#CMDs + 1] = {NAME = 'xray', DESC = 'Makes all parts in workspace transpare
 CMDs[#CMDs + 1] = {NAME = 'unxray / noxray', DESC = 'Restores transparency'}
 CMDs[#CMDs + 1] = {NAME = 'loopxray', DESC = 'Makes all parts in workspace transparent but looped'}
 CMDs[#CMDs + 1] = {NAME = 'unloopunxray', DESC = 'Unloops xray'}
+CMDs[#CMDs + 1] = {NAME = '', DESC = ''}
 CMDs[#CMDs + 1] = {NAME = 'spectate / view [player]', DESC = 'View a player'}
 CMDs[#CMDs + 1] = {NAME = 'viewpart / viewp [part name]', DESC = 'View a part'}
 CMDs[#CMDs + 1] = {NAME = 'unspectate / unview', DESC = 'Stops viewing player'}
@@ -4476,6 +4486,7 @@ CMDs[#CMDs + 1] = {NAME = 'fov [num]', DESC = 'Adjusts field of view (default is
 CMDs[#CMDs + 1] = {NAME = 'fixcam / restorecam', DESC = 'Fixes camera'}
 CMDs[#CMDs + 1] = {NAME = 'enableshiftlock / enablesl', DESC = 'Enables the shift lock option'}
 CMDs[#CMDs + 1] = {NAME = 'lookat [player]', DESC = 'Moves your camera view to a player'}
+CMDs[#CMDs + 1] = {NAME = '', DESC = ''}
 CMDs[#CMDs + 1] = {NAME = 'btools (CLIENT)', DESC = 'Gives you building tools (DOES NOT REPLICATE)'}
 CMDs[#CMDs + 1] = {NAME = 'f3x (CLIENT)', DESC = 'Gives you F3X building tools (DOES NOT REPLICATE)'}
 CMDs[#CMDs + 1] = {NAME = 'partname / partpath', DESC = 'Allows you to click a part to see its path & name'}
@@ -4493,6 +4504,8 @@ CMDs[#CMDs + 1] = {NAME = 'tweengotopartclass / tgpc [class name]', DESC = 'Twee
 CMDs[#CMDs + 1] = {NAME = 'gotomodel [part name]', DESC = 'Moves your character to a model or multiple models'}
 CMDs[#CMDs + 1] = {NAME = 'tweengotomodel / tgotomodel [part name]', DESC = 'Tweens your character to a model or multiple models'}
 CMDs[#CMDs + 1] = {NAME = 'gotopartdelay / gotomodeldelay [num]', DESC = 'Adjusts how quickly you teleport to each part (default is 0.1)'}
+CMDs[#CMDs + 1] = {NAME = 'bringpart [part name] (CLIENT)', DESC = 'Moves a part or multiple parts to your character'}
+CMDs[#CMDs + 1] = {NAME = 'bringpartclass / bpc [class name] (CLIENT)', DESC = 'Moves a part or multiple parts to your character based on classname'}
 CMDs[#CMDs + 1] = {NAME = 'noclickdetectorlimits / nocdlimits', DESC = 'Sets all click detectors MaxActivationDistance to math.huge'}
 CMDs[#CMDs + 1] = {NAME = 'fireclickdetectors / firecd [name]', DESC = 'Uses all click detectors in a game or uses the optional name'}
 CMDs[#CMDs + 1] = {NAME = 'firetouchinterests / touchinterests [name]', DESC = 'Uses all touchinterests in a game or uses the optional name'}
@@ -4509,6 +4522,7 @@ CMDs[#CMDs + 1] = {NAME = 'destroyheight / dh [num]', DESC = 'Sets FallenPartsDe
 CMDs[#CMDs + 1] = {NAME = 'fakeout', DESC = 'Tp to the void and then back (useful to kill people attached to you)'}
 CMDs[#CMDs + 1] = {NAME = 'antivoid', DESC = 'Prevents you from falling into the void by launching you upwards'}
 CMDs[#CMDs + 1] = {NAME = 'unantivoid / noantivoid', DESC = 'Disables antivoid'}
+CMDs[#CMDs + 1] = {NAME = '', DESC = ''}
 CMDs[#CMDs + 1] = {NAME = 'fullbright / fb (CLIENT)', DESC = 'Makes the map brighter / more visible'}
 CMDs[#CMDs + 1] = {NAME = 'loopfullbright / loopfb (CLIENT)', DESC = 'Makes the map brighter / more visible but looped'}
 CMDs[#CMDs + 1] = {NAME = 'unloopfullbright / unloopfb', DESC = 'Unloops fullbright'}
@@ -4522,6 +4536,7 @@ CMDs[#CMDs + 1] = {NAME = 'noglobalshadows / nogshadows (CLIENT)', DESC = 'Disab
 CMDs[#CMDs + 1] = {NAME = 'restorelighting / rlighting', DESC = 'Restores Lighting properties'}
 CMDs[#CMDs + 1] = {NAME = 'light [radius] [brightness] (CLIENT)', DESC = 'Gives your player dynamic light'}
 CMDs[#CMDs + 1] = {NAME = 'nolight / unlight', DESC = 'Removes dynamic light from your player'}
+CMDs[#CMDs + 1] = {NAME = '', DESC = ''}
 CMDs[#CMDs + 1] = {NAME = 'inspect / examine [player]', DESC = 'Opens InspectMenu for a certain player'}
 CMDs[#CMDs + 1] = {NAME = 'age [player]', DESC = 'Tells you the age of a player'}
 CMDs[#CMDs + 1] = {NAME = 'chatage [player]', DESC = 'Chats the age of a player'}
@@ -4552,22 +4567,34 @@ CMDs[#CMDs + 1] = {NAME = 'rolewatchstop / unrolewatch', DESC = 'Disable Rolewat
 CMDs[#CMDs + 1] = {NAME = 'rolewatchleave', DESC = 'Toggle if you should leave the game if someone from a watched group joins the server'}
 CMDs[#CMDs + 1] = {NAME = 'staffwatch', DESC = 'Notify if a staff member of the game joins the server'}
 CMDs[#CMDs + 1] = {NAME = 'unstaffwatch', DESC = 'Disable Staffwatch'}
+CMDs[#CMDs + 1] = {NAME = 'attach [player] (TOOL)', DESC = 'Attaches you to a player (YOU NEED A TOOL)'}
+CMDs[#CMDs + 1] = {NAME = 'kill [player] (TOOL)', DESC = 'Kills a player (YOU NEED A TOOL)'}
+CMDs[#CMDs + 1] = {NAME = 'fastkill [player] (TOOL)', DESC = 'Kills a player (less reliable) (YOU NEED A TOOL)'}
 CMDs[#CMDs + 1] = {NAME = 'handlekill / hkill [player] (TOOL)', DESC = 'Kills a player using tool damage (YOU NEED A TOOL)'}
+CMDs[#CMDs + 1] = {NAME = 'bring [player] (TOOL)', DESC = 'Brings a player (YOU NEED A TOOL)'}
+CMDs[#CMDs + 1] = {NAME = 'fastbring [player] (TOOL)', DESC = 'Brings a player (less reliable) (YOU NEED A TOOL)'}
+CMDs[#CMDs + 1] = {NAME = 'teleport / tp [player] [player] (TOOL)', DESC = 'Teleports a player to another player (YOU NEED A TOOL)'}
+CMDs[#CMDs + 1] = {NAME = 'fastteleport / fasttp [player] [player] (TOOL)', DESC = 'Teleports a player to another player (less reliable) (YOU NEED A TOOL)'}
 CMDs[#CMDs + 1] = {NAME = 'fling', DESC = 'Flings anyone you touch'}
 CMDs[#CMDs + 1] = {NAME = 'unfling', DESC = 'Disables the fling command'}
 CMDs[#CMDs + 1] = {NAME = 'flyfling [speed]', DESC = 'Basically the invisfling command but not invisible'}
 CMDs[#CMDs + 1] = {NAME = 'unflyfling', DESC = 'Disables the flyfling command'}
 CMDs[#CMDs + 1] = {NAME = 'wf', DESC = 'Basically fling but no spinning'}
 CMDs[#CMDs + 1] = {NAME = 'unwf / nowf', DESC = 'Disables wf'}
+CMDs[#CMDs + 1] = {NAME = 'invisfling', DESC = 'Enables invisible fling'}
 CMDs[#CMDs + 1] = {NAME = 'antifling', DESC = 'Disables player collisions to prevent you from being flung'}
 CMDs[#CMDs + 1] = {NAME = 'unantifling', DESC = 'Disables antifling'}
+CMDs[#CMDs + 1] = {NAME = 'loopoof', DESC = 'Loops everyones character sounds (everyone can hear)'}
+CMDs[#CMDs + 1] = {NAME = 'unloopoof', DESC = 'Stops the oof chaos'}
 CMDs[#CMDs + 1] = {NAME = 'muteboombox [player]', DESC = 'Mutes someones boombox'}
 CMDs[#CMDs + 1] = {NAME = 'unmuteboombox [player]', DESC = 'Unmutes someones boombox'}
 CMDs[#CMDs + 1] = {NAME = 'hitbox [player] [size] [transparency]', DESC = 'Expands the hitbox for players HumanoidRootPart (default is 1)'}
 CMDs[#CMDs + 1] = {NAME = 'headsize [player] [size]', DESC = 'Expands the head size for players Head (default is 1)'}
+CMDs[#CMDs + 1] = {NAME = '', DESC = ''}
 CMDs[#CMDs + 1] = {NAME = 'reset', DESC = 'Resets your character normally'}
 CMDs[#CMDs + 1] = {NAME = 'respawn', DESC = 'Respawns you'}
 CMDs[#CMDs + 1] = {NAME = 'refresh / re', DESC = 'Respawns and brings you back to the same position'}
+CMDs[#CMDs + 1] = {NAME = 'god', DESC = 'Makes your character difficult to kill in most games'}
 CMDs[#CMDs + 1] = {NAME = 'invisible / invis', DESC = 'Makes you invisible to other players'}
 CMDs[#CMDs + 1] = {NAME = 'visible / vis', DESC = 'Makes you visible to other players'}
 CMDs[#CMDs + 1] = {NAME = 'toolinvisible / toolinvis / tinvis', DESC = 'Makes you invisible to other players and able to use tools'}
@@ -4636,6 +4663,7 @@ CMDs[#CMDs + 1] = {NAME = 'unnilchar / nonilchar', DESC = 'Sets your characters 
 CMDs[#CMDs + 1] = {NAME = 'noroot / removeroot / rroot', DESC = 'Removes your characters HumanoidRootPart'}
 CMDs[#CMDs + 1] = {NAME = 'replaceroot', DESC = 'Replaces your characters HumanoidRootPart'}
 CMDs[#CMDs + 1] = {NAME = 'clearcharappearance / clearchar / clrchar', DESC = 'Removes all accessory, shirt, pants, charactermesh, and bodycolors'}
+CMDs[#CMDs + 1] = {NAME = '', DESC = ''}
 CMDs[#CMDs + 1] = {NAME = 'animation / anim [ID] [speed]', DESC = 'Makes your character perform an animation (must be by roblox to replicate)'}
 CMDs[#CMDs + 1] = {NAME = 'dance', DESC = 'Makes you  d a n c e'}
 CMDs[#CMDs + 1] = {NAME = 'undance', DESC = 'Stops dance animations'}
@@ -4652,6 +4680,7 @@ CMDs[#CMDs + 1] = {NAME = 'stopanimations / stopanims', DESC = 'Stops running an
 CMDs[#CMDs + 1] = {NAME = 'refreshanimations / refreshanims', DESC = 'Refreshes animations'}
 CMDs[#CMDs + 1] = {NAME = 'allowcustomanim / allowcustomanimations', DESC = 'Lets you use custom animation packs instead'}
 CMDs[#CMDs + 1] = {NAME = 'unallowcustomanim / unallowcustomanimations', DESC = 'Doesn\'t let you use custom animation packs instead'}
+CMDs[#CMDs + 1] = {NAME = '', DESC = ''}
 CMDs[#CMDs + 1] = {NAME = 'autoclick [click delay] [release delay]', DESC = 'Automatically clicks your mouse with a set delay'}
 CMDs[#CMDs + 1] = {NAME = 'unautoclick / noautoclick', DESC = 'Turns off autoclick'}
 CMDs[#CMDs + 1] = {NAME = 'autokeypress [key] [down delay] [up delay]', DESC = 'Automatically presses a key with a set delay'}
@@ -4662,6 +4691,7 @@ CMDs[#CMDs + 1] = {NAME = 'mousesensitivity / ms [0-10]', DESC = 'Sets your mous
 CMDs[#CMDs + 1] = {NAME = 'clickdelete', DESC = 'Go to settings>Keybinds>Add for clicktp'}
 CMDs[#CMDs + 1] = {NAME = 'clickteleport', DESC = 'Go to settings>Keybinds>Add for click tp'}
 CMDs[#CMDs + 1] = {NAME = 'mouseteleport / mousetp', DESC = 'Teleports your character to your mouse. This is recommended as a keybind'}
+CMDs[#CMDs + 1] = {NAME = '', DESC = ''}
 CMDs[#CMDs + 1] = {NAME = 'tools', DESC = 'Copies tools from ReplicatedStorage and Lighting'}
 CMDs[#CMDs + 1] = {NAME = 'notools / removetools / deletetools', DESC = 'Removes tools from character and backpack'}
 CMDs[#CMDs + 1] = {NAME = 'deleteselectedtool / dst', DESC = 'Removes any currently selected tools'}
@@ -4669,6 +4699,7 @@ CMDs[#CMDs + 1] = {NAME = 'grabtools', DESC = 'Automatically get tools that are 
 CMDs[#CMDs + 1] = {NAME = 'ungrabtools / nograbtools', DESC = 'Disables grabtools'}
 CMDs[#CMDs + 1] = {NAME = 'copytools [player] (CLIENT)', DESC = 'Copies a players tools'}
 CMDs[#CMDs + 1] = {NAME = 'dupetools / clonetools [num]', DESC = 'Duplicates your inventory tools a set ammount of times'}
+CMDs[#CMDs + 1] = {NAME = 'givetool / givetools', DESC = 'Gives all the tools you\'re holding to [player] using the attach method.'}
 CMDs[#CMDs + 1] = {NAME = 'droptools', DESC = 'Drops your tools'}
 CMDs[#CMDs + 1] = {NAME = 'droppabletools', DESC = 'Makes your tools droppable'}
 CMDs[#CMDs + 1] = {NAME = 'equiptools', DESC = 'Equips every tool in your inventory at once'}
@@ -4681,13 +4712,16 @@ CMDs[#CMDs + 1] = {NAME = 'boxreach [num]', DESC = 'Increases the hitbox of your
 CMDs[#CMDs + 1] = {NAME = 'unreach / noreach', DESC = 'Turns off reach'}
 CMDs[#CMDs + 1] = {NAME = 'grippos [X Y Z]', DESC = 'Changes your current tools grip position'}
 CMDs[#CMDs + 1] = {NAME = 'usetools [ammount] [delay]', DESC = 'Activates all tools in your backpack at the same time'}
+CMDs[#CMDs + 1] = {NAME = '', DESC = ''}
 CMDs[#CMDs + 1] = {NAME = 'addalias [cmd] [alias]', DESC = 'Adds an alias to a command'}
 CMDs[#CMDs + 1] = {NAME = 'removealias [alias]', DESC = 'Removes a custom alias'}
 CMDs[#CMDs + 1] = {NAME = 'clraliases', DESC = 'Removes all custom aliases'}
+CMDs[#CMDs + 1] = {NAME = '', DESC = ''}
 CMDs[#CMDs + 1] = {NAME = 'addplugin / plugin [name]', DESC = 'Add a plugin via command'}
 CMDs[#CMDs + 1] = {NAME = 'removeplugin / deleteplugin [name]', DESC = 'Remove a plugin via command'}
 CMDs[#CMDs + 1] = {NAME = 'reloadplugin [name]', DESC = 'Reloads a plugin'}
 CMDs[#CMDs + 1] = {NAME = 'addallplugins / loadallplugins', DESC = 'Adds all available plugins from the workspace folder'}
+CMDs[#CMDs + 1] = {NAME = '', DESC = ''}
 CMDs[#CMDs + 1] = {NAME = 'breakloops / break (cmd loops)', DESC = 'Stops any cmd loops (;100^1^cmd)'}
 CMDs[#CMDs + 1] = {NAME = 'removecmd / deletecmd', DESC = 'Removes a command until the admin is reloaded'}
 CMDs[#CMDs + 1] = {NAME = 'tpwalk / teleportwalk [num]', DESC = 'Teleports you to your move direction'}
@@ -6752,6 +6786,62 @@ addcmd("serverhop", {"shop"}, function(args, speaker)
     end
 end)
 
+addcmd('joinplayer',{'joinp'},function(args, speaker)
+	local retries = 0
+	function ToServer(User,Place)	
+		if args[2] == nil then Place = PlaceId end
+		if not pcall(function()
+				local FoundUser, UserId = pcall(function()
+					if tonumber(User) then
+						return tonumber(User)
+					end
+
+					return Players:GetUserIdFromNameAsync(User)
+				end)
+				if not FoundUser then
+					notify('Join Error','Username/UserID does not exist')
+				else
+					notify('Join Player','Loading servers. Hold on a second.')
+					local URL2 = ("https://games.roblox.com/v1/games/"..Place.."/servers/Public?sortOrder=Asc&limit=100")
+					local Http = HttpService:JSONDecode(game:HttpGet(URL2))
+					local GUID
+
+					function tablelength(T)
+						local count = 0
+						for _ in pairs(T) do count = count + 1 end
+						return count
+					end
+
+					for i=1,tonumber(tablelength(Http.data)) do
+						for j,k in pairs(Http.data[i].playerIds) do
+							if k == UserId then
+								GUID = Http.data[i].id
+							end
+						end
+					end
+
+					if GUID ~= nil then
+						notify('Join Player','Joining '..User)
+						TeleportService:TeleportToPlaceInstance(Place,GUID,Players.LocalPlayer)
+					else
+						notify('Join Error','Unable to join user.')
+					end
+				end
+			end)
+		then
+			if retries < 3 then
+				retries = retries + 1
+				print('ERROR retrying '..retries..'/3')
+				notify('Join Error','Error while trying to join. Retrying '..retries..'/3.')
+				ToServer(User,Place)
+			else
+				notify('Join Error','Error while trying to join.')
+			end
+		end
+	end
+	ToServer(args[1],args[2])
+end)
+
 addcmd("exit", {}, function(args, speaker)
     game:Shutdown()
 end)
@@ -8765,6 +8855,63 @@ addcmd("togglevnoclip", {}, function(args, speaker)
 	execCmd(Clip and "vnoclip" or "vclip")
 end)
 
+addcmd('clientbring',{'cbring'},function(args, speaker)
+	local players = getPlayer(args[1], speaker)
+	for i,v in pairs(players)do
+		if Players[v].Character ~= nil then
+			if Players[v].Character:FindFirstChildOfClass('Humanoid') then
+				Players[v].Character:FindFirstChildOfClass('Humanoid').Sit = false
+			end
+			wait()
+			getRoot(Players[v].Character).CFrame = getRoot(speaker.Character).CFrame + Vector3.new(3,1,0)
+		end
+	end
+end)
+
+local bringT = {}
+addcmd('loopbring',{},function(args, speaker)
+	local players = getPlayer(args[1], speaker)
+	for i,v in pairs(players)do
+		task.spawn(function()
+			if Players[v].Name ~= speaker.Name and not FindInTable(bringT, Players[v].Name) then
+				table.insert(bringT, Players[v].Name)
+				local plrName = Players[v].Name
+				local pchar=Players[v].Character
+				local distance = 3
+				if args[2] and isNumber(args[2]) then
+					distance = args[2]
+				end
+				local lDelay = 0
+				if args[3] and isNumber(args[3]) then
+					lDelay = args[3]
+				end
+				repeat
+					for i,c in pairs(players) do
+						if Players:FindFirstChild(v) then
+							pchar = Players[v].Character
+							if pchar~= nil and Players[v].Character ~= nil and getRoot(pchar) and speaker.Character ~= nil and getRoot(speaker.Character) then
+								getRoot(pchar).CFrame = getRoot(speaker.Character).CFrame + Vector3.new(distance,1,0)
+							end
+							wait(lDelay)
+						else 
+							for a,b in pairs(bringT) do if b == plrName then table.remove(bringT, a) end end
+						end
+					end
+				until not FindInTable(bringT, plrName)
+			end
+		end)
+	end
+end)
+
+addcmd('unloopbring',{'noloopbring'},function(args, speaker)
+	local players = getPlayer(args[1], speaker)
+	for i,v in pairs(players)do
+		task.spawn(function()
+			for a,b in pairs(bringT) do if b == Players[v].Name then table.remove(bringT, a) end end
+		end)
+	end
+end)
+
 local walkto = false
 local waypointwalkto = false
 addcmd('walkto',{'follow'},function(args, speaker)
@@ -8957,6 +9104,24 @@ addcmd('thaw',{'unfreeze','unfr'},function(args, speaker)
 	end
 end)
 
+oofing = false
+addcmd('loopoof',{},function(args, speaker)
+	oofing = true
+	repeat wait(0.1)
+		for i,v in pairs(Players:GetPlayers()) do
+			if v.Character ~= nil and v.Character:FindFirstChild'Head' then
+				for _,x in pairs(v.Character.Head:GetChildren()) do
+					if x:IsA'Sound' then x.Playing = true end
+				end
+			end
+		end
+	until oofing == false
+end)
+
+addcmd('unloopoof',{},function(args, speaker)
+	oofing = false
+end)
+
 local notifiedRespectFiltering = false
 addcmd('muteboombox',{},function(args, speaker)
 	if not notifiedRespectFiltering and SoundService.RespectFilteringEnabled then notifiedRespectFiltering = true notify('RespectFilteringEnabled','RespectFilteringEnabled is set to true (the command will still work but may only be clientsided)') end
@@ -9024,6 +9189,27 @@ end)
 
 addcmd('refresh',{'re'},function(args, speaker)
 	refresh(speaker)
+end)
+
+addcmd('god',{},function(args, speaker)
+	local Cam = workspace.CurrentCamera
+	local Pos, Char = Cam.CFrame, speaker.Character
+	local Human = Char and Char.FindFirstChildWhichIsA(Char, "Humanoid")
+	local nHuman = Human.Clone(Human)
+	nHuman.Parent, speaker.Character = Char, nil
+	nHuman.SetStateEnabled(nHuman, 15, false)
+	nHuman.SetStateEnabled(nHuman, 1, false)
+	nHuman.SetStateEnabled(nHuman, 0, false)
+	nHuman.BreakJointsOnDeath, Human = true, Human.Destroy(Human)
+	speaker.Character, Cam.CameraSubject, Cam.CFrame = Char, nHuman, wait() and Pos
+	nHuman.DisplayDistanceType = Enum.HumanoidDisplayDistanceType.None
+	local Script = Char.FindFirstChild(Char, "Animate")
+	if Script then
+		Script.Disabled = true
+		wait()
+		Script.Disabled = false
+	end
+	nHuman.Health = nHuman.MaxHealth
 end)
 
 invisRunning = false
@@ -10377,6 +10563,22 @@ addcmd('unfriend',{},function(args, speaker)
 	end
 end)
 
+addcmd('bringpart',{},function(args, speaker)
+	for i,v in pairs(workspace:GetDescendants()) do
+		if v.Name:lower() == getstring(1):lower() and v:IsA("BasePart") then
+			v.CFrame = getRoot(speaker.Character).CFrame
+		end
+	end
+end)
+
+addcmd('bringpartclass',{'bpc'},function(args, speaker)
+	for i,v in pairs(workspace:GetDescendants()) do
+		if v.ClassName:lower() == getstring(1):lower() and v:IsA("BasePart") then
+			v.CFrame = getRoot(speaker.Character).CFrame
+		end
+	end
+end)
+
 gotopartDelay = 0.1
 addcmd('gotopart',{'topart'},function(args, speaker)
 	for i,v in pairs(workspace:GetDescendants()) do
@@ -10888,6 +11090,40 @@ addcmd('dupetools', {'clonetools'}, function(args, speaker)
 	end
 end)
 
+local RS = RunService.RenderStepped
+addcmd('givetool', {'givetools'}, function(args, speaker)
+	local v = Players[getPlayer(args[1], speaker)[1]].Character
+	workspace.CurrentCamera.CameraSubject = v
+	local Char = speaker.Character or workspace:FindFirstChild(speaker.Name)
+	local hum = Char and Char:FindFirstChildWhichIsA('Humanoid')
+	local hrp = hum and hum.RootPart
+	local hrppos = hrp.CFrame
+	hum = hum:Destroy() or hum:Clone()
+	hum.Parent = Char
+	hum:ClearAllChildren()
+	speaker:ClearCharacterAppearance()
+	task.spawn(function()
+		speaker.CharacterAdded:Wait():WaitForChild('Humanoid').RootPart.CFrame = wait() and hrppos
+	end)
+	local vHRP = getRoot(v)
+	while Char and Char.Parent and vHRP and vHRP.Parent do
+		local Tools = false
+		for _, v in ipairs(Char:GetChildren()) do
+			if v:IsA('BackpackItem') and v:FindFirstChild('Handle') then
+				Tools = true
+				firetouchinterest(v.Handle, vHRP, 0)
+				firetouchinterest(v.Handle, vHRP, 1)
+			end
+		end
+		if not Tools then
+			break
+		end
+		hrp.CFrame = vHRP.CFrame
+		RS:Wait()
+	end
+	execCmd('re')
+end)
+
 addcmd('touchinterests', {'touchinterest', 'firetouchinterests', 'firetouchinterest'}, function(args, speaker)
 	if not firetouchinterest then
 		notify("Incompatible Exploit", "Your exploit does not support this command (missing firetouchinterest)")
@@ -11364,6 +11600,54 @@ addcmd("togglewf", {}, function(args, speaker)
     execCmd(wfing and "unwf" or "wf")
 end)
 
+addcmd('invisfling',{},function(args, speaker)
+	local ch = speaker.Character
+	local prt=Instance.new("Model")
+	prt.Parent = speaker.Character
+	local z1 = Instance.new("Part")
+	z1.Name="Torso"
+	z1.CanCollide = false
+	z1.Anchored = true
+	local z2 = Instance.new("Part")
+	z2.Name="Head"
+	z2.Parent = prt
+	z2.Anchored = true
+	z2.CanCollide = false
+	local z3 =Instance.new("Humanoid")
+	z3.Name="Humanoid"
+	z3.Parent = prt
+	z1.Position = Vector3.new(0,9999,0)
+	speaker.Character=prt
+	wait(3)
+	speaker.Character=ch
+	wait(3)
+	local Hum = Instance.new("Humanoid")
+	z2:Clone()
+	Hum.Parent = speaker.Character
+	local root =  getRoot(speaker.Character)
+	for i,v in pairs(speaker.Character:GetChildren()) do
+		if v ~= root and  v.Name ~= "Humanoid" then
+			v:Destroy()
+		end
+	end
+	root.Transparency = 0
+	root.Color = Color3.new(1, 1, 1)
+	local invisflingStepped
+	invisflingStepped = RunService.Stepped:Connect(function()
+		if speaker.Character and getRoot(speaker.Character) then
+			getRoot(speaker.Character).CanCollide = false
+		else
+			invisflingStepped:Disconnect()
+		end
+	end)
+	sFLY()
+	workspace.CurrentCamera.CameraSubject = root
+	local bambam = Instance.new("BodyThrust")
+	bambam.Parent = getRoot(speaker.Character)
+	bambam.Force = Vector3.new(99999,99999*10,99999)
+	bambam.Location = getRoot(speaker.Character).Position
+end)
+
 addcmd("antifling", {}, function(args, speaker)
     if antifling then
         antifling:Disconnect()
@@ -11391,6 +11675,72 @@ end)
 
 addcmd("toggleantifling", {}, function(args, speaker)
     execCmd(antifling and "unantifling" or "antifling")
+end)
+
+function attach(speaker,target)
+	if tools(speaker) then
+		local char = speaker.Character
+		local tchar = target.Character
+		local hum = speaker.Character:FindFirstChildOfClass("Humanoid")
+		local hrp = getRoot(speaker.Character)
+		local hrp2 = getRoot(target.Character)
+		hum.Name = "1"
+		local newHum = hum:Clone()
+		newHum.Parent = char
+		newHum.Name = "Humanoid"
+		wait()
+		hum:Destroy()
+		workspace.CurrentCamera.CameraSubject = char
+		newHum.DisplayDistanceType = "None"
+		local tool = speaker:FindFirstChildOfClass("Backpack"):FindFirstChildOfClass("Tool") or speaker.Character:FindFirstChildOfClass("Tool")
+		tool.Parent = char
+		hrp.CFrame = hrp2.CFrame * CFrame.new(0, 0, 0) * CFrame.new(math.random(-100, 100)/200,math.random(-100, 100)/200,math.random(-100, 100)/200)
+		local n = 0
+		repeat
+			wait(.1)
+			n = n + 1
+			hrp.CFrame = hrp2.CFrame
+		until (tool.Parent ~= char or not hrp or not hrp2 or not hrp.Parent or not hrp2.Parent or n > 250) and n > 2
+	else
+		notify('Tool Required','You need to have an item in your inventory to use this command')
+	end
+end
+
+addcmd('attach',{},function(args, speaker)
+	local players = getPlayer(args[1], speaker)
+	for i,v in pairs(players) do
+		attach(speaker,Players[v])
+	end
+end)
+
+function kill(speaker,target,fast)
+	if tools(speaker) then
+		if target ~= nil then
+			local NormPos = getRoot(speaker.Character).CFrame
+			if not fast then
+				refresh(speaker)
+				wait()
+				repeat wait() until speaker.Character ~= nil and getRoot(speaker.Character)
+				wait(0.3)
+			end
+			local hrp = getRoot(speaker.Character)
+			attach(speaker,target)
+			repeat
+				wait()
+				hrp.CFrame = CFrame.new(999999, workspace.FallenPartsDestroyHeight + 5,999999)
+			until not getRoot(target.Character) or not getRoot(speaker.Character)
+			speaker.CharacterAdded:Wait():WaitForChild("HumanoidRootPart").CFrame = NormPos
+		end
+	else
+		notify('Tool Required','You need to have an item in your inventory to use this command')
+	end
+end
+
+addcmd('kill',{'fekill'},function(args, speaker)
+	local players = getPlayer(args[1], speaker)
+	for i,v in pairs(players) do
+		kill(speaker,Players[v])
+	end
 end)
 
 addcmd('handlekill', {'hkill'}, function(args, speaker)
@@ -11439,7 +11789,75 @@ end)
 addcmd('untpwalk', {'unteleportwalk'}, function(args, speaker)
 	tpwalking = false
 end)
-)
+
+addcmd('fastkill',{'fastfekill'},function(args, speaker)
+	local players = getPlayer(args[1], speaker)
+	for i,v in pairs(players) do
+		kill(speaker,Players[v],true)
+	end
+end)
+
+function bring(speaker,target,fast)
+	if tools(speaker) then
+		if target ~= nil then
+			local NormPos = getRoot(speaker.Character).CFrame
+			if not fast then
+				refresh(speaker)
+				wait()
+				repeat wait() until speaker.Character ~= nil and getRoot(speaker.Character)
+				wait(0.3)
+			end
+			local hrp = getRoot(speaker.Character)
+			attach(speaker,target)
+			repeat
+				wait()
+				hrp.CFrame = NormPos
+			until not getRoot(target.Character) or not getRoot(speaker.Character)
+			speaker.CharacterAdded:Wait():WaitForChild("HumanoidRootPart").CFrame = NormPos
+		end
+	else
+		notify('Tool Required','You need to have an item in your inventory to use this command')
+	end
+end
+
+addcmd('bring',{'febring'},function(args, speaker)
+	local players = getPlayer(args[1], speaker)
+	for i,v in pairs(players) do
+		bring(speaker,Players[v])
+	end
+end)
+
+addcmd('fastbring',{'fastfebring'},function(args, speaker)
+	local players = getPlayer(args[1], speaker)
+	for i,v in pairs(players) do
+		bring(speaker,Players[v],true)
+	end
+end)
+
+function teleport(speaker,target,target2,fast)
+	if tools(speaker) then
+		if target ~= nil then
+			local NormPos = getRoot(speaker.Character).CFrame
+			if not fast then
+				refresh(speaker)
+				wait()
+				repeat wait() until speaker.Character ~= nil and getRoot(speaker.Character)
+				wait(0.3)
+			end
+			local hrp = getRoot(speaker.Character)
+			local hrp2 = getRoot(target2.Character)
+			attach(speaker,target)
+			repeat
+				wait()
+				hrp.CFrame = hrp2.CFrame
+			until not getRoot(target.Character) or not getRoot(speaker.Character)
+			wait(1)
+			speaker.CharacterAdded:Wait():WaitForChild("HumanoidRootPart").CFrame = NormPos
+		end
+	else
+		notify('Tool Required','You need to have an item in your inventory to use this command')
+	end
+end
 
 addcmd('tp',{'teleport'},function(args, speaker)
 	local players1=getPlayer(args[1], speaker)
@@ -11451,6 +11869,20 @@ addcmd('tp',{'teleport'},function(args, speaker)
 				wait(.1)
 			end
 			teleport(speaker,Players[v],Players[players2[1]])
+		end
+	end
+end)
+
+addcmd('fasttp',{'fastteleport'},function(args, speaker)
+	local players1=getPlayer(args[1], speaker)
+	local players2=getPlayer(args[2], speaker)
+	for i,v in pairs(players1)do
+		if getRoot(Players[v].Character) and getRoot(Players[players2[1]].Character) then
+			if speaker.Character:FindFirstChildOfClass('Humanoid') and speaker.Character:FindFirstChildOfClass('Humanoid').SeatPart then
+				speaker.Character:FindFirstChildOfClass('Humanoid').Sit = false
+				wait(.1)
+			end
+			teleport(speaker,Players[v],Players[players2[1]],true)
 		end
 	end
 end)
