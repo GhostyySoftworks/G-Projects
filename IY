@@ -4594,7 +4594,6 @@ CMDs[#CMDs + 1] = {NAME = '', DESC = ''}
 CMDs[#CMDs + 1] = {NAME = 'reset', DESC = 'Resets your character normally'}
 CMDs[#CMDs + 1] = {NAME = 'respawn', DESC = 'Respawns you'}
 CMDs[#CMDs + 1] = {NAME = 'refresh / re', DESC = 'Respawns and brings you back to the same position'}
-CMDs[#CMDs + 1] = {NAME = 'god', DESC = 'Makes your character difficult to kill in most games'}
 CMDs[#CMDs + 1] = {NAME = 'invisible / invis', DESC = 'Makes you invisible to other players'}
 CMDs[#CMDs + 1] = {NAME = 'visible / vis', DESC = 'Makes you visible to other players'}
 CMDs[#CMDs + 1] = {NAME = 'toolinvisible / toolinvis / tinvis', DESC = 'Makes you invisible to other players and able to use tools'}
@@ -9189,27 +9188,6 @@ end)
 
 addcmd('refresh',{'re'},function(args, speaker)
 	refresh(speaker)
-end)
-
-addcmd('god',{},function(args, speaker)
-	local Cam = workspace.CurrentCamera
-	local Pos, Char = Cam.CFrame, speaker.Character
-	local Human = Char and Char.FindFirstChildWhichIsA(Char, "Humanoid")
-	local nHuman = Human.Clone(Human)
-	nHuman.Parent, speaker.Character = Char, nil
-	nHuman.SetStateEnabled(nHuman, 15, false)
-	nHuman.SetStateEnabled(nHuman, 1, false)
-	nHuman.SetStateEnabled(nHuman, 0, false)
-	nHuman.BreakJointsOnDeath, Human = true, Human.Destroy(Human)
-	speaker.Character, Cam.CameraSubject, Cam.CFrame = Char, nHuman, wait() and Pos
-	nHuman.DisplayDistanceType = Enum.HumanoidDisplayDistanceType.None
-	local Script = Char.FindFirstChild(Char, "Animate")
-	if Script then
-		Script.Disabled = true
-		wait()
-		Script.Disabled = false
-	end
-	nHuman.Health = nHuman.MaxHealth
 end)
 
 invisRunning = false
