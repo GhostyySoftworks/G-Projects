@@ -21,14 +21,9 @@ Notify({
 local CustomFunctionSupport = isfile and isfolder and writefile and readfile and listfiles
 local FileSupport = isfile and isfolder and writefile and readfile
 
--- Creates folder & files for Prefix & Plugins
 if FileSupport then
 if not isfolder('HKAND-Admin') then
 makefolder('HKAND-Admin')
-end
-
-if not isfolder('HKAND-Admin/Plugins') then
-    makefolder('HKAND-Admin/Plugins')
 end
 
 if not isfile("HKAND-Admin/Prefix.txt") then
@@ -735,10 +730,6 @@ cmd.add({"lag"}, {"lag <player>", "Chat lag"}, function()
         alreadyantilag = true
     else
     end
-end)
-
-cmd.add({"plugins"}, {"plugins", "Check what kind of plugins you have, add plugins using a gui, delete a plugin."}, function()
-    loadstring(game:HttpGet("https://raw.githubusercontent.com/FD2Team/archive/main/NamelessAdminPlugin"))();
 end)
 
 cmd.add({"prefix"}, {"prefix <prefix>", "Changes the admin prefix"}, function(...)
@@ -14108,47 +14099,6 @@ cmd.add({"errorchat"}, {"errorchat", "Makes the chat error appear when roblox ch
            end
     end
 end)
-
-
--- [[ PLUGIN LOADER ]] -- 
-local PluginsLoaded = 0
-PluginsErrored = 0
-
-if CustomFunctionSupport then
-local success, result = pcall(function()
-            for i,v in pairs(listfiles("HKAND-Admin/Plugins")) do
-            loadstring(readfile(listfiles("HKAND-Admin/Plugins")[i]))();
-PluginsLoaded = PluginsLoaded + 1
-end
-end)
-
-if not success then
-    PluginsErrored = PluginsErrored + 1
-    Notify({
-        Description = "Plugin error: " .. result .. "";
-        Title = "HKAND Admin";
-        Duration = 3;
-        
-        });
-end
-
--- [[ PLUGINS LOADED NOTIFICATION ]] --
-if PluginsErrored == 0 then
-    Notify({
-            Description = "Loaded " .. PluginsLoaded .. " plugins";
-            Title = "HKAND Admin";
-            Duration = 3;
-            
-            });
-else
-    Notify({
-    Description = "Loaded " .. PluginsLoaded .. " plugins, although " .. PluginsErrored .. " plugins have errored";
-    Title = "HKAND Admin";
-            Duration = 3;
-            
-            });
-end
-end
 
 --[[ FUNCTIONALITY ]]--
 localPlayer.Chatted:Connect(function(str)
