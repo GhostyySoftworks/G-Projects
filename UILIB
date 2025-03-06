@@ -782,7 +782,7 @@ function library:Introduction()
     text.Size = UDim2.new(0, 26, 0, 21)
     text.Font = Enum.Font.Code
     text.Text = "hash"
-    text.TextColor3 = Color3.fromRGB(124, 124, 124)
+    text.TextColor3 = Color3.fromRGB(178, 34, 34)
     text.TextSize = 10.000
     text.TextTransparency = 1
     text.RichText = true
@@ -929,7 +929,7 @@ function library:Init(key)
 
     bar.Name = "bar"
     bar.Parent = barFolder
-    bar.BackgroundColor3 = Color3.fromRGB(159, 115, 255)
+    bar.BackgroundColor3 = Color3.fromRGB(178, 34, 34)
     bar.BackgroundTransparency = 0.200
     bar.Size = UDim2.new(0, 592, 0, 1)
     bar.BorderSizePixel = 0
@@ -986,7 +986,7 @@ function library:Init(key)
     containerEdge.Name = "containerEdge"
     containerEdge.Parent = background
     containerEdge.AnchorPoint = Vector2.new(0.5, 0.5)
-    containerEdge.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
+    containerEdge.BackgroundColor3 = Color3.fromRGB(20, 20, 20)
     containerEdge.Position = UDim2.new(0.637000024, 0, 0.536000013, 0)
     containerEdge.Size = UDim2.new(0, 414, 0, 360)
 
@@ -1066,7 +1066,7 @@ function library:Init(key)
 
         if TabLibrary.IsFirst then
             page.Visible = true
-            tabButton.TextColor3 = Color3.fromRGB(159, 115, 255)
+            tabButton.TextColor3 = Color3.fromRGB(178, 34, 34)
             TabLibrary.CurrentTab = title
         end
         
