@@ -1249,11 +1249,11 @@ function library:Init(key)
                 TweenService:Create(button, TweenTable["hover"], {BackgroundColor3 = Color3.fromRGB(20, 20, 20)}):Play()
             end)
             button.MouseLeave:Connect(function()
-                TweenService:Create(button, TweenTable["hover"], {BackgroundColor3 = Color3.fromRGB(50, 50, 50)}):Play()
+                TweenService:Create(button, TweenTable["hover"], {BackgroundColor3 = Color3.fromRGB(20, 20, 20)}):Play()
             end)
 
             button.MouseButton1Down:Connect(function()
-                TweenService:Create(buttonLabel, TweenTable["hover"], {TextColor3 = Color3.fromRGB(159, 115, 255)}):Play()
+                TweenService:Create(buttonLabel, TweenTable["hover"], {TextColor3 = Color3.fromRGB(178, 34, 34)}):Play()
             end)
             button.MouseButton1Up:Connect(function()
                 TweenService:Create(buttonLabel, TweenTable["hover"], {TextColor3 = Color3.fromRGB(178, 34, 34)}):Play()
@@ -1355,11 +1355,11 @@ function library:Init(key)
                         TweenService:Create(button, TweenTable["hover"], {BackgroundColor3 = Color3.fromRGB(20, 20, 20)}):Play()
                     end)
                     button.MouseLeave:Connect(function()
-                        TweenService:Create(button, TweenTable["hover"], {BackgroundColor3 = Color3.fromRGB(50, 50, 50)}):Play()
+                        TweenService:Create(button, TweenTable["hover"], {BackgroundColor3 = Color3.fromRGB(20, 20, 20)}):Play()
                     end)
         
                     button.MouseButton1Down:Connect(function()
-                        TweenService:Create(buttonLabel, TweenTable["hover"], {TextColor3 = Color3.fromRGB(159, 115, 255)}):Play()
+                        TweenService:Create(buttonLabel, TweenTable["hover"], {TextColor3 = Color3.fromRGB(178, 34, 34)}):Play()
                     end)
                     button.MouseButton1Up:Connect(function()
                         TweenService:Create(buttonLabel, TweenTable["hover"], {TextColor3 = Color3.fromRGB(178, 34, 34)}):Play()
@@ -1742,7 +1742,7 @@ function library:Init(key)
 
                 keybind.Name = "keybind"
                 keybind.Parent = Extras
-                keybind.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
+                keybind.BackgroundColor3 = Color3.fromRGB(20, 20, 20)
                 keybind.Position = UDim2.new(0.780303001, 0, 0, 0)
                 keybind.Size = UDim2.new(0, 87, 0, 22)
                 keybind.AutoButtonColor = false
@@ -1968,7 +1968,7 @@ function library:Init(key)
 
             keybind.Name = "keybind"
             keybind.Parent = keybindFolder
-            keybind.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
+            keybind.BackgroundColor3 = Color3.fromRGB(20, 20, 20)
             keybind.Position = UDim2.new(0.780303001, 0, 0, 0)
             keybind.Size = UDim2.new(0, 87, 0, 22)
             keybind.AutoButtonColor = false
