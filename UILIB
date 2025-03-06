@@ -946,7 +946,7 @@ function library:Init(key)
     tabButtonsEdge.Name = "tabButtonsEdge"
     tabButtonsEdge.Parent = background
     tabButtonsEdge.AnchorPoint = Vector2.new(0.5, 0.5)
-    tabButtonsEdge.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
+    tabButtonsEdge.BackgroundColor3 = Color3.fromRGB(20, 20, 20)
     tabButtonsEdge.Position = UDim2.new(0.1435, 0, 0.536000013, 0)
     tabButtonsEdge.Size = UDim2.new(0, 152, 0, 360)
 
@@ -997,7 +997,7 @@ function library:Init(key)
     container.Name = "container"
     container.Parent = containerEdge
     container.AnchorPoint = Vector2.new(0.5, 0.5)
-    container.BackgroundColor3 = Color3.fromRGB(235, 235, 235)
+    container.BackgroundColor3 = Color3.fromRGB(20, 20, 20)
     container.Position = UDim2.new(0.5, 0, 0.5, 0)
     container.Size = UDim2.new(0, 412, 0, 358)
 
@@ -1048,7 +1048,7 @@ function library:Init(key)
         page.MidImage = "http://www.roblox.com/asset/?id=3062506202"
         page.ScrollBarThickness = 1
         page.TopImage = "http://www.roblox.com/asset/?id=3062506202"
-        page.ScrollBarImageColor3 = Color3.fromRGB(159, 115, 255)
+        page.ScrollBarImageColor3 = Color3.fromRGB(178, 34, 34)
         page.Visible = false
         
         pageLayout.Name = "pageLayout"
@@ -1081,10 +1081,10 @@ function library:Init(key)
 
             for i,v in pairs(tabButtons:GetChildren()) do
                 if v:IsA("TextButton") then
-                    TweenService:Create(v, TweenTable["tab_text_colour"], {TextColor3 = Color3.fromRGB(170, 170, 170)}):Play()
+                    TweenService:Create(v, TweenTable["tab_text_colour"], {TextColor3 = Color3.fromRGB(178, 34, 34)}):Play()
                 end
             end
-            TweenService:Create(tabButton, TweenTable["tab_text_colour"], {TextColor3 = Color3.fromRGB(159, 115, 255)}):Play()
+            TweenService:Create(tabButton, TweenTable["tab_text_colour"], {TextColor3 = Color3.fromRGB(178, 34, 34)}):Play()
         end)
 
         local function UpdatePageSize()
