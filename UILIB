@@ -554,21 +554,21 @@ function library:InitNotifications(text, duration, callback)
     
         bar.Name = "bar"
         bar.Parent = barFolder
-        bar.BackgroundColor3 = Color3.fromRGB(159, 115, 255)
+        bar.BackgroundColor3 = Color3.fromRGB(178, 34, 34)
         bar.BackgroundTransparency = 0.200
         bar.Size = UDim2.new(0, 0, 0, 1)
         if type == "notification" then
-            bar.BackgroundColor3 = Color3.fromRGB(159, 115, 255)
+            bar.BackgroundColor3 = Color3.fromRGB(178, 34, 34)
         elseif type == "alert" then
-            bar.BackgroundColor3 = Color3.fromRGB(255, 246, 112)
+            bar.BackgroundColor3 = Color3.fromRGB(178, 34, 34)
         elseif type == "error" then
-            bar.BackgroundColor3 = Color3.fromRGB(255, 74, 77)
+            bar.BackgroundColor3 = Color3.fromRGB(178, 34, 34)
         elseif type == "success" then
-            bar.BackgroundColor3 = Color3.fromRGB(131, 255, 103)
+            bar.BackgroundColor3 = Color3.fromRGB(178, 34, 34)
         elseif type == "information" then
-            bar.BackgroundColor3 = Color3.fromRGB(126, 117, 255)
+            bar.BackgroundColor3 = Color3.fromRGB(178, 34, 34)
         end
-    
+        
         barCorner.CornerRadius = UDim.new(0, 2)
         barCorner.Name = "barCorner"
         barCorner.Parent = bar
@@ -577,7 +577,7 @@ function library:InitNotifications(text, duration, callback)
         barLayout.Parent = barFolder
         barLayout.SortOrder = Enum.SortOrder.LayoutOrder
     
-        backgroundGradient.Color = ColorSequence.new{ColorSequenceKeypoint.new(0.00, Color3.fromRGB(34, 34, 34)), ColorSequenceKeypoint.new(1.00, Color3.fromRGB(28, 28, 28))}
+        backgroundGradient.Color = ColorSequence.new{ColorSequenceKeypoint.new(0.00, Color3.fromRGB(20, 20, 20)), ColorSequenceKeypoint.new(1.00, Color3.fromRGB(28, 28, 28))}
         backgroundGradient.Rotation = 90
         backgroundGradient.Name = "backgroundGradient"
         backgroundGradient.Parent = background
