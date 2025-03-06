@@ -2969,7 +2969,7 @@ function library:Init(key)
             selectorText.Size = UDim2.new(0, 394, 0, 20)
             selectorText.Font = Enum.Font.Code
             selectorText.LineHeight = 1.150
-            selectorText.TextColor3 = Color3.fromRGB(160, 160, 160)
+            selectorText.TextColor3 = Color3.fromRGB(178, 34, 34)
             selectorText.TextSize = 14.000
             selectorText.TextXAlignment = Enum.TextXAlignment.Left
             selectorText.Text = default
@@ -3040,7 +3040,7 @@ function library:Init(key)
                 optionButton.AutoButtonColor = false
                 optionButton.Font = Enum.Font.Code
                 optionButton.Text = v
-                optionButton.TextColor3 = Color3.fromRGB(160, 160, 160)
+                optionButton.TextColor3 = Color3.fromRGB(178, 34, 34)
                 optionButton.TextSize = 14.000
                 if optionButton.Text == default then
                     optionButton.TextColor3 = Color3.fromRGB(178, 34, 34)
@@ -3050,7 +3050,7 @@ function library:Init(key)
                 optionButton.MouseButton1Click:Connect(function()
                     for z,x in next, selectorContainer:GetChildren() do
                         if x:IsA("TextButton") then
-                            TweenService:Create(x, TweenTable["selector"], {TextColor3 = Color3.fromRGB(160, 160, 160)}):Play()
+                            TweenService:Create(x, TweenTable["selector"], {TextColor3 = Color3.fromRGB(178, 34, 34)}):Play()
                         end
                     end
                     TweenService:Create(optionButton, TweenTable["selector"], {TextColor3 = Color3.fromRGB(159, 115, 255)}):Play()
