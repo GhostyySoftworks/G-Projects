@@ -726,7 +726,7 @@ function library:Introduction()
     
     bar.Name = "bar"
     bar.Parent = barFolder
-    bar.BackgroundColor3 = Color3.fromRGB(159, 115, 255)
+    bar.BackgroundColor3 = Color3.fromRGB(178, 34, 34)
     bar.BackgroundTransparency = 0.200
     bar.Size = UDim2.new(0, 0, 0, 1)
     
@@ -760,7 +760,7 @@ function library:Introduction()
     hashLogo.Size = UDim2.new(0, 150, 0, 150)
     hashLogo.Visible = true
     hashLogo.Image = "http://www.roblox.com/asset/?id=9365069861"
-    hashLogo.ImageColor3 = Color3.fromRGB(159, 115, 255)
+    hashLogo.ImageColor3 = Color3.fromRGB(178, 34, 34)
     hashLogo.ImageTransparency = 1
     
     DD.Name = "DD"
@@ -770,7 +770,7 @@ function library:Introduction()
     DD.Size = UDim2.new(0, 80, 0, 21)
     DD.Font = Enum.Font.Code
     DD.Text = "powered by DD"
-    DD.TextColor3 = Color3.fromRGB(124, 124, 124)
+    DD.TextColor3 = Color3.fromRGB(178, 34, 34)
     DD.TextSize = 10.000
     DD.TextTransparency = 1
     
