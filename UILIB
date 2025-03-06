@@ -748,7 +748,7 @@ function library:Introduction()
     DDLogo.Size = UDim2.new(0, 448, 0, 150)
     DDLogo.Visible = true
     DDLogo.Image = "http://www.roblox.com/asset/?id=9365068051"
-    DDLogo.ImageColor3 = Color3.fromRGB(159, 115, 255)
+    DDLogo.ImageColor3 = Color3.fromRGB(178, 34, 34)
     DDLogo.ImageTransparency = 1
     
     hashLogo.Name = "hashLogo"
