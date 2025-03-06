@@ -1615,7 +1615,7 @@ function library:Init(key)
             toggleDesignCorner.Name = "toggleDesignCorner"
             toggleDesignCorner.Parent = toggleDesign
 
-            toggleDesignGradient.Color = ColorSequence.new{ColorSequenceKeypoint.new(0.00, Color3.fromRGB(178, 34, 34)), ColorSequenceKeypoint.new(1.00, Color3.fromRGB(178, 34, 34))}
+            toggleDesignGradient.Color = ColorSequence.new{ColorSequenceKeypoint.new(0.00, Color3.fromRGB(20, 20, 20)), ColorSequenceKeypoint.new(1.00, Color3.fromRGB(20, 20, 20))}
             toggleDesignGradient.Rotation = 90
             toggleDesignGradient.Name = "toggleDesignGradient"
             toggleDesignGradient.Parent = toggleDesign
@@ -1653,7 +1653,7 @@ function library:Init(key)
             toggleLabel.Size = UDim2.new(0, NewToggleLabelSize.X + 6, 0, 22)
 
             toggleButton.MouseEnter:Connect(function()
-                TweenService:Create(toggleLabel, TweenTable["hover"], {TextColor3 = Color3.fromRGB(210, 210, 210)}):Play()
+                TweenService:Create(toggleLabel, TweenTable["hover"], {TextColor3 = Color3.fromRGB(178, 34, 34)}):Play()
             end)
             toggleButton.MouseLeave:Connect(function()
                 TweenService:Create(toggleLabel, TweenTable["hover"], {TextColor3 = Color3.fromRGB(178, 34, 34)}):Play()
