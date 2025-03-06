@@ -2208,7 +2208,7 @@ function library:Init(key)
                 textBoxValues.Position = UDim2.new(0.664141417, 0, 0.0416666679, 0)
                 textBoxValues.Size = UDim2.new(0, 131, 0, 20)
                 textBoxValues.Font = Enum.Font.Code
-                textBoxValues.PlaceholderColor3 = Color3.fromRGB(140, 140, 140)
+                textBoxValues.PlaceholderColor3 = Color3.fromRGB(178, 34, 34)
                 textBoxValues.PlaceholderText = place
                 textBoxValues.Text = ""
                 textBoxValues.TextColor3 = Color3.fromRGB(178, 34, 34)
@@ -2494,7 +2494,7 @@ function library:Init(key)
                 textBoxValues.Position = UDim2.new(-0.587786257, 0, 0, 0)
                 textBoxValues.Size = UDim2.new(0, 394, 0, 20)
                 textBoxValues.Font = Enum.Font.Code
-                textBoxValues.PlaceholderColor3 = Color3.fromRGB(140, 140, 140)
+                textBoxValues.PlaceholderColor3 = Color3.fromRGB(178, 34, 34)
                 textBoxValues.PlaceholderText = place
                 textBoxValues.Text = default
                 textBoxValues.TextColor3 = Color3.fromRGB(178, 34, 34)
@@ -2722,7 +2722,7 @@ function library:Init(key)
                 textBoxValues.ClipsDescendants = true
                 textBoxValues.Size = UDim2.new(0, 394, 0, 114)
                 textBoxValues.Font = Enum.Font.Code
-                textBoxValues.PlaceholderColor3 = Color3.fromRGB(140, 140, 140)
+                textBoxValues.PlaceholderColor3 = Color3.fromRGB(178, 34, 34)
                 textBoxValues.PlaceholderText = place
                 textBoxValues.Text = default
                 textBoxValues.TextColor3 = Color3.fromRGB(178, 34, 34)
@@ -3086,7 +3086,7 @@ function library:Init(key)
                 optionButton.AutoButtonColor = false
                 optionButton.Font = Enum.Font.Code
                 optionButton.Text = new
-                optionButton.TextColor3 = Color3.fromRGB(140, 140, 140)
+                optionButton.TextColor3 = Color3.fromRGB(178, 34, 34)
                 optionButton.TextSize = 14.000
                 if optionButton.Text == default then
                     optionButton.TextColor3 = Color3.fromRGB(178, 34, 34)
@@ -3096,7 +3096,7 @@ function library:Init(key)
                 optionButton.MouseButton1Click:Connect(function()
                     for z,x in next, selectorContainer:GetChildren() do
                         if x:IsA("TextButton") then
-                            TweenService:Create(x, TweenTable["selector"], {TextColor3 = Color3.fromRGB(140, 140, 140)}):Play()
+                            TweenService:Create(x, TweenTable["selector"], {TextColor3 = Color3.fromRGB(178, 34, 34)}):Play()
                         end
                     end
                     TweenService:Create(optionButton, TweenTable["selector"], {TextColor3 = Color3.fromRGB(159, 115, 255)}):Play()
@@ -3320,7 +3320,7 @@ function library:Init(key)
             sliderValue.Size = UDim2.new(0, 169, 0, 15)
             sliderValue.Font = Enum.Font.Code
             sliderValue.Text = values.default
-            sliderValue.TextColor3 = Color3.fromRGB(140, 140, 140)
+            sliderValue.TextColor3 = Color3.fromRGB(178, 34, 34)
             sliderValue.TextSize = 14.000
             sliderValue.TextXAlignment = Enum.TextXAlignment.Right
 
