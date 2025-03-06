@@ -1114,7 +1114,7 @@ function library:Init(key)
             label.Size = UDim2.new(0, 396, 0, 24)
             label.Font = Enum.Font.Code
             label.Text = text
-            label.TextColor3 = Color3.fromRGB(190, 190, 190)
+            label.TextColor3 = Color3.fromRGB(178, 34, 34)
             label.TextSize = 14.000
             label.TextWrapped = true
             label.TextXAlignment = Enum.TextXAlignment.Left
@@ -1241,7 +1241,7 @@ function library:Init(key)
             buttonLabel.Size = UDim2.new(0, 394, 0, 22)
             buttonLabel.Font = Enum.Font.Code
             buttonLabel.Text = text
-            buttonLabel.TextColor3 = Color3.fromRGB(190, 190, 190)
+            buttonLabel.TextColor3 = Color3.fromRGB(178, 34, 34)
             buttonLabel.TextSize = 14.000
             buttonLabel.RichText = true
 
@@ -1256,7 +1256,7 @@ function library:Init(key)
                 TweenService:Create(buttonLabel, TweenTable["hover"], {TextColor3 = Color3.fromRGB(159, 115, 255)}):Play()
             end)
             button.MouseButton1Up:Connect(function()
-                TweenService:Create(buttonLabel, TweenTable["hover"], {TextColor3 = Color3.fromRGB(190, 190, 190)}):Play()
+                TweenService:Create(buttonLabel, TweenTable["hover"], {TextColor3 = Color3.fromRGB(178, 34, 34)}):Play()
             end)
 
             button.MouseButton1Click:Connect(function()
@@ -1307,7 +1307,7 @@ function library:Init(key)
         
                     button.Name = "button"
                     button.Parent = buttonFrame
-                    button.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
+                    button.BackgroundColor3 = Color3.fromRGB(20, 20, 20)
                     button.Size = UDim2.new(0, NewSizeX - Amnt, 0, 24)
                     button.AutoButtonColor = false
                     button.Font = Enum.Font.SourceSans
@@ -1345,7 +1345,7 @@ function library:Init(key)
                     buttonLabel.Size = UDim2.new(0, NewSizeX - 2, 0, 22)
                     buttonLabel.Font = Enum.Font.Code
                     buttonLabel.Text = text
-                    buttonLabel.TextColor3 = Color3.fromRGB(190, 190, 190)
+                    buttonLabel.TextColor3 = Color3.fromRGB(178, 34, 34)
                     buttonLabel.TextSize = 14.000
                     buttonLabel.RichText = true
 
@@ -1362,7 +1362,7 @@ function library:Init(key)
                         TweenService:Create(buttonLabel, TweenTable["hover"], {TextColor3 = Color3.fromRGB(159, 115, 255)}):Play()
                     end)
                     button.MouseButton1Up:Connect(function()
-                        TweenService:Create(buttonLabel, TweenTable["hover"], {TextColor3 = Color3.fromRGB(190, 190, 190)}):Play()
+                        TweenService:Create(buttonLabel, TweenTable["hover"], {TextColor3 = Color3.fromRGB(178, 34, 34)}):Play()
                     end)
         
                     button.MouseButton1Click:Connect(function()
@@ -1490,7 +1490,7 @@ function library:Init(key)
             sectionLabel.Font = Enum.Font.Code
             sectionLabel.LineHeight = 1
             sectionLabel.Text = text
-            sectionLabel.TextColor3 = Color3.fromRGB(190, 190, 190)
+            sectionLabel.TextColor3 = Color3.fromRGB(178, 34, 34)
             sectionLabel.TextSize = 14.000
             sectionLabel.TextXAlignment = Enum.TextXAlignment.Left
             sectionLabel.RichText = true
@@ -1569,7 +1569,7 @@ function library:Init(key)
             toggleButton.Size = UDim2.new(0, 396, 0, 22)
             toggleButton.Font = Enum.Font.Code
             toggleButton.Text = ""
-            toggleButton.TextColor3 = Color3.fromRGB(190, 190, 190)
+            toggleButton.TextColor3 = Color3.fromRGB(178, 34, 34)
             toggleButton.TextSize = 14.000
             toggleButton.TextXAlignment = Enum.TextXAlignment.Left
 
@@ -1581,7 +1581,7 @@ function library:Init(key)
 
             toggleEdge.Name = "toggleEdge"
             toggleEdge.Parent = toggleButton
-            toggleEdge.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
+            toggleEdge.BackgroundColor3 = Color3.fromRGB(20, 20, 20)
             toggleEdge.Size = UDim2.new(0, 18, 0, 18)
 
             toggleEdgeCorner.CornerRadius = UDim.new(0, 2)
@@ -1629,7 +1629,7 @@ function library:Init(key)
             toggleLabel.Font = Enum.Font.Code
             toggleLabel.LineHeight = 1.150
             toggleLabel.Text = text
-            toggleLabel.TextColor3 = Color3.fromRGB(190, 190, 190)
+            toggleLabel.TextColor3 = Color3.fromRGB(178, 34, 34)
             toggleLabel.TextSize = 14.000
             toggleLabel.TextXAlignment = Enum.TextXAlignment.Left
             toggleLabel.RichText = true
@@ -1656,7 +1656,7 @@ function library:Init(key)
                 TweenService:Create(toggleLabel, TweenTable["hover"], {TextColor3 = Color3.fromRGB(210, 210, 210)}):Play()
             end)
             toggleButton.MouseLeave:Connect(function()
-                TweenService:Create(toggleLabel, TweenTable["hover"], {TextColor3 = Color3.fromRGB(190, 190, 190)}):Play()
+                TweenService:Create(toggleLabel, TweenTable["hover"], {TextColor3 = Color3.fromRGB(178, 34, 34)}):Play()
             end)
 
             CreateTween("toggle_form", 0.13)
@@ -1782,7 +1782,7 @@ function library:Init(key)
                 keybindButtonLabel.Size = UDim2.new(0, 85, 0, 20)
                 keybindButtonLabel.Font = Enum.Font.Code
                 keybindButtonLabel.Text = ". . ."
-                keybindButtonLabel.TextColor3 = Color3.fromRGB(190, 190, 190)
+                keybindButtonLabel.TextColor3 = Color3.fromRGB(178, 34, 34)
                 keybindButtonLabel.TextSize = 14.000
                 keybindButtonLabel.RichText = true
     
@@ -1942,7 +1942,7 @@ function library:Init(key)
             keybindLabel.Size = UDim2.new(0, 396, 0, 24)
             keybindLabel.Font = Enum.Font.Code
             keybindLabel.Text = text
-            keybindLabel.TextColor3 = Color3.fromRGB(190, 190, 190)
+            keybindLabel.TextColor3 = Color3.fromRGB(178, 34, 34)
             keybindLabel.TextSize = 14.000
             keybindLabel.TextWrapped = true
             keybindLabel.TextXAlignment = Enum.TextXAlignment.Left
@@ -2008,7 +2008,7 @@ function library:Init(key)
             keybindButtonLabel.Size = UDim2.new(0, 85, 0, 20)
             keybindButtonLabel.Font = Enum.Font.Code
             keybindButtonLabel.Text = ". . ."
-            keybindButtonLabel.TextColor3 = Color3.fromRGB(190, 190, 190)
+            keybindButtonLabel.TextColor3 = Color3.fromRGB(178, 34, 34)
             keybindButtonLabel.TextSize = 14.000
             keybindButtonLabel.RichText = true
 
@@ -2211,7 +2211,7 @@ function library:Init(key)
                 textBoxValues.PlaceholderColor3 = Color3.fromRGB(140, 140, 140)
                 textBoxValues.PlaceholderText = place
                 textBoxValues.Text = ""
-                textBoxValues.TextColor3 = Color3.fromRGB(190, 190, 190)
+                textBoxValues.TextColor3 = Color3.fromRGB(178, 34, 34)
                 textBoxValues.TextSize = 14.000
                 textBoxValues.ClearTextOnFocus = autoclear
                 textBoxValues.ClipsDescendants = true
@@ -2241,7 +2241,7 @@ function library:Init(key)
                 textboxLabel.Size = UDim2.new(0, 396, 0, 24)
                 textboxLabel.Font = Enum.Font.Code
                 textboxLabel.Text = text
-                textboxLabel.TextColor3 = Color3.fromRGB(190, 190, 190)
+                textboxLabel.TextColor3 = Color3.fromRGB(178, 34, 34)
                 textboxLabel.TextSize = 14.000
                 textboxLabel.TextWrapped = true
                 textboxLabel.TextXAlignment = Enum.TextXAlignment.Left
@@ -2341,7 +2341,7 @@ function library:Init(key)
                 end)
 
                 textboxFrame.MouseLeave:Connect(function()
-                    TweenService:Create(textboxLabel, TweenTable["TextBox"], {TextColor3 = Color3.fromRGB(190, 190, 190)}):Play()
+                    TweenService:Create(textboxLabel, TweenTable["TextBox"], {TextColor3 = Color3.fromRGB(178, 34, 34)}):Play()
                 end)
 
                 textBoxValues.Focused:Connect(function()
@@ -2497,7 +2497,7 @@ function library:Init(key)
                 textBoxValues.PlaceholderColor3 = Color3.fromRGB(140, 140, 140)
                 textBoxValues.PlaceholderText = place
                 textBoxValues.Text = default
-                textBoxValues.TextColor3 = Color3.fromRGB(190, 190, 190)
+                textBoxValues.TextColor3 = Color3.fromRGB(178, 34, 34)
                 textBoxValues.TextSize = 14.000
                 textBoxValues.TextXAlignment = Enum.TextXAlignment.Left
 
@@ -2526,7 +2526,7 @@ function library:Init(key)
                 textboxLabel.Size = UDim2.new(0, 396, 0, 24)
                 textboxLabel.Font = Enum.Font.Code
                 textboxLabel.Text = text
-                textboxLabel.TextColor3 = Color3.fromRGB(190, 190, 190)
+                textboxLabel.TextColor3 = Color3.fromRGB(178, 34, 34)
                 textboxLabel.TextSize = 14.000
                 textboxLabel.TextWrapped = true
                 textboxLabel.TextXAlignment = Enum.TextXAlignment.Left
@@ -2571,7 +2571,7 @@ function library:Init(key)
                 end)
 
                 textboxFrame.MouseLeave:Connect(function()
-                    TweenService:Create(textboxLabel, TweenTable["TextBox"], {TextColor3 = Color3.fromRGB(190, 190, 190)}):Play()
+                    TweenService:Create(textboxLabel, TweenTable["TextBox"], {TextColor3 = Color3.fromRGB(178, 34, 34)}):Play()
                 end)
 
                 textBoxValues.Focused:Connect(function()
@@ -2725,7 +2725,7 @@ function library:Init(key)
                 textBoxValues.PlaceholderColor3 = Color3.fromRGB(140, 140, 140)
                 textBoxValues.PlaceholderText = place
                 textBoxValues.Text = default
-                textBoxValues.TextColor3 = Color3.fromRGB(190, 190, 190)
+                textBoxValues.TextColor3 = Color3.fromRGB(178, 34, 34)
                 textBoxValues.TextSize = 14.000
                 textBoxValues.TextWrapped = true
                 textBoxValues.TextXAlignment = Enum.TextXAlignment.Left
@@ -2756,7 +2756,7 @@ function library:Init(key)
                 textboxLabel.Size = UDim2.new(0, 396, 0, 24)
                 textboxLabel.Font = Enum.Font.Code
                 textboxLabel.Text = text
-                textboxLabel.TextColor3 = Color3.fromRGB(190, 190, 190)
+                textboxLabel.TextColor3 = Color3.fromRGB(178, 34, 34)
                 textboxLabel.TextSize = 14.000
                 textboxLabel.TextWrapped = true
                 textboxLabel.TextXAlignment = Enum.TextXAlignment.Left
@@ -2800,7 +2800,7 @@ function library:Init(key)
                 end)
 
                 textboxFrame.MouseLeave:Connect(function()
-                    TweenService:Create(textboxLabel, TweenTable["TextBox"], {TextColor3 = Color3.fromRGB(190, 190, 190)}):Play()
+                    TweenService:Create(textboxLabel, TweenTable["TextBox"], {TextColor3 = Color3.fromRGB(178, 34, 34)}):Play()
                 end)
 
                 textBoxValues.Focused:Connect(function()
@@ -2912,7 +2912,7 @@ function library:Init(key)
             selectorLabel.Size = UDim2.new(0, 396, 0, 24)
             selectorLabel.Font = Enum.Font.Code
             selectorLabel.Text = text
-            selectorLabel.TextColor3 = Color3.fromRGB(190, 190, 190)
+            selectorLabel.TextColor3 = Color3.fromRGB(178, 34, 34)
             selectorLabel.TextSize = 14.000
             selectorLabel.TextWrapped = true
             selectorLabel.TextXAlignment = Enum.TextXAlignment.Left
@@ -3299,7 +3299,7 @@ function library:Init(key)
             sliderLabel.Size = UDim2.new(0, 396, 0, 24)
             sliderLabel.Font = Enum.Font.Code
             sliderLabel.Text = text
-            sliderLabel.TextColor3 = Color3.fromRGB(190, 190, 190)
+            sliderLabel.TextColor3 = Color3.fromRGB(178, 34, 34)
             sliderLabel.TextSize = 14.000
             sliderLabel.TextWrapped = true
             sliderLabel.TextXAlignment = Enum.TextXAlignment.Left
