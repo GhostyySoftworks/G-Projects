@@ -82,7 +82,7 @@ function UILibrary.Main(PrjName,HideKey)
 
 	ProjectName.Name = "ProjectName"
 	ProjectName.Parent = LeftPart
-	ProjectName.BackgroundColor3 = Color3.fromRGB(31, 31, 31)
+	ProjectName.BackgroundColor3 = Color3.fromRGB(20, 20, 20)
 	ProjectName.BackgroundTransparency = 1
 	ProjectName.BorderSizePixel = 0
 	ProjectName.Size = UDim2.new(0, 218, 0, 40)
@@ -93,28 +93,28 @@ function UILibrary.Main(PrjName,HideKey)
 
 	Line.Name = "Line"
 	Line.Parent = ProjectName
-	Line.BackgroundColor3 = Color3.fromRGB(81, 81, 81)
+	Line.BackgroundColor3 = Color3.fromRGB(20, 20, 20)
 	Line.BorderSizePixel = 0
 	Line.Position = UDim2.new(0, 0, 1, 0)
 	Line.Size = UDim2.new(1, 0, 0, 1)
 
 	Line_2.Name = "Line"
 	Line_2.Parent = LeftPart
-	Line_2.BackgroundColor3 = Color3.fromRGB(81, 81, 81)
+	Line_2.BackgroundColor3 = Color3.fromRGB(20, 20, 20)
 	Line_2.BorderSizePixel = 0
 	Line_2.Position = UDim2.new(0, 0, 0.182, 0)
 	Line_2.Size = UDim2.new(1, 0, 0, 1)
 
 	Line_3.Name = "Line"
 	Line_3.Parent = LeftPart
-	Line_3.BackgroundColor3 = Color3.fromRGB(81, 81, 81)
+	Line_3.BackgroundColor3 = Color3.fromRGB(20, 20, 20)
 	Line_3.BorderSizePixel = 0
 	Line_3.Position = UDim2.new(1, 0, 0, 0)
 	Line_3.Size = UDim2.new(0, 1, 1, 0)
 
 	ButtonsTab.Name = "ButtonsTab"
 	ButtonsTab.Parent = LeftPart
-	ButtonsTab.BackgroundColor3 = Color3.fromRGB(31, 31, 31)
+	ButtonsTab.BackgroundColor3 = Color3.fromRGB(20, 20, 20)
 	ButtonsTab.BorderSizePixel = 0
 	ButtonsTab.Position = UDim2.new(0, 0, 0.184829056, 0)
 	ButtonsTab.Size = UDim2.new(0, 218, 0, 362)
@@ -299,7 +299,7 @@ function UILibrary.Main(PrjName,HideKey)
 		Nofitication.Name = "Nofitication"
 		Nofitication.Parent = Main
 		Nofitication.AnchorPoint = Vector2.new(0.5, 0.5)
-		Nofitication.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
+		Nofitication.BackgroundColor3 = Color3.fromRGB(20, 20, 20)
 		Nofitication.BackgroundTransparency = 1
 		Nofitication.BorderSizePixel = 0
 		Nofitication.Position = UDim2.new(0.3, 0, 0.5, 0)
@@ -534,7 +534,7 @@ function UILibrary.Main(PrjName,HideKey)
 
 			Section.Name = SectionName
 			Section.Parent = Elements
-			Section.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
+			Section.BackgroundColor3 = Color3.fromRGB(20, 20, 20)
 			Section.BackgroundTransparency = 1
 			Section.BorderSizePixel = 0
 			Section.Size = UDim2.new(0, 482, 0, 18)
@@ -589,7 +589,7 @@ function UILibrary.Main(PrjName,HideKey)
 
 				Toggle.Name = ToggleText
 				Toggle.Parent = SectionElements
-				Toggle.BackgroundColor3 = Color3.fromRGB(31, 31, 31)
+				Toggle.BackgroundColor3 = Color3.fromRGB(20, 20, 20)
 				Toggle.BorderSizePixel = 0
 				Toggle.Position = UDim2.new(0.286780387, 0, 0, 0)
 				Toggle.Size = UDim2.new(1, 0, 0, 40)
@@ -645,7 +645,7 @@ function UILibrary.Main(PrjName,HideKey)
 
 				HideChecker.Name = "HideChecker"
 				HideChecker.Parent = Checker
-				HideChecker.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
+				HideChecker.BackgroundColor3 = Color3.fromRGB(20, 20, 20)
 				HideChecker.BorderSizePixel = 0
 				HideChecker.AnchorPoint = Vector2.new(0.5,0.5)
 				HideChecker.Position = UDim2.new(0.5,0,0.5,0)
@@ -767,7 +767,7 @@ function UILibrary.Main(PrjName,HideKey)
 
 				Slider.Name = SliderText
 				Slider.Parent = SectionElements
-				Slider.BackgroundColor3 = Color3.fromRGB(31, 31, 31)
+				Slider.BackgroundColor3 = Color3.fromRGB(20, 20, 20)
 				Slider.BorderSizePixel = 0
 				Slider.Position = UDim2.new(0.286780387, 0, 0, 0)
 				Slider.Size = UDim2.new(1, 0, 0, 40)
@@ -804,7 +804,7 @@ function UILibrary.Main(PrjName,HideKey)
 
 				Sliding.Name = "Sliding"
 				Sliding.Parent = Slider
-				Sliding.BackgroundColor3 = Color3.fromRGB(43, 43, 43)
+				Sliding.BackgroundColor3 = Color3.fromRGB(20, 20, 20)
 				Sliding.BorderSizePixel = 0
 				Sliding.Position = UDim2.new(0.58, 0, 0.421052635, 0)
 				Sliding.Size = UDim2.new(0, 166, 0, 6)
@@ -843,7 +843,7 @@ function UILibrary.Main(PrjName,HideKey)
 				HideColor.Name = "HideColor"
 				HideColor.Parent = Circle
 				HideColor.AnchorPoint = Vector2.new(0.5, 0.5)
-				HideColor.BackgroundColor3 = Color3.fromRGB(43, 43, 43)
+				HideColor.BackgroundColor3 = Color3.fromRGB(20, 20, 20)
 				HideColor.BorderSizePixel = 0
 				HideColor.Position = UDim2.new(0.5, 0, 0.5, 0)
 				HideColor.Size = UDim2.new(1, 1, 1, 1)
@@ -952,7 +952,7 @@ function UILibrary.Main(PrjName,HideKey)
 
 				Dropdown.Name = "Dropdown"
 				Dropdown.Parent = SectionElements
-				Dropdown.BackgroundColor3 = Color3.fromRGB(31, 31, 31)
+				Dropdown.BackgroundColor3 = Color3.fromRGB(20, 20, 20)
 				Dropdown.BorderSizePixel = 0
 				Dropdown.ClipsDescendants = true
 				Dropdown.Position = UDim2.new(0.286780387, 0, 0, 0)
