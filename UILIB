@@ -229,7 +229,7 @@ function library:Watermark(text)
     edge.Name = "edge"
     edge.Parent = watermark
     edge.AnchorPoint = Vector2.new(0.5, 0.5)
-    edge.BackgroundColor3 = Color3.fromRGB(60, 60, 60)
+    edge.BackgroundColor3 = Color3.fromRGB(20, 20, 20)
     edge.Position = UDim2.new(0.5, 0, -0.03, 0)
     edge.Size = UDim2.new(0, 0, 0, 26)
     edge.BackgroundTransparency = 1
@@ -334,7 +334,7 @@ function library:Watermark(text)
         edge.Name = "edge"
         edge.Parent = watermark
         edge.AnchorPoint = Vector2.new(0.5, 0.5)
-        edge.BackgroundColor3 = Color3.fromRGB(60, 60, 60)
+        edge.BackgroundColor3 = Color3.fromRGB(20, 20, 20)
         edge.Position = UDim2.new(0.5, 0, -0.03, 0)
         edge.Size = UDim2.new(0, 0, 0, 26)
         edge.BackgroundTransparency = 1
@@ -533,7 +533,7 @@ function library:InitNotifications(text, duration, callback)
     
         edge.Name = "edge"
         edge.Parent = Notifications
-        edge.BackgroundColor3 = Color3.fromRGB(60, 60, 60)
+        edge.BackgroundColor3 = Color3.fromRGB(20, 20, 20)
         edge.BackgroundTransparency = 1.000
         edge.Size = UDim2.new(0, 0, 0, 26)
     
@@ -695,7 +695,7 @@ function library:Introduction()
     edge.Name = "edge"
     edge.Parent = introduction
     edge.AnchorPoint = Vector2.new(0.5, 0.5)
-    edge.BackgroundColor3 = Color3.fromRGB(60, 60, 60)
+    edge.BackgroundColor3 = Color3.fromRGB(20, 20, 20)
     edge.BackgroundTransparency = 1
     edge.Position = UDim2.new(0.511773348, 0, 0.5, 0)
     edge.Size = UDim2.new(0, 300, 0, 308)
@@ -873,7 +873,7 @@ function library:Init(key)
     edge.Name = "edge"
     edge.Parent = screen
     edge.AnchorPoint = Vector2.new(0.5, 0.5)
-    edge.BackgroundColor3 = Color3.fromRGB(60, 60, 60)
+    edge.BackgroundColor3 = Color3.fromRGB(20, 20, 20)
     edge.Position = UDim2.new(0.5, 0, 0.5, 0)
     edge.Size = UDim2.new(0, 594, 0, 406)
 
@@ -1247,7 +1247,7 @@ function library:Init(key)
             buttonLabel.RichText = true
 
             button.MouseEnter:Connect(function()
-                TweenService:Create(button, TweenTable["hover"], {BackgroundColor3 = Color3.fromRGB(60, 60, 60)}):Play()
+                TweenService:Create(button, TweenTable["hover"], {BackgroundColor3 = Color3.fromRGB(20, 20, 20)}):Play()
             end)
             button.MouseLeave:Connect(function()
                 TweenService:Create(button, TweenTable["hover"], {BackgroundColor3 = Color3.fromRGB(50, 50, 50)}):Play()
@@ -1353,7 +1353,7 @@ function library:Init(key)
                     UpdatePageSize()
         
                     button.MouseEnter:Connect(function()
-                        TweenService:Create(button, TweenTable["hover"], {BackgroundColor3 = Color3.fromRGB(60, 60, 60)}):Play()
+                        TweenService:Create(button, TweenTable["hover"], {BackgroundColor3 = Color3.fromRGB(20, 20, 20)}):Play()
                     end)
                     button.MouseLeave:Connect(function()
                         TweenService:Create(button, TweenTable["hover"], {BackgroundColor3 = Color3.fromRGB(50, 50, 50)}):Play()
@@ -1505,7 +1505,7 @@ function library:Init(key)
 
             rightBar.Name = "rightBar"
             rightBar.Parent = sectionFrame
-            rightBar.BackgroundColor3 = Color3.fromRGB(60, 60, 60)
+            rightBar.BackgroundColor3 = Color3.fromRGB(20, 20, 20)
             rightBar.BorderSizePixel = 0
             rightBar.Position = UDim2.new(0.308080822, 0, 0.479166657, 0)
             rightBar.Size = UDim2.new(0, 403, 0, 1)
@@ -2167,7 +2167,7 @@ function library:Init(key)
     
                 textbox.Name = "textbox"
                 textbox.Parent = textboxFolder
-                textbox.BackgroundColor3 = Color3.fromRGB(60, 60, 60)
+                textbox.BackgroundColor3 = Color3.fromRGB(20, 20, 20)
                 textbox.Size = UDim2.new(0, 133, 0, 22)
     
                 textboxLayout.Name = "textboxLayout"
@@ -2351,7 +2351,7 @@ function library:Init(key)
                 end)
 
                 textBoxValues.FocusLost:Connect(function()
-                    TweenService:Create(textbox, TweenTable["TextBox"], {BackgroundColor3 = Color3.fromRGB(60, 60, 60)}):Play()
+                    TweenService:Create(textbox, TweenTable["TextBox"], {BackgroundColor3 = Color3.fromRGB(20, 20, 20)}):Play()
                 end)
 
                 textBoxValues.FocusLost:Connect(function(enterPressed)
@@ -2450,7 +2450,7 @@ function library:Init(key)
 
                 textbox.Name = "textbox"
                 textbox.Parent = textboxFolder
-                textbox.BackgroundColor3 = Color3.fromRGB(60, 60, 60)
+                textbox.BackgroundColor3 = Color3.fromRGB(20, 20, 20)
                 textbox.Size = UDim2.new(0, 396, 0, 22)
 
                 textboxLayout.Name = "textboxLayout"
@@ -2580,7 +2580,7 @@ function library:Init(key)
                 end)
 
                 textBoxValues.FocusLost:Connect(function()
-                    TweenService:Create(textbox, TweenTable["TextBox"], {BackgroundColor3 = Color3.fromRGB(60, 60, 60)}):Play()
+                    TweenService:Create(textbox, TweenTable["TextBox"], {BackgroundColor3 = Color3.fromRGB(20, 20, 20)}):Play()
                 end)
 
                 textBoxValues.FocusLost:Connect(function(enterPressed)
@@ -2678,7 +2678,7 @@ function library:Init(key)
 
                 textbox.Name = "textbox"
                 textbox.Parent = textboxFolder
-                textbox.BackgroundColor3 = Color3.fromRGB(60, 60, 60)
+                textbox.BackgroundColor3 = Color3.fromRGB(20, 20, 20)
                 textbox.Position = UDim2.new(0, 0, 0.169014081, 0)
                 textbox.Size = UDim2.new(0, 396, 0, 118)
 
@@ -2809,7 +2809,7 @@ function library:Init(key)
                 end)
 
                 textBoxValues.FocusLost:Connect(function()
-                    TweenService:Create(textbox, TweenTable["TextBox"], {BackgroundColor3 = Color3.fromRGB(60, 60, 60)}):Play()
+                    TweenService:Create(textbox, TweenTable["TextBox"], {BackgroundColor3 = Color3.fromRGB(20, 20, 20)}):Play()
                 end)
 
                 textBoxValues.FocusLost:Connect(function(enterPressed)
@@ -2933,7 +2933,7 @@ function library:Init(key)
             
             selector.Name = "selector"
             selector.Parent = selectorFrame
-            selector.BackgroundColor3 = Color3.fromRGB(60, 60, 60)
+            selector.BackgroundColor3 = Color3.fromRGB(20, 20, 20)
             selector.ClipsDescendants = true
             selector.Position = UDim2.new(0, 0, 0.0926640928, 0)
             selector.Size = UDim2.new(0, 396, 0, 21)
@@ -2983,7 +2983,7 @@ function library:Init(key)
             textBoxValuesPadding.PaddingTop = UDim.new(0, 6)
             
             Frame.Parent = selectorText
-            Frame.BackgroundColor3 = Color3.fromRGB(60, 60, 60)
+            Frame.BackgroundColor3 = Color3.fromRGB(20, 20, 20)
             Frame.BorderSizePixel = 0
             Frame.Position = UDim2.new(-0.008, 0, 1.78, 0)
             Frame.Size = UDim2.new(0, 388, 0, 1)
@@ -3227,7 +3227,7 @@ function library:Init(key)
 
             sliderButton.Name = "sliderButton"
             sliderButton.Parent = sliderFolder
-            sliderButton.BackgroundColor3 = Color3.fromRGB(60, 60, 60)
+            sliderButton.BackgroundColor3 = Color3.fromRGB(20, 20, 20)
             sliderButton.Position = UDim2.new(0.348484844, 0, 0.600000024, 0)
             sliderButton.Size = UDim2.new(0, 396, 0, 16)
             sliderButton.AutoButtonColor = false
@@ -3472,7 +3472,7 @@ function library:Init(key)
 
             rightBar.Name = "rightBar"
             rightBar.Parent = sectionFrame
-            rightBar.BackgroundColor3 = Color3.fromRGB(60, 60, 60)
+            rightBar.BackgroundColor3 = Color3.fromRGB(20, 20, 20)
             rightBar.BorderSizePixel = 0
             rightBar.Position = UDim2.new(0.308080822, 0, 0.479166657, 0)
             rightBar.Size = UDim2.new(0, 403, 0, 1)
