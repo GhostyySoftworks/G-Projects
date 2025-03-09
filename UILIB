@@ -408,9 +408,9 @@ function UILibrary.Main(PrjName,HideKey)
 		TabLabel.Size = UDim2.new(0, 127, 0, 18)
 		TabLabel.Font = Enum.Font.GothamBold
 		TabLabel.Text = TabName
-		TabLabel.TextColor3 = Color3.fromRGB(178, 34, 34)
+		TabLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
 		TabLabel.TextSize = 21
-		TabLabel.TextXAlignment = Enum.TextXAlignment.Center
+		TabLabel.TextXAlignment = Enum.TextXAlignment.Left
 
 		Elements.Name = "Elements"
 		Elements.Parent = Frame
