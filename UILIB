@@ -88,7 +88,7 @@ function UILibrary.Main(PrjName,HideKey)
 	ProjectName.Size = UDim2.new(0, 218, 0, 40)
 	ProjectName.Font = Enum.Font.GothamBold
 	ProjectName.Text = PrjName
-	ProjectName.TextColor3 = Color3.fromRGB(255, 255, 255)
+	ProjectName.TextColor3 = Color3.fromRGB(178, 34, 34)
 	ProjectName.TextSize = 20.000
 
 	Line.Name = "Line"
@@ -335,7 +335,7 @@ function UILibrary.Main(PrjName,HideKey)
 		NofiticationButton.AutoButtonColor = false
 		NofiticationButton.Font = Enum.Font.GothamSemibold
 		NofiticationButton.Text = "OK"
-		NofiticationButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+		NofiticationButton.TextColor3 = Color3.fromRGB(178, 34, 34)
 		NofiticationButton.TextSize = 16.000
 		NofiticationButton.TextTransparency = 1
 		
@@ -408,7 +408,7 @@ function UILibrary.Main(PrjName,HideKey)
 		TabLabel.Size = UDim2.new(0, 127, 0, 18)
 		TabLabel.Font = Enum.Font.GothamBold
 		TabLabel.Text = TabName
-		TabLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
+		TabLabel.TextColor3 = Color3.fromRGB(178, 34, 34)
 		TabLabel.TextSize = 21
 		TabLabel.TextXAlignment = Enum.TextXAlignment.Left
 
@@ -462,7 +462,7 @@ function UILibrary.Main(PrjName,HideKey)
 		TabButton.AutoButtonColor = false
 		TabButton.Font = Enum.Font.SourceSansSemibold
 		TabButton.Text = ""
-		TabButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+		TabButton.TextColor3 = Color3.fromRGB(178, 34, 34)
 		TabButton.TextSize = 19.000
 
 		TabButtonText.Name = "TabButtonText"
@@ -474,7 +474,7 @@ function UILibrary.Main(PrjName,HideKey)
 		TabButtonText.Size = UDim2.new(0.920000017, 0, 1, 0)
 		TabButtonText.Font = Enum.Font.SourceSansSemibold
 		TabButtonText.Text = TabName
-		TabButtonText.TextColor3 = Color3.fromRGB(255, 255, 255)
+		TabButtonText.TextColor3 = Color3.fromRGB(178, 34, 34)
 		TabButtonText.TextSize = 23.000
 		TabButtonText.TextWrapped = true
 		TabButtonText.TextXAlignment = Enum.TextXAlignment.Left
@@ -617,7 +617,7 @@ function UILibrary.Main(PrjName,HideKey)
 				ToggleLabel.Size = UDim2.new(0.949999988, 0, 1, 0)
 				ToggleLabel.Font = Enum.Font.GothamSemibold
 				ToggleLabel.Text = ToggleText
-				ToggleLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
+				ToggleLabel.TextColor3 = Color3.fromRGB(178, 34, 34)
 				ToggleLabel.TextSize = 16.000
 				ToggleLabel.TextXAlignment = Enum.TextXAlignment.Left
 
@@ -794,7 +794,7 @@ function UILibrary.Main(PrjName,HideKey)
 				SliderLabel.Size = UDim2.new(0.949999988, 0, 1, 0)
 				SliderLabel.Font = Enum.Font.GothamSemibold
 				SliderLabel.Text = SliderText
-				SliderLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
+				SliderLabel.TextColor3 = Color3.fromRGB(178, 34, 34)
 				SliderLabel.TextSize = 16.000
 				SliderLabel.TextXAlignment = Enum.TextXAlignment.Left
 
@@ -837,7 +837,7 @@ function UILibrary.Main(PrjName,HideKey)
 				ValueLabel.Size = UDim2.new(0, 25, 0, 18)
 				ValueLabel.Font = Enum.Font.GothamSemibold
 				ValueLabel.Text = (precise and string.format("%.1f", tostring(defvalue))) or (math.floor(defvalue))
-				ValueLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
+				ValueLabel.TextColor3 = Color3.fromRGB(178, 34, 34)
 				ValueLabel.TextSize = 14.000
 
 				HideColor.Name = "HideColor"
@@ -960,7 +960,7 @@ function UILibrary.Main(PrjName,HideKey)
 				Dropdown.AutoButtonColor = false
 				Dropdown.Font = Enum.Font.GothamSemibold
 				Dropdown.Text = ""
-				Dropdown.TextColor3 = Color3.fromRGB(255, 255, 255)
+				Dropdown.TextColor3 = Color3.fromRGB(178, 34, 34)
 				Dropdown.TextSize = 14.000
 
 				Frame.Parent = Dropdown
@@ -983,7 +983,7 @@ function UILibrary.Main(PrjName,HideKey)
 				DropdownBox.Size = UDim2.new(0.95, 0, 0, 40)
 				DropdownBox.Font = Enum.Font.GothamSemibold
 				DropdownBox.Text = placeholder
-				DropdownBox.TextColor3 = Color3.fromRGB(255, 255, 255)
+				DropdownBox.TextColor3 = Color3.fromRGB(178, 34, 34)
 				DropdownBox.TextSize = 15.000
 				DropdownBox.TextXAlignment = Enum.TextXAlignment.Left
 
@@ -1028,7 +1028,7 @@ function UILibrary.Main(PrjName,HideKey)
 				CloseButton.Size = UDim2.new(0, 60, 0, 39)
 				CloseButton.Font = Enum.Font.GothamSemibold
 				CloseButton.Text = "Close"
-				CloseButton.TextColor3 = Color3.fromRGB(0, 124, 255)
+				CloseButton.TextColor3 = Color3.fromRGB(178, 34, 34)
 				CloseButton.TextSize = 15.000
 				CloseButton.ZIndex = 4
 
@@ -1048,7 +1048,7 @@ function UILibrary.Main(PrjName,HideKey)
 				DropdownListHeader.BackgroundTransparency = 1
 				DropdownListHeader.Size = UDim2.new(0, 334, 0, 39)
 				DropdownListHeader.Font = Enum.Font.GothamSemibold
-				DropdownListHeader.TextColor3 = Color3.fromRGB(255, 255, 255)
+				DropdownListHeader.TextColor3 = Color3.fromRGB(178, 34, 34)
 				DropdownListHeader.TextSize = 17.000
 				DropdownListHeader.Text = "  " .. placeholder
 				DropdownListHeader.TextXAlignment = Enum.TextXAlignment.Left
@@ -1132,7 +1132,7 @@ function UILibrary.Main(PrjName,HideKey)
 					SelectableButton.AutoButtonColor = false
 					SelectableButton.Font = Enum.Font.SourceSansSemibold
 					SelectableButton.Text = ""
-					SelectableButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+					SelectableButton.TextColor3 = Color3.fromRGB(178, 34, 34)
 					SelectableButton.TextSize = 16.000
 
 					SelectableText.Name = "SelectableText"
@@ -1144,7 +1144,7 @@ function UILibrary.Main(PrjName,HideKey)
 					SelectableText.Size = UDim2.new(0.920000017, 0, 1, 0)
 					SelectableText.Font = Enum.Font.SourceSansSemibold
 					SelectableText.Text = "    " .. Text
-					SelectableText.TextColor3 = Color3.fromRGB(255, 255, 255)
+					SelectableText.TextColor3 = Color3.fromRGB(178, 34, 34)
 					SelectableText.TextSize = 18.000
 					SelectableText.TextWrapped = true
 					SelectableText.TextXAlignment = Enum.TextXAlignment.Left
@@ -1285,7 +1285,7 @@ function UILibrary.Main(PrjName,HideKey)
 				Button.AutoButtonColor = false
 				Button.Font = Enum.Font.SourceSansSemibold
 				Button.Text = ""
-				Button.TextColor3 = Color3.fromRGB(255, 255, 255)
+				Button.TextColor3 = Color3.fromRGB(178, 34, 34)
 				Button.TextSize = 19.000
 
 				ButtonText.Name = "ButtonText"
@@ -1297,7 +1297,7 @@ function UILibrary.Main(PrjName,HideKey)
 				ButtonText.Size = UDim2.new(1, 0, 1, 0)
 				ButtonText.Font = Enum.Font.SourceSansSemibold
 				ButtonText.Text = btnText
-				ButtonText.TextColor3 = Color3.fromRGB(255, 255, 255)
+				ButtonText.TextColor3 = Color3.fromRGB(178, 34, 34)
 				ButtonText.TextSize = 18
 				ButtonText.TextWrapped = true
 				ButtonText.TextXAlignment = Enum.TextXAlignment.Left
