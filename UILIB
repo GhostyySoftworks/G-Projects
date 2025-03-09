@@ -3250,7 +3250,7 @@ function library:Init(key)
             sliderButtonCorner_2.Name = "sliderButtonCorner"
             sliderButtonCorner_2.Parent = sliderBackground
 
-            sliderBackgroundGradient.Color = ColorSequence.new{ColorSequenceKeypoint.new(0.00, Color3.fromRGB(34, 34, 34)), ColorSequenceKeypoint.new(1.00, Color3.fromRGB(28, 28, 28))}
+            sliderBackgroundGradient.Color = ColorSequence.new{ColorSequenceKeypoint.new(0.00, Color3.fromRGB(20, 20, 20)), ColorSequenceKeypoint.new(1.00, Color3.fromRGB(20, 20, 20))}
             sliderBackgroundGradient.Rotation = 90
             sliderBackgroundGradient.Name = "sliderBackgroundGradient"
             sliderBackgroundGradient.Parent = sliderBackground
