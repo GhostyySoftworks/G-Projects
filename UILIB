@@ -1237,14 +1237,14 @@ function library:Init(key)
             buttonLabel.Name = "buttonLabel"
             buttonLabel.Parent = buttonBackground
             buttonLabel.AnchorPoint = Vector2.new(0.5, 0.5)
-            buttonLabel.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+            buttonLabel.BackgroundColor3 = Color3.fromRGB(20, 20, 20)
             buttonLabel.BackgroundTransparency = 1.000
             buttonLabel.ClipsDescendants = true
             buttonLabel.Position = UDim2.new(0.5, 0, 0.5, 0)
             buttonLabel.Size = UDim2.new(0, 394, 0, 22)
             buttonLabel.Font = Enum.Font.Code
             buttonLabel.Text = text
-            buttonLabel.TextColor3 = Color3.fromRGB(190, 190, 190)
+            buttonLabel.TextColor3 = Color3.fromRGB(178, 34, 34)
             buttonLabel.TextSize = 14.000
             buttonLabel.RichText = true
 
