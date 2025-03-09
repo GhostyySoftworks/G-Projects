@@ -729,7 +729,7 @@ function library:Introduction()
     
     bar.Name = "bar"
     bar.Parent = barFolder
-    bar.BackgroundColor3 = Color3.fromRGB(178 34, 34)
+    bar.BackgroundColor3 = Color3.fromRGB(178, 34, 34)
     bar.BackgroundTransparency = 0.200
     bar.Size = UDim2.new(0, 0, 0, 1)
     
@@ -932,7 +932,7 @@ function library:Init(key)
 
     bar.Name = "bar"
     bar.Parent = barFolder
-    bar.BackgroundColor3 = Color3.fromRGB(178 34, 34)
+    bar.BackgroundColor3 = Color3.fromRGB(178, 34, 34)
     bar.BackgroundTransparency = 0.200
     bar.Size = UDim2.new(0, 592, 0, 1)
     bar.BorderSizePixel = 0
@@ -2349,7 +2349,7 @@ function library:Init(key)
 
                 textBoxValues.Focused:Connect(function()
                     textBoxValues:GetPropertyChangedSignal("Text"):Connect(ResizeTextBox)
-                    TweenService:Create(textbox, TweenTable["TextBox"], {BackgroundColor3 = Color3.fromRGB(178 34, 34)}):Play()
+                    TweenService:Create(textbox, TweenTable["TextBox"], {BackgroundColor3 = Color3.fromRGB(178, 34, 34)}):Play()
                 end)
 
                 textBoxValues.FocusLost:Connect(function()
@@ -2578,7 +2578,7 @@ function library:Init(key)
                 end)
 
                 textBoxValues.Focused:Connect(function()
-                    TweenService:Create(textbox, TweenTable["TextBox"], {BackgroundColor3 = Color3.fromRGB(178 34, 34)}):Play()
+                    TweenService:Create(textbox, TweenTable["TextBox"], {BackgroundColor3 = Color3.fromRGB(178, 34, 34)}):Play()
                 end)
 
                 textBoxValues.FocusLost:Connect(function()
@@ -2807,7 +2807,7 @@ function library:Init(key)
                 end)
 
                 textBoxValues.Focused:Connect(function()
-                    TweenService:Create(textbox, TweenTable["TextBox"], {BackgroundColor3 = Color3.fromRGB(178 34, 34)}):Play()
+                    TweenService:Create(textbox, TweenTable["TextBox"], {BackgroundColor3 = Color3.fromRGB(178, 34, 34)}):Play()
                 end)
 
                 textBoxValues.FocusLost:Connect(function()
