@@ -264,7 +264,7 @@ function library:Watermark(text)
     barLayout.Parent = barFolder
     barLayout.SortOrder = Enum.SortOrder.LayoutOrder
 
-    backgroundGradient.Color = ColorSequence.new{ColorSequenceKeypoint.new(0.00, Color3.fromRGB(34, 34, 34)), ColorSequenceKeypoint.new(1.00, Color3.fromRGB(28, 28, 28))}
+    backgroundGradient.Color = ColorSequence.new{ColorSequenceKeypoint.new(0.00, Color3.fromRGB(20, 20, 20)), ColorSequenceKeypoint.new(1.00, Color3.fromRGB(20, 20, 20))}
     backgroundGradient.Rotation = 90
     backgroundGradient.Name = "backgroundGradient"
     backgroundGradient.Parent = background
@@ -369,7 +369,7 @@ function library:Watermark(text)
         barLayout.Parent = barFolder
         barLayout.SortOrder = Enum.SortOrder.LayoutOrder
     
-        backgroundGradient.Color = ColorSequence.new{ColorSequenceKeypoint.new(0.00, Color3.fromRGB(34, 34, 34)), ColorSequenceKeypoint.new(1.00, Color3.fromRGB(28, 28, 28))}
+        backgroundGradient.Color = ColorSequence.new{ColorSequenceKeypoint.new(0.00, Color3.fromRGB(20, 20, 20)), ColorSequenceKeypoint.new(1.00, Color3.fromRGB(20, 20, 20))}
         backgroundGradient.Rotation = 90
         backgroundGradient.Name = "backgroundGradient"
         backgroundGradient.Parent = background
@@ -578,7 +578,7 @@ function library:InitNotifications(text, duration, callback)
         barLayout.Parent = barFolder
         barLayout.SortOrder = Enum.SortOrder.LayoutOrder
     
-        backgroundGradient.Color = ColorSequence.new{ColorSequenceKeypoint.new(0.00, Color3.fromRGB(34, 34, 34)), ColorSequenceKeypoint.new(1.00, Color3.fromRGB(28, 28, 28))}
+        backgroundGradient.Color = ColorSequence.new{ColorSequenceKeypoint.new(0.00, Color3.fromRGB(20, 20, 20)), ColorSequenceKeypoint.new(1.00, Color3.fromRGB(20, 20, 20))}
         backgroundGradient.Rotation = 90
         backgroundGradient.Name = "backgroundGradient"
         backgroundGradient.Parent = background
@@ -713,7 +713,7 @@ function library:Introduction()
     background.Position = UDim2.new(0.5, 0, 0.5, 0)
     background.Size = UDim2.new(0, 298, 0, 306)
     
-    backgroundGradient.Color = ColorSequence.new{ColorSequenceKeypoint.new(0.00, Color3.fromRGB(34, 34, 34)), ColorSequenceKeypoint.new(1.00, Color3.fromRGB(28, 28, 28))}
+    backgroundGradient.Color = ColorSequence.new{ColorSequenceKeypoint.new(0.00, Color3.fromRGB(20, 20, 20)), ColorSequenceKeypoint.new(1.00, Color3.fromRGB(20, 20, 20))}
     backgroundGradient.Rotation = 90
     backgroundGradient.Name = "backgroundGradient"
     backgroundGradient.Parent = background
@@ -901,7 +901,7 @@ function library:Init(key)
     backgroundCorner.Name = "backgroundCorner"
     backgroundCorner.Parent = background
 
-    backgroundGradient.Color = ColorSequence.new{ColorSequenceKeypoint.new(0.00, Color3.fromRGB(34, 34, 34)), ColorSequenceKeypoint.new(1.00, Color3.fromRGB(28, 28, 28))}
+    backgroundGradient.Color = ColorSequence.new{ColorSequenceKeypoint.new(0.00, Color3.fromRGB(20, 20, 20)), ColorSequenceKeypoint.new(1.00, Color3.fromRGB(20, 20, 20))}
     backgroundGradient.Rotation = 90
     backgroundGradient.Name = "backgroundGradient"
     backgroundGradient.Parent = background
@@ -967,7 +967,7 @@ function library:Init(key)
     tabButtonCorner_2.Name = "tabButtonCorner"
     tabButtonCorner_2.Parent = tabButtons
 
-    tabButtonsGradient.Color = ColorSequence.new{ColorSequenceKeypoint.new(0.00, Color3.fromRGB(34, 34, 34)), ColorSequenceKeypoint.new(1.00, Color3.fromRGB(28, 28, 28))}
+    tabButtonsGradient.Color = ColorSequence.new{ColorSequenceKeypoint.new(0.00, Color3.fromRGB(20, 20, 20)), ColorSequenceKeypoint.new(1.00, Color3.fromRGB(20, 20, 20))}
     tabButtonsGradient.Rotation = 90
     tabButtonsGradient.Name = "tabButtonsGradient"
     tabButtonsGradient.Parent = tabButtons
@@ -1006,7 +1006,7 @@ function library:Init(key)
     containerCorner.Name = "containerCorner"
     containerCorner.Parent = container
 
-    containerGradient.Color = ColorSequence.new{ColorSequenceKeypoint.new(0.00, Color3.fromRGB(34, 34, 34)), ColorSequenceKeypoint.new(1.00, Color3.fromRGB(28, 28, 28))}
+    containerGradient.Color = ColorSequence.new{ColorSequenceKeypoint.new(0.00, Color3.fromRGB(20, 20, 20)), ColorSequenceKeypoint.new(1.00, Color3.fromRGB(20, 20, 20))}
     containerGradient.Rotation = 90
     containerGradient.Name = "containerGradient"
     containerGradient.Parent = container
@@ -1223,7 +1223,7 @@ function library:Init(key)
             buttonBackground.Position = UDim2.new(0.5, 0, 0.5, 0)
             buttonBackground.Size = UDim2.new(0, 394, 0, 22)
 
-            buttonGradient.Color = ColorSequence.new{ColorSequenceKeypoint.new(0.00, Color3.fromRGB(34, 34, 34)), ColorSequenceKeypoint.new(1.00, Color3.fromRGB(28, 28, 28))}
+            buttonGradient.Color = ColorSequence.new{ColorSequenceKeypoint.new(0.00, Color3.fromRGB(20, 20, 20)), ColorSequenceKeypoint.new(1.00, Color3.fromRGB(20, 20, 20))}
             buttonGradient.Rotation = 90
             buttonGradient.Name = "buttonGradient"
             buttonGradient.Parent = buttonBackground
@@ -1327,7 +1327,7 @@ function library:Init(key)
                     buttonBackground.Position = UDim2.new(0.5, 0, 0.5, 0)
                     buttonBackground.Size = UDim2.new(0, (NewSizeX - 2) - Amnt, 0, 22)
         
-                    buttonGradient.Color = ColorSequence.new{ColorSequenceKeypoint.new(0.00, Color3.fromRGB(34, 34, 34)), ColorSequenceKeypoint.new(1.00, Color3.fromRGB(28, 28, 28))}
+                    buttonGradient.Color = ColorSequence.new{ColorSequenceKeypoint.new(0.00, Color3.fromRGB(20, 20, 20)), ColorSequenceKeypoint.new(1.00, Color3.fromRGB(20, 20, 20))}
                     buttonGradient.Rotation = 90
                     buttonGradient.Name = "buttonGradient"
                     buttonGradient.Parent = buttonBackground
@@ -1600,7 +1600,7 @@ function library:Init(key)
             toggleCorner.Name = "toggleCorner"
             toggleCorner.Parent = toggle
 
-            toggleGradient.Color = ColorSequence.new{ColorSequenceKeypoint.new(0.00, Color3.fromRGB(34, 34, 34)), ColorSequenceKeypoint.new(1.00, Color3.fromRGB(28, 28, 28))}
+            toggleGradient.Color = ColorSequence.new{ColorSequenceKeypoint.new(0.00, Color3.fromRGB(20, 20, 20)), ColorSequenceKeypoint.new(1.00, Color3.fromRGB(20, 20, 20))}
             toggleGradient.Rotation = 90
             toggleGradient.Name = "toggleGradient"
             toggleGradient.Parent = toggle
@@ -1616,7 +1616,7 @@ function library:Init(key)
             toggleDesignCorner.Name = "toggleDesignCorner"
             toggleDesignCorner.Parent = toggleDesign
 
-            toggleDesignGradient.Color = ColorSequence.new{ColorSequenceKeypoint.new(0.00, Color3.fromRGB(157, 115, 255)), ColorSequenceKeypoint.new(1.00, Color3.fromRGB(106, 69, 181))}
+            toggleDesignGradient.Color = ColorSequence.new{ColorSequenceKeypoint.new(0.00, Color3.fromRGB(178, 34, 34)), ColorSequenceKeypoint.new(1.00, Color3.fromRGB(178, 34, 34))}
             toggleDesignGradient.Rotation = 90
             toggleDesignGradient.Name = "toggleDesignGradient"
             toggleDesignGradient.Parent = toggleDesign
