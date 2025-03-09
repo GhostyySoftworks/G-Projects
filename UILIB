@@ -113,73 +113,73 @@ function library:Rejoin()
     TeleportService:TeleportToPlaceInstance(library:GetPlaceId(), library:GetJobId(), library:GetUserId())
 end
 
-function library:Copy(input) -- only works with synapse
+function library:Copy(input)
     if syn then
         syn.write_clipboard(input)
     end
 end
 
 function library:GetDay(type)
-    if type == "word" then -- day in a full word
+    if type == "word" then
         return os.date("%A")
-    elseif type == "short" then -- day in a shortened word
+    elseif type == "short" then
         return os.date("%a")
-    elseif type == "month" then -- day of the month in digits
+    elseif type == "month" then
         return os.date("%d")
-    elseif type == "year" then -- day of the year in digits
+    elseif type == "year" then
         return os.date("%j")
     end
 end
 
 function library:GetTime(type)
-    if type == "24h" then -- time using a 24 hour clock
+    if type == "24h" then
         return os.date("%H")
-    elseif type == "12h" then -- time using a 12 hour clock
+    elseif type == "12h" then
         return os.date("%I")
-    elseif type == "minute" then -- time in minutes
+    elseif type == "minute" then
         return os.date("%M")
-    elseif type == "half" then -- what part of the day it is (AM or PM)
+    elseif type == "half" then
         return os.date("%p")
-    elseif type == "second" then -- time in seconds
+    elseif type == "second" then
         return os.date("%S")
-    elseif type == "full" then -- full time
+    elseif type == "full" then
         return os.date("%X")
-    elseif type == "ISO" then -- ISO / UTC ( 1min = 1, 1hour = 100)
+    elseif type == "ISO" then
         return os.date("%z")
-    elseif type == "zone" then -- time zone
+    elseif type == "zone" then
         return os.date("%Z") 
     end
 end
 
 function library:GetMonth(type)
-    if type == "word" then -- full month name
+    if type == "word" then
         return os.date("%B")
-    elseif type == "short" then -- month in shortened word
+    elseif type == "short" then
         return os.date("%b")
-    elseif type == "digit" then -- the months digit
+    elseif type == "digit" then
         return os.date("%m")
     end
 end
 
 function library:GetWeek(type)
-    if type == "year_S" then -- the number of the week in the current year (sunday first day)
+    if type == "year_S" then
         return os.date("%U")
-    elseif type == "day" then -- the week day
+    elseif type == "day" then
         return os.date("%w")
-    elseif type == "year_M" then -- the number of the week in the current year (monday first day)
+    elseif type == "year_M" then
         return os.date("%W")
     end
 end
 
 function library:GetYear(type)
-    if type == "digits" then -- the second 2 digits of the year
+    if type == "digits" then
         return os.date("%y")
-    elseif type == "full" then -- the full year
+    elseif type == "full" then
         return os.date("%Y")
     end
 end
 
-function library:UnlockFps(new) -- syn only
+function library:UnlockFps(new)
     if syn then
         setfpscap(new)
     end
