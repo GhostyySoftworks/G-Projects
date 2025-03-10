@@ -643,7 +643,7 @@ cmd.add({"chatlogs", "clogs"}, {"chatlogs (clogs)", "Open the chat logs"}, funct
     gui.chatlogs()
 end)
 
- cmd.add({"watch", "view", "specate"}, {"view <player>", "Watch the given player"}, function(...)
+ cmd.add({"view", "view", "view"}, {"view <player>", "Watch the given player"}, function(...)
  game.Workspace.CurrentCamera.CameraSubject = character:FindFirstChildWhichIsA("Humanoid")
 	 view = false
  wait(0.3)
@@ -656,11 +656,25 @@ end)
  until view == false
  end)
  
- cmd.add({"unwatch", "unview", "unspectate"}, {"unview", "Stop watching a player"}, function()
+ cmd.add({"unview", "unview", "unview"}, {"unview", "Stop watching a player"}, function()
  local character = game.Players.LocalPlayer.Character
  view = false
  wait(0.3)
  game.Workspace.CurrentCamera.CameraSubject = character:FindFirstChildWhichIsA("Humanoid")
+ end)
+
+cmd.add({"rejoin", "rj"}, {"rejoin (rj)", "Rejoin the game"}, function()
+	 game:GetService("TeleportService"):Teleport(game.PlaceId)
+	 wait()
+	 
+ wait();
+ 
+ Notify({
+ Description = "Rejoining...";
+ Title = "HKAND Admin";
+ Duration = 5;
+ 
+ });
  end)
 
 cmd.add({"gotocampos", "tocampos", "tcp"}, {"gotocampos (tocampos, tcp)", "Teleports you to your camera position works with free cam but freezes you"}, function()
