@@ -64,6 +64,7 @@ local Character = game.Players.LocalPlayer.Character
 local Clicked = true
 _G.Spam = false
 --[[ FOR LOOP COMMANDS ]]--
+view = false
 Loopvoid = false
 local Admin = {}
 
@@ -641,6 +642,26 @@ end)
 cmd.add({"chatlogs", "clogs"}, {"chatlogs (clogs)", "Open the chat logs"}, function()
     gui.chatlogs()
 end)
+
+ cmd.add({"watch", "view", "specate"}, {"view <player>", "Watch the given player"}, function(...)
+ game.Workspace.CurrentCamera.CameraSubject = character:FindFirstChildWhichIsA("Humanoid")
+	 view = false
+ wait(0.3)
+	 view = true
+ Username = (...)
+ 
+ local target = getPlr(Username)
+ repeat wait()
+ workspace.CurrentCamera.CameraSubject = target.Character.Humanoid
+ until view == false
+ end)
+ 
+ cmd.add({"unwatch", "unview", "unspectate"}, {"unview", "Stop watching a player"}, function()
+ local character = game.Players.LocalPlayer.Character
+ view = false
+ wait(0.3)
+ game.Workspace.CurrentCamera.CameraSubject = character:FindFirstChildWhichIsA("Humanoid")
+ end)
 
 cmd.add({"gotocampos", "tocampos", "tcp"}, {"gotocampos (tocampos, tcp)", "Teleports you to your camera position works with free cam but freezes you"}, function()
 local player = game.Players.LocalPlayer
