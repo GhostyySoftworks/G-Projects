@@ -822,7 +822,7 @@ Camera.CameraSubject = ball
 humanoid.Died:Connect(function() tc:Disconnect() end)
 end)
 
-cmd.add({"serverhop", "shop"}, {"serverhop (shop)", "Serverhop"}, function()
+cmd.add({"shop", "shop"}, {"shop (shop)", "shop"}, function()
                 wait();
 
 Notify({
