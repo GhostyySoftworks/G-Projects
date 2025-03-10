@@ -59,45 +59,13 @@ local StarterGui = game:GetService("StarterGui")
 local SoundService = game:GetService("SoundService")
 sethidden = sethiddenproperty or set_hidden_property or set_hidden_prop
 local Player = game.Players.LocalPlayer
-local IYLOADED = false -- This is used for the ;iy command that executes infinite yield commands using this admin command script (BTW)
 local Humanoid = Character and Character:FindFirstChildWhichIsA("Humanoid") or false
 local Character = game.Players.LocalPlayer.Character
 local Clicked = true
 _G.Spam = false
 --[[ FOR LOOP COMMANDS ]]--
-view = false
-anniblockspam = false
-control = false
-FakeLag = false
 Loopvoid = false
-Loopkill = false
-Loopbring = false
-Loopbanish = false
-Loopvoid = false
-Loopcuff = false
-loopgrab = false
-Loopstand = false
-Looptornado = false
-Loopmute = false
-Loopglitch = false
-Watch = false
 local Admin = {}
-
--- [[ HAT ORBIT (PATCHED IN MOST GAMES) ]]
-local Offset = 10
-local Rotation = 0
-local Speed = 1
-local Height = 2
-
-local EditingPos = false
-
-local Power = 50000
-local Damping = 500
-
-local Mode = 1
-
-local NormalSpin = true
-
 
 --[[ Some more variables ]]--
 
@@ -719,21 +687,6 @@ Duration = 5;
 });
 end)
 
---[ LOCALPLAYER ]--
-local function respawn()
-cf = game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame
-game.Players.LocalPlayer.Character.Humanoid.Health = 0
-player.CharacterAdded:wait(1); wait(0.2);
-    character:WaitForChild("HumanoidRootPart").CFrame = cf
-    end
-
-local function refresh()
-cf = game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame
-game.Players.LocalPlayer.Character.Humanoid.Health = 0
-player.CharacterAdded:wait(1); wait(0.2);
-    character:WaitForChild("HumanoidRootPart").CFrame = cf
-end
-
 cmd.add({"vfly", "vehiclefly"}, {"vehiclefly (vfly)", "be able to fly vehicles"}, function(...)
 FLYING = false
     cmdlp.Character.Humanoid.PlatformStand = false
@@ -782,18 +735,6 @@ cmd.add({"lay"}, {"lay", "zzzzzzzz"}, function()
     Human.RootPart.CFrame = Human.RootPart.CFrame * CFrame.Angles(math.pi * .5, 0, 0)
     for _, v in ipairs(Human:GetPlayingAnimationTracks()) do
         v:Stop()
-    end
-end)
-
-cmd.add({"trip"}, {"trip", "get up NOW"}, function()
-   game.Players.LocalPlayer.Character:FindFirstChildOfClass("Humanoid"):ChangeState(0)
-   game.Players.LocalPlayer.Character:FindFirstChild("HumanoidRootPart").Velocity = game.Players.LocalPlayer.Character:FindFirstChild("HumanoidRootPart").CFrame.LookVector * 25
-end)
-
-cmd.add({"sit"}, {"sit", "Sit your player"}, function()
-    local hum = character:FindFirstChildWhichIsA("Humanoid")
-    if hum then
-        hum.Sit = true
     end
 end)
 
@@ -879,15 +820,6 @@ end)
 
 Camera.CameraSubject = ball
 humanoid.Died:Connect(function() tc:Disconnect() end)
-end)
-
-cmd.add({"dex"}, {"dex", "Using this you can see the parts / guis / scripts etc with this. A really good and helpful script."}, function()
-   -- thanks to moon for this dex / best dex out there
-    loadstring(game:HttpGet("https://raw.githubusercontent.com/infyiff/backup/main/dex.lua"))()
-end)
-
-cmd.add({"reset"}, {"reset", "Makes your health be 0"}, function()
-    game.Players.LocalPlayer.Character.Humanoid.Health = 0
 end)
 
 cmd.add({"serverhop", "shop"}, {"serverhop (shop)", "Serverhop"}, function()
@@ -1260,11 +1192,6 @@ for _,x in next, Targets do
 end
 end)
 
-cmd.add({"torandom", "tr"}, {"torandom (tr)", "Teleports to a random player"}, function(...)
-target = getPlr("random")
-getChar().HumanoidRootPart.CFrame = target.Character.Humanoid.RootPart.CFrame
-end)
-
 cmd.add({"goto", "to", "tp", "teleport"}, {"goto <player/X,Y,Z>", "Teleport to the given player or X,Y,Z coordinates"}, function(...)
     Username = (...)
 
@@ -1544,8 +1471,6 @@ end)
 
 cmd.add({"unspin"}, {"unspin", "Makes your character unspin"}, function()
     
-
-
 wait();
 
 Notify({
@@ -1567,8 +1492,6 @@ Duration = 5;
 end)
 
 cmd.add({"xray", "xrayon"}, {"xray (xrayon)", "Makes you be able to see through walls"}, function()
-    
-    
     
     wait();
     
@@ -1596,116 +1519,6 @@ cmd.add({"unxray", "xrayoff"}, {"unxray (xrayoff)", "Makes you not be able to se
 });
 transparent = false
     x(transparent)
-end)
-
-
-cmd.add({"fullbright", "fullb"}, {"fullbright (fullb)", "Makes games that are really dark to have no darkness and be really light"}, function()
-    if not _G.FullBrightExecuted then
-
-        _G.FullBrightEnabled = false
-    
-        _G.NormalLightingSettings = {
-            Brightness = game:GetService("Lighting").Brightness,
-            ClockTime = game:GetService("Lighting").ClockTime,
-            FogEnd = game:GetService("Lighting").FogEnd,
-            GlobalShadows = game:GetService("Lighting").GlobalShadows,
-            Ambient = game:GetService("Lighting").Ambient
-        }
-    
-        game:GetService("Lighting"):GetPropertyChangedSignal("Brightness"):Connect(function()
-            if game:GetService("Lighting").Brightness ~= 1 and game:GetService("Lighting").Brightness ~= _G.NormalLightingSettings.Brightness then
-                _G.NormalLightingSettings.Brightness = game:GetService("Lighting").Brightness
-                if not _G.FullBrightEnabled then
-                    repeat
-                        wait()
-                    until _G.FullBrightEnabled
-                end
-                game:GetService("Lighting").Brightness = 1
-            end
-        end)
-    
-        game:GetService("Lighting"):GetPropertyChangedSignal("ClockTime"):Connect(function()
-            if game:GetService("Lighting").ClockTime ~= 12 and game:GetService("Lighting").ClockTime ~= _G.NormalLightingSettings.ClockTime then
-                _G.NormalLightingSettings.ClockTime = game:GetService("Lighting").ClockTime
-                if not _G.FullBrightEnabled then
-                    repeat
-                        wait()
-                    until _G.FullBrightEnabled
-                end
-                game:GetService("Lighting").ClockTime = 12
-            end
-        end)
-    
-        game:GetService("Lighting"):GetPropertyChangedSignal("FogEnd"):Connect(function()
-            if game:GetService("Lighting").FogEnd ~= 786543 and game:GetService("Lighting").FogEnd ~= _G.NormalLightingSettings.FogEnd then
-                _G.NormalLightingSettings.FogEnd = game:GetService("Lighting").FogEnd
-                if not _G.FullBrightEnabled then
-                    repeat
-                        wait()
-                    until _G.FullBrightEnabled
-                end
-                game:GetService("Lighting").FogEnd = 786543
-            end
-        end)
-    
-        game:GetService("Lighting"):GetPropertyChangedSignal("GlobalShadows"):Connect(function()
-            if game:GetService("Lighting").GlobalShadows ~= false and game:GetService("Lighting").GlobalShadows ~= _G.NormalLightingSettings.GlobalShadows then
-                _G.NormalLightingSettings.GlobalShadows = game:GetService("Lighting").GlobalShadows
-                if not _G.FullBrightEnabled then
-                    repeat
-                        wait()
-                    until _G.FullBrightEnabled
-                end
-                game:GetService("Lighting").GlobalShadows = false
-            end
-        end)
-    
-        game:GetService("Lighting"):GetPropertyChangedSignal("Ambient"):Connect(function()
-            if game:GetService("Lighting").Ambient ~= Color3.fromRGB(178, 178, 178) and game:GetService("Lighting").Ambient ~= _G.NormalLightingSettings.Ambient then
-                _G.NormalLightingSettings.Ambient = game:GetService("Lighting").Ambient
-                if not _G.FullBrightEnabled then
-                    repeat
-                        wait()
-                    until _G.FullBrightEnabled
-                end
-                game:GetService("Lighting").Ambient = Color3.fromRGB(178, 178, 178)
-            end
-        end)
-    
-        game:GetService("Lighting").Brightness = 1
-        game:GetService("Lighting").ClockTime = 12
-        game:GetService("Lighting").FogEnd = 786543
-        game:GetService("Lighting").GlobalShadows = false
-        game:GetService("Lighting").Ambient = Color3.fromRGB(178, 178, 178)
-    
-        local LatestValue = true
-        spawn(function()
-            repeat
-                wait()
-            until _G.FullBrightEnabled
-            while wait() do
-                if _G.FullBrightEnabled ~= LatestValue then
-                    if not _G.FullBrightEnabled then
-                        game:GetService("Lighting").Brightness = _G.NormalLightingSettings.Brightness
-                        game:GetService("Lighting").ClockTime = _G.NormalLightingSettings.ClockTime
-                        game:GetService("Lighting").FogEnd = _G.NormalLightingSettings.FogEnd
-                        game:GetService("Lighting").GlobalShadows = _G.NormalLightingSettings.GlobalShadows
-                        game:GetService("Lighting").Ambient = _G.NormalLightingSettings.Ambient
-                    else
-                        game:GetService("Lighting").Brightness = 1
-                        game:GetService("Lighting").ClockTime = 12
-                        game:GetService("Lighting").FogEnd = 786543
-                        game:GetService("Lighting").GlobalShadows = false
-                        game:GetService("Lighting").Ambient = Color3.fromRGB(178, 178, 178)
-                    end
-                    LatestValue = not LatestValue
-                end
-            end
-        end)
-    end
-    
-    _G.FullBrightExecuted = true
-    _G.FullBrightEnabled = not _G.FullBrightEnabled
 end)
 
     cmd.add({"cameranoclip", "camnoclip", "cnoclip"}, {"cameranoclip (camnoclip, cnoclip)", "Makes your camera clip through walls"}, function()
@@ -1763,10 +1576,6 @@ end)
        });
            end	
     end)
-
-cmd.add({"ws", "speed", "walkspeed"}, {"walkspeed <number> (speed, ws)", "Makes your WalkSpeed whatever you want"}, function(...)
-    game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = (...)
-end)
 
 --[[ FUNCTIONALITY ]]--
 localPlayer.Chatted:Connect(function(str)
@@ -2217,7 +2026,6 @@ RunService.Stepped:Connect(function()
     commandsList.CanvasSize = UDim2.new(0, 0, 0, commandsList.UIListLayout.AbsoluteContentSize.Y)
 end)
 
--- never used this lol
 function Destroy(guiObject)
     if not pcall(function()guiObject.Parent = game:GetService("CoreGui")end) then
         guiObject.Parent = nil
@@ -2251,7 +2059,7 @@ TextClickButton.TextWrapped = true
 UICorner.CornerRadius = UDim.new(1, 0)
 UICorner.Parent = TextClickButton
 
-local function PZORYLB_fake_script() -- TextClickButton.LocalScript 
+local function PZORYLB_fake_script()
     local script = Instance.new('LocalScript', TextClickButton)
     textclickbutton = script.Parent
     textclickbutton.Size = UDim2.new(0, 2,0, 33)
