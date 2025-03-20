@@ -13,8 +13,8 @@ local Library = {
 			Secondary = Color3.fromRGB(20, 20, 20),
 			Tertiary = Color3.fromRGB(178, 34, 34),
 
-			StrongText = Color3.fromRGB(178, 34, 34),		
-			WeakText = Color3.fromRGB(178, 34, 34)
+			StrongText = Color3.fromRGB(255, 255, 255),		
+			WeakText = Color3.fromRGB(255, 255, 255)
 		}
 	},
 	ColorPickerStyles = {
