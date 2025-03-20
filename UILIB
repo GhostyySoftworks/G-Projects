@@ -841,6 +841,9 @@ function Library:create(options)
 		end,
 	}
 
+	return mt
+end
+
 function Library:notification(options)
 	options = self:set_defaults({
 		Title = "Notification",
