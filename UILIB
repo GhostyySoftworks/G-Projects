@@ -374,8 +374,8 @@ function Library:create(options)
 	end
 
 	options = self:set_defaults({
-		Name = "DD",
-		Size = UDim2.fromOffset(600, 400),
+		Name = "DD Bypasser",
+		Size = UDim2.fromOffset(650, 450),
 		Theme = self.Themes[settings.Theme],
 		Link = "https://github.com/deeeity/mercury-lib"
 	}, options)
@@ -3392,8 +3392,6 @@ function Library:textbox(options)
 		Size = UDim2.new(0, 16, 0, 16),
 		Theme = {ImageColor3 = "StrongText"}
 	})
-
-
 
 	textBox.Size = UDim2.fromOffset(textBox.TextBounds.X + 20, 20)
 
