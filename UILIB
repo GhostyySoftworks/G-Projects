@@ -377,15 +377,13 @@ function Library:create(options)
 		Name = "DD Bypasser",
 		Size = UDim2.fromOffset(650, 450),
 		Theme = self.Themes[settings.Theme],
-		Link = "https://github.com/deeeity/mercury-lib"
+		Link = "https://pornhub.com"
 	}, options)
 
 	if getgenv and getgenv().DDUI then
 		getgenv():DDUI()
 		getgenv().DDUI = nil
 	end
-
-
 
 	if options.Link:sub(-1, -1) == "/" then
 		options.Link = options.Link:sub(1, -2)
@@ -773,15 +771,6 @@ function Library:create(options)
 		Image = "http://www.roblox.com/asset/?id=8559790237"
 	}):tooltip("settings")
 
-	local creditsTabIcon = profile:object("ImageButton", {
-		BackgroundTransparency = 1,
-		Theme = {ImageColor3 = "WeakText"},
-		Size = UDim2.fromOffset(24, 24),
-		Position = UDim2.new(1, -44, 1, -10),
-		AnchorPoint = Vector2.new(1, 1),
-		Image = "http://www.roblox.com/asset/?id=8577523456"
-	}):tooltip("credits")
-
 	local quickAccess = homePage:object("Frame", {
 		BackgroundTransparency = 1,
 		Size = UDim2.new(1, -20, 0, 180)
@@ -852,21 +841,6 @@ function Library:create(options)
 			Library.DragSpeed = (20 - value)/100
 		end,
 	}
-
-	local creditsTab = Library.tab(mt, {
-		Name = "Credits",
-		Internal = creditsTabIcon,
-		Icon = "http://www.roblox.com/asset/?id=8577523456"
-	})
-
-	rawset(mt, "creditsContainer", creditsTab.container)
-
-	creditsTab:credit{Name = "Abstract", Description = "UI Library Developer", Discord = "Abstract#8007", V3rmillion = "AbstractPoo"}
-	creditsTab:credit{Name = "Deity", Description = "UI Library Developer", Discord = "Deity#0228", V3rmillion = "0xDEITY"}
-	creditsTab:credit{Name = "Repository", Description = "UI Library Repository", Github="https://github.com/deeeity/mercury-lib/blob/master/src.lua"}
-
-	return mt
-end
 
 function Library:notification(options)
 	options = self:set_defaults({
@@ -2675,148 +2649,6 @@ function Library:color_picker(options)
 		end)
 	end
 	self:_resize_tab()
-end
-
-function Library:credit(options)
-	options = self:set_defaults({
-		Name = "Creditor",
-		Description = nil
-	}, options)
-	options.V3rmillion = options.V3rmillion or options.V3rm
-
-	local creditContainer = (self.creditsContainer or self.container):object("Frame", {
-		Theme = {BackgroundColor3 = "Secondary"},
-		Size = UDim2.new(1, -20, 0, 52)
-	}):round(7)
-
-	local name = creditContainer:object("TextLabel", {
-		BackgroundTransparency = 1,
-		Position = UDim2.fromOffset(10, (options.Description and 5) or 0),
-		Size = (options.Description and UDim2.new(0.5, -10, 0, 22)) or UDim2.new(0.5, -10, 1, 0),
-		Text = options.Name,
-		TextSize = 22,
-		Theme = {TextColor3 = "StrongText"},
-		TextXAlignment = Enum.TextXAlignment.Left
-	})
-
-	if options.Description then
-		local description = creditContainer:object("TextLabel", {
-			BackgroundTransparency = 1,
-			Position = UDim2.fromOffset(10, 27),
-			Size = UDim2.new(0.5, -10, 0, 20),
-			Text = options.Description,
-			TextSize = 18,
-			Theme = {TextColor3 = "WeakText"},
-			TextXAlignment = Enum.TextXAlignment.Left
-		})
-	end
-	
-	
-
-	if setclipboard then
-	
-		if options.Github then
-			local githubContainer = creditContainer:object("TextButton", {
-				AnchorPoint = Vector2.new(1, 1),
-				Size = UDim2.fromOffset(24, 24),
-				Position = UDim2.new(1, -8, 1, -8),
-				Theme = {BackgroundColor3 = {"Main", 10}}
-			}):round(5):tooltip("copy github")
-			local github = githubContainer:object("ImageLabel", {
-				Image = "http://www.roblox.com/asset/?id=11965755499",
-				Size = UDim2.new(1, -4, 1, -4),
-				Centered = true,
-				BackgroundTransparency = 1
-			}):round(100)
-
-			githubContainer.MouseButton1Click:connect(function()
-				setclipboard(options.Github)
-			end)
-		end
-	
-		if options.Discord then
-			local discordContainer = creditContainer:object("TextButton", {
-				AnchorPoint = Vector2.new(1, 1),
-				Size = UDim2.fromOffset(24, 24),
-				Position = UDim2.new(1, -8, 1, -8),
-				BackgroundColor3 = Color3.fromRGB(88, 101, 242)
-			}):round(5):tooltip("copy discord")
-			local discord = discordContainer:object("Frame", {
-				Size = UDim2.new(1, -6, 1, -6),
-				Centered = true,
-				BackgroundTransparency = 1
-			})
-
-			local tr = discord:object("ImageLabel", {
-				BackgroundTransparency = 1,
-				AnchorPoint = Vector2.new(1, 0),
-				Size = UDim2.new(0.5, 0, 0.5, 0),
-				Position = UDim2.new(1, 0, 0, -0),
-				ImageColor3 = Color3.fromRGB(255, 255, 255),
-				Image = "http://www.roblox.com/asset/?id=8594150191",
-				ScaleType = Enum.ScaleType.Crop
-			})
-
-			local tl = discord:object("ImageLabel", {
-				BackgroundTransparency = 1,
-				AnchorPoint = Vector2.new(0, 0),
-				Size = UDim2.new(0.5, 0, 0.5, 0),
-				Position = UDim2.new(0, 0, 0, -0),
-				ImageColor3 = Color3.fromRGB(255, 255, 255),
-				Image = "http://www.roblox.com/asset/?id=8594187532",
-				ScaleType = Enum.ScaleType.Crop
-			})
-
-			local bl = discord:object("ImageLabel", {
-				BackgroundTransparency = 1,
-				AnchorPoint = Vector2.new(0, 1),
-				Size = UDim2.new(0.5, 0, 0.5, 0),
-				Position = UDim2.new(0, 0, 1, 0),
-				ImageColor3 = Color3.fromRGB(255, 255, 255),
-				Image = "http://www.roblox.com/asset/?id=8594194954",
-				ScaleType = Enum.ScaleType.Crop
-			})
-
-			local br = discord:object("ImageLabel", {
-				BackgroundTransparency = 1,
-				AnchorPoint = Vector2.new(1, 1),
-				Size = UDim2.new(0.5, 0, 0.5, 0),
-				Position = UDim2.new(1, 0, 1, 0),
-				ImageColor3 = Color3.fromRGB(255, 255, 255),
-				Image = "http://www.roblox.com/asset/?id=8594206483",
-				ScaleType = Enum.ScaleType.Crop
-			})
-
-			discordContainer.MouseButton1Click:connect(function()
-				setclipboard(options.Discord)
-			end)
-		end
-
-		if options.V3rmillion then
-			local v3rmillionContainer = creditContainer:object("TextButton", {
-				AnchorPoint = Vector2.new(1, 1),
-				Size = UDim2.fromOffset(24, 24),
-				Position = UDim2.new(1, -40, 1, -8),
-				Theme = {BackgroundColor3 = {"Main", 10}}
-			}):round(5):tooltip("copy v3rm")
-			local v3rmillion = v3rmillionContainer:object("ImageLabel", {
-				Image = "http://www.roblox.com/asset/?id=8594086769",
-				Size = UDim2.new(1, -4, 1, -4),
-				Centered = true,
-				BackgroundTransparency = 1
-			})
-
-			v3rmillionContainer.MouseButton1Click:connect(function()
-				setclipboard(options.V3rmillion)
-			end)
-		end
-	end
-
-
-	self._resize_tab({
-		container = self.creditsContainer or self.container,
-		layout = (self.creditsContainer and self.creditsContainer.AbsoluteObject.UIListLayout) or self.layout
-	})
 end
 
 function Library:_theme_selector()
