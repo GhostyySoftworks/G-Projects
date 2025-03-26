@@ -27,19 +27,19 @@ makefolder('HKAND-Admin')
 end
 
 if not isfile("HKAND-Admin/Prefix.txt") then
-writefile("HKAND-Admin/Prefix.txt", ';')
+writefile("HKAND-Admin/Prefix.txt", '.')
 else
 end
 end
 
 -- [[ PREFIX AND OTHER STUFF. ]] -- 
 local opt = {
-    prefix = readfile("HKAND-Admin/Prefix.txt", ';'), -- If player's executor has the custom file function support it reads the prefix file to get prefix
-    tupleSeparator = ',',	-- ;ff me,others,all | ;ff me/others/all
-    ui = {					-- never did anything with this
+    prefix = readfile("HKAND-Admin/Prefix.txt", '.'),
+    tupleSeparator = ',',
+    ui = {
         
     },
-    keybinds = {			-- never did anything with this
+    keybinds = {
         
     },
 }
@@ -754,7 +754,7 @@ Notify({
     });
 end)
 
-cmd.add({"rejoin", "rj"}, {"rejoin (rj)", "Rejoin the game"}, function()
+cmd.add({"rj", "rj"}, {"rj", "Rejoin the game"}, function()
     game:GetService("TeleportService"):Teleport(game.PlaceId)
     wait()
     
@@ -1367,7 +1367,7 @@ end
 
 -- [[ AUTOFILL SEARCHER ]] --
 gui.searchCommands = function()
-   local str = (cmdInput.Text:gsub(";", "")):lower()
+   local str = (cmdInput.Text:gsub(".", "")):lower()
    local index = 0
    local lastFrame
    for _, v in ipairs(cmdAutofill:GetChildren()) do
