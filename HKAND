@@ -487,20 +487,6 @@ end)
  game.Workspace.CurrentCamera.CameraSubject = character:FindFirstChildWhichIsA("Humanoid")
  end)
 
-cmd.add({"rejoin", "rj"}, {"rejoin (rj)", "Rejoin the game"}, function()
-	 game:GetService("TeleportService"):Teleport(game.PlaceId)
-	 wait()
-	 
- wait();
- 
- Notify({
- Description = "Rejoining...";
- Title = "HKAND Admin";
- Duration = 5;
- 
- });
- end)
- 
  cmd.add({"fling"}, {"fling <player>", "Fling the given player"}, function(plr)
  local player = game.Players.LocalPlayer
  local mouse = player:GetMouse()
@@ -754,22 +740,6 @@ Notify({
     });
 end)
 
-cmd.add({"rj", "rj"}, {"rj", "Rejoin the game"}, function()
-    game:GetService("TeleportService"):Teleport(game.PlaceId)
-    wait()
-    
-
-
-wait();
-
-Notify({
-Description = "Rejoining...";
-Title = "HKAND Admin";
-Duration = 5;
-
-});
-end)
-
 cmd.add({"lay"}, {"lay", "zzzzzzzz"}, function()
     local Human = game.Players.LocalPlayer.Character and game.Players.LocalPlayer.Character.Humanoid
     if not Human then
@@ -781,23 +751,6 @@ cmd.add({"lay"}, {"lay", "zzzzzzzz"}, function()
     for _, v in ipairs(Human:GetPlayingAnimationTracks()) do
         v:Stop()
     end
-end)
-
-cmd.add({"spin"}, {"spin", "Spin yourself at the speed you want"}, function(d)
-    local spinSpeed = tonumber(d)
-    if d and isNumber(d) then
-        spinSpeed = (d)
-    end
-    for i,v in pairs(getRoot(game.Players.LocalPlayer.Character):GetChildren()) do
-        if v.Name == "Spinning" then
-            v:Destroy()
-        end
-    end
-    local Spin = Instance.new("BodyAngularVelocity")
-    Spin.Name = "Spinning"
-    Spin.Parent = getRoot(speaker.Character)
-    Spin.MaxTorque = Vector3.new(0, math.huge, 0)
-    Spin.AngularVelocity = Vector3.new(0,spinSpeed,0)
 end)
 
 cmd.add({"noclip", "nclip", "nc"}, {"noclip", "Disable your player's collision"}, function()
@@ -923,32 +876,6 @@ cmd.add({"goto", "to", "tp", "teleport"}, {"goto <player/X,Y,Z>", "Teleport to t
     getChar().HumanoidRootPart.CFrame = target.Character.Humanoid.RootPart.CFrame
 end)
 
-cmd.add({"exit"}, {"exit", "Close down roblox"}, function()
-game:Shutdown()
-end)
-
-cmd.add({"unspin"}, {"unspin", "Makes your character unspin"}, function()
-    
-wait();
-
-Notify({
-Description = "Spin disabled";
-Title = "HKAND Admin";
-Duration = 5;
-
-});
-    function getRoot(char)
-        local rootPart = char:FindFirstChild('HumanoidRootPart') or char:FindFirstChild('Torso') or char:FindFirstChild('UpperTorso')
-        return rootPart
-    end
-    
-    for i,v in pairs(getRoot(game.Players.LocalPlayer.Character):GetChildren()) do
-            if v.Name == "Spinning" then
-                v:Destroy()
-            end
-        end
-end)
-
 cmd.add({"xray", "xrayon"}, {"xray (xrayon)", "Makes you be able to see through walls"}, function()
     
     wait();
@@ -978,62 +905,6 @@ cmd.add({"unxray", "xrayoff"}, {"unxray (xrayoff)", "Makes you not be able to se
 transparent = false
     x(transparent)
 end)
-
-    cmd.add({"cameranoclip", "camnoclip", "cnoclip"}, {"cameranoclip (camnoclip, cnoclip)", "Makes your camera clip through walls"}, function()
-       SetConstant = (debug and debug.setconstant) or setconstant
-       GetConstants = (debug and debug.getconstants) or getconstants
-       if SetConstant or GetConstants or getgc then
-       local Popper = game.Players.LocalPlayer.PlayerScripts.PlayerModule.CameraModule.ZoomController.Popper
-       for i, v in pairs(getgc()) do
-           if type(v) == 'function' and getfenv(v).script == Popper then
-               for i, v1 in pairs(GetConstants(v)) do
-                   if tonumber(v1) == .25 then
-                       SetConstant(v, i, 0)
-                   elseif tonumber(v1) == 0 then
-                       SetConstant(v, i, .25)
-                   end
-               end
-           end
-       end
-       else
-           wait();
-    
-           Notify({
-           Description = "Sorry, your exploit does not support cameranoclip";
-           Title = "HKAND Admin";
-           Duration = 5;
-           
-       });
-           end
-    end)
-
-    cmd.add({"uncameranoclip", "uncamnoclip", "uncnoclip"}, {"uncameranoclip (uncamnoclip, uncnoclip)", "Makes your camera not clip through walls"}, function()
-       local SetConstant = (debug and debug.setconstant) or setconstant
-       local GetConstants = (debug and debug.getconstants) or getconstants
-       if SetConstant or GetConstants or getgc then
-       local Popper = game.Players.LocalPlayer.PlayerScripts.PlayerModule.CameraModule.ZoomController.Popper
-       for i, v in pairs(getgc()) do
-           if type(v) == 'function' and getfenv(v).script == Popper then
-               for i, v1 in pairs(GetConstants(v)) do
-                   if tonumber(v1) == .25 then
-                       SetConstant(v, i, 0)
-                   elseif tonumber(v1) == 0 then
-                       SetConstant(v, i, .25)
-                   end
-               end
-           end
-       end
-       else
-           wait();
-    
-           Notify({
-           Description = "Sorry, your exploit does not support cameranoclip and uncameranoclip";
-           Title = "HKAND Admin";
-           Duration = 5;
-           
-       });
-           end	
-    end)
 
 --[[ FUNCTIONALITY ]]--
 localPlayer.Chatted:Connect(function(str)
