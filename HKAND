@@ -711,33 +711,8 @@ end
  end
  end)
 
-cmd.add({"gotocampos", "tocampos", "tcp"}, {"gotocampos (tocampos, tcp)", "Teleports you to your camera position works with free cam but freezes you"}, function()
-local player = game.Players.LocalPlayer
-local UserInputService = game:GetService("UserInputService")
- local function teleportPlayer()
-    local character = player.Character or player.CharacterAdded:wait(1)
-    local camera = game.Workspace.CurrentCamera
-    local cameraPosition = camera.CFrame.Position
-    character:SetPrimaryPartCFrame(CFrame.new(cameraPosition))
-end
-        local camera = game.Workspace.CurrentCamera
-        repeat wait() until camera.CFrame ~= CFrame.new()
-
-        teleportPlayer()
-end)
-
 cmd.add({"commands", "cmds"}, {"commands (cmds)", "Open the command list"}, function()
     gui.commands()
-end)
-
-cmd.add({"commandcount", "cc"}, {"commandcount (cc)", "Counds how many commands NA has"}, function()
-
-Notify({
-    Description = "HKAND Admin currently has ".. commandcount .. " commands";
-    Title = "HKAND Admin";
-    Duration = 5;
-    
-    });
 end)
 
 cmd.add({"lay"}, {"lay", "zzzzzzzz"}, function()
@@ -769,104 +744,8 @@ cmd.add({"clip", "c"}, {"clip", "Enable your player's collision"}, function()
     lib.disconnect("noclip")
 end)
 
-cmd.add({"freecam", "fc", "fcam"}, {"freecam [speed] (fc, fcam)", "Enable free camera"}, function(speed)
-    if not speed then speed = 5 end
-    if connections["freecam"] then lib.disconnect("freecam") camera.CameraSubject = character 	wrap(function() character.PrimaryPart.Anchored = false end) end
-    local dir = {w = false, a = false, s = false, d = false}
-    local cf = Instance.new("CFrameValue")
-    local camPart = Instance.new("Part")
-    camPart.Transparency = 1
-    camPart.Anchored = true
-    camPart.CFrame = camera.CFrame
-    wrap(function()
-        character.PrimaryPart.Anchored = true
-    end)
-    
-    lib.connect("freecam", RunService.RenderStepped:Connect(function()
-        local primaryPart = camPart
-        camera.CameraSubject = primaryPart
-        
-        local x, y, z = 0, 0, 0
-        if dir.w then z = -1 * speed end
-        if dir.a then x = -1 * speed end
-        if dir.s then z = 1 * speed end
-        if dir.d then x = 1 * speed end
-        if dir.q then y = 1 * speed end
-        if dir.e then y = -1 * speed end
-        
-        primaryPart.CFrame = CFrame.new(
-            primaryPart.CFrame.p,
-            (camera.CFrame * CFrame.new(0, 0, -100)).p
-        )
-        
-        local moveDir = CFrame.new(x,y,z)
-        cf.Value = cf.Value:lerp(moveDir, 0.2)
-        primaryPart.CFrame = primaryPart.CFrame:lerp(primaryPart.CFrame * cf.Value, 0.2)
-    end))
-    lib.connect("freecam", UserInputService.InputBegan:Connect(function(input, event)
-        if event then return end
-        local code, codes = input.KeyCode, Enum.KeyCode
-        if code == codes.W then
-            dir.w = true
-        elseif code == codes.A then
-            dir.a = true
-        elseif code == codes.S then
-            dir.s = true
-        elseif code == codes.D then
-            dir.d = true
-        elseif code == codes.Q then
-            dir.q = true
-        elseif code == codes.E then
-            dir.e = true
-        elseif code == codes.Space then
-            dir.q = true
-        end
-    end))
-    lib.connect("freecam", UserInputService.InputEnded:Connect(function(input, event)
-        if event then return end
-        local code, codes = input.KeyCode, Enum.KeyCode
-        if code == codes.W then
-            dir.w = false
-        elseif code == codes.A then
-            dir.a = false
-        elseif code == codes.S then
-            dir.s = false
-        elseif code == codes.D then
-            dir.d = false
-        elseif code == codes.Q then
-            dir.q = false
-        elseif code == codes.E then
-            dir.e = false
-        elseif code == codes.Space then
-            dir.q = false
-        end
-    end))
-end)
-
-cmd.add({"unfreecam", "unfc", "unfcam"}, {"unfreecam (unfc, unfcam)", "Disable free camera"}, function()
-    lib.disconnect("freecam")
-    camera.CameraSubject = character
-    wrap(function()
-        character.PrimaryPart.Anchored = false
-    end)
-end)
-
 cmd.add({"height", "hipheight", "hh"}, {"height <number> (hipheight, hh)", "Changes your hipheight"}, function(...)
     game.Players.LocalPlayer.Character.Humanoid.HipHeight = (...)
-end)
-
-cmd.add({"fixcam", "fix"}, {"fixcam", "Fix your camera"}, function()
-    local workspace = game.Workspace
-Players = game:GetService("Players")
-local speaker = Players.LocalPlayer
-workspace.CurrentCamera:remove()
-    wait(.1)
-    workspace.CurrentCamera.CameraSubject = speaker.Character:FindFirstChildWhichIsA('Humanoid')
-    workspace.CurrentCamera.CameraType = "Custom"
-    speaker.CameraMinZoomDistance = 0.5
-    speaker.CameraMaxZoomDistance = 400
-    speaker.CameraMode = "Classic"
-    speaker.Character.Head.Anchored = false
 end)
 
 cmd.add({"goto", "to", "tp", "teleport"}, {"goto <player/X,Y,Z>", "Teleport to the given player or X,Y,Z coordinates"}, function(...)
@@ -874,36 +753,6 @@ cmd.add({"goto", "to", "tp", "teleport"}, {"goto <player/X,Y,Z>", "Teleport to t
 
     local target = getPlr(Username)
     getChar().HumanoidRootPart.CFrame = target.Character.Humanoid.RootPart.CFrame
-end)
-
-cmd.add({"xray", "xrayon"}, {"xray (xrayon)", "Makes you be able to see through walls"}, function()
-    
-    wait();
-    
-    Notify({
-    Description = "Xray enabled";
-    Title = "HKAND Admin";
-    Duration = 5;
-    
-});
-transparent = true
-    x(transparent)
-end)
-
-cmd.add({"unxray", "xrayoff"}, {"unxray (xrayoff)", "Makes you not be able to see through walls"}, function()
-    
-    
-    
-    wait();
-    
-    Notify({
-    Description = "Xray disabled";
-    Title = "HKAND Admin";
-    Duration = 5;
-    
-});
-transparent = false
-    x(transparent)
 end)
 
 --[[ FUNCTIONALITY ]]--
