@@ -6,15 +6,18 @@ if (not game.IsLoaded(game)) then
     wait(1.5)
 end
 
+-- Notification library
 local Notification = loadstring(game:HttpGet("https://raw.githubusercontent.com/FD2Team/archive/main/notificationtest"))();
 local Notify = Notification.Notify;
 
 Notify({
         Description = "Happy Kill A Nigger Day!";
         Title = "HKAND";
-        Duration = 5;    
+        Duration = 5;
+        
 });
 
+-- Custom file functions checker checker
 local CustomFunctionSupport = isfile and isfolder and writefile and readfile and listfiles
 local FileSupport = isfile and isfolder and writefile and readfile
 
@@ -29,15 +32,22 @@ else
 end
 end
 
+-- [[ PREFIX AND OTHER STUFF. ]] -- 
 local opt = {
     prefix = readfile("HKAND-Admin/Prefix.txt", ';'),
     tupleSeparator = ',',
-    ui = {},
-    keybinds = {},
+    ui = {
+        
+    },
+    keybinds = {
+        
+    },
 }
 
+-- [[ Version ]] -- 
 currentversion = 1.16
 
+--[[ VARIABLES ]]--
 PlaceId, JobId = game.PlaceId, game.JobId
 local Players = game:GetService("Players")
 local UserInputService = game:GetService("UserInputService")
@@ -53,8 +63,12 @@ local Humanoid = Character and Character:FindFirstChildWhichIsA("Humanoid") or f
 local Character = game.Players.LocalPlayer.Character
 local Clicked = true
 _G.Spam = false
+--[[ FOR LOOP COMMANDS ]]--
 view = false
 local Admin = {}
+
+--[[ Some more variables ]]--
+
 local localPlayer = Players.LocalPlayer
 local LocalPlayer = Players.LocalPlayer
 local character = localPlayer.Character
@@ -70,6 +84,8 @@ end)
 
 local bringc = {}
 
+--[[ COMMAND FUNCTIONS ]]--
+commandcount = 0
 cmd = {}
 cmd.add = function(...)
     local vars = {...}
@@ -81,6 +97,7 @@ cmd.add = function(...)
             Aliases[cmdName:lower()] = {func, info}
         end
     end
+    commandcount = commandcount + 1
 end
 
 cmd.run = function(args)
@@ -96,6 +113,7 @@ cmd.run = function(args)
     end
 end
 
+--[[ LIBRARY FUNCTIONS ]]--
 lib = {}
 lib.wrap = function(f)
     return coroutine.wrap(f)()
@@ -111,16 +129,19 @@ local wait = function(int)
     until (tick() - t) >= int
     return (tick() - t), t
 end
+
     function r15(plr)
         if game.Players.LocalPlayer.Character:FindFirstChildOfClass('Humanoid').RigType == Enum.HumanoidRigType.R15 then
             return true
         end
     end
+    
     function getRoot(character)
     local root = game.Players.LocalPlayer.Character:FindFirstChild('HumanoidRootPart') or game.Players.LocalPlayer.Character:FindFirstChild('Torso') or game.Players.LocalPlayer.Character:FindFirstChild('UpperTorso')
     return root
 end
 
+-- [[ FUNCTION TO GET A PLAYER ]] --
 local getPlr = function(Name)
     if Name:lower() == "random" then
         return Players:GetPlayers()[math.random(#Players:GetPlayers())]
@@ -136,6 +157,7 @@ local getPlr = function(Name)
     end
 end
 
+-- [[ MORE VARIABLES ]] --
 plr = game.Players.LocalPlayer
 COREGUI = game:GetService("CoreGui")
 speaker = game.Players.LocalPlayer
@@ -262,6 +284,8 @@ end
 
 local lp = game:GetService("Players").LocalPlayer
 
+
+-- [[ LIB FUNCTIONS ]] --
 lib.lock = function(instance, par)
     locks[instance] = true
     instance.Parent = par or instance.Parent
@@ -270,7 +294,7 @@ end
 lock = lib.lock
 locks = {}
 
-lib.find = function(t, v)
+lib.find = function(t, v)	-- mmmmmm
     for i, e in pairs(t) do
         if i == v or e == v then
             return i
@@ -313,7 +337,7 @@ end
 
 local connections = {}
 
-lib.connect = function(name, connection)
+lib.connect = function(name, connection)	-- no :(
     connections[name .. tostring(math.random(1000000, 9999999))] = connection
     return connection
 end
@@ -326,13 +350,14 @@ lib.disconnect = function(name)
     end
 end
 
-m = math
+m = math			-- prepare for annoying and unnecessary tool grip math
 rad = m.rad
 clamp = m.clamp
 sin = m.sin
 tan = m.tan
 cos = m.cos
 
+--[[ PLAYER FUNCTIONS ]]--
 argument = {}
 argument.getPlayers = function(str)
     local playerNames, players = lib.parseText(str, opt.tupleSeparator), {}
@@ -376,6 +401,8 @@ argument.getPlayers = function(str)
     return players
 end
 
+--[[ COMMANDS ]]--
+
 cmd.add({"prefix"}, {"prefix <prefix>", "Changes the admin prefix"}, function(...)
 PrefixChange = (...)
 
@@ -403,6 +430,7 @@ Duration = 5;
 });
 end
 end)
+
 
 cmd.add({"saveprefix"}, {"saveprefix <prefix>", "Saves the prefix to what u want"}, function(...)
 PrefixChange = (...)
@@ -433,9 +461,31 @@ Duration = 5;
 end
 end)
 
+--[ UTILITY ]--
+
 cmd.add({"chatlogs", "clogs"}, {"chatlogs (clogs)", "Open the chat logs"}, function()
     gui.chatlogs()
 end)
+
+ cmd.add({"view", "view", "view"}, {"view <player>", "Watch the given player"}, function(...)
+ game.Workspace.CurrentCamera.CameraSubject = character:FindFirstChildWhichIsA("Humanoid")
+	 view = false
+ wait(0.3)
+	 view = true
+ Username = (...)
+ 
+ local target = getPlr(Username)
+ repeat wait()
+ workspace.CurrentCamera.CameraSubject = target.Character.Humanoid
+ until view == false
+ end)
+ 
+ cmd.add({"unview", "unview", "unview"}, {"unview", "Stop watching a player"}, function()
+ local character = game.Players.LocalPlayer.Character
+ view = false
+ wait(0.3)
+ game.Workspace.CurrentCamera.CameraSubject = character:FindFirstChildWhichIsA("Humanoid")
+ end)
 
  cmd.add({"fling"}, {"fling <player>", "Fling the given player"}, function(plr)
  local player = game.Players.LocalPlayer
@@ -665,16 +715,23 @@ cmd.add({"commands", "cmds"}, {"commands (cmds)", "Open the command list"}, func
     gui.commands()
 end)
 
-cmd.add({"lay"}, {"lay", "zzzzzzzz"}, function()
-    local Human = game.Players.LocalPlayer.Character and game.Players.LocalPlayer.Character.Humanoid
-    if not Human then
-        return
+cmd.add({"lay", "lie", "laydown"}, function()
+    local Character = game.Players.LocalPlayer.Character
+    if not Character then return end
+    local Human = Character:FindFirstChildOfClass("Humanoid")
+    local RootPart = Character:FindFirstChild("HumanoidRootPart")
+    if not Human or not RootPart then return end
+    Human:ChangeState(Enum.HumanoidStateType.Seated)
+    local startTime = os.clock()
+    while Human.Sit ~= true and (os.clock() - startTime) < 1 do
+        task.wait()
     end
-    Human.Sit = true
-    task.wait(.1)
-    Human.RootPart.CFrame = Human.RootPart.CFrame * CFrame.Angles(math.pi * .5, 0, 0)
-    for _, v in ipairs(Human:GetPlayingAnimationTracks()) do
-        v:Stop()
+    RootPart.CFrame = RootPart.CFrame * CFrame.Angles(math.pi * .5, 0, 0)
+    for _, track in ipairs(Human:GetPlayingAnimationTracks()) do
+        if track.Animation.AnimationId:match("sit") then
+            track:Stop()
+            break
+        end
     end
 end)
 
@@ -705,10 +762,12 @@ cmd.add({"goto", "to", "tp", "teleport"}, {"goto <player/X,Y,Z>", "Teleport to t
     getChar().HumanoidRootPart.CFrame = target.Character.Humanoid.RootPart.CFrame
 end)
 
+--[[ FUNCTIONALITY ]]--
 localPlayer.Chatted:Connect(function(str)
     lib.parseCommand(str)
 end)
 
+-- [[ Admin Player]]
 function AdminChatted(Message, Player)
     Player.Chatted:Connect(function(Message, Player)
         lib.parseCommand(Message, Player)
@@ -731,6 +790,8 @@ for i,v in pairs(Players:GetPlayers()) do
     end
 end
 
+
+--[[ GUI VARIABLES ]]--
 local ScreenGui
 if not RunService:IsStudio() then
     ScreenGui = game:GetObjects("rbxassetid://13510552309")[1]
@@ -806,6 +867,7 @@ if not RunService:IsStudio() then
     ScreenGui = newGui
 end
 
+--[[ GUI FUNCTIONS ]]--
 gui = {}
 gui.txtSize = function(ui, x, y)
     local textService = game:GetService("TextService")
@@ -1030,6 +1092,7 @@ gui.barDeselect = function(speed)
    end
 end
 
+-- [[ AUTOFILL SEARCHER ]] --
 gui.searchCommands = function()
    local str = (cmdInput.Text:gsub(";", "")):lower()
    local index = 0
@@ -1055,6 +1118,9 @@ gui.searchCommands = function()
    end
 end
 
+--[[ GUI FUNCTIONALITY ]]--
+
+-- [[ OPEN THE COMMAND BAR ]] -- 
 mouse.KeyDown:Connect(function(k)
     if k:lower() == opt.prefix then
         gui.barSelect()
@@ -1065,6 +1131,7 @@ mouse.KeyDown:Connect(function(k)
     end
 end)
 
+-- [[ CLOSE THE COMMAND BAR ]] -- 
 cmdInput.FocusLost:Connect(function(enterPressed)
     if enterPressed then
         wrap(function()
@@ -1084,12 +1151,16 @@ cmdBar.Visible = true
 gui.menuify(chatLogsFrame)
 gui.menuify(commandsFrame)
 
+-- [[ GUI RESIZE FUNCTION ]] -- 
+
+-- table.find({Enum.Platform.IOS, Enum.Platform.Android}, game:GetService("UserInputService"):GetPlatform()) | searches if the player is on mobile.
 if table.find({Enum.Platform.IOS, Enum.Platform.Android}, game:GetService("UserInputService"):GetPlatform()) then 
 else
 gui.resizeable(chatLogsFrame, Vector2.new(173,58), Vector2.new(1000,1000))
 gui.resizeable(commandsFrame, Vector2.new(184,84), Vector2.new(1000,1000))
 end
 
+-- [[ CMDS COMMANDS SEARCH FUNCTION ]] --
 commandsFilter.Changed:Connect(function(p)
     if p ~= "Text" then return end
     for i, v in pairs(commandsList:GetChildren()) do
@@ -1103,6 +1174,7 @@ commandsFilter.Changed:Connect(function(p)
     end
 end)
 
+-- [[ CHAT TO USE COMMANDS ]] --
 local function bindToChat(plr, msg)
     local chatMsg = chatExample:Clone()
     for i, v in pairs(chatLogs:GetChildren()) do
@@ -1147,6 +1219,7 @@ end
 
 wait(0.2)
 
+-- [[ COMMAND BAR BUTTON ]] --
 local ScreenGui = Instance.new("ScreenGui")
 local TextClickButton = Instance.new("TextButton")
 local UICorner = Instance.new("UICorner")
