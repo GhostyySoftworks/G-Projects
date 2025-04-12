@@ -773,9 +773,9 @@ function library:Introduction()
     DD.BackgroundTransparency = 1.000
     DD.Size = UDim2.new(0, 80, 0, 21)
     DD.Font = Enum.Font.Code
-    DD.Text = "powered by DDSoftWorks"
+    DD.Text = "powered by DD SoftWorks"
     DD.TextColor3 = Color3.fromRGB(178, 34, 34)
-    DD.TextSize = 10.000
+    DD.TextSize = 9.000
     DD.TextTransparency = 1
     
     text.Name = "text"
