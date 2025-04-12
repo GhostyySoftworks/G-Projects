@@ -2800,11 +2800,11 @@ function library:Init(key)
                 end)
 
                 textboxFrame.MouseEnter:Connect(function()
-                    TweenService:Create(textboxLabel, TweenTable["TextBox"], {TextColor3 = Color3.fromRGB(210, 210, 210)}):Play()
+                    TweenService:Create(textboxLabel, TweenTable["TextBox"], {TextColor3 = Color3.fromRGB(178, 34, 34)}):Play()
                 end)
 
                 textboxFrame.MouseLeave:Connect(function()
-                    TweenService:Create(textboxLabel, TweenTable["TextBox"], {TextColor3 = Color3.fromRGB(190, 190, 190)}):Play()
+                    TweenService:Create(textboxLabel, TweenTable["TextBox"], {TextColor3 = Color3.fromRGB(178, 34, 34)}):Play()
                 end)
 
                 textBoxValues.Focused:Connect(function()
@@ -2916,7 +2916,7 @@ function library:Init(key)
             selectorLabel.Size = UDim2.new(0, 396, 0, 24)
             selectorLabel.Font = Enum.Font.Code
             selectorLabel.Text = text
-            selectorLabel.TextColor3 = Color3.fromRGB(190, 190, 190)
+            selectorLabel.TextColor3 = Color3.fromRGB(178, 34, 34)
             selectorLabel.TextSize = 14.000
             selectorLabel.TextWrapped = true
             selectorLabel.TextXAlignment = Enum.TextXAlignment.Left
@@ -2973,7 +2973,7 @@ function library:Init(key)
             selectorText.Size = UDim2.new(0, 394, 0, 20)
             selectorText.Font = Enum.Font.Code
             selectorText.LineHeight = 1.150
-            selectorText.TextColor3 = Color3.fromRGB(160, 160, 160)
+            selectorText.TextColor3 = Color3.fromRGB(178, 34, 34)
             selectorText.TextSize = 14.000
             selectorText.TextXAlignment = Enum.TextXAlignment.Left
             selectorText.Text = default
@@ -2996,7 +2996,7 @@ function library:Init(key)
             selectorTwoLayout.HorizontalAlignment = Enum.HorizontalAlignment.Center
             selectorTwoLayout.SortOrder = Enum.SortOrder.LayoutOrder
             
-            selectorTwoGradient.Color = ColorSequence.new{ColorSequenceKeypoint.new(0.00, Color3.fromRGB(34, 34, 34)), ColorSequenceKeypoint.new(1.00, Color3.fromRGB(28, 28, 28))}
+            selectorTwoGradient.Color = ColorSequence.new{ColorSequenceKeypoint.new(0.00, Color3.fromRGB(15, 15, 15)), ColorSequenceKeypoint.new(1.00, Color3.fromRGB(15, 15, 15))}
             selectorTwoGradient.Rotation = 90
             selectorTwoGradient.Name = "selectorTwoGradient"
             selectorTwoGradient.Parent = selectorTwo
@@ -3044,7 +3044,7 @@ function library:Init(key)
                 optionButton.AutoButtonColor = false
                 optionButton.Font = Enum.Font.Code
                 optionButton.Text = v
-                optionButton.TextColor3 = Color3.fromRGB(160, 160, 160)
+                optionButton.TextColor3 = Color3.fromRGB(178, 34, 34)
                 optionButton.TextSize = 14.000
                 if optionButton.Text == default then
                     optionButton.TextColor3 = Color3.fromRGB(178, 34, 34)
@@ -3054,7 +3054,7 @@ function library:Init(key)
                 optionButton.MouseButton1Click:Connect(function()
                     for z,x in next, selectorContainer:GetChildren() do
                         if x:IsA("TextButton") then
-                            TweenService:Create(x, TweenTable["selector"], {TextColor3 = Color3.fromRGB(160, 160, 160)}):Play()
+                            TweenService:Create(x, TweenTable["selector"], {TextColor3 = Color3.fromRGB(178, 34, 34)}):Play()
                         end
                     end
                     TweenService:Create(optionButton, TweenTable["selector"], {TextColor3 = Color3.fromRGB(178, 34, 34)}):Play()
@@ -3090,7 +3090,7 @@ function library:Init(key)
                 optionButton.AutoButtonColor = false
                 optionButton.Font = Enum.Font.Code
                 optionButton.Text = new
-                optionButton.TextColor3 = Color3.fromRGB(140, 140, 140)
+                optionButton.TextColor3 = Color3.fromRGB(178, 34, 34)
                 optionButton.TextSize = 14.000
                 if optionButton.Text == default then
                     optionButton.TextColor3 = Color3.fromRGB(178, 34, 34)
@@ -3100,7 +3100,7 @@ function library:Init(key)
                 optionButton.MouseButton1Click:Connect(function()
                     for z,x in next, selectorContainer:GetChildren() do
                         if x:IsA("TextButton") then
-                            TweenService:Create(x, TweenTable["selector"], {TextColor3 = Color3.fromRGB(140, 140, 140)}):Play()
+                            TweenService:Create(x, TweenTable["selector"], {TextColor3 = Color3.fromRGB(178, 34, 34)}):Play()
                         end
                     end
                     TweenService:Create(optionButton, TweenTable["selector"], {TextColor3 = Color3.fromRGB(178, 34, 34)}):Play()
@@ -3253,7 +3253,7 @@ function library:Init(key)
             sliderButtonCorner_2.Name = "sliderButtonCorner"
             sliderButtonCorner_2.Parent = sliderBackground
 
-            sliderBackgroundGradient.Color = ColorSequence.new{ColorSequenceKeypoint.new(0.00, Color3.fromRGB(34, 34, 34)), ColorSequenceKeypoint.new(1.00, Color3.fromRGB(28, 28, 28))}
+            sliderBackgroundGradient.Color = ColorSequence.new{ColorSequenceKeypoint.new(0.00, Color3.fromRGB(15, 15, 15)), ColorSequenceKeypoint.new(1.00, Color3.fromRGB(15, 15, 15))}
             sliderBackgroundGradient.Rotation = 90
             sliderBackgroundGradient.Name = "sliderBackgroundGradient"
             sliderBackgroundGradient.Parent = sliderBackground
@@ -3274,7 +3274,7 @@ function library:Init(key)
             sliderIndicatorStraint.Parent = sliderIndicator
             sliderIndicatorStraint.MaxSize = Vector2.new(392, 12)
 
-            sliderIndicatorGradient.Color = ColorSequence.new{ColorSequenceKeypoint.new(0.00, Color3.fromRGB(178, 34, 34)), ColorSequenceKeypoint.new(1.00, Color3.fromRGB(128, 94, 208))}
+            sliderIndicatorGradient.Color = ColorSequence.new{ColorSequenceKeypoint.new(0.00, Color3.fromRGB(178, 34, 34)), ColorSequenceKeypoint.new(1.00, Color3.fromRGB(178, 34, 34))}
             sliderIndicatorGradient.Rotation = 90
             sliderIndicatorGradient.Name = "sliderIndicatorGradient"
             sliderIndicatorGradient.Parent = sliderIndicator
@@ -3303,7 +3303,7 @@ function library:Init(key)
             sliderLabel.Size = UDim2.new(0, 396, 0, 24)
             sliderLabel.Font = Enum.Font.Code
             sliderLabel.Text = text
-            sliderLabel.TextColor3 = Color3.fromRGB(190, 190, 190)
+            sliderLabel.TextColor3 = Color3.fromRGB(178, 34, 34)
             sliderLabel.TextSize = 14.000
             sliderLabel.TextWrapped = true
             sliderLabel.TextXAlignment = Enum.TextXAlignment.Left
@@ -3324,7 +3324,7 @@ function library:Init(key)
             sliderValue.Size = UDim2.new(0, 169, 0, 15)
             sliderValue.Font = Enum.Font.Code
             sliderValue.Text = values.default
-            sliderValue.TextColor3 = Color3.fromRGB(140, 140, 140)
+            sliderValue.TextColor3 = Color3.fromRGB(178, 34, 34)
             sliderValue.TextSize = 14.000
             sliderValue.TextXAlignment = Enum.TextXAlignment.Right
 
@@ -3511,7 +3511,7 @@ function library:Init(key)
 
             for i,v in pairs(tabButtons:GetChildren()) do
                 if v:IsA("TextButton") then
-                    TweenService:Create(v, TweenTable["tab_text_colour"], {TextColor3 = Color3.fromRGB(170, 170, 170)}):Play()
+                    TweenService:Create(v, TweenTable["tab_text_colour"], {TextColor3 = Color3.fromRGB(178, 34, 34)}):Play()
                 end
             end
             TweenService:Create(tabButton, TweenTable["tab_text_colour"], {TextColor3 = Color3.fromRGB(178, 34, 34)}):Play()
