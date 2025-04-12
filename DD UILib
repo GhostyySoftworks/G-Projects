@@ -284,7 +284,7 @@ function library:Watermark(text)
     waterText.Size = UDim2.new(0, 0, 0, 24)
     waterText.Font = Enum.Font.Code
     waterText.Text = text
-    waterText.TextColor3 = Color3.fromRGB(198, 198, 198)
+    waterText.TextColor3 = Color3.fromRGB(178, 34, 34)
     waterText.TextTransparency = 1
     waterText.TextSize = 14.000
     waterText.RichText = true
@@ -389,7 +389,7 @@ function library:Watermark(text)
         waterText.Size = UDim2.new(0, 0, 0, 24)
         waterText.Font = Enum.Font.Code
         waterText.Text = text
-        waterText.TextColor3 = Color3.fromRGB(198, 198, 198)
+        waterText.TextColor3 = Color3.fromRGB(178, 34, 34)
         waterText.TextTransparency = 1
         waterText.TextSize = 14.000
         waterText.RichText = true
@@ -774,7 +774,7 @@ function library:Introduction()
     DD.Size = UDim2.new(0, 80, 0, 21)
     DD.Font = Enum.Font.Code
     DD.Text = "powered by DD"
-    DD.TextColor3 = Color3.fromRGB(124, 124, 124)
+    DD.TextColor3 = Color3.fromRGB(178, 34, 34)
     DD.TextSize = 10.000
     DD.TextTransparency = 1
     
@@ -786,7 +786,7 @@ function library:Introduction()
     text.Size = UDim2.new(0, 26, 0, 21)
     text.Font = Enum.Font.Code
     text.Text = "hash"
-    text.TextColor3 = Color3.fromRGB(124, 124, 124)
+    text.TextColor3 = Color3.fromRGB(178, 34, 34)
     text.TextSize = 10.000
     text.TextTransparency = 1
     text.RichText = true
@@ -916,7 +916,7 @@ function library:Init(key)
     headerLabel.Size = UDim2.new(0, 592, 0, 38)
     headerLabel.Font = Enum.Font.Code
     headerLabel.Text = title
-    headerLabel.TextColor3 = Color3.fromRGB(198, 198, 198)
+    headerLabel.TextColor3 = Color3.fromRGB(178, 34, 34)
     headerLabel.TextSize = 16.000
     headerLabel.TextXAlignment = Enum.TextXAlignment.Left
     headerLabel.RichText = true
@@ -1037,7 +1037,7 @@ function library:Init(key)
         tabButton.AutoButtonColor = false
         tabButton.Font = Enum.Font.Code
         tabButton.Text = title
-        tabButton.TextColor3 = Color3.fromRGB(170, 170, 170)
+        tabButton.TextColor3 = Color3.fromRGB(178, 34, 34)
         tabButton.TextSize = 15.000
         tabButton.RichText = true
 
@@ -1085,7 +1085,7 @@ function library:Init(key)
 
             for i,v in pairs(tabButtons:GetChildren()) do
                 if v:IsA("TextButton") then
-                    TweenService:Create(v, TweenTable["tab_text_colour"], {TextColor3 = Color3.fromRGB(170, 170, 170)}):Play()
+                    TweenService:Create(v, TweenTable["tab_text_colour"], {TextColor3 = Color3.fromRGB(178, 34, 34)}):Play()
                 end
             end
             TweenService:Create(tabButton, TweenTable["tab_text_colour"], {TextColor3 = Color3.fromRGB(178, 34, 34)}):Play()
@@ -1657,7 +1657,7 @@ function library:Init(key)
             toggleLabel.Size = UDim2.new(0, NewToggleLabelSize.X + 6, 0, 22)
 
             toggleButton.MouseEnter:Connect(function()
-                TweenService:Create(toggleLabel, TweenTable["hover"], {TextColor3 = Color3.fromRGB(210, 210, 210)}):Play()
+                TweenService:Create(toggleLabel, TweenTable["hover"], {TextColor3 = Color3.fromRGB(178, 34, 34)}):Play()
             end)
             toggleButton.MouseLeave:Connect(function()
                 TweenService:Create(toggleLabel, TweenTable["hover"], {TextColor3 = Color3.fromRGB(178, 34, 34)}):Play()
