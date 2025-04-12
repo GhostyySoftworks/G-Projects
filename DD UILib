@@ -564,13 +564,13 @@ function library:InitNotifications(text, duration, callback)
         if type == "notification" then
             bar.BackgroundColor3 = Color3.fromRGB(178, 34, 34)
         elseif type == "alert" then
-            bar.BackgroundColor3 = Color3.fromRGB(255, 246, 112)
+            bar.BackgroundColor3 = Color3.fromRGB(178, 34, 34)
         elseif type == "error" then
-            bar.BackgroundColor3 = Color3.fromRGB(255, 74, 77)
+            bar.BackgroundColor3 = Color3.fromRGB(178, 34, 34)
         elseif type == "success" then
-            bar.BackgroundColor3 = Color3.fromRGB(131, 255, 103)
+            bar.BackgroundColor3 = Color3.fromRGB(178, 34, 34)
         elseif type == "information" then
-            bar.BackgroundColor3 = Color3.fromRGB(126, 117, 255)
+            bar.BackgroundColor3 = Color3.fromRGB(178, 34, 34)
         end
     
         barCorner.CornerRadius = UDim.new(0, 2)
@@ -581,7 +581,7 @@ function library:InitNotifications(text, duration, callback)
         barLayout.Parent = barFolder
         barLayout.SortOrder = Enum.SortOrder.LayoutOrder
     
-        backgroundGradient.Color = ColorSequence.new{ColorSequenceKeypoint.new(0.00, Color3.fromRGB(34, 34, 34)), ColorSequenceKeypoint.new(1.00, Color3.fromRGB(28, 28, 28))}
+        backgroundGradient.Color = ColorSequence.new{ColorSequenceKeypoint.new(0.00, Color3.fromRGB(15, 15, 15)), ColorSequenceKeypoint.new(1.00, Color3.fromRGB(15, 15, 15))}
         backgroundGradient.Rotation = 90
         backgroundGradient.Name = "backgroundGradient"
         backgroundGradient.Parent = background
@@ -597,7 +597,7 @@ function library:InitNotifications(text, duration, callback)
         notifText.Size = UDim2.new(0, 230, 0, 26)
         notifText.Font = Enum.Font.Code
         notifText.Text = text
-        notifText.TextColor3 = Color3.fromRGB(198, 198, 198)
+        notifText.TextColor3 = Color3.fromRGB(178, 34, 34)
         notifText.TextSize = 14.000
         notifText.TextTransparency = 1.000
         notifText.TextXAlignment = Enum.TextXAlignment.Left
@@ -1746,7 +1746,7 @@ function library:Init(key)
 
                 keybind.Name = "keybind"
                 keybind.Parent = Extras
-                keybind.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
+                keybind.BackgroundColor3 = Color3.fromRGB(15, 15, 15)
                 keybind.Position = UDim2.new(0.780303001, 0, 0, 0)
                 keybind.Size = UDim2.new(0, 87, 0, 22)
                 keybind.AutoButtonColor = false
@@ -1767,7 +1767,7 @@ function library:Init(key)
                 keybindBackground.Position = UDim2.new(0.5, 0, 0.5, 0)
                 keybindBackground.Size = UDim2.new(0, 85, 0, 20)
     
-                keybindGradient.Color = ColorSequence.new{ColorSequenceKeypoint.new(0.00, Color3.fromRGB(34, 34, 34)), ColorSequenceKeypoint.new(1.00, Color3.fromRGB(28, 28, 28))}
+                keybindGradient.Color = ColorSequence.new{ColorSequenceKeypoint.new(0.00, Color3.fromRGB(15, 15, 15)), ColorSequenceKeypoint.new(1.00, Color3.fromRGB(15, 15, 15))}
                 keybindGradient.Rotation = 90
                 keybindGradient.Name = "keybindGradient"
                 keybindGradient.Parent = keybindBackground
@@ -1786,7 +1786,7 @@ function library:Init(key)
                 keybindButtonLabel.Size = UDim2.new(0, 85, 0, 20)
                 keybindButtonLabel.Font = Enum.Font.Code
                 keybindButtonLabel.Text = ". . ."
-                keybindButtonLabel.TextColor3 = Color3.fromRGB(190, 190, 190)
+                keybindButtonLabel.TextColor3 = Color3.fromRGB(178, 34, 34)
                 keybindButtonLabel.TextSize = 14.000
                 keybindButtonLabel.RichText = true
     
@@ -1946,7 +1946,7 @@ function library:Init(key)
             keybindLabel.Size = UDim2.new(0, 396, 0, 24)
             keybindLabel.Font = Enum.Font.Code
             keybindLabel.Text = text
-            keybindLabel.TextColor3 = Color3.fromRGB(190, 190, 190)
+            keybindLabel.TextColor3 = Color3.fromRGB(178, 34, 34)
             keybindLabel.TextSize = 14.000
             keybindLabel.TextWrapped = true
             keybindLabel.TextXAlignment = Enum.TextXAlignment.Left
@@ -1993,7 +1993,7 @@ function library:Init(key)
             keybindBackground.Position = UDim2.new(0.5, 0, 0.5, 0)
             keybindBackground.Size = UDim2.new(0, 85, 0, 20)
 
-            keybindGradient.Color = ColorSequence.new{ColorSequenceKeypoint.new(0.00, Color3.fromRGB(34, 34, 34)), ColorSequenceKeypoint.new(1.00, Color3.fromRGB(28, 28, 28))}
+            keybindGradient.Color = ColorSequence.new{ColorSequenceKeypoint.new(0.00, Color3.fromRGB(15, 15, 15)), ColorSequenceKeypoint.new(1.00, Color3.fromRGB(15, 15, 15))}
             keybindGradient.Rotation = 90
             keybindGradient.Name = "keybindGradient"
             keybindGradient.Parent = keybindBackground
@@ -2012,7 +2012,7 @@ function library:Init(key)
             keybindButtonLabel.Size = UDim2.new(0, 85, 0, 20)
             keybindButtonLabel.Font = Enum.Font.Code
             keybindButtonLabel.Text = ". . ."
-            keybindButtonLabel.TextColor3 = Color3.fromRGB(190, 190, 190)
+            keybindButtonLabel.TextColor3 = Color3.fromRGB(178, 34, 34)
             keybindButtonLabel.TextSize = 14.000
             keybindButtonLabel.RichText = true
 
@@ -2196,7 +2196,7 @@ function library:Init(key)
                 textboxTwoStraint.Parent = textboxTwo
                 textboxTwoStraint.MinSize = Vector2.new(48, 20)
     
-                textboxTwoGradient.Color = ColorSequence.new{ColorSequenceKeypoint.new(0.00, Color3.fromRGB(34, 34, 34)), ColorSequenceKeypoint.new(1.00, Color3.fromRGB(28, 28, 28))}
+                textboxTwoGradient.Color = ColorSequence.new{ColorSequenceKeypoint.new(0.00, Color3.fromRGB(15, 15, 15)), ColorSequenceKeypoint.new(1.00, Color3.fromRGB(15, 15, 15))}
                 textboxTwoGradient.Rotation = 90
                 textboxTwoGradient.Name = "textboxTwoGradient"
                 textboxTwoGradient.Parent = textboxTwo
@@ -2212,10 +2212,10 @@ function library:Init(key)
                 textBoxValues.Position = UDim2.new(0.664141417, 0, 0.0416666679, 0)
                 textBoxValues.Size = UDim2.new(0, 131, 0, 20)
                 textBoxValues.Font = Enum.Font.Code
-                textBoxValues.PlaceholderColor3 = Color3.fromRGB(140, 140, 140)
+                textBoxValues.PlaceholderColor3 = Color3.fromRGB(178, 34, 34)
                 textBoxValues.PlaceholderText = place
                 textBoxValues.Text = ""
-                textBoxValues.TextColor3 = Color3.fromRGB(190, 190, 190)
+                textBoxValues.TextColor3 = Color3.fromRGB(178, 34, 34)
                 textBoxValues.TextSize = 14.000
                 textBoxValues.ClearTextOnFocus = autoclear
                 textBoxValues.ClipsDescendants = true
@@ -2245,7 +2245,7 @@ function library:Init(key)
                 textboxLabel.Size = UDim2.new(0, 396, 0, 24)
                 textboxLabel.Font = Enum.Font.Code
                 textboxLabel.Text = text
-                textboxLabel.TextColor3 = Color3.fromRGB(190, 190, 190)
+                textboxLabel.TextColor3 = Color3.fromRGB(178, 34, 34)
                 textboxLabel.TextSize = 14.000
                 textboxLabel.TextWrapped = true
                 textboxLabel.TextXAlignment = Enum.TextXAlignment.Left
@@ -2341,11 +2341,11 @@ function library:Init(key)
                 end)
 
                 textboxFrame.MouseEnter:Connect(function()
-                    TweenService:Create(textboxLabel, TweenTable["TextBox"], {TextColor3 = Color3.fromRGB(210, 210, 210)}):Play()
+                    TweenService:Create(textboxLabel, TweenTable["TextBox"], {TextColor3 = Color3.fromRGB(178, 34, 34)}):Play()
                 end)
 
                 textboxFrame.MouseLeave:Connect(function()
-                    TweenService:Create(textboxLabel, TweenTable["TextBox"], {TextColor3 = Color3.fromRGB(190, 190, 190)}):Play()
+                    TweenService:Create(textboxLabel, TweenTable["TextBox"], {TextColor3 = Color3.fromRGB(178, 34, 34)}):Play()
                 end)
 
                 textBoxValues.Focused:Connect(function()
@@ -2481,7 +2481,7 @@ function library:Init(key)
                 textboxTwoStraint.MaxSize = Vector2.new(394, 20)
                 textboxTwoStraint.MinSize = Vector2.new(394, 20)
 
-                textboxTwoGradient.Color = ColorSequence.new{ColorSequenceKeypoint.new(0.00, Color3.fromRGB(34, 34, 34)), ColorSequenceKeypoint.new(1.00, Color3.fromRGB(28, 28, 28))}
+                textboxTwoGradient.Color = ColorSequence.new{ColorSequenceKeypoint.new(0.00, Color3.fromRGB(15, 15, 15)), ColorSequenceKeypoint.new(1.00, Color3.fromRGB(15, 15, 15))}
                 textboxTwoGradient.Rotation = 90
                 textboxTwoGradient.Name = "textboxTwoGradient"
                 textboxTwoGradient.Parent = textboxTwo
@@ -2498,10 +2498,10 @@ function library:Init(key)
                 textBoxValues.Position = UDim2.new(-0.587786257, 0, 0, 0)
                 textBoxValues.Size = UDim2.new(0, 394, 0, 20)
                 textBoxValues.Font = Enum.Font.Code
-                textBoxValues.PlaceholderColor3 = Color3.fromRGB(140, 140, 140)
+                textBoxValues.PlaceholderColor3 = Color3.fromRGB(178, 34, 34)
                 textBoxValues.PlaceholderText = place
                 textBoxValues.Text = default
-                textBoxValues.TextColor3 = Color3.fromRGB(190, 190, 190)
+                textBoxValues.TextColor3 = Color3.fromRGB(178, 34, 34)
                 textBoxValues.TextSize = 14.000
                 textBoxValues.TextXAlignment = Enum.TextXAlignment.Left
 
@@ -2530,7 +2530,7 @@ function library:Init(key)
                 textboxLabel.Size = UDim2.new(0, 396, 0, 24)
                 textboxLabel.Font = Enum.Font.Code
                 textboxLabel.Text = text
-                textboxLabel.TextColor3 = Color3.fromRGB(190, 190, 190)
+                textboxLabel.TextColor3 = Color3.fromRGB(178, 34, 34)
                 textboxLabel.TextSize = 14.000
                 textboxLabel.TextWrapped = true
                 textboxLabel.TextXAlignment = Enum.TextXAlignment.Left
@@ -2571,11 +2571,11 @@ function library:Init(key)
                 end)
 
                 textboxFrame.MouseEnter:Connect(function()
-                    TweenService:Create(textboxLabel, TweenTable["TextBox"], {TextColor3 = Color3.fromRGB(210, 210, 210)}):Play()
+                    TweenService:Create(textboxLabel, TweenTable["TextBox"], {TextColor3 = Color3.fromRGB(178, 34, 34)}):Play()
                 end)
 
                 textboxFrame.MouseLeave:Connect(function()
-                    TweenService:Create(textboxLabel, TweenTable["TextBox"], {TextColor3 = Color3.fromRGB(190, 190, 190)}):Play()
+                    TweenService:Create(textboxLabel, TweenTable["TextBox"], {TextColor3 = Color3.fromRGB(178, 34, 34)}):Play()
                 end)
 
                 textBoxValues.Focused:Connect(function()
@@ -2710,7 +2710,7 @@ function library:Init(key)
                 textboxTwoStraint.MaxSize = Vector2.new(394, 116)
                 textboxTwoStraint.MinSize = Vector2.new(394, 116)
 
-                textboxTwoGradient.Color = ColorSequence.new{ColorSequenceKeypoint.new(0.00, Color3.fromRGB(34, 34, 34)), ColorSequenceKeypoint.new(1.00, Color3.fromRGB(28, 28, 28))}
+                textboxTwoGradient.Color = ColorSequence.new{ColorSequenceKeypoint.new(0.00, Color3.fromRGB(15, 15, 15)), ColorSequenceKeypoint.new(1.00, Color3.fromRGB(15, 15, 15))}
                 textboxTwoGradient.Rotation = 90
                 textboxTwoGradient.Name = "textboxTwoGradient"
                 textboxTwoGradient.Parent = textboxTwo
@@ -2726,10 +2726,10 @@ function library:Init(key)
                 textBoxValues.ClipsDescendants = true
                 textBoxValues.Size = UDim2.new(0, 394, 0, 114)
                 textBoxValues.Font = Enum.Font.Code
-                textBoxValues.PlaceholderColor3 = Color3.fromRGB(140, 140, 140)
+                textBoxValues.PlaceholderColor3 = Color3.fromRGB(178, 34, 34)
                 textBoxValues.PlaceholderText = place
                 textBoxValues.Text = default
-                textBoxValues.TextColor3 = Color3.fromRGB(190, 190, 190)
+                textBoxValues.TextColor3 = Color3.fromRGB(178, 34, 34)
                 textBoxValues.TextSize = 14.000
                 textBoxValues.TextWrapped = true
                 textBoxValues.TextXAlignment = Enum.TextXAlignment.Left
@@ -2760,7 +2760,7 @@ function library:Init(key)
                 textboxLabel.Size = UDim2.new(0, 396, 0, 24)
                 textboxLabel.Font = Enum.Font.Code
                 textboxLabel.Text = text
-                textboxLabel.TextColor3 = Color3.fromRGB(190, 190, 190)
+                textboxLabel.TextColor3 = Color3.fromRGB(178, 34, 34)
                 textboxLabel.TextSize = 14.000
                 textboxLabel.TextWrapped = true
                 textboxLabel.TextXAlignment = Enum.TextXAlignment.Left
