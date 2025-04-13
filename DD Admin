@@ -109,7 +109,7 @@ end)
 
 xpcall(function()
 	if Checks.File then
-		local Folders = { "DD", "DD/Data", "DD/Plugins", "DD/Logs" }
+		local Folders = { "Cmd", "Cmd/Data", "Cmd/Plugins", "Cmd/Logs" }
 
 		for Index, Check in next, Folders do
 			if not isfolder(Check) then
@@ -801,13 +801,17 @@ Methods.Destroy = function(Part)
 end
 
 local Modules = {
+	Freecam = nil,
 	Glass = nil,
+	Bhop = nil,
 	ColorPicker = nil,
 }
 
 -- Command [MODULES]
 Spawn(function()
+	Modules.Freecam = loadstring(game:HttpGet("https://raw.githubusercontent.com/lxte/cmd/main/assets/freecam"))();
 	Modules.ColorPicker = loadstring(game:HttpGet("https://raw.githubusercontent.com/lxte/cmd/main/assets/colorpicker"))();
+	Modules.Bhop = loadstring(game:HttpGet("https://raw.githubusercontent.com/lxte/cmd/main/assets/bhop"))();
 	Modules.Blur = loadstring(game:HttpGet("https://raw.githubusercontent.com/lxte/cmd/main/assets/blur"))();
 end)
 
@@ -815,6 +819,41 @@ local PromptChangeRigType = function(RigType)
 	Services.AvatarEditor:PromptSaveAvatar(GetHumanoid(Local.Character).HumanoidDescription,Enum.HumanoidRigType[RigType])
 	Services.AvatarEditor.PromptSaveAvatarCompleted:Wait()
 	Command.Parse("respawn")
+end
+
+local Walkfling = function(Power, Distance, Bool)
+	Distance = tonumber(Distance) or 5
+	SetEnv("WalkFling", Bool);
+
+	Spawn(function()
+		local HumanoidRootPart, Character, Velocity, Movel = GetRoot(Local.Character), Local.Character, nil, 0.1
+		repeat
+			Wait()
+			if Env().WalkFling then
+				while Env().WalkFling and
+					not (Character and Character.Parent and HumanoidRootPart and HumanoidRootPart.Parent) do
+					Services.Run.Heartbeat:Wait()
+					local HumanoidRootPart, Character = GetRoot(Local.Character), Local.Character
+				end
+
+				if Env().WalkFling then
+					if Unpack(GetPlayer("closest")):DistanceFromCharacter(GetRoot(Local.Character).Position) <= Distance then
+						Velocity = HumanoidRootPart.Velocity
+						HumanoidRootPart.Velocity = Velocity * tonumber(Power) + Vector3.new(0, tonumber(Power), 0)
+						Services.Run.RenderStepped:Wait()
+						if Character and Character.Parent and HumanoidRootPart and HumanoidRootPart.Parent then
+							HumanoidRootPart.Velocity = Velocity
+						end
+						Services.Run.Stepped:Wait()
+						if Character and Character.Parent and HumanoidRootPart and HumanoidRootPart.Parent then
+							HumanoidRootPart.Velocity = Velocity + Vector3.new(0, Movel, 0)
+							Movel = Movel * -1
+						end
+					end
+				end
+			end
+		until not Env().WalkFling
+	end)
 end
 
 local Fling = function(Target)
@@ -2424,7 +2463,7 @@ Command.Add({
 
 			-- Information
 			
-			Library.new("Section", { Title = "DD", Parent = Information })
+			Library.new("Section", { Title = "Cmd", Parent = Information })
 
 			Library.new("Label", { Title = "Commands loaded",
 				Description = tostring(Command.Count),
@@ -2972,6 +3011,7 @@ Command.Add({
 		end
 	end,
 })
+
 Command.Add({
 	Aliases = { "clogs" },
 	Description = "Shows All Logged Chats (Private | Public | Phone Logs Ect.)",
@@ -3235,38 +3275,6 @@ Command.Add({
 
 		if Part then
 			Part:Destroy()
-		end
-	end,
-})
-
-Command.Add({
-	Aliases = { "freecam" },
-	Description = "Spectate the game freely",
-	Arguments = {},
-	Plugin = false,
-	Task = function(Speed)
-		local Free = Modules.Freecam
-
-		if typeof(Free) == "table" then
-			Modules.Freecam:EnableFreecam()
-		else
-			Utils.Notify("Error", "Error!", "Freecam failed to load", 5)
-		end
-	end,
-})
-
-Command.Add({
-	Aliases = { "unfreecam" },
-	Description = "Stops free camming",
-	Arguments = {},
-	Plugin = false,
-	Task = function(Speed)
-		local Free = Modules.Freecam
-
-		if typeof(Free) == "table" then
-			Modules.Freecam:StopFreecam()
-		else
-			Utils.Notify("Error", "Error!", "Freecam failed to load", 5)
 		end
 	end,
 })
