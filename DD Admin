@@ -3374,49 +3374,6 @@ Command.Add({
 })
 
 Command.Add({
-	Aliases = { "stare" },
-	Description = "Stares at your target",
-	Arguments = {
-		{ Name = "Target", Type = "Player" };
-	},
-	Plugin = false,
-	Task = function(Player)
-		local Targets = GetPlayer(Player)
-		Env().Stand = true
-
-		for Index, Target in next, Targets do
-			local Char = Character(Target)
-			local Root = GetRoot(Char)
-
-			if Target ~= Local.Player and Char then
-				Utils.Notify("Success", "Success!", Format("Staring at %s", Target.Name))
-				Stare = Connect(Services.Run.Stepped, function()
-					if Local.Character and Character then
-						local Pos = Vector3.new(Root.Position.X, Local.Character.PrimaryPart.Position.Y, Root.Position.Z) 
-						local New = CFrame.new(Local.Character.PrimaryPart.Position, Pos)
-						Local.Character:SetPrimaryPartCFrame(New)
-					end
-				end)
-
-				break
-			end
-		end
-	end,
-})
-
-Command.Add({
-	Aliases = { "unstare" },
-	Description = "Stops staring",
-	Arguments = {},
-	Plugin = false,
-	Task = function()
-		if Stare then
-			Stare:Disconnect()
-		end
-	end,
-})
-
-Command.Add({
 	Aliases = { "trip" },
 	Description = "Makes your character trip",
 	Arguments = {},
