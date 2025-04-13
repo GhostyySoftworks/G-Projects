@@ -2972,14 +2972,13 @@ Command.Add({
 		end
 	end,
 })
-
 Command.Add({
 	Aliases = { "clogs" },
-	Description = "Shows All Logged Chats (Private | Public | Phone Logs etc.)",
+	Description = "Shows All Logged Chats (Private | Public | Phone Logs Ect.)",
 	Arguments = {},
 	Plugin = false,
 	Task = function()
-		if not Screen:FindFirstChild("ChatLogs") then
+		if not Screen:FindFirstChild("Chat Logs") then
 			local Order = 99999999
 
 			local Main = Tab.new({
@@ -2997,48 +2996,24 @@ Command.Add({
 			local MainTab = Tabs.Main.Scroll
 
 			Library.new("Section", { Title = "Chat Logs", Parent = MainTab })
-
-			local Chat = Library.new("Switch", {
-				Title = "Chat",
-				Description = "Logs everytime someone chats",
-				Parent = MainTab
-			})
-
-			local ShowUsernames = Library.new("Switch", {
-				Title = "Show Usernames",
-				Description = "Toggle between DisplayName or DisplayName (@Username)",
-				Parent = MainTab,
-				Default = true
-			})
-
-			local FormatName = function(Player)
-				return ShowUsernames.Value and Format("%s (@%s)", Player.DisplayName, Player.Name) or Player.DisplayName
-			end
+			local Chat = Library.new("Switch", { Title = "Chat", Description = "Logs everytime someone chats", Parent = MainTab })
 
 			if AutoLogger then
 				for Index, Info in next, AutoLogger do
 					local Message, Player = Info[1], Info[2]
-					SetOrder(Library.new("Label", {
-						Title = FormatName(Player),
-						Description = Format('said "%s"', Message),
-						Parent = Chat
-					}))
+					SetOrder(Library.new("Label", { Title = Format("%s (@%s)", Player.DisplayName, Player.Name), Description = Format('said "%s"', Message), Parent = Chat }))
 				end
 			end
 
 			for Index, Player in next, Services.Players:GetPlayers() do
 				Connect(Player.Chatted, function(Message)
-					SetOrder(Library.new("Label", {
-						Title = FormatName(Player),
-						Description = Format('said "%s"', Message),
-						Parent = Chat
-					}))
+					SetOrder(Library.new("Label", { Title = Format("%s (@%s)", Player.DisplayName, Player.Name), Description = Format('said "%s"', Message), Parent = Chat }))
 				end)
 			end
 
 			Library.new("Section", { Title = "Save", Parent = MainTab })
 
-			Library.new("Button", {
+			Library.new("Button", { 
 				Title = "Save logs",
 				Description = "Saves everything that is logged in your exploit's workspace folder",
 				Parent = MainTab,
