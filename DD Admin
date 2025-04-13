@@ -353,148 +353,6 @@ CreateInstance = function(Name, Properties, Children)
 	return Object
 end
 
-local Fly = nil;
-
-Spawn(function()
-	if Local.Player.PlayerScripts.PlayerModule:FindFirstChild("ControlModule") then
-		local BodyGyro = Instance.new("BodyGyro")
-		BodyGyro.maxTorque = Vector3.new(1, 1, 1) * 10 ^ 6
-		BodyGyro.P = 10 ^ 6
-
-		local BodyVelocity = Instance.new("BodyVelocity")
-		BodyVelocity.maxForce = Vector3.new(1, 1, 1) * 10 ^ 6
-		BodyVelocity.P = 10 ^ 4
-
-		local isFlying = false
-		local Movement = {forward = 0, backward = 0, right = 0, left = 0}
-
-		local function SetFlying(flying)
-			isFlying = flying
-			BodyGyro.Parent = isFlying and Local.Character.HumanoidRootPart or nil
-			BodyVelocity.Parent = isFlying and Local.Character.HumanoidRootPart or nil
-			BodyVelocity.Velocity = Vector3.new()
-
-			Local.Character:FindFirstChild("Animate").Disabled = isFlying
-
-			if (isFlying) then
-				BodyGyro.CFrame = Local.Character.HumanoidRootPart.CFrame
-			end
-		end
-
-		local FlySpeed = 3
-
-		local function ModifyMovement(newMovement)
-			Movement = newMovement or Movement
-			if (isFlying) then
-				local isMoving = Movement.right + Movement.left + Movement.forward + Movement.backward > 0
-			end
-		end
-
-		local function MovementBind(actionName, InputState, inputObject)
-			if (InputState == Enum.UserInputState.Begin) then
-				Movement[actionName] = 1
-
-				ModifyMovement()
-			elseif (InputState == Enum.UserInputState.End) then
-				Movement[actionName] = 0
-
-				ModifyMovement()
-			end
-
-			return Enum.ContextActionResult.Pass
-		end
-
-		Services.ContextActionService:BindAction("forward", MovementBind, false, Enum.PlayerActions.CharacterForward)
-		Services.ContextActionService:BindAction("backward", MovementBind, false, Enum.PlayerActions.CharacterBackward)
-		Services.ContextActionService:BindAction("left", MovementBind, false, Enum.PlayerActions.CharacterLeft)
-		Services.ContextActionService:BindAction("right", MovementBind, false, Enum.PlayerActions.CharacterRight)
-
-		if (not Local.Character.Humanoid or Local.Character.Humanoid:GetState() == Enum.HumanoidStateType.Dead) then
-			return
-		end
-
-		local TouchFrame = nil
-
-		if Local.Player.PlayerGui:FindFirstChild("TouchGui") then
-			TouchFrame = Local.Player.PlayerGui.TouchGui:FindFirstChild("TouchControlFrame")
-		end
-
-		local IsMovingThumbstick = false
-		local DeadZone = 0.15
-		local DeadZoneNormalized = 1 - DeadZone
-
-		local function isTouchOnThumbstick(Position)
-			if not TouchFrame then
-				return false
-			end
-			local ClassicFrame = TouchFrame:FindFirstChild("ThumbstickFrame")
-			local DynamicFrame = TouchFrame:FindFirstChild("DynamicThumbstickFrame")
-			local StickFrame = (ClassicFrame and ClassicFrame.Visible) and ClassicFrame or DynamicFrame
-
-			if (StickFrame) then
-				local StickPosition = StickFrame.AbsolutePosition
-				local StickSize = StickFrame.AbsoluteSize
-				return Position.X >= StickPosition.X and Position.X <= (StickPosition.X + StickSize.X) and
-					Position.Y >= StickPosition.Y and
-					Position.Y <= (StickPosition.Y + StickSize.Y)
-			end
-			return false
-		end
-
-		Services.Input.TouchStarted:Connect(function(touch, gameProcessedEvent)
-			isMovingThumbstick = isTouchOnThumbstick(touch.Position)
-		end)
-
-		Services.Input.TouchEnded:Connect(function(touch, gameProcessedEvent)
-			if not isMovingThumbstick then
-				return
-			end
-			isMovingThumbstick = false
-			ModifyMovement({forward = 0, backward = 0, right = 0, left = 0})
-		end)
-
-		Services.Input.TouchMoved:Connect(function(touch, gameProcessedEvent)
-			if not isMovingThumbstick then
-				return
-			end
-
-			local MouseVector = Local.Player.Character.Humanoid.MoveDirection
-			local LeftRight = MouseVector.X
-			local ForeBack = MouseVector.Z
-
-			Movement.left = LeftRight < -DeadZone and -(LeftRight - DeadZone) / DeadZoneNormalized or 0
-			Movement.right = LeftRight > DeadZone and (LeftRight - DeadZone) / DeadZoneNormalized or 0
-
-			Movement.forward = ForeBack < -DeadZone and -(ForeBack - DeadZone) / DeadZoneNormalized or 0
-			Movement.backward = ForeBack > DeadZone and (ForeBack - DeadZone) / DeadZoneNormalized or 0
-			ModifyMovement()
-		end)
-
-		local function onUpdate(dt)
-			if (isFlying) then
-				local cf = workspace.CurrentCamera.CFrame
-				local direction =
-					cf.rightVector * (Movement.right - Movement.left) +
-					cf.lookVector * (Movement.forward - Movement.backward)
-				if (direction:Dot(direction) > 0) then
-					direction = direction.unit
-				end
-
-				BodyGyro.CFrame = cf
-				BodyVelocity.Velocity = direction * Local.Character.Humanoid.WalkSpeed * FlySpeed
-			end
-
-		end
-
-		function Fly(Boolean, SpeedValue)
-			FlySpeed = SpeedValue or 1
-			SetFlying(Boolean)
-
-			Services.Run.RenderStepped:Connect(onUpdate)
-		end
-	end
-end)
-
 local PlayerArgs = {
 	["all"] = function() 
 		return Services.Players:GetPlayers()
@@ -801,17 +659,13 @@ Methods.Destroy = function(Part)
 end
 
 local Modules = {
-	Freecam = nil,
 	Glass = nil,
-	Bhop = nil,
 	ColorPicker = nil,
 }
 
 -- Command [MODULES]
 Spawn(function()
-	Modules.Freecam = loadstring(game:HttpGet("https://raw.githubusercontent.com/lxte/cmd/main/assets/freecam"))();
 	Modules.ColorPicker = loadstring(game:HttpGet("https://raw.githubusercontent.com/lxte/cmd/main/assets/colorpicker"))();
-	Modules.Bhop = loadstring(game:HttpGet("https://raw.githubusercontent.com/lxte/cmd/main/assets/bhop"))();
 	Modules.Blur = loadstring(game:HttpGet("https://raw.githubusercontent.com/lxte/cmd/main/assets/blur"))();
 end)
 
@@ -819,41 +673,6 @@ local PromptChangeRigType = function(RigType)
 	Services.AvatarEditor:PromptSaveAvatar(GetHumanoid(Local.Character).HumanoidDescription,Enum.HumanoidRigType[RigType])
 	Services.AvatarEditor.PromptSaveAvatarCompleted:Wait()
 	Command.Parse("respawn")
-end
-
-local Walkfling = function(Power, Distance, Bool)
-	Distance = tonumber(Distance) or 5
-	SetEnv("WalkFling", Bool);
-
-	Spawn(function()
-		local HumanoidRootPart, Character, Velocity, Movel = GetRoot(Local.Character), Local.Character, nil, 0.1
-		repeat
-			Wait()
-			if Env().WalkFling then
-				while Env().WalkFling and
-					not (Character and Character.Parent and HumanoidRootPart and HumanoidRootPart.Parent) do
-					Services.Run.Heartbeat:Wait()
-					local HumanoidRootPart, Character = GetRoot(Local.Character), Local.Character
-				end
-
-				if Env().WalkFling then
-					if Unpack(GetPlayer("closest")):DistanceFromCharacter(GetRoot(Local.Character).Position) <= Distance then
-						Velocity = HumanoidRootPart.Velocity
-						HumanoidRootPart.Velocity = Velocity * tonumber(Power) + Vector3.new(0, tonumber(Power), 0)
-						Services.Run.RenderStepped:Wait()
-						if Character and Character.Parent and HumanoidRootPart and HumanoidRootPart.Parent then
-							HumanoidRootPart.Velocity = Velocity
-						end
-						Services.Run.Stepped:Wait()
-						if Character and Character.Parent and HumanoidRootPart and HumanoidRootPart.Parent then
-							HumanoidRootPart.Velocity = Velocity + Vector3.new(0, Movel, 0)
-							Movel = Movel * -1
-						end
-					end
-				end
-			end
-		until not Env().WalkFling
-	end)
 end
 
 local Fling = function(Target)
@@ -3043,25 +2862,25 @@ Command.Add({
 			if AutoLogger then
 				for Index, Info in next, AutoLogger do
 					local Message, Player = Info[1], Info[2]
-					SetOrder(Library.new("Label", { Title = Format("%s (@%s)", Player.DisplayName, Player.Name), Description = Format('said "%s"', Message), Parent = Chat }))
+					SetOrder(Library.new("Label", { Title = Format("%s (@%s)", Player.DisplayName), Description = Format('said "%s"', Message), Parent = Chat }))
 				end
 			end
 
 			Connect(Services.Players.PlayerAdded, function(Player)
-				SetOrder(Library.new("Label", { Title = Format("%s (@%s)", Player.DisplayName, Player.Name), Description = "has joined the game", Parent = Joins }))
+				SetOrder(Library.new("Label", { Title = Format("%s (@%s)", Player.DisplayName), Description = "has joined the game", Parent = Joins }))
 
 				Connect(Player.Chatted, function(Message)
-					SetOrder(Library.new("Label", { Title = Format("%s (@%s)", Player.DisplayName, Player.Name), Description = Format('said "%s"', Message), Parent = Chat }))
+					SetOrder(Library.new("Label", { Title = Format("%s (@%s)", Player.DisplayName), Description = Format('said "%s"', Message), Parent = Chat }))
 				end)
 			end)
 
 			Connect(Services.Players.PlayerRemoving, function(Player)
-				SetOrder(Library.new("Label", { Title = Format("%s (@%s)", Player.DisplayName, Player.Name), Description = "has left the game", Parent = Leaves }))
+				SetOrder(Library.new("Label", { Title = Format("%s (@%s)", Player.DisplayName), Description = "has left the game", Parent = Leaves }))
 			end)
 
 			for Index, Player in next, Services.Players:GetPlayers() do
 				Connect(Player.Chatted, function(Message)
-					SetOrder(Library.new("Label", { Title = Format("%s (@%s)", Player.DisplayName, Player.Name), Description = Format('said "%s"', Message), Parent = Chat }))
+					SetOrder(Library.new("Label", { Title = Format("%s (@%s)", Player.DisplayName), Description = Format('said "%s"', Message), Parent = Chat }))
 				end)
 			end
 
@@ -3097,20 +2916,6 @@ Command.Add({
 		else
 			Tweens.Open({ Canvas = Screen:FindFirstChild("Logs"), Speed = 0.3 })
 		end
-	end,
-})
-
-Command.Add({
-	Aliases = { "hipheight" },
-	Description = "Set your hipheight amount",
-	Arguments = { 
-		{ Name = "Hipheight", Type = "Number" }
-	},
-	Plugin = false,
-	Task = function(Input)
-		local Amount = SetNumber(Input)
-
-		GetHumanoid(Local.Character).HipHeight = Amount
 	end,
 })
 
@@ -3265,73 +3070,6 @@ Command.Add({
 })
 
 Command.Add({
-	Aliases = { "climb" },
-	Description = "Lets you climb in the air",
-	Arguments = {},
-	Plugin = false,
-	Task = function()
-		local Part = CreateInstance("TrussPart", {
-			Transparency = 1,
-			Size = Vector3.new(2, 10, 2),
-			Parent = workspace,
-			CanCollide = true,
-			Name = "ClimbPart",
-		})
-
-		while Part do
-			Wait()
-			Part.CFrame = Local.Character.HumanoidRootPart.CFrame * CFrame.new(0, 0, -1.5)
-		end
-	end,
-})
-
-Command.Add({
-	Aliases = { "unclimb" },
-	Description = "Stops the climb command",
-	Arguments = {},
-	Plugin = false,
-	Task = function()
-		local Part = workspace:FindFirstChild("ClimbPart")
-
-		if Part then
-			Part:Destroy()
-		end
-	end,
-})
-
-Command.Add({
-	Aliases = { "freecam" },
-	Description = "Spectate the game freely",
-	Arguments = {},
-	Plugin = false,
-	Task = function(Speed)
-		local Free = Modules.Freecam
-
-		if typeof(Free) == "table" then
-			Modules.Freecam:EnableFreecam()
-		else
-			Utils.Notify("Error", "Error!", "Freecam failed to load", 5)
-		end
-	end,
-})
-
-Command.Add({
-	Aliases = { "unfreecam" },
-	Description = "Stops free camming",
-	Arguments = {},
-	Plugin = false,
-	Task = function(Speed)
-		local Free = Modules.Freecam
-
-		if typeof(Free) == "table" then
-			Modules.Freecam:StopFreecam()
-		else
-			Utils.Notify("Error", "Error!", "Freecam failed to load", 5)
-		end
-	end,
-})
-
-Command.Add({
 	Aliases = { "stand" },
 	Description = "Turns you into someone's stand",
 	Arguments = {
@@ -3341,18 +3079,15 @@ Command.Add({
 	Task = function(Player)
 		local Targets = GetPlayer(Player)
 		Env().Stand = true
-
 		for Index, Target in next, Targets do
 			local Anim = CreateInstance("Animation", {AnimationId = "rbxassetid://3337994105"})
 			local Load = Local.Character.Humanoid:LoadAnimation(Anim)
 			Local.Camera.CameraSubject = Target.Character:FindFirstChildOfClass("Humanoid")
 			Load:Play()
 			Command.Parse("airwalk")
-
 			repeat Wait()
 				Local.Character:FindFirstChild("HumanoidRootPart").CFrame = Target.Character:FindFirstChild("HumanoidRootPart").CFrame * CFrame.new(2.2, 1.2, 2.3)
 			until not Env().Stand or not Target
-
 			Load:Stop()
 			Env().Stand = false
 			Command.Parse("unairwalk")
@@ -3449,7 +3184,6 @@ Command.Add({
 	Task = function()
 		Env().AntiFling = true
 		Utils.Notify("Success", "Success!", "Antifling is now enabled", 5)
-
 		repeat Wait()
 			for _, Players in next, Services.Players:GetPlayers() do
 				if Players and Players ~= Local.Player and Players.Character then
