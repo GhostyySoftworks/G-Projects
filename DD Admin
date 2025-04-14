@@ -3013,71 +3013,117 @@ Command.Add({
 })
 
 Command.Add({
-	Aliases = { "clogs" },
-	Description = "Shows All Logged Chats (Private | Public | Phone Logs Ect.)",
-	Arguments = {},
-	Plugin = false,
-	Task = function()
-		if not Screen:FindFirstChild("Chat Logs") then
-			local Order = 99999999
+    Aliases = { "clogs" },
+    Description = "Shows All Logged Chats (Private | Public | Phone Logs, etc.)",
+    Arguments = {},
+    Plugin = false,
+    Task = function()
+        if not Screen:FindFirstChild("Chat Logs") then
+            local Order = 99999999
+            local Connections = {}
+            local Logs = {}
 
-			local Main = Tab.new({
-				Title = "Chat Logs",
-				Drag = true
-			})
+            local Main = Tab.new({
+                Title = "Chat Logs",
+                Drag = true
+            })
 
-			local SetOrder = function(LibraryInstance)
-				Order = Order - 1
-				LibraryInstance.LayoutOrder = Order
-				return LibraryInstance
-			end
+            local SetOrder = function(LibraryInstance)
+                Order = Order - 1
+                LibraryInstance.LayoutOrder = Order
+                return LibraryInstance
+            end
 
-			local Tabs = Main.Tabs
-			local MainTab = Tabs.Main.Scroll
+            local Tabs = Main.Tabs
+            local MainTab = Tabs.Main.Scroll
 
-			Library.new("Section", { Title = "Chat Logs", Parent = MainTab })
-			local Chat = Library.new("Switch", { Title = "Chat", Description = "Logs everytime someone chats", Parent = MainTab })
+            Library.new("Section", { Title = "Chat Logs", Parent = MainTab })
+            local Chat = Library.new("Switch", { 
+                Title = "Chat", 
+                Description = "Logs every time someone chats", 
+                Parent = MainTab 
+            })
 
-			if AutoLogger then
-				for Index, Info in next, AutoLogger do
-					local Message, Player = Info[1], Info[2]
-					SetOrder(Library.new("Label", { Title = Format("%s (@%s)", Player.DisplayName, Player.Name), Description = Format('said "%s"', Message), Parent = Chat }))
-				end
-			end
+            if type(AutoLogger) == "table" then
+                for _, Info in next, AutoLogger do
+                    local Message, Player = Info[1], Info[2]
+                    if Player and Message then
+                        local Username = Format("%s (@%s)", Player.DisplayName or "Unknown", Player.Name or "Unknown")
+                        local LogEntry = SetOrder(Library.new("Label", { 
+                            Title = Username, 
+                            Description = Format('said "%s"', Message), 
+                            Parent = Chat 
+                        }))
+                        table.insert(Logs, {Username = Username, Message = Message, LogEntry = LogEntry})
+                    end
+                end
+            end
 
-			for Index, Player in next, Services.Players:GetPlayers() do
-				Connect(Player.Chatted, function(Message)
-					SetOrder(Library.new("Label", { Title = Format("%s (@%s)", Player.DisplayName, Player.Name), Description = Format('said "%s"', Message), Parent = Chat }))
-				end)
-			end
+            for _, Player in next, Services.Players:GetPlayers() do
+                local Connection = Player.Chatted:Connect(function(Message)
+                    local Username = Format("%s (@%s)", Player.DisplayName or "Unknown", Player.Name or "Unknown")
+                    local LogEntry = SetOrder(Library.new("Label", { 
+                        Title = Username, 
+                        Description = Format('said "%s"', Message), 
+                        Parent = Chat 
+                    }))
+                    table.insert(Logs, {Username = Username, Message = Message, LogEntry = LogEntry})
+                end)
+                table.insert(Connections, Connection)
+            end
 
-			Library.new("Section", { Title = "Save", Parent = MainTab })
+            Library.new("Section", { Title = "Save", Parent = MainTab })
 
-			Library.new("Button", { 
-				Title = "Save logs",
-				Description = "Saves everything that is logged in your exploit's workspace folder",
-				Parent = MainTab,
-				Callback = function()
-					local Logged = Format("Cmd LOGS\nPLACE ID - %s\nTIME - %s", game.PlaceId, os.date())
+            Library.new("Button", { 
+                Title = "Save logs",
+                Description = "Saves everything that is logged in your exploit's workspace folder",
+                Parent = MainTab,
+                Callback = function()
+                    local Logged = Format("Cmd LOGS\nPLACE ID - %s\nTIME - %s", game.PlaceId, os.date())
 
-					Logged = Logged .. "\n\nCHAT"
-					for Index, Log in next, Chat:GetChildren() do
-						if Log.Name == "Label" and Log:IsA("Frame") then
-							local Username, Message = Log.Content.Title.Text, Log.Content.Description.Text
-							Logged = Format("%s\n%s: %s", Logged, Username, Message)
-						end
-					end
+                    Logged = Logged .. "\n\nCHAT LOGS:"
+                    for _, Log in next, Logs do
+                        Logged = Format("%s\n%s: %s", Logged, Log.Username, Log.Message)
+                    end
 
-					writefile(Format("%s-%s.txt", game.PlaceId, os.date():gsub(":", Blank)), Logged)
-					Utils.Notify("Success", "Success!", "Your logs should be saved into your exploit folder!", 5)
-				end,
-			})
+                    local success, err = pcall(function()
+                        writefile(Format("%s-%s.txt", game.PlaceId, os.date():gsub(":", "")), Logged)
+                    end)
 
-			Tweens.Open({ Canvas = Main, Speed = 0.3 })
-		else
-			Tweens.Open({ Canvas = Screen:FindFirstChild("Logs"), Speed = 0.3 })
-		end
-	end,
+                    if success then
+                        Utils.Notify("Success", "Success!", "Your logs have been saved to your exploit folder!", 5)
+                    else
+                        Utils.Notify("Error", "Failed to save logs!", err, 5)
+                    end
+                end,
+            })
+
+            Library.new("Button", { 
+                Title = "Clear logs",
+                Description = "Clears all displayed logs",
+                Parent = MainTab,
+                Callback = function()
+                    for _, Log in next, Logs do
+                        if Log.LogEntry and Log.LogEntry.Parent then
+                            Log.LogEntry:Destroy()
+                        end
+                    end
+                    Logs = {}
+                end,
+            })
+
+            local function Cleanup()
+                for _, Connection in next, Connections do
+                    Connection:Disconnect()
+                end
+                Connections = {}
+            end
+
+            Tweens.Open({ Canvas = Main, Speed = 0.3 })
+        else
+            Tweens.Open({ Canvas = Screen:FindFirstChild("Chat Logs"), Speed = 0.3 })
+        end
+    end,
 })
 
 Command.Add({
