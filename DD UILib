@@ -255,7 +255,7 @@ function library:Watermark(text)
 
     bar.Name = "bar"
     bar.Parent = barFolder
-    bar.BackgroundColor3 = Color3.fromRGB(178, 34, 34)
+    bar.BackgroundColor3 = Color3.fromRGB(139, 93, 201)
     bar.BackgroundTransparency = 0
     bar.Size = UDim2.new(0, 0, 0, 1)
 
@@ -284,7 +284,7 @@ function library:Watermark(text)
     waterText.Size = UDim2.new(0, 0, 0, 24)
     waterText.Font = Enum.Font.Code
     waterText.Text = text
-    waterText.TextColor3 = Color3.fromRGB(178, 34, 34)
+    waterText.TextColor3 = Color3.fromRGB(139, 93, 201)
     waterText.TextTransparency = 1
     waterText.TextSize = 14.000
     waterText.RichText = true
@@ -360,7 +360,7 @@ function library:Watermark(text)
     
         bar.Name = "bar"
         bar.Parent = barFolder
-        bar.BackgroundColor3 = Color3.fromRGB(178, 34, 34)
+        bar.BackgroundColor3 = Color3.fromRGB(139, 93, 201)
         bar.BackgroundTransparency = 0
         bar.Size = UDim2.new(0, 0, 0, 1)
     
@@ -389,7 +389,7 @@ function library:Watermark(text)
         waterText.Size = UDim2.new(0, 0, 0, 24)
         waterText.Font = Enum.Font.Code
         waterText.Text = text
-        waterText.TextColor3 = Color3.fromRGB(178, 34, 34)
+        waterText.TextColor3 = Color3.fromRGB(139, 93, 201)
         waterText.TextTransparency = 1
         waterText.TextSize = 14.000
         waterText.RichText = true
@@ -558,19 +558,19 @@ function library:InitNotifications(text, duration, callback)
     
         bar.Name = "bar"
         bar.Parent = barFolder
-        bar.BackgroundColor3 = Color3.fromRGB(178, 34, 34)
+        bar.BackgroundColor3 = Color3.fromRGB(139, 93, 201)
         bar.BackgroundTransparency = 0.200
         bar.Size = UDim2.new(0, 0, 0, 1)
         if type == "notification" then
-            bar.BackgroundColor3 = Color3.fromRGB(178, 34, 34)
+            bar.BackgroundColor3 = Color3.fromRGB(139, 93, 201)
         elseif type == "alert" then
-            bar.BackgroundColor3 = Color3.fromRGB(178, 34, 34)
+            bar.BackgroundColor3 = Color3.fromRGB(139, 93, 201)
         elseif type == "error" then
-            bar.BackgroundColor3 = Color3.fromRGB(178, 34, 34)
+            bar.BackgroundColor3 = Color3.fromRGB(139, 93, 201)
         elseif type == "success" then
-            bar.BackgroundColor3 = Color3.fromRGB(178, 34, 34)
+            bar.BackgroundColor3 = Color3.fromRGB(139, 93, 201)
         elseif type == "information" then
-            bar.BackgroundColor3 = Color3.fromRGB(178, 34, 34)
+            bar.BackgroundColor3 = Color3.fromRGB(139, 93, 201)
         end
     
         barCorner.CornerRadius = UDim.new(0, 2)
@@ -597,7 +597,7 @@ function library:InitNotifications(text, duration, callback)
         notifText.Size = UDim2.new(0, 230, 0, 26)
         notifText.Font = Enum.Font.Code
         notifText.Text = text
-        notifText.TextColor3 = Color3.fromRGB(178, 34, 34)
+        notifText.TextColor3 = Color3.fromRGB(139, 93, 201)
         notifText.TextSize = 14.000
         notifText.TextTransparency = 1.000
         notifText.TextXAlignment = Enum.TextXAlignment.Left
@@ -730,7 +730,7 @@ function library:Introduction()
     
     bar.Name = "bar"
     bar.Parent = barFolder
-    bar.BackgroundColor3 = Color3.fromRGB(178, 34, 34)
+    bar.BackgroundColor3 = Color3.fromRGB(139, 93, 201)
     bar.BackgroundTransparency = 0.200
     bar.Size = UDim2.new(0, 0, 0, 1)
     
@@ -752,7 +752,7 @@ function library:Introduction()
     DDLogo.Size = UDim2.new(0, 448, 0, 150)
     DDLogo.Visible = true
     DDLogo.Image = "http://www.roblox.com/asset/?id=9365068051"
-    DDLogo.ImageColor3 = Color3.fromRGB(178, 34, 34)
+    DDLogo.ImageColor3 = Color3.fromRGB(139, 93, 201)
     DDLogo.ImageTransparency = 1
     
     hashLogo.Name = "hashLogo"
@@ -764,7 +764,7 @@ function library:Introduction()
     hashLogo.Size = UDim2.new(0, 150, 0, 150)
     hashLogo.Visible = true
     hashLogo.Image = "http://www.roblox.com/asset/?id=9365069861"
-    hashLogo.ImageColor3 = Color3.fromRGB(178, 34, 34)
+    hashLogo.ImageColor3 = Color3.fromRGB(139, 93, 201)
     hashLogo.ImageTransparency = 1
     
     DD.Name = "DD"
@@ -774,7 +774,7 @@ function library:Introduction()
     DD.Size = UDim2.new(0, 80, 0, 21)
     DD.Font = Enum.Font.Code
     DD.Text = "DD SoftWorks"
-    DD.TextColor3 = Color3.fromRGB(178, 34, 34)
+    DD.TextColor3 = Color3.fromRGB(139, 93, 201)
     DD.TextSize = 9.000
     DD.TextTransparency = 1
     
@@ -786,7 +786,7 @@ function library:Introduction()
     text.Size = UDim2.new(0, 26, 0, 21)
     text.Font = Enum.Font.Code
     text.Text = "hash"
-    text.TextColor3 = Color3.fromRGB(178, 34, 34)
+    text.TextColor3 = Color3.fromRGB(139, 93, 201)
     text.TextSize = 10.000
     text.TextTransparency = 1
     text.RichText = true
@@ -916,7 +916,7 @@ function library:Init(key)
     headerLabel.Size = UDim2.new(0, 592, 0, 38)
     headerLabel.Font = Enum.Font.Code
     headerLabel.Text = title
-    headerLabel.TextColor3 = Color3.fromRGB(178, 34, 34)
+    headerLabel.TextColor3 = Color3.fromRGB(139, 93, 201)
     headerLabel.TextSize = 16.000
     headerLabel.TextXAlignment = Enum.TextXAlignment.Left
     headerLabel.RichText = true
@@ -933,7 +933,7 @@ function library:Init(key)
 
     bar.Name = "bar"
     bar.Parent = barFolder
-    bar.BackgroundColor3 = Color3.fromRGB(178, 34, 34)
+    bar.BackgroundColor3 = Color3.fromRGB(139, 93, 201)
     bar.BackgroundTransparency = 0.200
     bar.Size = UDim2.new(0, 592, 0, 1)
     bar.BorderSizePixel = 0
@@ -1037,7 +1037,7 @@ function library:Init(key)
         tabButton.AutoButtonColor = false
         tabButton.Font = Enum.Font.Code
         tabButton.Text = title
-        tabButton.TextColor3 = Color3.fromRGB(178, 34, 34)
+        tabButton.TextColor3 = Color3.fromRGB(139, 93, 201)
         tabButton.TextSize = 15.000
         tabButton.RichText = true
 
@@ -1052,7 +1052,7 @@ function library:Init(key)
         page.MidImage = "http://www.roblox.com/asset/?id=3062506202"
         page.ScrollBarThickness = 1
         page.TopImage = "http://www.roblox.com/asset/?id=3062506202"
-        page.ScrollBarImageColor3 = Color3.fromRGB(178, 34, 34)
+        page.ScrollBarImageColor3 = Color3.fromRGB(139, 93, 201)
         page.Visible = false
         
         pageLayout.Name = "pageLayout"
@@ -1070,7 +1070,7 @@ function library:Init(key)
 
         if TabLibrary.IsFirst then
             page.Visible = true
-            tabButton.TextColor3 = Color3.fromRGB(178, 34, 34)
+            tabButton.TextColor3 = Color3.fromRGB(139, 93, 201)
             TabLibrary.CurrentTab = title
         end
         
@@ -1085,10 +1085,10 @@ function library:Init(key)
 
             for i,v in pairs(tabButtons:GetChildren()) do
                 if v:IsA("TextButton") then
-                    TweenService:Create(v, TweenTable["tab_text_colour"], {TextColor3 = Color3.fromRGB(178, 34, 34)}):Play()
+                    TweenService:Create(v, TweenTable["tab_text_colour"], {TextColor3 = Color3.fromRGB(139, 93, 201)}):Play()
                 end
             end
-            TweenService:Create(tabButton, TweenTable["tab_text_colour"], {TextColor3 = Color3.fromRGB(178, 34, 34)}):Play()
+            TweenService:Create(tabButton, TweenTable["tab_text_colour"], {TextColor3 = Color3.fromRGB(139, 93, 201)}):Play()
         end)
 
         local function UpdatePageSize()
@@ -1118,7 +1118,7 @@ function library:Init(key)
             label.Size = UDim2.new(0, 396, 0, 24)
             label.Font = Enum.Font.Code
             label.Text = text
-            label.TextColor3 = Color3.fromRGB(178, 34, 34)
+            label.TextColor3 = Color3.fromRGB(139, 93, 201)
             label.TextSize = 14.000
             label.TextWrapped = true
             label.TextXAlignment = Enum.TextXAlignment.Left
@@ -1245,7 +1245,7 @@ function library:Init(key)
             buttonLabel.Size = UDim2.new(0, 394, 0, 22)
             buttonLabel.Font = Enum.Font.Code
             buttonLabel.Text = text
-            buttonLabel.TextColor3 = Color3.fromRGB(178, 34, 34)
+            buttonLabel.TextColor3 = Color3.fromRGB(139, 93, 201)
             buttonLabel.TextSize = 14.000
             buttonLabel.RichText = true
 
@@ -1257,10 +1257,10 @@ function library:Init(key)
             end)
 
             button.MouseButton1Down:Connect(function()
-                TweenService:Create(buttonLabel, TweenTable["hover"], {TextColor3 = Color3.fromRGB(178, 34, 34)}):Play()
+                TweenService:Create(buttonLabel, TweenTable["hover"], {TextColor3 = Color3.fromRGB(139, 93, 201)}):Play()
             end)
             button.MouseButton1Up:Connect(function()
-                TweenService:Create(buttonLabel, TweenTable["hover"], {TextColor3 = Color3.fromRGB(178, 34, 34)}):Play()
+                TweenService:Create(buttonLabel, TweenTable["hover"], {TextColor3 = Color3.fromRGB(139, 93, 201)}):Play()
             end)
 
             button.MouseButton1Click:Connect(function()
@@ -1349,7 +1349,7 @@ function library:Init(key)
                     buttonLabel.Size = UDim2.new(0, NewSizeX - 2, 0, 22)
                     buttonLabel.Font = Enum.Font.Code
                     buttonLabel.Text = text
-                    buttonLabel.TextColor3 = Color3.fromRGB(178, 34, 34)
+                    buttonLabel.TextColor3 = Color3.fromRGB(139, 93, 201)
                     buttonLabel.TextSize = 14.000
                     buttonLabel.RichText = true
 
@@ -1363,10 +1363,10 @@ function library:Init(key)
                     end)
         
                     button.MouseButton1Down:Connect(function()
-                        TweenService:Create(buttonLabel, TweenTable["hover"], {TextColor3 = Color3.fromRGB(178, 34, 34)}):Play()
+                        TweenService:Create(buttonLabel, TweenTable["hover"], {TextColor3 = Color3.fromRGB(139, 93, 201)}):Play()
                     end)
                     button.MouseButton1Up:Connect(function()
-                        TweenService:Create(buttonLabel, TweenTable["hover"], {TextColor3 = Color3.fromRGB(178, 34, 34)}):Play()
+                        TweenService:Create(buttonLabel, TweenTable["hover"], {TextColor3 = Color3.fromRGB(139, 93, 201)}):Play()
                     end)
         
                     button.MouseButton1Click:Connect(function()
@@ -1494,7 +1494,7 @@ function library:Init(key)
             sectionLabel.Font = Enum.Font.Code
             sectionLabel.LineHeight = 1
             sectionLabel.Text = text
-            sectionLabel.TextColor3 = Color3.fromRGB(178, 34, 34)
+            sectionLabel.TextColor3 = Color3.fromRGB(139, 93, 201)
             sectionLabel.TextSize = 14.000
             sectionLabel.TextXAlignment = Enum.TextXAlignment.Left
             sectionLabel.RichText = true
@@ -1573,7 +1573,7 @@ function library:Init(key)
             toggleButton.Size = UDim2.new(0, 396, 0, 22)
             toggleButton.Font = Enum.Font.Code
             toggleButton.Text = ""
-            toggleButton.TextColor3 = Color3.fromRGB(178, 34, 34)
+            toggleButton.TextColor3 = Color3.fromRGB(139, 93, 201)
             toggleButton.TextSize = 14.000
             toggleButton.TextXAlignment = Enum.TextXAlignment.Left
 
@@ -1619,7 +1619,7 @@ function library:Init(key)
             toggleDesignCorner.Name = "toggleDesignCorner"
             toggleDesignCorner.Parent = toggleDesign
 
-            toggleDesignGradient.Color = ColorSequence.new{ColorSequenceKeypoint.new(0.00, Color3.fromRGB(178, 34, 34)), ColorSequenceKeypoint.new(1.00, Color3.fromRGB(178, 34, 34))}
+            toggleDesignGradient.Color = ColorSequence.new{ColorSequenceKeypoint.new(0.00, Color3.fromRGB(139, 93, 201)), ColorSequenceKeypoint.new(1.00, Color3.fromRGB(139, 93, 201))}
             toggleDesignGradient.Rotation = 90
             toggleDesignGradient.Name = "toggleDesignGradient"
             toggleDesignGradient.Parent = toggleDesign
@@ -1633,7 +1633,7 @@ function library:Init(key)
             toggleLabel.Font = Enum.Font.Code
             toggleLabel.LineHeight = 1.150
             toggleLabel.Text = text
-            toggleLabel.TextColor3 = Color3.fromRGB(178, 34, 34)
+            toggleLabel.TextColor3 = Color3.fromRGB(139, 93, 201)
             toggleLabel.TextSize = 14.000
             toggleLabel.TextXAlignment = Enum.TextXAlignment.Left
             toggleLabel.RichText = true
@@ -1657,10 +1657,10 @@ function library:Init(key)
             toggleLabel.Size = UDim2.new(0, NewToggleLabelSize.X + 6, 0, 22)
 
             toggleButton.MouseEnter:Connect(function()
-                TweenService:Create(toggleLabel, TweenTable["hover"], {TextColor3 = Color3.fromRGB(178, 34, 34)}):Play()
+                TweenService:Create(toggleLabel, TweenTable["hover"], {TextColor3 = Color3.fromRGB(139, 93, 201)}):Play()
             end)
             toggleButton.MouseLeave:Connect(function()
-                TweenService:Create(toggleLabel, TweenTable["hover"], {TextColor3 = Color3.fromRGB(178, 34, 34)}):Play()
+                TweenService:Create(toggleLabel, TweenTable["hover"], {TextColor3 = Color3.fromRGB(139, 93, 201)}):Play()
             end)
 
             CreateTween("toggle_form", 0.13)
@@ -1786,7 +1786,7 @@ function library:Init(key)
                 keybindButtonLabel.Size = UDim2.new(0, 85, 0, 20)
                 keybindButtonLabel.Font = Enum.Font.Code
                 keybindButtonLabel.Text = ". . ."
-                keybindButtonLabel.TextColor3 = Color3.fromRGB(178, 34, 34)
+                keybindButtonLabel.TextColor3 = Color3.fromRGB(139, 93, 201)
                 keybindButtonLabel.TextSize = 14.000
                 keybindButtonLabel.RichText = true
     
@@ -1946,7 +1946,7 @@ function library:Init(key)
             keybindLabel.Size = UDim2.new(0, 396, 0, 24)
             keybindLabel.Font = Enum.Font.Code
             keybindLabel.Text = text
-            keybindLabel.TextColor3 = Color3.fromRGB(178, 34, 34)
+            keybindLabel.TextColor3 = Color3.fromRGB(139, 93, 201)
             keybindLabel.TextSize = 14.000
             keybindLabel.TextWrapped = true
             keybindLabel.TextXAlignment = Enum.TextXAlignment.Left
@@ -2012,7 +2012,7 @@ function library:Init(key)
             keybindButtonLabel.Size = UDim2.new(0, 85, 0, 20)
             keybindButtonLabel.Font = Enum.Font.Code
             keybindButtonLabel.Text = ". . ."
-            keybindButtonLabel.TextColor3 = Color3.fromRGB(178, 34, 34)
+            keybindButtonLabel.TextColor3 = Color3.fromRGB(139, 93, 201)
             keybindButtonLabel.TextSize = 14.000
             keybindButtonLabel.RichText = true
 
@@ -2212,10 +2212,10 @@ function library:Init(key)
                 textBoxValues.Position = UDim2.new(0.664141417, 0, 0.0416666679, 0)
                 textBoxValues.Size = UDim2.new(0, 131, 0, 20)
                 textBoxValues.Font = Enum.Font.Code
-                textBoxValues.PlaceholderColor3 = Color3.fromRGB(178, 34, 34)
+                textBoxValues.PlaceholderColor3 = Color3.fromRGB(139, 93, 201)
                 textBoxValues.PlaceholderText = place
                 textBoxValues.Text = ""
-                textBoxValues.TextColor3 = Color3.fromRGB(178, 34, 34)
+                textBoxValues.TextColor3 = Color3.fromRGB(139, 93, 201)
                 textBoxValues.TextSize = 14.000
                 textBoxValues.ClearTextOnFocus = autoclear
                 textBoxValues.ClipsDescendants = true
@@ -2245,7 +2245,7 @@ function library:Init(key)
                 textboxLabel.Size = UDim2.new(0, 396, 0, 24)
                 textboxLabel.Font = Enum.Font.Code
                 textboxLabel.Text = text
-                textboxLabel.TextColor3 = Color3.fromRGB(178, 34, 34)
+                textboxLabel.TextColor3 = Color3.fromRGB(139, 93, 201)
                 textboxLabel.TextSize = 14.000
                 textboxLabel.TextWrapped = true
                 textboxLabel.TextXAlignment = Enum.TextXAlignment.Left
@@ -2341,16 +2341,16 @@ function library:Init(key)
                 end)
 
                 textboxFrame.MouseEnter:Connect(function()
-                    TweenService:Create(textboxLabel, TweenTable["TextBox"], {TextColor3 = Color3.fromRGB(178, 34, 34)}):Play()
+                    TweenService:Create(textboxLabel, TweenTable["TextBox"], {TextColor3 = Color3.fromRGB(139, 93, 201)}):Play()
                 end)
 
                 textboxFrame.MouseLeave:Connect(function()
-                    TweenService:Create(textboxLabel, TweenTable["TextBox"], {TextColor3 = Color3.fromRGB(178, 34, 34)}):Play()
+                    TweenService:Create(textboxLabel, TweenTable["TextBox"], {TextColor3 = Color3.fromRGB(139, 93, 201)}):Play()
                 end)
 
                 textBoxValues.Focused:Connect(function()
                     textBoxValues:GetPropertyChangedSignal("Text"):Connect(ResizeTextBox)
-                    TweenService:Create(textbox, TweenTable["TextBox"], {BackgroundColor3 = Color3.fromRGB(178, 34, 34)}):Play()
+                    TweenService:Create(textbox, TweenTable["TextBox"], {BackgroundColor3 = Color3.fromRGB(139, 93, 201)}):Play()
                 end)
 
                 textBoxValues.FocusLost:Connect(function()
@@ -2498,10 +2498,10 @@ function library:Init(key)
                 textBoxValues.Position = UDim2.new(-0.587786257, 0, 0, 0)
                 textBoxValues.Size = UDim2.new(0, 394, 0, 20)
                 textBoxValues.Font = Enum.Font.Code
-                textBoxValues.PlaceholderColor3 = Color3.fromRGB(178, 34, 34)
+                textBoxValues.PlaceholderColor3 = Color3.fromRGB(139, 93, 201)
                 textBoxValues.PlaceholderText = place
                 textBoxValues.Text = default
-                textBoxValues.TextColor3 = Color3.fromRGB(178, 34, 34)
+                textBoxValues.TextColor3 = Color3.fromRGB(139, 93, 201)
                 textBoxValues.TextSize = 14.000
                 textBoxValues.TextXAlignment = Enum.TextXAlignment.Left
 
@@ -2530,7 +2530,7 @@ function library:Init(key)
                 textboxLabel.Size = UDim2.new(0, 396, 0, 24)
                 textboxLabel.Font = Enum.Font.Code
                 textboxLabel.Text = text
-                textboxLabel.TextColor3 = Color3.fromRGB(178, 34, 34)
+                textboxLabel.TextColor3 = Color3.fromRGB(139, 93, 201)
                 textboxLabel.TextSize = 14.000
                 textboxLabel.TextWrapped = true
                 textboxLabel.TextXAlignment = Enum.TextXAlignment.Left
@@ -2571,15 +2571,15 @@ function library:Init(key)
                 end)
 
                 textboxFrame.MouseEnter:Connect(function()
-                    TweenService:Create(textboxLabel, TweenTable["TextBox"], {TextColor3 = Color3.fromRGB(178, 34, 34)}):Play()
+                    TweenService:Create(textboxLabel, TweenTable["TextBox"], {TextColor3 = Color3.fromRGB(139, 93, 201)}):Play()
                 end)
 
                 textboxFrame.MouseLeave:Connect(function()
-                    TweenService:Create(textboxLabel, TweenTable["TextBox"], {TextColor3 = Color3.fromRGB(178, 34, 34)}):Play()
+                    TweenService:Create(textboxLabel, TweenTable["TextBox"], {TextColor3 = Color3.fromRGB(139, 93, 201)}):Play()
                 end)
 
                 textBoxValues.Focused:Connect(function()
-                    TweenService:Create(textbox, TweenTable["TextBox"], {BackgroundColor3 = Color3.fromRGB(178, 34, 34)}):Play()
+                    TweenService:Create(textbox, TweenTable["TextBox"], {BackgroundColor3 = Color3.fromRGB(139, 93, 201)}):Play()
                 end)
 
                 textBoxValues.FocusLost:Connect(function()
@@ -2726,10 +2726,10 @@ function library:Init(key)
                 textBoxValues.ClipsDescendants = true
                 textBoxValues.Size = UDim2.new(0, 394, 0, 114)
                 textBoxValues.Font = Enum.Font.Code
-                textBoxValues.PlaceholderColor3 = Color3.fromRGB(178, 34, 34)
+                textBoxValues.PlaceholderColor3 = Color3.fromRGB(139, 93, 201)
                 textBoxValues.PlaceholderText = place
                 textBoxValues.Text = default
-                textBoxValues.TextColor3 = Color3.fromRGB(178, 34, 34)
+                textBoxValues.TextColor3 = Color3.fromRGB(139, 93, 201)
                 textBoxValues.TextSize = 14.000
                 textBoxValues.TextWrapped = true
                 textBoxValues.TextXAlignment = Enum.TextXAlignment.Left
@@ -2760,7 +2760,7 @@ function library:Init(key)
                 textboxLabel.Size = UDim2.new(0, 396, 0, 24)
                 textboxLabel.Font = Enum.Font.Code
                 textboxLabel.Text = text
-                textboxLabel.TextColor3 = Color3.fromRGB(178, 34, 34)
+                textboxLabel.TextColor3 = Color3.fromRGB(139, 93, 201)
                 textboxLabel.TextSize = 14.000
                 textboxLabel.TextWrapped = true
                 textboxLabel.TextXAlignment = Enum.TextXAlignment.Left
@@ -2800,15 +2800,15 @@ function library:Init(key)
                 end)
 
                 textboxFrame.MouseEnter:Connect(function()
-                    TweenService:Create(textboxLabel, TweenTable["TextBox"], {TextColor3 = Color3.fromRGB(178, 34, 34)}):Play()
+                    TweenService:Create(textboxLabel, TweenTable["TextBox"], {TextColor3 = Color3.fromRGB(139, 93, 201)}):Play()
                 end)
 
                 textboxFrame.MouseLeave:Connect(function()
-                    TweenService:Create(textboxLabel, TweenTable["TextBox"], {TextColor3 = Color3.fromRGB(178, 34, 34)}):Play()
+                    TweenService:Create(textboxLabel, TweenTable["TextBox"], {TextColor3 = Color3.fromRGB(139, 93, 201)}):Play()
                 end)
 
                 textBoxValues.Focused:Connect(function()
-                    TweenService:Create(textbox, TweenTable["TextBox"], {BackgroundColor3 = Color3.fromRGB(178, 34, 34)}):Play()
+                    TweenService:Create(textbox, TweenTable["TextBox"], {BackgroundColor3 = Color3.fromRGB(139, 93, 201)}):Play()
                 end)
 
                 textBoxValues.FocusLost:Connect(function()
@@ -2916,7 +2916,7 @@ function library:Init(key)
             selectorLabel.Size = UDim2.new(0, 396, 0, 24)
             selectorLabel.Font = Enum.Font.Code
             selectorLabel.Text = text
-            selectorLabel.TextColor3 = Color3.fromRGB(178, 34, 34)
+            selectorLabel.TextColor3 = Color3.fromRGB(139, 93, 201)
             selectorLabel.TextSize = 14.000
             selectorLabel.TextWrapped = true
             selectorLabel.TextXAlignment = Enum.TextXAlignment.Left
@@ -2973,7 +2973,7 @@ function library:Init(key)
             selectorText.Size = UDim2.new(0, 394, 0, 20)
             selectorText.Font = Enum.Font.Code
             selectorText.LineHeight = 1.150
-            selectorText.TextColor3 = Color3.fromRGB(178, 34, 34)
+            selectorText.TextColor3 = Color3.fromRGB(139, 93, 201)
             selectorText.TextSize = 14.000
             selectorText.TextXAlignment = Enum.TextXAlignment.Left
             selectorText.Text = default
@@ -3044,20 +3044,20 @@ function library:Init(key)
                 optionButton.AutoButtonColor = false
                 optionButton.Font = Enum.Font.Code
                 optionButton.Text = v
-                optionButton.TextColor3 = Color3.fromRGB(178, 34, 34)
+                optionButton.TextColor3 = Color3.fromRGB(139, 93, 201)
                 optionButton.TextSize = 14.000
                 if optionButton.Text == default then
-                    optionButton.TextColor3 = Color3.fromRGB(178, 34, 34)
+                    optionButton.TextColor3 = Color3.fromRGB(139, 93, 201)
                     callback(selectorText.Text)
                 end
 
                 optionButton.MouseButton1Click:Connect(function()
                     for z,x in next, selectorContainer:GetChildren() do
                         if x:IsA("TextButton") then
-                            TweenService:Create(x, TweenTable["selector"], {TextColor3 = Color3.fromRGB(178, 34, 34)}):Play()
+                            TweenService:Create(x, TweenTable["selector"], {TextColor3 = Color3.fromRGB(139, 93, 201)}):Play()
                         end
                     end
-                    TweenService:Create(optionButton, TweenTable["selector"], {TextColor3 = Color3.fromRGB(178, 34, 34)}):Play()
+                    TweenService:Create(optionButton, TweenTable["selector"], {TextColor3 = Color3.fromRGB(139, 93, 201)}):Play()
                     selectorText.Text = optionButton.Text
                     callback(optionButton.Text)
                 end)
@@ -3090,20 +3090,20 @@ function library:Init(key)
                 optionButton.AutoButtonColor = false
                 optionButton.Font = Enum.Font.Code
                 optionButton.Text = new
-                optionButton.TextColor3 = Color3.fromRGB(178, 34, 34)
+                optionButton.TextColor3 = Color3.fromRGB(139, 93, 201)
                 optionButton.TextSize = 14.000
                 if optionButton.Text == default then
-                    optionButton.TextColor3 = Color3.fromRGB(178, 34, 34)
+                    optionButton.TextColor3 = Color3.fromRGB(139, 93, 201)
                     callback(selectorText.Text)
                 end
 
                 optionButton.MouseButton1Click:Connect(function()
                     for z,x in next, selectorContainer:GetChildren() do
                         if x:IsA("TextButton") then
-                            TweenService:Create(x, TweenTable["selector"], {TextColor3 = Color3.fromRGB(178, 34, 34)}):Play()
+                            TweenService:Create(x, TweenTable["selector"], {TextColor3 = Color3.fromRGB(139, 93, 201)}):Play()
                         end
                     end
-                    TweenService:Create(optionButton, TweenTable["selector"], {TextColor3 = Color3.fromRGB(178, 34, 34)}):Play()
+                    TweenService:Create(optionButton, TweenTable["selector"], {TextColor3 = Color3.fromRGB(139, 93, 201)}):Play()
                     selectorText.Text = optionButton.Text
                     callback(optionButton.Text)
                 end)
@@ -3274,7 +3274,7 @@ function library:Init(key)
             sliderIndicatorStraint.Parent = sliderIndicator
             sliderIndicatorStraint.MaxSize = Vector2.new(392, 12)
 
-            sliderIndicatorGradient.Color = ColorSequence.new{ColorSequenceKeypoint.new(0.00, Color3.fromRGB(178, 34, 34)), ColorSequenceKeypoint.new(1.00, Color3.fromRGB(178, 34, 34))}
+            sliderIndicatorGradient.Color = ColorSequence.new{ColorSequenceKeypoint.new(0.00, Color3.fromRGB(139, 93, 201)), ColorSequenceKeypoint.new(1.00, Color3.fromRGB(139, 93, 201))}
             sliderIndicatorGradient.Rotation = 90
             sliderIndicatorGradient.Name = "sliderIndicatorGradient"
             sliderIndicatorGradient.Parent = sliderIndicator
@@ -3303,7 +3303,7 @@ function library:Init(key)
             sliderLabel.Size = UDim2.new(0, 396, 0, 24)
             sliderLabel.Font = Enum.Font.Code
             sliderLabel.Text = text
-            sliderLabel.TextColor3 = Color3.fromRGB(178, 34, 34)
+            sliderLabel.TextColor3 = Color3.fromRGB(139, 93, 201)
             sliderLabel.TextSize = 14.000
             sliderLabel.TextWrapped = true
             sliderLabel.TextXAlignment = Enum.TextXAlignment.Left
@@ -3324,7 +3324,7 @@ function library:Init(key)
             sliderValue.Size = UDim2.new(0, 169, 0, 15)
             sliderValue.Font = Enum.Font.Code
             sliderValue.Text = values.default
-            sliderValue.TextColor3 = Color3.fromRGB(178, 34, 34)
+            sliderValue.TextColor3 = Color3.fromRGB(139, 93, 201)
             sliderValue.TextSize = 14.000
             sliderValue.TextXAlignment = Enum.TextXAlignment.Right
 
@@ -3511,10 +3511,10 @@ function library:Init(key)
 
             for i,v in pairs(tabButtons:GetChildren()) do
                 if v:IsA("TextButton") then
-                    TweenService:Create(v, TweenTable["tab_text_colour"], {TextColor3 = Color3.fromRGB(178, 34, 34)}):Play()
+                    TweenService:Create(v, TweenTable["tab_text_colour"], {TextColor3 = Color3.fromRGB(139, 93, 201)}):Play()
                 end
             end
-            TweenService:Create(tabButton, TweenTable["tab_text_colour"], {TextColor3 = Color3.fromRGB(178, 34, 34)}):Play()
+            TweenService:Create(tabButton, TweenTable["tab_text_colour"], {TextColor3 = Color3.fromRGB(139, 93, 201)}):Play()
 
             return Components
         end
