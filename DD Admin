@@ -14,9 +14,9 @@ local Settings = {
 		Primary = Color3.fromRGB(0, 0, 0);
 		Secondary = Color3.fromRGB(0, 0, 0);
 		Third = Color3.fromRGB(0, 0, 0);
-		Title = Color3.fromRGB(139, 93, 201);
-		Description = Color3.fromRGB(139, 93, 201);
-		Icon = Color3.fromRGB(139, 93, 201);
+		Title = Color3.fromRGB(160, 32, 240);
+		Description = Color3.fromRGB(160, 32, 240);
+		Icon = Color3.fromRGB(160, 32, 240);
 		Shadow = Color3.fromRGB(0, 0, 0);
 		Outline = Color3.fromRGB(0, 0, 0);
 		Transparency = 0.05,
@@ -1670,9 +1670,9 @@ Library.Themes = {
 			Primary = Color3.fromRGB(0, 0, 0),
 			Secondary = Color3.fromRGB(0, 0, 0),
 			Third = Color3.fromRGB(0, 0, 0),
-			Title = Color3.fromRGB(139, 93, 201),
-			Description = Color3.fromRGB(139, 93, 201),
-			Icon = Color3.fromRGB(139, 93, 201),
+			Title = Color3.fromRGB(160, 32, 240),
+			Description = Color3.fromRGB(160, 32, 240),
+			Icon = Color3.fromRGB(160, 32, 240),
 			Shadow = Color3.fromRGB(0, 0, 0),
 			Outline = Color3.fromRGB(0, 0, 0),
 			Transparency = Old,
@@ -1779,19 +1779,19 @@ end
 
 Utils.NotificationInfo = {
 	["Information"] = {
-		Color = Color3.fromRGB(139, 93, 201),
+		Color = Color3.fromRGB(160, 32, 240),
 	},
 
 	["Error"] = {
-		Color = Color3.fromRGB(139, 93, 201),
+		Color = Color3.fromRGB(160, 32, 240),
 	},
 
 	["Warning"] = {
-		Color = Color3.fromRGB(139, 93, 201),
+		Color = Color3.fromRGB(160, 32, 240),
 	},
 
 	["Success"] = {
-		Color = Color3.fromRGB(139, 93, 201),
+		Color = Color3.fromRGB(160, 32, 240),
 	},
 }
 
