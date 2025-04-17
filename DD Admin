@@ -109,7 +109,7 @@ end)
 
 xpcall(function()
 	if Checks.File then
-		local Folders = { "Cmd", "Cmd/Data", "Cmd/Plugins", "Cmd/Logs" }
+		local Folders = { "DD", "DD/Data", "DD/Plugins", "DD/Logs" }
 
 		for Index, Check in next, Folders do
 			if not isfolder(Check) then
@@ -1913,15 +1913,15 @@ Data.Webhook = {}
 
 Data.new = function(Name, Info)
 	if Checks.File then
-		writefile(Format('Cmd/Data/%s', Name), Info)
+		writefile(Format('DD/Data/%s', Name), Info)
 	else
 		warn("Exploit doesn't support file functions")
 	end
 end
 
 Data.get = function(Name)
-	if Checks.File and isfile(Format('Cmd/Data/%s', Name)) then
-		return readfile(Format('Cmd/Data/%s', Name))
+	if Checks.File and isfile(Format('DD/Data/%s', Name)) then
+		return readfile(Format('DD/Data/%s', Name))
 	elseif Checks.File then
 		warn(Format("Couldn't find the data called %s", Name))
 	end
@@ -2808,105 +2808,6 @@ Command.Add({
 })
 
 Command.Add({
-	Aliases = { "gameinfo", },
-	Description = "Gives info about the game",
-	Arguments = {},
-	Plugin = false,
-	Task = function()
-		if not Screen:FindFirstChild("Game Info") then
-			local Main = Tab.new({ Title = "Game Info", Drag = true })
-			local Tabs = Main.Tabs
-			local MainTab = Tabs.Main.Scroll
-
-			Library.new("Label", { Title = "Game Name",
-				Description = Services.Market:GetProductInfo(game.PlaceId).Name,
-				Parent = MainTab,
-			})
-
-			Library.new("Label", { Title = "Place Id",
-				Description = tostring(game.PlaceId),
-				Parent = MainTab,
-			})
-
-			if game.CreatorType == Enum.CreatorType.User then
-				Library.new("Label", { Title = "Owner",
-					Description = Format("%s (USER)", Services.Players:GetNameFromUserIdAsync(game.CreatorId)),
-					Parent = MainTab,
-				})
-			else
-				Library.new("Label", { Title = "Owner",
-					Description = Format("%s (GROUP)", game.GroupService:GetGroupInfoAsync(game.CreatorId).Name),
-					Default = false,
-					Parent = MainTab,
-				})
-			end
-
-			local DistributedText = Library.new("Label", { Title = "Game Time",
-				Description = math.floor(workspace.DistributedGameTime),
-				Parent = MainTab,
-			})
-
-			Library.new("Label", { Title = "Respect Filtering Enabled",
-				Description = tostring(Services.Sound.RespectFilteringEnabled),
-				Parent = MainTab,
-			})
-
-			if request and typeof(request) == 'function' then
-				local UniverseBody = request({
-					Url = Format("https://apis.roblox.com/universes/v1/places/%s/universe", tostring(game.PlaceId)),
-					Method = "GET"
-				})
-				local UniverseId = JSONDecode(Services.Http, UniverseBody.Body)["universeId"]
-				local GameInfo = JSONDecode(Services.Http, request({
-					Url = Format("https://games.roblox.com/v1/games?universeIds=%s", tostring(UniverseId)),
-					Method = "GET"
-				}).Body)["data"][1]
-
-				Library.new("Label", { Title = "Visits",
-					Description = tostring(GameInfo["visits"]),
-					Parent = MainTab,
-				})
-
-				Library.new("Label", { Title = "Playing",
-					Description = tostring(GameInfo["playing"]),
-					Parent = MainTab,
-				})
-
-				Library.new("Label", { Title = "Created",
-					Description = tostring(GameInfo["created"]),
-					Parent = MainTab,
-				})
-
-				Library.new("Label", { Title = "Updated",
-					Description = tostring(GameInfo["updated"]),
-					Parent = MainTab,
-				})
-
-				Library.new("Label", { Title = "Favorites",
-					Description = tostring(GameInfo["favoritedCount"]),
-					Parent = MainTab,
-				})
-
-				Library.new("Label", { Title = "Description",
-					Description = tostring(GameInfo["description"]),
-					Parent = MainTab,
-				})
-			end
-
-			Spawn(function()
-				repeat Wait(1)
-					DistributedText.Content.Description.Text = math.floor(workspace.DistributedGameTime)
-				until false
-			end)
-
-			Tweens.Open({ Canvas = Main, Speed = 0.3 })
-		else
-			Tweens.Open({ Canvas = Screen:FindFirstChild("Game Info"), Speed = 0.3 })
-		end
-	end,
-})
-
-Command.Add({
 	Aliases = { "players", },
 	Description = "Get a list of info on players",
 	Arguments = {},
@@ -3079,7 +2980,7 @@ Command.Add({
                 Description = "Saves everything that is logged in your exploit's workspace folder",
                 Parent = MainTab,
                 Callback = function()
-                    local Logged = Format("Cmd LOGS\nPLACE ID - %s\nTIME - %s", game.PlaceId, os.date())
+                    local Logged = Format("DD LOGS\nPLACE ID - %s\nTIME - %s", game.PlaceId, os.date())
 
                     Logged = Logged .. "\n\nCHAT LOGS:"
                     for _, Log in next, Logs do
@@ -3127,16 +3028,26 @@ Command.Add({
 })
 
 Command.Add({
-	Aliases = { "hipheight" },
-	Description = "Set your hipheight amount",
-	Arguments = { 
-		{ Name = "Hipheight", Type = "Number" }
+	Aliases = { "fly" },
+	Description = "Lets you fly around the map",
+	Arguments = {
+		{ Name = "Speed", Type = "Number" }
 	},
 	Plugin = false,
-	Task = function(Input)
-		local Amount = SetNumber(Input)
+	Task = function(Speed)
+		local Speed = tonumber(Speed) or 10
 
-		GetHumanoid(Local.Character).HipHeight = Amount
+		Fly(true, Speed)
+	end,
+})
+
+Command.Add({
+	Aliases = { "unfly" },
+	Description = "Stops flying",
+	Arguments = {},
+	Plugin = false,
+	Task = function()
+		Fly(false)
 	end,
 })
 
@@ -3225,8 +3136,8 @@ Command.Add({
 })
 
 Command.Add({
-	Aliases = { "removecmd" },
-	Description = "Removes Cmd",
+	Aliases = { "removedd" },
+	Description = "Removes DD",
 	Arguments = {},
 	Plugin = false,
 	Task = function()
