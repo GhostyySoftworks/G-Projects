@@ -3311,23 +3311,6 @@ Command.Add({
 })
 
 Command.Add({
-	Aliases = { "scare" },
-	Description = "Teleports you to your target for 1 second",
-	Arguments = {
-		{ Name = "Target", Type = "Player" };
-	},
-	Plugin = false,
-	Task = function(Player)
-		local Targets = GetPlayer(Player)
-
-		for Index, Target in next, Targets do
-			Command.Parse(Format("tickgoto %s, 1", Target.Name))
-			Wait(1)
-		end
-	end,
-})
-
-Command.Add({
 	Aliases = { "fling" },
 	Description = "Fling your target, must have character collisions enabled to work [not finished]",
 	Arguments = {
