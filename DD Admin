@@ -1,3644 +1,1340 @@
-if not game:IsLoaded() then
-	warn("Waiting for the game to load..")
-	game.Loaded:Wait();
+local game = game
+local GetService = game.GetService
+if (not game.IsLoaded(game)) then
+    local Loaded = game.Loaded
+    Loaded.Wait(Loaded);
+    wait(1.5)
 end
 
-local Settings = {
-	Prefix = ";",
-	Seperator = ",",
-	Player = "/",
-	Version = "1.1",
-	ScaleSize = 1,
-	Blur = false,
-	Themes = {
-		Primary = Color3.fromRGB(0, 0, 0);
-		Secondary = Color3.fromRGB(0, 0, 0);
-		Third = Color3.fromRGB(0, 0, 0);
-		Title = Color3.fromRGB(255, 255, 255);
-		Description = Color3.fromRGB(255, 255, 255);
-		Icon = Color3.fromRGB(255, 255, 255);
-		Shadow = Color3.fromRGB(0, 0, 0);
-		Outline = Color3.fromRGB(0, 0, 0);
-		Transparency = 0.05,
-		Mode = "Dark"
-	},
-	Binds = {},
-}
+local Notification = loadstring(game:HttpGet("https://raw.githubusercontent.com/FD2Team/archive/main/notificationtest"))();
+local Notify = Notification.Notify;
 
-local AutoLogger, OriginalSettings = {}, Settings 
+Notify({
+        Description = "Have Fun Using DD Admin!";
+        Title = "DD";
+        Duration = 5;
+        
+});
 
-local Options = { 
-	Notifications = true,
-	AntiInterfere =  false,
-	Recommendation = true,
-	Popups = true,
-	Logging = false,
-	AutoSimRadius = false,
-}
+local CustomFunctionSupport = isfile and isfolder and writefile and readfile and listfiles
+local FileSupport = isfile and isfolder and writefile and readfile
 
-local Ref = cloneref or function(ref) 
-	return ref
+if FileSupport then
+if not isfolder('DD-Admin') then
+makefolder('DD-Admin')
 end
 
-local Services = {
-	Players = Ref(game:GetService("Players"));
-	Lighting = Ref(game:GetService("Lighting"));
-	Replicated = Ref(game:GetService("ReplicatedStorage"));
-	Starter = Ref(game:GetService("StarterGui"));
-	Teams = Ref(game:GetService("Teams"));
-	Http = Ref(game:GetService("HttpService"));
-	Market = Ref(game:GetService("MarketplaceService"));
-	Tween = Ref(game:GetService("TweenService"));
-	Input = Ref(game:GetService("UserInputService"));
-	Sound = Ref(game:GetService("SoundService"));
-	Run = Ref(game:GetService("RunService"));
-	Chat = Ref(game:GetService("TextChatService"));
-	ContextActionService = Ref(game:GetService("ContextActionService"));
-	Teleport = Ref(game:GetService("TeleportService"));
-	AvatarEditor = Ref(game:GetService("AvatarEditorService"));
-	StarterPlayer = Ref(game:GetService("StarterPlayer"));
-	GuiService = Ref(game:GetService("GuiService"));
-	InsertService = Ref(game:GetService("InsertService"));
-}
-
-local Player = Services.Players.LocalPlayer;
-
-local Local = {
-	Player = Player,
-	Character = Player.Character or Player.CharacterAdded:Wait(),
-	Mouse = Player:GetMouse(),
-	Backpack = Player.Backpack,
-	Camera = workspace.CurrentCamera,
-};
-
-newcclosure = newcclosure or function(func) 
-	return coroutine.wrap(func)
-end
-
-setsimulationradius = setsimulationradius or function(Radius, MaxRadius) 
-	pcall(function() 
-		Local.Player.SimulationRadius = Radius
-		Local.Player.MaxSimulationDistance = MaxRadius
-	end)
-end
-
-
-local Checks = {
-	File = (isfile and isfolder and writefile and readfile);
-	Hook = (hookmetamethod or hookfunction);
-};
-
-
-local JSONEncode, JSONDecode = Services.Http.JSONEncode, Services.Http.JSONDecode
-local Connect = game.Loaded.Connect
-local PropertyChanged = game.GetPropertyChangedSignal
-local LoadTime = tick();
-
-local Genv = function() 
-	return ((getgenv and getgenv()) or shared or _G);
-end
-
-if Genv and Genv().CmdLoaded then
-	Genv().CmdPath.Parent = nil
-end
-
-Connect(Player.CharacterAdded, function(Character)
-	Local.Character = Character;
-	Local.Backpack = Local.Player.Backpack;
-end)
-
-xpcall(function()
-	if Checks.File then
-		local Folders = { "DD", "DD/Data", "DD/Plugins", "DD/Logs" }
-
-		for Index, Check in next, Folders do
-			if not isfolder(Check) then
-				makefolder(Check);
-			end
-		end
-	end
-
-end, function(Result)
-	warn(Result);
-end)
-
--- UI [INSERT]
-local Screen = nil
-
-if Services.Run:IsStudio() then
-	Screen = Local.Player.PlayerGui:WaitForChild("Screen");
+if not isfile("DD-Admin/Prefix.txt") then
+writefile("DD-Admin/Prefix.txt", ';')
 else
-	Screen = Services.InsertService:LoadLocalAsset("rbxassetid://17078695559");
+end
 end
 
-local Cmd, Bar = Screen.Command, Screen.Command.Bar;
-local Blurred, Lib, Example, Open, Autofill, Box, Recommend, Popup, ColorPopup, pressTab, Protection =
-{},
-Screen.Library,
-Screen.Example,
-Screen.Open,	
-Cmd.Autofill,
-Bar.Box,
-Bar.Recommend,
-Screen.Popup,
-Screen.ColorPopup,
-Bar.Description,
-{};
+-- [[ PREFIX AND OTHER STUFF. ]] -- 
+local opt = {
+    prefix = readfile("DD-Admin/Prefix.txt", ';'),
+    tupleSeparator = ',',
+    ui = {},
+    keybinds = {},
+}
 
-xpcall(function()
-	Screen.Parent = game:GetService("CoreGui");
-end, function()
-	Screen.Parent = (Local.Player.PlayerGui);
+-- [[ Version ]] -- 
+currentversion = 1.16
+
+--[[ VARIABLES ]]--
+PlaceId, JobId = game.PlaceId, game.JobId
+local Players = game:GetService("Players")
+local UserInputService = game:GetService("UserInputService")
+local TweenService = game:GetService("TweenService")
+local RunService = game:GetService("RunService")
+local TeleportService = game:GetService("TeleportService")
+local RunService2 = game:FindService("RunService")
+local StarterGui = game:GetService("StarterGui")
+local SoundService = game:GetService("SoundService")
+sethidden = sethiddenproperty or set_hidden_property or set_hidden_prop
+local Player = game.Players.LocalPlayer
+local Humanoid = Character and Character:FindFirstChildWhichIsA("Humanoid") or false
+local Character = game.Players.LocalPlayer.Character
+local Clicked = true
+_G.Spam = false
+--[[ FOR LOOP COMMANDS ]]--
+view = false
+Loopvoid = false
+local Admin = {}
+
+--[[ Some more variables ]]--
+
+local localPlayer = Players.LocalPlayer
+local character = localPlayer.Character
+local mouse = localPlayer:GetMouse()
+local camera = workspace.CurrentCamera
+local camtype = camera.CameraType
+local Commands, Aliases = {}, {}
+player, plr, lp = localPlayer, localPlayer, localPlayer, localPlayer
+
+localPlayer.CharacterAdded:Connect(function(c)
+    character = c
 end)
 
--- Cmd [FUNCTIONS]
-local Lower = string.lower;
-local Split = string.split;
-local Sub = string.sub;
-local GSub = string.gsub;
-local Find = string.find;
-local Match = string.match;
-local Format = string.format;
-local Unpack = table.unpack;
-local Insert = table.insert;
-local Spawn = task.spawn;
-local Delay = task.delay;
-local Wait = task.wait;
-local Discover = table.find;
-local Concat = table.concat;
-local Blank = "";
+local bringc = {}
 
-Spoof = function(Instance, Property, Value)
-	local Hook;
-
-	if not Checks.Hook then
-		return;
-	end
-
-	Hook = hookmetamethod(game, "__index", newcclosure(function(self, Key)
-		if self == Instance and Key == Property then
-			return Value
-		end
-
-		return Hook(self, Key);
-	end));
+--[[ COMMAND FUNCTIONS ]]--
+commandcount = 0
+cmd = {}
+cmd.add = function(...)
+    local vars = {...}
+    local aliases, info, func = vars[1], vars[2], vars[3]
+    for i, cmdName in pairs(aliases) do
+        if i == 1 then
+            Commands[cmdName:lower()] = {func, info}
+        else
+            Aliases[cmdName:lower()] = {func, info}
+        end
+    end
+    commandcount = commandcount + 1
 end
 
-SetNumber = function(Input, Minimum, Max)
-	Minimum = tonumber(Minimum) or -math.huge
-	Max = tonumber(Max) or math.huge
-
-	if Input then
-		local Numbered = tonumber(Input);
-
-		if Numbered and ((Numbered == (Minimum or Max) or (Numbered < Max) or (Numbered > Minimum))) then
-			return Numbered;
-		elseif Lower(Input) == "inf" then
-			return Max;
-		else 
-			return 0;
-		end
-	else
-		return 0;
-	end
+cmd.run = function(args)
+    local caller, arguments = args[1], args; table.remove(args, 1);
+    local success, msg = pcall(function()
+        if Commands[caller:lower()] then
+            Commands[caller:lower()][1](unpack(arguments))
+        elseif Aliases[caller:lower()] then
+            Aliases[caller:lower()][1](unpack(arguments))
+        end
+    end)
+    if not success then
+    end
 end
 
-CheckIfNPC = function(Character)
-	if (Character and Character.ClassName == "Model") and (Character:FindFirstChildOfClass("Humanoid") and not Services.Players:GetPlayerFromCharacter(Character)) then
-		return true
-	end
+--[[ LIBRARY FUNCTIONS ]]--
+lib = {}
+lib.wrap = function(f)
+    return coroutine.wrap(f)()
 end
 
-Character = function(Player)
-	if not Player then return end
-	local Character = Player.Character
+wrap = lib.wrap
 
-	if Character then
-		return Character
-	end
+local wait = function(int)
+    if not int then int = 0 end
+    local t = tick()
+    repeat
+        RunService.Heartbeat:Wait(0)
+    until (tick() - t) >= int
+    return (tick() - t), t
 end
 
-GetRoot = function(Character)
-	if not Character then return end
-	local Root = Character:FindFirstChild("HumanoidRootPart")
-
-	if Character and Root then
-		return Root
-	end
+    function r15(plr)
+        if game.Players.LocalPlayer.Character:FindFirstChildOfClass('Humanoid').RigType == Enum.HumanoidRigType.R15 then
+            return true
+        end
+    end
+    
+    function getRoot(character)
+    local root = game.Players.LocalPlayer.Character:FindFirstChild('HumanoidRootPart') or game.Players.LocalPlayer.Character:FindFirstChild('Torso') or game.Players.LocalPlayer.Character:FindFirstChild('UpperTorso')
+    return root
 end
 
-GetHumanoid = function(Character)
-	if not Character then return end
-	local Humanoid = Character:FindFirstChildOfClass("Humanoid")
-
-	if Character and Humanoid then
-		return Humanoid
-	end
+-- [[ FUNCTION TO GET A PLAYER ]] --
+local getPlr = function(Name)
+    if Name:lower() == "random" then
+        return Players:GetPlayers()[math.random(#Players:GetPlayers())]
+    else
+        Name = Name:lower():gsub("%s", "")
+        for _, x in next, Players:GetPlayers() do
+            if x.Name:lower():match(Name) then
+                return x
+            elseif x.DisplayName:lower():match("^" .. Name) then
+                return x
+            end
+        end
+    end
 end
 
-FindTable = function(Table, Input)	
-	for Index, Value in next, Table do
-		if Value == Input then
-			return Value
-		end
-	end
+-- [[ MORE VARIABLES ]] --
+plr = game.Players.LocalPlayer
+COREGUI = game:GetService("CoreGui")
+speaker = game.Players.LocalPlayer
+char = plr.Character
+RunService = game:GetService("RunService")
+
+game:GetService('RunService').Stepped:connect(function()
+if anniblockspam then
+game.workspace.Tools.Chest_Invisibility_Cloak.Part.CFrame = CFrame.new(game.Players.LocalPlayer.Character.HumanoidRootPart.Position)
+
+if game.Players.LocalPlayer.Backpack:FindFirstChild("InvisibilityCloak") then
+game.Players.LocalPlayer.Character.Humanoid:EquipTool(game.Players.LocalPlayer.Backpack.InvisibilityCloak)
 end
 
-Foreach = function(Table, Func, Loop)
-	for Index, Value in next, Table do
-		pcall(function()
-			if Loop and typeof(Value) == 'table' then
-				for Index2, Value2 in next, Value do
-					Func(Index2, Value2)
+for i,v in pairs(game.Players.LocalPlayer.Character:GetChildren()) do
+if (v:IsA("Tool")) then
+v.Handle.Mesh:Destroy()
+end
+end
+
+for i,v in pairs(game.Players.LocalPlayer.Character:GetChildren()) do
+if (v:IsA("Tool")) then
+v.Parent = workspace
+end
+end
+
+end
+end)
+
+function x(v)
+    if v then
+        for _,i in pairs(workspace:GetDescendants()) do
+            if i:IsA("BasePart") and not i.Parent:FindFirstChild("Humanoid") and not i.Parent.Parent:FindFirstChild("Humanoid") then
+                i.LocalTransparencyModifier = 0.5
+            end
+        end
+    else
+        for _,i in pairs(workspace:GetDescendants()) do
+            if i:IsA("BasePart") and not i.Parent:FindFirstChild("Humanoid") and not i.Parent.Parent:FindFirstChild("Humanoid") then
+                i.LocalTransparencyModifier = 0
+            end
+        end
+    end
+end
+
+local function getChar()
+    return game.Players.LocalPlayer.Character
+end
+
+local function getBp()
+    return game.Players.LocalPlayer.Backpack
+end
+
+local cmdlp = game.Players.LocalPlayer
+
+plr = cmdlp
+
+workspace = game.workspace
+
+cmdm = plr:GetMouse()
+
+local tool = getBp():FindFirstChildOfClass("Tool") or getChar():FindFirstChildOfClass("Tool")
+
+local function attachTool(tool,cf)
+    for i,v in pairs(tool:GetDescendants()) do
+        if not (v:IsA("BasePart") or v:IsA("Mesh") or v:IsA("SpecialMesh")) then
+            v:Destroy()
+        end
+    end
+    wait()
+game.Players.LocalPlayer.Character.Humanoid.Name = 1
+local l = game.Players.LocalPlayer.Character["1"]:Clone()
+l.Parent = game.Players.LocalPlayer.Character
+l.Name = "Humanoid"
+            
+game.Players.LocalPlayer.Character["1"]:Destroy()
+game.Workspace.CurrentCamera.CameraSubject = game.Players.LocalPlayer.Character
+game.Players.LocalPlayer.Character.Animate.Disabled = true
+wait()
+game.Players.LocalPlayer.Character.Humanoid.DisplayDistanceType = "None"
+
+tool.Parent = getChar()
+end
+
+local nc = false
+local ncLoop
+ncLoop = game:GetService("RunService").Stepped:Connect(function()
+    if nc and getChar() ~= nil then
+        for _, v in pairs(getChar():GetDescendants()) do
+            if v:IsA("BasePart") and v.CanCollide == true then
+                v.CanCollide = false
+            end
+        end
+    end
+end)
+
+local netsleepTargets = {}
+local nsLoop
+nsLoop = game:GetService("RunService").Stepped:Connect(function()
+    if #netsleepTargets == 0 then return end
+    for i,v in pairs(netsleepTargets) do
+        if v.Character then
+            for i,v in pairs(v.Character:GetChildren()) do
+                if v:IsA("BasePart") == false and v:IsA("Accessory") == false then continue end
+                if v:IsA("BasePart") then
+                    sethiddenproperty(v,"NetworkIsSleeping",true)
+                elseif v:IsA("Accessory") and v:FindFirstChild("Handle") then
+                    sethiddenproperty(v.Handle,"NetworkIsSleeping",true)
+                end
+            end
+        end
+    end
+end)
+
+function getTorso(x)
+    x = x or game.Players.LocalPlayer.Character
+    return x:FindFirstChild("Torso") or x:FindFirstChild("UpperTorso") or x:FindFirstChild("LowerTorso") or x:FindFirstChild("HumanoidRootPart")
+end
+
+function getRoot(char)
+    local rootPart = game.Players.LocalPlayer.Character:FindFirstChild('HumanoidRootPart') or game.Players.LocalPlayer.Character:FindFirstChild('Torso') or game.Players.LocalPlayer.Character:FindFirstChild('UpperTorso')
+    return rootPart
+end
+
+local lp = game:GetService("Players").LocalPlayer
+
+-- [[ LIB FUNCTIONS ]] --
+lib.lock = function(instance, par)
+    locks[instance] = true
+    instance.Parent = par or instance.Parent
+    instance.Name = "RightGrip"
+end
+lock = lib.lock
+locks = {}
+
+lib.find = function(t, v)
+    for i, e in pairs(t) do
+        if i == v or e == v then
+            return i
+        end
+    end
+    return nil
+end
+
+lib.parseText = function(text, watch)
+    local parsed = {}
+    if not text then return nil end
+    for arg in text:gmatch("[^" .. watch .. "]+") do
+        arg = arg:gsub("-", "%%-")
+        local pos = text:find(arg)
+        arg = arg:gsub("%%", "")
+        if pos then
+            local find = text:sub(pos - opt.prefix:len(), pos - 1)
+            if (find == opt.prefix and watch == opt.prefix) or watch ~= opt.prefix then
+                table.insert(parsed, arg)
+            end
+        else
+            table.insert(parsed, nil)
+        end
+    end
+    return parsed
+end
+
+lib.parseCommand = function(text)
+    wrap(function()
+        local commands = lib.parseText(text, opt.prefix)
+        for _, parsed in pairs(commands) do
+            local args = {}
+            for arg in parsed:gmatch("[^ ]+") do
+                table.insert(args, arg)
+            end
+            cmd.run(args)
+        end
+    end)
+end
+
+local connections = {}
+
+lib.connect = function(name, connection)	-- no :(
+    connections[name .. tostring(math.random(1000000, 9999999))] = connection
+    return connection
+end
+
+lib.disconnect = function(name)
+    for title, connection in pairs(connections) do
+        if title:find(name) == 1 then
+            connection:Disconnect()
+        end
+    end
+end
+
+m = math
+rad = m.rad
+clamp = m.clamp
+sin = m.sin
+tan = m.tan
+cos = m.cos
+
+--[[ PLAYER FUNCTIONS ]]--
+argument = {}
+argument.getPlayers = function(str)
+    local playerNames, players = lib.parseText(str, opt.tupleSeparator), {}
+    for _, arg in pairs(playerNames or {"me"}) do
+        arg = arg:lower()
+        local playerList = Players:GetPlayers()
+        if arg == "me" or arg == nil then
+            table.insert(players, localPlayer)
+            
+        elseif arg == "all" then
+            for _, plr in pairs(playerList) do
+                table.insert(players, plr)
+            end
+            
+        elseif arg == "others" then
+            for _, plr in pairs(playerList) do
+                if plr ~= localPlayer then
+                    table.insert(players, plr)
+                end
+            end
+            
+        elseif arg == "random" then
+            table.insert(players, playerList[math.random(1, #playerList)])
+            
+        elseif arg:find("%%") == 1 then
+            local teamName = arg:sub(2)
+            for _, plr in pairs(playerList) do
+                if tostring(plr.Team):lower():find(teamName) == 1 then
+                    table.insert(players, plr)
+                end
+            end
+            
+        else
+            for _, plr in pairs(playerList) do
+                if plr.Name:lower():find(arg) == 1 or (plr.DisplayName and plr.DisplayName:lower():find(arg) == 1) or (tostring(plr.UserId):lower():find(arg) == 1) then
+                    table.insert(players, plr)
+                end
+            end
+        end
+    end
+    return players
+end
+
+--[[ COMMANDS ]]--
+
+cmd.add({"fling"}, {"fling <player>", "Fling the given player"}, function(plr)
+ local player = game.Players.LocalPlayer
+ local mouse = player:GetMouse()
+ local Targets = {plr}
+ 
+ local Players = game:GetService("Players")
+ local Player = Players.LocalPlayer
+ 
+ local AllBool = false
+ 
+ local GetPlayer = function(Name)
+	Name = Name:lower()
+	if Name == "all" or Name == "others" then
+		AllBool = true
+		return
+	elseif Name == "random" then
+		local GetPlayers = Players:GetPlayers()
+		if table.find(GetPlayers,Player) then table.remove(GetPlayers,table.find(GetPlayers,Player)) end
+		return GetPlayers[math.random(#GetPlayers)]
+	elseif Name ~= "random" and Name ~= "all" and Name ~= "others" then
+		for _,x in next, Players:GetPlayers() do
+			if x ~= Player then
+				if x.Name:lower():match("^"..Name) then
+					return x;
+				elseif x.DisplayName:lower():match("^"..Name) then
+					return x;
 				end
-			else
-				Func(Index, Value)
-			end
-		end)
-	end
-end
-
-GetTools = function(Player)
-	Player = Player or Local.Player
-	local Backpack = Player.Backpack
-	local Char = Character(Player)
-	local Tools = {}
-
-	Foreach({ Backpack:GetChildren(), Char:GetChildren() }, function(Index, Tool) 
-		if Tool:IsA("Tool") then
-			Insert(Tools, Tool)
-		end	
-	end, true)
-
-	return Tools
-end
-
-HighSimulationRadius = function() 
-	Spawn(function() 
-		repeat Wait(1)
-			setsimulationradius(100000 * 100000, 100000 * 100000) 
-		until not Screen
-	end)
-end
-
-Randomize = function(Characters)
-	local Characters = (tonumber(Characters) or 10);
-	local String = Blank
-
-	for Index = 1, Characters do
-		String = String .. string.char(math.random(75, 90))
-	end
-
-	return String or "Failed"
-end
-
-R6Check = function(Player)
-	Player = Player or Local.Player
-	if Player then
-		if Player.Character:FindFirstChildOfClass("Humanoid").RigType == Enum.HumanoidRigType.R6 then
-			return true
-		end
-	end
-end
-
-StringToInstance = function(String)
-	local Path = Split(String, ".")
-	local Current = game
-
-	if Path[1] == "workspace" then
-		Current = workspace
-	end
-
-	table.remove(Path, 1)
-
-	for Index, Child in next, Path do
-		Current = Current[Child];
-	end
-
-	return Current
-end
-
-Minimum = function(Table, Minimum)
-	local New = {}
-
-	if Table then
-		for i,v in next, Table do
-			if i == Minimum or i > Minimum then
-				Insert(New, v);
 			end
 		end
-	end
-
-	return New
-end
-
-Chat = function(Message)
-	if Services.Chat:FindFirstChild("TextChannels") then
-		Services.Chat.TextChannels.RBXGeneral:SendAsync(Message);
 	else
-		Services.Replicated.DefaultChatSystemChatEvents.SayMessageRequest:FireServer(Message, "All");
+		return
 	end
+ end
+ 
+ local Message = function(_Title, _Text, Time)
+	print(_Title)
+	print(_Text)
+	print(Time)
 end
-
-CreateInstance = function(Name, Properties, Children)
-	local Object = Instance.new(Name)
-	for i, Property in next, Properties or {} do
-		Object[i] = Property
+ 
+ local SkidFling = function(TargetPlayer)
+	local Character = Player.Character
+	local Humanoid = Character and Character:FindFirstChildOfClass("Humanoid")
+	local RootPart = Humanoid and Humanoid.RootPart
+ 
+	local TCharacter = TargetPlayer.Character
+	local THumanoid
+	local TRootPart
+	local THead
+	local Accessory
+	local Handle
+ 
+	if TCharacter:FindFirstChildOfClass("Humanoid") then
+		THumanoid = TCharacter:FindFirstChildOfClass("Humanoid")
 	end
-
-	for i, Children in next, Children or {} do
-		Children.Parent = Object
+	if THumanoid and THumanoid.RootPart then
+		TRootPart = THumanoid.RootPart
 	end
-
-	return Object
-end
-
-local Fly = nil;
-
-Spawn(function()
-	if Local.Player.PlayerScripts.PlayerModule:FindFirstChild("ControlModule") then
-		local BodyGyro = Instance.new("BodyGyro")
-		BodyGyro.maxTorque = Vector3.new(1, 1, 1) * 10 ^ 6
-		BodyGyro.P = 10 ^ 6
-
-		local BodyVelocity = Instance.new("BodyVelocity")
-		BodyVelocity.maxForce = Vector3.new(1, 1, 1) * 10 ^ 6
-		BodyVelocity.P = 10 ^ 4
-
-		local isFlying = false
-		local Movement = {forward = 0, backward = 0, right = 0, left = 0}
-
-		local function SetFlying(flying)
-			isFlying = flying
-			BodyGyro.Parent = isFlying and Local.Character.HumanoidRootPart or nil
-			BodyVelocity.Parent = isFlying and Local.Character.HumanoidRootPart or nil
-			BodyVelocity.Velocity = Vector3.new()
-
-			Local.Character:FindFirstChild("Animate").Disabled = isFlying
-
-			if (isFlying) then
-				BodyGyro.CFrame = Local.Character.HumanoidRootPart.CFrame
-			end
+	if TCharacter:FindFirstChild("Head") then
+		THead = TCharacter.Head
+	end
+	if TCharacter:FindFirstChildOfClass("Accessory") then
+		Accessory = TCharacter:FindFirstChildOfClass("Accessory")
+	end
+	if Accessoy and Accessory:FindFirstChild("Handle") then
+		Handle = Accessory.Handle
+	end
+ 
+	if Character and Humanoid and RootPart then
+		if RootPart.Velocity.Magnitude < 50 then
+			getgenv().OldPos = RootPart.CFrame
 		end
-
-		local FlySpeed = 3
-
-		local function ModifyMovement(newMovement)
-			Movement = newMovement or Movement
-			if (isFlying) then
-				local isMoving = Movement.right + Movement.left + Movement.forward + Movement.backward > 0
-			end
+		if THumanoid and THumanoid.Sit and not AllBool then
 		end
-
-		local function MovementBind(actionName, InputState, inputObject)
-			if (InputState == Enum.UserInputState.Begin) then
-				Movement[actionName] = 1
-
-				ModifyMovement()
-			elseif (InputState == Enum.UserInputState.End) then
-				Movement[actionName] = 0
-
-				ModifyMovement()
-			end
-
-			return Enum.ContextActionResult.Pass
+		if THead then
+			workspace.CurrentCamera.CameraSubject = THead
+		elseif not THead and Handle then
+			workspace.CurrentCamera.CameraSubject = Handle
+		elseif THumanoid and TRootPart then
+			workspace.CurrentCamera.CameraSubject = THumanoid
 		end
-
-		Services.ContextActionService:BindAction("forward", MovementBind, false, Enum.PlayerActions.CharacterForward)
-		Services.ContextActionService:BindAction("backward", MovementBind, false, Enum.PlayerActions.CharacterBackward)
-		Services.ContextActionService:BindAction("left", MovementBind, false, Enum.PlayerActions.CharacterLeft)
-		Services.ContextActionService:BindAction("right", MovementBind, false, Enum.PlayerActions.CharacterRight)
-
-		if (not Local.Character.Humanoid or Local.Character.Humanoid:GetState() == Enum.HumanoidStateType.Dead) then
+		if not TCharacter:FindFirstChildWhichIsA("BasePart") then
 			return
 		end
-
-		local TouchFrame = nil
-
-		if Local.Player.PlayerGui:FindFirstChild("TouchGui") then
-			TouchFrame = Local.Player.PlayerGui.TouchGui:FindFirstChild("TouchControlFrame")
+		
+		local FPos = function(BasePart, Pos, Ang)
+			RootPart.CFrame = CFrame.new(BasePart.Position) * Pos * Ang
+			Character:SetPrimaryPartCFrame(CFrame.new(BasePart.Position) * Pos * Ang)
+			RootPart.Velocity = Vector3.new(9e7, 9e7 * 10, 9e7)
+			RootPart.RotVelocity = Vector3.new(9e8, 9e8, 9e8)
 		end
-
-		local IsMovingThumbstick = false
-		local DeadZone = 0.15
-		local DeadZoneNormalized = 1 - DeadZone
-
-		local function isTouchOnThumbstick(Position)
-			if not TouchFrame then
-				return false
-			end
-			local ClassicFrame = TouchFrame:FindFirstChild("ThumbstickFrame")
-			local DynamicFrame = TouchFrame:FindFirstChild("DynamicThumbstickFrame")
-			local StickFrame = (ClassicFrame and ClassicFrame.Visible) and ClassicFrame or DynamicFrame
-
-			if (StickFrame) then
-				local StickPosition = StickFrame.AbsolutePosition
-				local StickSize = StickFrame.AbsoluteSize
-				return Position.X >= StickPosition.X and Position.X <= (StickPosition.X + StickSize.X) and
-					Position.Y >= StickPosition.Y and
-					Position.Y <= (StickPosition.Y + StickSize.Y)
-			end
-			return false
-		end
-
-		Services.Input.TouchStarted:Connect(function(touch, gameProcessedEvent)
-			isMovingThumbstick = isTouchOnThumbstick(touch.Position)
-		end)
-
-		Services.Input.TouchEnded:Connect(function(touch, gameProcessedEvent)
-			if not isMovingThumbstick then
-				return
-			end
-			isMovingThumbstick = false
-			ModifyMovement({forward = 0, backward = 0, right = 0, left = 0})
-		end)
-
-		Services.Input.TouchMoved:Connect(function(touch, gameProcessedEvent)
-			if not isMovingThumbstick then
-				return
-			end
-
-			local MouseVector = Local.Player.Character.Humanoid.MoveDirection
-			local LeftRight = MouseVector.X
-			local ForeBack = MouseVector.Z
-
-			Movement.left = LeftRight < -DeadZone and -(LeftRight - DeadZone) / DeadZoneNormalized or 0
-			Movement.right = LeftRight > DeadZone and (LeftRight - DeadZone) / DeadZoneNormalized or 0
-
-			Movement.forward = ForeBack < -DeadZone and -(ForeBack - DeadZone) / DeadZoneNormalized or 0
-			Movement.backward = ForeBack > DeadZone and (ForeBack - DeadZone) / DeadZoneNormalized or 0
-			ModifyMovement()
-		end)
-
-		local function onUpdate(dt)
-			if (isFlying) then
-				local cf = workspace.CurrentCamera.CFrame
-				local direction =
-					cf.rightVector * (Movement.right - Movement.left) +
-					cf.lookVector * (Movement.forward - Movement.backward)
-				if (direction:Dot(direction) > 0) then
-					direction = direction.unit
-				end
-
-				BodyGyro.CFrame = cf
-				BodyVelocity.Velocity = direction * Local.Character.Humanoid.WalkSpeed * FlySpeed
-			end
-
-		end
-
-		function Fly(Boolean, SpeedValue)
-			FlySpeed = SpeedValue or 1
-			SetFlying(Boolean)
-
-			Services.Run.RenderStepped:Connect(onUpdate)
-		end
-	end
-end)
-
-local PlayerArgs = {
-	["all"] = function() 
-		return Services.Players:GetPlayers()
-	end,
-
-	["others"] = function()
-		local Targets = {}
-
-		Foreach(Services.Players:GetPlayers(), function(Index, Player) 
-			if Player ~= Local.Player then
-				Insert(Targets, Player)
-			end
-		end)
-
-		return Targets
-	end, 
-
-	["me"] = function()
-		return { Local.Player }
-	end,
-
-	["random"] = function()
-		local Amount = Services.Players:GetPlayers()
-
-		return { Amount[math.random(1, #Amount)] }
-	end,
-
-	["npc"] = function()
-		local Targets = {}
-
-		Foreach(workspace:GetDescendants(), function(Index, Model) 
-			if CheckIfNPC(Model) then
-				Insert(Targets, Model)
-			end
-		end)
-
-		return Targets
-	end, 
-
-	["seated"] = function()
-		local Targets = {}
-
-		Foreach(Services.Players:GetPlayers(), function(Index, Player) 
-			if GetHumanoid(Player.Character).Sit then
-				Insert(Targets, Player)
-			end
-		end)
-
-		return Targets
-	end, 
-
-	["stood"] = function()
-		local Targets = {}
-
-		Foreach(Services.Players:GetPlayers(), function(Index, Player) 
-			if not GetHumanoid(Player.Character).Sit then
-				Insert(Targets, Player)
-			end
-		end)
-
-		return Targets
-	end,
-
-	["closest"] = function()
-		local Targets = {}
-		local ClosestDistance, ClosestPlayer = 9e9, nil
-
-		Foreach(Services.Players:GetPlayers(), function(Index, Player) 
-			local Distance = Player:DistanceFromCharacter(GetRoot(Local.Character).Position)
-
-			if Player ~= Local.Player and Distance < ClosestDistance then
-				ClosestDistance = Distance
-				ClosestPlayer = Player
-			end
-		end)
-
-		return { ClosestPlayer }
-	end,
-
-	["farthest"] = function()
-		local Targets = {}
-		local FurthestDistance, FurthestPlayer = 0, nil
-
-		Foreach(Services.Players:GetPlayers(), function(Index, Player) 
-			local Distance = Player:DistanceFromCharacter(GetRoot(Local.Character).Position)
-
-			if Player ~= Local.Player and Distance > FurthestDistance then
-				FurthestDistance = Distance
-				FurthestPlayer = Player
-			end
-		end)
-
-		return { FurthestPlayer }
-	end,
-
-	["enemies"] = function()
-		local Targets = {}
-
-		Foreach(Services.Players:GetPlayers(), function(Index, Player) 
-			if Player.Team ~= Local.Player.Team then
-				Insert(Targets, Player)
-			end
-		end)
-
-		return Targets
-	end,
-
-	["dead"] = function()
-		local Targets = {}
-
-		Foreach(Services.Players:GetPlayers(), function(Index, Player) 
-			if GetHumanoid(Player.Character).Health == 0 then
-				Insert(Targets, Player)
-			end
-		end)
-
-		return Targets
-	end,
-
-
-	["alive"] = function()
-		local Targets = {}
-
-		Foreach(Services.Players:GetPlayers(), function(Index, Player) 
-			if GetHumanoid(Player.Character).Health > 0 then
-				Insert(Targets, Player)
-			end
-		end)
-
-		return Targets
-	end,
-
-	["friends"] = function()
-		local Targets = {}
-
-		Foreach(Services.Players:GetPlayers(), function(Index, Player) 
-			if Player:IsFriendsWith(Local.Player.UserId) and Local.Player ~= Player then
-				Insert(Targets, Player)
-			end
-		end)
-
-		return Targets
-	end,
-
-	["nonfriends"] = function()
-		local Targets = {}
-
-		Foreach(Services.Players:GetPlayers(), function(Index, Player) 
-			if not Player:IsFriendsWith(Local.Player.UserId) and Local.Player ~= Player then
-				Insert(Targets, Player)
-			end
-		end)
-
-		return Targets
-	end,
-}
-
-function GetPlayer(Target)
-	local Target = Lower(Target);
-	local Check = PlayerArgs[Target];
-
-	if Check then
-		return Check()
-	else
-		local Specific = {}
-
-		Foreach(Services.Players:GetPlayers(), function(Index, Player) 
-			local Name, Display = Lower(Player.Name), Lower(Player.DisplayName)
-
-			if Sub(Name, 1, #Target) == Target then
-				Insert(Specific, Player)
-
-			elseif Sub(Display, 1, #Target) == Target then
-				Insert(Specific, Player)
-			end
-		end)
-
-		return Specific
-	end
-end
-
-function RGB(Color, Factor, Mode)
-	Mode = Mode or Settings.Themes.Mode
-
-	if Mode == "Light" then
-		return Color3.fromRGB((Color.R * 255) - Factor, (Color.G * 255) - Factor, (Color.B * 255) - Factor)
-	else
-		return Color3.fromRGB((Color.R * 255) + Factor, (Color.G * 255) + Factor, (Color.B * 255) + Factor)
-	end
-end
-
-function StringToRGB(Item)
-	local Color = nil
-
-	if typeof(Item) == "string" then
-		Color = Color3.new(Unpack(Split(Item, ",")))
-	elseif typeof(Item) == "table" then
-		Color = Color3.new(Unpack(Item))
-	end
-
-	return Color3.fromRGB(Color.R * 255, Color.G * 255, Color.B * 255)
-end
-
-function DivideUDim2(Value, Amount)
-	local New = {
-		Value.X.Scale / Amount;
-		Value.X.Offset / Amount;
-		Value.Y.Scale / Amount;
-		Value.Y.Offset / Amount;
-	}
-
-	return UDim2.new(Unpack(New))
-end
-
-function MultiplyUDim2(Value, Amount)
-	local New = {
-		Value.X.Scale * Amount;
-		Value.X.Offset * Amount;
-		Value.Scale * Amount;
-		Value.Y.Offset * Amount;
-	}
-
-	return UDim2.new(Unpack(New))
-end
-
-local Tween = function(Object, Info, Table)
-	xpcall(function()
-		Services.Tween:Create(Object, Info, Table):Play()
-	end, function(Result)
-		warn(Format("error tweening %s\n%s", Object.Name, Result))
-	end)
-end
-
-
-Foreach({ Cmd:GetChildren(), Screen:GetChildren() }, function(Index, Canva)
-	if Canva:IsA("CanvasGroup") then
-		Canva.Visible = false;
-	end
-end, true)
-
--- Admin [LIBRARY]
-Command = {}
-Commands = {}
-Admins = {}
-FullArgs = {}
-Command.Count = 0
-Command.Toggles = {}
-
-local Env = function() 
-	return Command.Toggles
-end
-
-SetEnv = function(Name, Bool) 
-	Env()[Name] = false
-	Wait();
-	Env()[Name] = Bool
-end
-
--- Command [FUNCTIONS]
-
-Methods = {}
-
-Methods.RemoveRightGrip = function(Tool)
-	Tool.Parent = Local.Character
-	Tool.Parent = Local.Backpack
-	Tool.Parent = Local.Character.Humanoid
-	Tool.Parent = Local.Character
-end
-
-Methods.Check = function()
-	if Services.Replicated:FindFirstChild("DeleteCar") then
-		return true
-	elseif Local.Character:FindFirstChild("HandlessSegway") then
-		return true
-	elseif Local.Backpack:FindFirstChild("Building Tools") then
-		return true
-	else
-		for i, Descendant in next, game:GetDescendants() do
-			if Descendant.Name == "DestroySegway" then
-				return true
-			end
-		end
-	end
-end
-
-Methods.Destroy = function(Part)
-	if Services.Replicated:FindFirstChild("DeleteCar") then
-		Services.Replicated.DeleteCar:FireServer(Part);
-
-	elseif Local.Character:FindFirstChild("HandlessSegway") then
-		for i, Descendant in next, game:GetDescendants() do
-			if Descendant.Name == "DestroySegway" then
-				Descendant:FireServer(Part, {Value = Part});
-			end
-		end
-
-	elseif Services.Replicated:FindFirstChild("GuiHandler") then
-		Services.Replicated.GuiHandler:FireServer(false, Part);
-
-	elseif Local.Player.Backpack:FindFirstChild("Building Tools") then
-		local ArgumentTable = { [1] = "Remove", [2] = { [1] = Part } };
-		Local.Player.Backpack:FindFirstChild("Building Tools").SyncAPI.ServerEndpoint:InvokeServer(Unpack(ArgumentTable));
-	end
-end
-
-local Modules = {
-	Freecam = nil,
-	Glass = nil,
-	Bhop = nil,
-	ColorPicker = nil,
-}
-
--- Command [MODULES]
-Spawn(function()
-	Modules.Freecam = loadstring(game:HttpGet("https://raw.githubusercontent.com/lxte/cmd/main/assets/freecam"))();
-	Modules.ColorPicker = loadstring(game:HttpGet("https://raw.githubusercontent.com/lxte/cmd/main/assets/colorpicker"))();
-	Modules.Bhop = loadstring(game:HttpGet("https://raw.githubusercontent.com/lxte/cmd/main/assets/bhop"))();
-	Modules.Blur = loadstring(game:HttpGet("https://raw.githubusercontent.com/lxte/cmd/main/assets/blur"))();
-end)
-
-local PromptChangeRigType = function(RigType)
-	Services.AvatarEditor:PromptSaveAvatar(GetHumanoid(Local.Character).HumanoidDescription,Enum.HumanoidRigType[RigType])
-	Services.AvatarEditor.PromptSaveAvatarCompleted:Wait()
-	Command.Parse("respawn")
-end
-
-local Walkfling = function(Power, Distance, Bool)
-	Distance = tonumber(Distance) or 5
-	SetEnv("WalkFling", Bool);
-
-	Spawn(function()
-		local HumanoidRootPart, Character, Velocity, Movel = GetRoot(Local.Character), Local.Character, nil, 0.1
-		repeat
-			Wait()
-			if Env().WalkFling then
-				while Env().WalkFling and
-					not (Character and Character.Parent and HumanoidRootPart and HumanoidRootPart.Parent) do
-					Services.Run.Heartbeat:Wait()
-					local HumanoidRootPart, Character = GetRoot(Local.Character), Local.Character
-				end
-
-				if Env().WalkFling then
-					if Unpack(GetPlayer("closest")):DistanceFromCharacter(GetRoot(Local.Character).Position) <= Distance then
-						Velocity = HumanoidRootPart.Velocity
-						HumanoidRootPart.Velocity = Velocity * tonumber(Power) + Vector3.new(0, tonumber(Power), 0)
-						Services.Run.RenderStepped:Wait()
-						if Character and Character.Parent and HumanoidRootPart and HumanoidRootPart.Parent then
-							HumanoidRootPart.Velocity = Velocity
-						end
-						Services.Run.Stepped:Wait()
-						if Character and Character.Parent and HumanoidRootPart and HumanoidRootPart.Parent then
-							HumanoidRootPart.Velocity = Velocity + Vector3.new(0, Movel, 0)
-							Movel = Movel * -1
-						end
-					end
-				end
-			end
-		until not Env().WalkFling
-	end)
-end
-
-local Fling = function(Target)
-	local LocalRoot = GetRoot(Local.Character);
-	local LocalHumanoid = GetHumanoid(Local.Character);
-	local Old = LocalRoot.CFrame;
-
-	pcall(function()
-		Walkfling(10000, 100, true)
-		local Timer = tick()
-
-		repeat Wait()
-			local Root = GetRoot(Target.Character);
-			local Humanoid = GetHumanoid(Target.Character);
-
-			local Position = Root.CFrame
-			local Info = TweenInfo.new(0.12)
-
-			Local.Camera.CameraSubject = Humanoid
-			LocalHumanoid:SetStateEnabled(Enum.HumanoidStateType.Seated, false)
-
-			Tween(LocalRoot, Info, { CFrame = (Root.CFrame + (Root.Velocity * math.random(1, 2.5))) }) 
-			Wait(0.12)
-			Tween(LocalRoot, Info, { CFrame = Position * CFrame.new(0, 1, math.random(-2, 2))})
-			Wait(0.12)
-
-		until (tick() - Timer > 3) or not Root or Root.Velocity.Magnitude > 200 or not LocalRoot or LocalHumanoid.Health == 0 or Humanoid.Sit
-
-		Wait(0.2)
-		workspace.CurrentCamera.CameraSubject = GetHumanoid(Local.Character)
-		LocalRoot.CFrame = Old
-		Walkfling(10000, 1000, false)
-	end)
-end	
-
--- UI [LIBRARY]
-local Utils = {}
-local Tweens = {}
-local Tab = {}
-local Library = {}
-local Autofills = {}
-local Utils = {}
-Tweens.Info = {}
-
-Autofills.Args = {
-	["String"] = {
-		Name = "String",
-		Background = Color3.fromRGB(121, 255, 111),
-		Outline = Color3.fromRGB(135, 255, 116),
-		Icon = "http://www.roblox.com/asset/?id=6034934040"
-	},
-
-	["Player"] = {
-		Name = "Player",
-		Background = Color3.fromRGB(255, 107, 107),
-		Outline = Color3.fromRGB(255, 116, 116),
-		Icon = "http://www.roblox.com/asset/?id=6034287594"
-	},
-
-	["Number"] = {
-		Name = "Number",
-		Background = Color3.fromRGB(102, 171, 255),
-		Outline = Color3.fromRGB(112, 145, 255),
-		Icon = "rbxassetid://16798074797"
-	},
-
-	["Bool"] = {
-		Name = "Bool",
-		Background = Color3.fromRGB(252, 255, 98),
-		Outline = Color3.fromRGB(255, 250, 103),
-		Icon = "rbxassetid://7743869317"
-	}
-}
-
-Tweens.AddInfo = function(Element)
-	if Element and Element:IsA("CanvasGroup") then
-		local Shadow = Element:FindFirstChildOfClass("UIStroke");
-		local Name = Element.Name;
-
-		if not Tweens.Info[Name] then
-			Tweens.Info[Name] = { 
-				Size = Element.Size, 
-				Transparency = Element.GroupTransparency,
-				Shadow = nil,
-			}
-
-			if Shadow then
-				Tweens.Info[Name].Shadow = Shadow.Transparency 
-			end
-		end
-
-		return Tweens.Info[Name]
-	end
-end
-
-Tweens.Open = function(List)
-	local Canvas = List.Canvas
-	local Speed = List.Speed
-	local Position = List.Position or UDim2.new(0.5, 0, 0.5, 0)
-	local Name = Canvas.Name
-	local Info = Tweens.AddInfo(Canvas)
-	local Shadow = Canvas:FindFirstChildOfClass("UIStroke")
-
-	local Size = Info.Size
-	local Transparency = Settings.Themes.Transparency
-	local Outline = Info.Shadow
-	local New = DivideUDim2(Size, 1.1)
-	local Info = TweenInfo.new(Speed, Enum.EasingStyle.Sine, Enum.EasingDirection.Out)
-
-	Canvas.Size = New
-	Canvas.Position = Position
-	Canvas.GroupTransparency = 1
-	Canvas.Visible = true
-
-	Tween(Canvas, Info, { Size = Size })
-	Tween(Canvas, Info, { GroupTransparency = Transparency })
-
-	if Shadow then
-		Tween(Shadow, Info, { Transparency = Outline })
-	end
-
-	Delay(Speed, function()
-		Canvas.GroupTransparency = Transparency
-	end)
-end
-
-Tweens.Close = function(List)
-	local Canvas = List.Canvas
-	local Speed = List.Speed
-	local Name = Canvas.Name
-	local Info = Tweens.AddInfo(Canvas)
-	local Shadow = Canvas:FindFirstChildOfClass("UIStroke")
-	local Size = Info.Size
-	local Transparency = Settings.Themes.Transparency
-	local New = DivideUDim2(Size, 1.1)
-	local Info = TweenInfo.new(Speed, Enum.EasingStyle.Sine, Enum.EasingDirection.Out)
-
-	Tween(Canvas, Info, { Size = New })
-	Tween(Canvas, Info, { GroupTransparency = 1 })
-
-	if Shadow then
-		Tween(Shadow, Info, { Transparency = 1 })
-	end
-
-	Delay(Speed, function()
-		Canvas.Visible = false
-	end)
-end
-
-Tab.SetPage = function(Page)
-	local Tabs = Page.Parent
-	local Info = TweenInfo.new(0.4)
-
-	for Index, Tab in next, Tabs:GetChildren() do
-		if Tab:IsA("Frame") then
-			local Opened = Tab.Opened
-
-			if Opened.Value and Tab ~= Page then
-				Tween(Tab, Info, { Position = UDim2.new(1.5, 0, 0.5, 25) })
-				Opened.Value = false
-			elseif Tab == Page and not Page.Opened.Value then
-				Tab.Position = UDim2.new(-0.5, 0, 0.5, 25)
-				Tween(Tab, Info, { Position = UDim2.new(0.5, 0, 0.5, 25) })
-				Opened.Value = true
-			end
-		end
-	end
-end
-
-Library.Resizing = { 
-	Top = { X = Vector2.new(0, 0),    Y = Vector2.new(0, -1)};
-	Bottom = { X = Vector2.new(0, 0),    Y = Vector2.new(0, 1)};
-	Left = { X = Vector2.new(-1, 0),   Y = Vector2.new(0, 0)};
-	Right = { X = Vector2.new(1, 0),    Y = Vector2.new(0, 0)};
-	TopLeft = { X = Vector2.new(-1, 0),   Y = Vector2.new(0, -1)};
-	TopRight = { X = Vector2.new(1, 0),    Y = Vector2.new(0, -1)};
-	BottomLeft = { X = Vector2.new(-1, 0),   Y = Vector2.new(0, 1)};
-	BottomRight = { X = Vector2.new(1, 0),    Y = Vector2.new(0, 1)};
-}
-
-Library.Resizable = function(Tab, Minimum, Maximum)
-	Spawn(function()
-		local MousePos, Size, UIPos = nil, nil, nil
-
-		if Tab and Tab:FindFirstChild("Resizeable") then
-			local Positions = Tab:FindFirstChild("Resizeable")
-
-			for Index, Types in next, Positions:GetChildren() do
-				Connect(Types.InputBegan, function(Input)
-					if Input.UserInputType == Enum.UserInputType.MouseButton1 then
-						Type = Types
-						MousePos = Vector2.new(Local.Mouse.X, Local.Mouse.Y)
-						Size = Tab.AbsoluteSize
-						UIPos = Tab.Position
-					end
-				end)
-
-				Connect(Types.InputEnded, function(Input)
-					if Input.UserInputType == Enum.UserInputType.MouseButton1 then
-						Type = nil
-					end
-				end)
-			end
-		end
-
-		local Resize = function(Delta)
-			if Type and MousePos and Size and UIPos and Tab:FindFirstChild("Resizeable")[Type.Name] == Type then
-				local Mode = Library.Resizing[Type.Name]
-				local NewSize = Vector2.new(Size.X + Delta.X * Mode.X.X, Size.Y + Delta.Y * Mode.Y.Y)
-				NewSize = Vector2.new(math.clamp(NewSize.X, Minimum.X, Maximum.X), math.clamp(NewSize.Y, Minimum.Y, Maximum.Y))
-
-				local AnchorOffset = Vector2.new(Tab.AnchorPoint.X * Size.X, Tab.AnchorPoint.Y * Size.Y)
-				local NewAnchorOffset = Vector2.new(Tab.AnchorPoint.X * NewSize.X, Tab.AnchorPoint.Y * NewSize.Y)
-				local DeltaAnchorOffset = NewAnchorOffset - AnchorOffset
-
-				Tab.Size = UDim2.new(0, NewSize.X, 0, NewSize.Y)
-
-				local NewPosition = UDim2.new(
-					UIPos.X.Scale, 
-					UIPos.X.Offset + DeltaAnchorOffset.X * Mode.X.X,
-					UIPos.Y.Scale,
-					UIPos.Y.Offset + DeltaAnchorOffset.Y * Mode.Y.Y
-				)
-				Tab.Position = NewPosition
-			end
-		end
-
-		Connect(Local.Mouse.Move, function()
-			if Type then
-				Resize(Vector2.new(Local.Mouse.X, Local.Mouse.Y) - MousePos)
-			end
-		end)
-	end)
-end
-
-
-Library.Hover = function(Object, Speed, Color)
-	Spawn(function()
-		Speed = Speed or 0.3
-
-		if Object:IsA("GuiObject") then
-			local Hover = Object:FindFirstChild("HoverPadding")
-			local Info = TweenInfo.new(Speed)
-
-			Connect(Object.InputBegan, function()
-				local Theme = Color or Settings.Themes.Secondary
-				Object.BackgroundColor3 = Theme
-
-				Tween(Object, Info, { BackgroundColor3 = RGB(Theme, 5)})
-
-				if Hover then
-					Tween(Hover, Info, { PaddingLeft = UDim.new(0, 5) })
-				end
-			end)
-
-			Connect(Object.InputEnded, function()
-				local Theme = Color or Settings.Themes.Secondary
-
-				Tween(Object, Info, { BackgroundColor3 = Theme})
-
-				if Hover then
-					Tween(Hover, Info, { PaddingLeft = UDim.new(0, 0) })
-				end
-			end)
-		end
-	end)
-end
-
-Type = nil;
-
-Tab.new = function(Info)
-	local Title = Info.Title
-	local Drag = Info.Drag
-	local New = Example:Clone()
-	local Top = New.Top
-	local Buttons = Top.Buttons
-	local Minimized = New.Minimized
-	local Info = TweenInfo.new(0.3)
-	local BlurTable = nil
-
-	New.Parent = Screen
-	New.TabPopup.Visible = false
-	New.Visible = false
-	Top.Title.Text = Title
-	New.Name = Title
-
-
-	if Settings.Blur then
-		pcall(function() 
-			Blurred[Title] = Modules.Blur.new(New, 5)
-		end)
-	end
-
-	for Index, Button in next, Buttons:GetChildren() do
-		Library.Hover(Button)
-	end
-
-	if Drag then
-		Library.Drag(New)
-	end
-
-	Connect(PropertyChanged(New, "Visible"), function() 
-		pcall(function()
-			Wait(0.2);
-
-			if Blurred[Title] and Settings.Blur and New.Visible then
-				Blurred[Title].root.Parent = workspace.CurrentCamera
-			end
-		end)
-	end)
-
-	Connect(Buttons.Close.MouseButton1Click, function()
-		pcall(function()
-			Tweens.Close({ Canvas = New, Speed = 0.25 })
-
-			if Blurred[Title] then
-				Blurred[Title].root.Parent = nil
-			end
-		end)
-	end)
-
-	Connect(Buttons.Back.MouseButton1Click, function()
-		Tab.SetPage(New.Tabs.Main)
-	end)
-
-	Connect(Buttons.Minimize.MouseButton1Click, function()
-		if Minimized.Value then
-			Tween(New, Info, { Size = UDim2.fromOffset(293, 367) })
-		else
-			Tween(New, Info, { Size = UDim2.fromOffset(293, 60) })
-		end
-
-		Minimized.Value = not Minimized.Value
-	end)
-
-	Library.Resizable(New, Vector2.new(202, 253), Vector2.new(1000, 1000))
-
-	return New
-end
-
-Tab.Popup = function(Tab, Title)
-	local Popup = Tab:FindFirstChild("TabPopup")
-	local Shadow = Tab:FindFirstChild("ShadowBG")
-	local InfoTween = TweenInfo.new(0.2)
-
-	if Popup then
-		local New = Popup:Clone()
-		local Top = New.Top
-		local Scroll = New.Main.Scroll
-
-		New.Parent = Tab
-		New.Position = UDim2.fromScale(0, 1.4)
-		Top.Title.Text = Title
-
-		Connect(Top.Buttons.Close.MouseButton1Click, function()
-			Tweens.Close({
-				Canvas = New,
-				Speed = 0.25,
-			})
-
-			if Shadow then
-				Tween(Shadow, InfoTween, { BackgroundTransparency = 1 })
-			end
-		end)
-
-		return New, Scroll
-	end
-end
-
-Tab.ShowPopup = function(Popup)
-	local Shadow = Popup.Parent:FindFirstChild("ShadowBG")
-
-	if Popup then
-		local Info = TweenInfo.new(0.25)
-		Popup.Position = UDim2.fromScale(0, 1.4)
-		Popup.GroupTransparency = 1
-		Popup.Visible = true
-
-		Tweens.Open({
-			Canvas = Popup,
-			Speed = 0.25,
-			Position = UDim2.new(0.5, 0, 0.615, 0)
-		})
-
-		if Shadow then
-			Tween(Shadow, Info, { BackgroundTransparency = 0.8 })
-		end
-	end
-end
-
-Library.Drag = function(Canvas)
-	if Canvas then
-		local Dragging;
-		local DragInput;
-		local Start;
-		local StartPosition;
-
-		local function Update(input)
-			local delta = input.Position - Start
-			Canvas.Position = UDim2.new(StartPosition.X.Scale, StartPosition.X.Offset + delta.X, StartPosition.Y.Scale, StartPosition.Y.Offset + delta.Y)
-		end
-
-		Connect(Canvas.InputBegan, function(Input)
-			if Input.UserInputType == Enum.UserInputType.MouseButton1 or Input.UserInputType == Enum.UserInputType.Touch and not Type then
-				Dragging = true
-				Start = Input.Position
-				StartPosition = Canvas.Position
-
-				Connect(Input.Changed, function()
-					if Input.UserInputState == Enum.UserInputState.End then
-						Dragging = false
-					end
-				end)
-			end
-		end)
-
-		Connect(Canvas.InputChanged, function(Input)
-			if Input.UserInputType == Enum.UserInputType.MouseMovement or Input.UserInputType == Enum.UserInputType.Touch and not Type then
-				DragInput = Input
-			end
-		end)
-
-		Connect(Services.Input.InputChanged, function(Input)
-			if Input == DragInput and Dragging and not Type then
-				Update(Input)
-			end
-		end)
-	end
-end
-
-Library.new = function(Object, Info)
-	local Parent = Info.Parent
-	local Title = Info.Title
-	local Description = Info.Description
-	local Default = Info.Default
-	local Callback = Info.Callback
-	local Item = Lib:FindFirstChild(Object)
-
-	if Item then
-		local New = Item:Clone()
-		New.Parent = Parent
-		New.Visible = true
-
-		if New:IsA("GuiButton") then
-			Library.Hover(New)
-		end
-
-		if Title then
-			New.Content.Title.Text = Title
-		else
-			New.Content.Title:Destroy()
-		end
-
-		if Description then
-			New.Content.Description.Text = Description
-		else
-			New.Content.Description:Destroy()
-		end
-
-		if Object == "Button" then
-			Connect(New.MouseButton1Click, function()
-				Callback()
-			end)
-
-		elseif Object == "Bind" then
-			local Keybind = New.Title
-			local Done, Time = false, tick()
-			local Detect = nil
-			local InputType = Enum.UserInputType;
-			local MouseInputs = { InputType.MouseButton1, InputType.MouseButton2, InputType.MouseButton3 };
-
-			Connect(New.MouseButton1Click, function()
-				Done = false
-				Keybind.Text = "..."
-
-				Detect = Connect(Services.Input.InputBegan, function(Key)
-					if table.find(MouseInputs, Key.UserInputType) and not Done then
-						Callback(Key)
-						Done = true
-						Keybind.Text = tostring(Key.UserInputType):gsub("Enum.UserInputType.", Blank):gsub("MouseButton", "MB")
-					elseif not Done then
-						Done = true
-						Callback(Key)
-						Done = true
-						Keybind.Text = tostring(Key.KeyCode):gsub("Enum.KeyCode.", Blank)
-					end
-				end)
-			end)
-
-			Spawn(function()
-				repeat Wait() until Done or tick() - Time == 5
-
-				if Detect then
-					Detect:Disconnect()
-				end
-			end)
-
-		elseif Object == "Dropdown" then
-			local Options = New.Options
-			local Drop = New.Drop
-			local Scroll = Options.Scroll
-			local DropdownOptions = Info.Options
-			local Opened = Drop.Opened
-			local Arrow = Drop.Arrow
-			New.ZIndex = 2
-
-			local Info = TweenInfo.new(0.25);
-			Library.Hover(New);
-
-			local Show = function() 
-				local TweenSize, ArrowRotation = nil, nil
-
-				if Opened.Value then
-					TweenSize = UDim2.fromOffset(88, 0)
-					ArrowRotation = 0
-
-					Delay(0.1, function() 
-						Options.Visible = false
-					end)
-				else
-					TweenSize = UDim2.fromOffset(88, 137)
-					ArrowRotation = 180
-
-					Options.Visible = true
-				end
-
-				Tween(Options, Info, { Size = TweenSize });
-				Tween(Arrow, Info, { Rotation = ArrowRotation });
-
-				Opened.Value = not Opened.Value
-			end
-
-			Foreach(DropdownOptions, function(Index, Option)
-				local Button = Lib.DropdownButton
-				local Clone = Button:Clone()
-
-				Clone.Parent = Scroll 
-				Clone.Text = Index or "no name!"
-				Clone.Visible = true
-				Library.Hover(Clone)
-
-				Connect(Clone.MouseButton1Click, function() 
-					Drop.Text = Index
-
-					Tween(Options, Info, { Size = UDim2.fromOffset(88, 0) });
-					Tween(Arrow, Info, { Rotation = 0 });
-					Callback(Option);
-				end)
-			end)
-
-			Connect(Drop.MouseButton1Click, Show)
-			Connect(New.MouseButton1Click, Show)
-
-		elseif Object == "Input" then
-			local TextBox = New.Box
-			TextBox.Text = tostring(Default)
-
-			Connect(New.MouseButton1Click, function()
-				TextBox:CaptureFocus()
-			end)
-
-			Connect(TextBox.FocusLost, function()
-				Callback(TextBox.Text)
-			end)
-
-			return TextBox
-
-		elseif Object == "Toggle" then
-			local Bool = New.On
-			local Toggle = New.Toggle
-			local Circle = Toggle.Circle
-			local Info = TweenInfo.new(0.3)
-
-			local Set = function(On)
-				if On then
-					Tween(Toggle, Info, { BackgroundColor3 = Color3.fromRGB(99, 218, 92) })
-					Tween(Circle, Info, { BackgroundColor3 = Color3.fromRGB(255, 255, 255), Position = UDim2.new(0.509, 0,0.5, 0) })
-				else
-					Tween(Toggle, Info, { BackgroundColor3 = Settings.Themes.Outline })
-					Tween(Circle, Info, { BackgroundColor3 = Settings.Themes.Secondary, Position = UDim2.new(0.089, 0,0.5, 0) })
-				end
-
-				Bool.Value = On
-			end
-
-			Set(Default)
-
-			Connect(New.MouseButton1Click, function()
-				Set(not Bool.Value)
-				Callback(Bool.Value)
-			end)
-
-		elseif Object == "Label" then
-			return New
-		elseif Object == "Switch" then
-			local NewTab = Lib.Tab:Clone()
-			local Scroll = NewTab.Scroll
-			local Folder = Parent
-
-			if Folder.Name ~= "Tabs" then
-				Folder = Folder:FindFirstAncestor("Tabs")
-			end
-
-			NewTab.Parent = Folder
-			NewTab.Position = UDim2.new(-0.5, 0, 0.562, 0)
-			NewTab.Visible = true
-			NewTab.Opened.Value = false
-
-			Connect(New.MouseButton1Click, function()
-				Tab.SetPage(NewTab)
-			end)
-
-			return NewTab.Scroll, New
-		end
-	end
-end
-
-Library.Bar = function(Bool)
-	local UI = { b = { UDim2.new(0.5, 0, 0, 0), Bar }, a = { UDim2.new(0.5, 0, 0, 80), Autofill }}
-
-	if Bool then
-		for Index, Variable in UI do
-			if Variable then
-				Tweens.Open({
-					Canvas = Variable[2],
-					Speed = 0.15,
-					Position = Variable[1],
-				})
-			end
-		end
-	else
-		for Index, Variable in UI do
-			if Variable then
-				Tweens.Close({
-					Canvas = Variable[2],
-					Speed = 0.15,
-				})
-
-				for Index = 1, 10 do
-					pcall(function()
-						Box:ReleaseFocus()
-						Blurred["Bar"].root.Parent = nil
-						Blurred["Autofill"].root.Parent = nil
-					end)
-				end
-			end
-		end
-	end
-end
-
-Library.Theming = {
-	Names = {
-		["Opened"] = function(Item)
-			if Item:IsA("BoolValue") then
-				local Tab = Item.Parent
-				Tab.BackgroundColor3 = RGB(Settings.Themes.Primary, 3)
-			end
-		end,
-
-		["Dropdown"] = function(Item)
-			if Item:IsA("Frame") then
-				Item.BackgroundColor3 = Settings.Themes.Secondary
-			end
-		end,
-
-		["Drop"] = function(Item)
-			if Item:IsA("GuiButton") and Item.Parent.Name == "Dropdown" then
-				Item.BackgroundColor3 = Settings.Themes.Primary
-				Item.TextColor3 = Settings.Themes.Description
-			end
-		end,
-
-		["DropdownButton"] = function(Item)
-			if Item:IsA("GuiButton") then
-				Item.BackgroundColor3 = Settings.Themes.Primary
-			end
-		end,
-
-		["Options"] = function(Item)
-			if Item:IsA("Frame") and Item.Parent.Name == "Dropdown" then
-				Item.BackgroundColor3 = RGB(Settings.Themes.Primary, 3)
-			end
-		end,
-
-		["Title"] = function(Item)
-			Item.TextColor3 = Settings.Themes.Title
-		end,
-
-		["Description"] = function(Item)
-			Item.TextColor3 = Settings.Themes.Description
-		end,
-
-		["Top"] = function(Item)
-			Item.BackgroundColor3 = Settings.Themes.Secondary
-		end,
-
-		["Box"] = function(Item)
-			Item.TextColor3 = Settings.Themes.Title
-			Item.BackgroundColor3 = Settings.Themes.Outline
-		end,
-
-		["Recommend"] = function(Item)
-			Box.TextColor3 = Settings.Themes.Description
-		end,
-
-		["Stroke"] = function(Item)
-			Item.Color = Settings.Themes.Outline
-		end,
-
-		["Shadow"] = function(Item)
-			if Item:IsA("UIStroke") then
-				Item.Color = Settings.Themes.Shadow
-			end
-		end,
-
-		["AutofillObject"] = function(Item)
-			Item.BackgroundColor3 = Settings.Themes.Secondary
-		end,
-
-		["Buttons"] = function(Item)
-			if Item:IsA("Frame") then
-				for Index, Button in next, Item:GetChildren() do
-					if Button:IsA("GuiButton") then
-						Button.BackgroundColor3 = Settings.Themes.Secondary
-					end
-				end
-			end
-		end,
-
-		["Decline"] = function(Item)
-			Item.BackgroundColor3 = Settings.Themes.Primary
-		end,
-
-		["Line"] = function(Item)
-			Item.BackgroundColor3 = Settings.Themes.Outline
-		end,
-	},
-
-	Classes = {
-		["CanvasGroup"] = function(Item)
-			Item.BackgroundColor3 = Settings.Themes.Primary
-			Item.GroupTransparency = Settings.Themes.Transparency
-		end,
-
-		["ImageLabel"] = function(Item)
-			if Item.Name ~= "ColourDisplay" then
-				Item.ImageColor3 = Settings.Themes.Icon
-			end
-		end,
-
-		["ImageButton"] = function(Item)
-			if not Autofills.Args[Item.Name] and Item.Name ~= "DarknessPicker" and Item.Name ~= "ColourWheel" then
-				Item.ImageColor3 = Settings.Themes.Icon
-			end
-		end,
-
-		["ScrollingFrame"] = function(Item)
-			Item.ScrollBarImageColor3 = Settings.Themes.Outline
-		end,
-	},
-}
-
-do
-
-	local Ignore = { "Tab", "Section", };
-
-	for Index, Button in next, Lib:GetChildren() do
-		if (Button:IsA("GuiButton") or Button:IsA("Frame")) and not Discover(Ignore, Button.Name) then
-			Library.Theming.Names[Button.Name] = function(Item)	
-				if Item.Parent.Name ~= "Toggle" then
-					Item.BackgroundColor3 = Settings.Themes.Secondary
-				end
-
-				if Item.Name == "Toggle" and Item:IsA("GuiButton") then
-					local On = Item.On
-					local Toggle = Item.Toggle					
-					local Circle = Toggle.Circle
-
-					if not On.Value then
-						Toggle.BackgroundColor3 = Settings.Themes.Outline
-						Circle.BackgroundColor3 = Settings.Themes.Primary
-					else
-						Toggle.BackgroundColor3 = Color3.fromRGB(99, 218, 92)
-						Circle.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-					end
-				end
-			end
-		end
-	end
-end
-
-Library.LoadTheme = function(Table)
-	if Table then
-		Settings.Themes = Table
-	end
-
-	for Index, Object in next, Screen:GetDescendants() do
-		if Library.Theming.Names[Object.Name] then
-			local Function = Library.Theming.Names[Object.Name]
-			Function(Object)
-
-		elseif Library.Theming.Classes[Object.ClassName] then
-			local Function = Library.Theming.Classes[Object.ClassName]
-			Function(Object)
-		end
-	end
-end
-
-Library.Themes = {
-	["Dark"] = function()
-		local Old = Settings.Themes.Transparency
-
-		Settings.Themes = {
-			Primary = Color3.fromRGB(0, 0, 0),
-			Secondary = Color3.fromRGB(0, 0, 0),
-			Third = Color3.fromRGB(0, 0, 0),
-			Title = Color3.fromRGB(160, 32, 240),
-			Description = Color3.fromRGB(160, 32, 240),
-			Icon = Color3.fromRGB(160, 32, 240),
-			Shadow = Color3.fromRGB(0, 0, 0),
-			Outline = Color3.fromRGB(0, 0, 0),
-			Transparency = Old,
-			Mode = "Dark"
-		}
-
-		Library.LoadTheme()
-	end,
-}
-
-Autofills.AutoSize = function(Number)
-	Spawn(function()
-		local Info = TweenInfo.new(0.25, Enum.EasingStyle.Quad, Enum.EasingDirection.Out)
-		local Sizes = {
-			[1] = UDim2.fromOffset(460, 80),
-			[2] = UDim2.fromOffset(460, 132),
-			[3] = UDim2.fromOffset(460, 187),
-			[4] = UDim2.fromOffset(460, 241),
-		}
-
-		if Number < 4 then
-			Tween(Autofill, Info, { Size = Sizes[Number] })
-		elseif Number == 4 or Number > 4 then
-			Tween(Autofill, Info, { Size = Sizes[4] })
-		end
-	end)
-end
-
-Autofills.AddArguments = function(Frame, Arguments)
-	for Index, Argument in Arguments do
-		if Index and Argument then
-			local Name = Argument.Name
-			local Type = Argument.Type
-
-			local Arg = Autofills.Args[Type]
-
-			if Arg then
-				local Name, Background, Outline, Icon = Arg.Name, Arg.Background, Arg.Outline, Arg.Icon
-				local UI = Lib.AutofillArgument:Clone()
-				UI.BackgroundColor3 = Background;
-				UI.Stroke.Color = Outline;
-				UI.Icon.Image = Icon;
-				UI.Visible = true;
-				UI.Parent = Frame;
-				UI.Name = Name;
-			end
-		end
-	end
-end
-
-Autofills.Add = function(Table)
-	local Aliases = Table[1]
-	local Description = Table[2]
-	local Arguments = Table[3]
-	local Plugin = Table[4]
-	local Callback = Table[5]
-	local Arg = Concat(Aliases, " / ")
-
-	local Scroll = Autofill.Main.Scroll
-	local Example = Scroll.Example
-	local New = Example:Clone()
-	local Content = New.Content
-	local Args = New.Arguments
-
-	Content.Title.Text = Arg
-	Content.Description.Text = Description
-	New.Parent = Scroll
-	New.Visible = true
-	New.Name = "AutofillObject"
-
-	Autofills.AddArguments(Args, Arguments)
-end
-
-Autofills.Search = function(Input)
-	Spawn(function()
-		local Lowered = GSub(Lower(Split(Input, " ")[1]), Settings.Prefix, Blank)
-		local Scroll = Autofill.Main.Scroll
-		local FoundFirst = false
-		local Amount = 0
-
-		for Index, Frame in next, Scroll:GetChildren() do
-			if Frame:IsA("Frame") and Frame.Name == "AutofillObject" then
-				local Content = Frame.Content
-
-				if Find(Lower(Content.Title.Text), Lowered) then 
-					if not FoundFirst then
-						Frame.BackgroundColor3 = Settings.Themes.Secondary
-						FoundFirst = true
-					else
-						Frame.BackgroundColor3 = RGB(Settings.Themes.Primary, 3)
-					end
-
-					Amount = Amount + 1
-
-					Frame.Visible = true
-				else
-					Frame.Visible = false
-				end
-			end
-		end
-		Autofills.AutoSize(Amount)
-	end)
-end
-
-Utils.NotificationInfo = {
-	["Information"] = {
-		Color = Color3.fromRGB(160, 32, 240),
-	},
-
-	["Error"] = {
-		Color = Color3.fromRGB(160, 32, 240),
-	},
-
-	["Warning"] = {
-		Color = Color3.fromRGB(160, 32, 240),
-	},
-
-	["Success"] = {
-		Color = Color3.fromRGB(160, 32, 240),
-	},
-}
-
-Utils.Notify = function(Type, Title, Description, Duration)
-	if not Options.Notifications then return end 
-
-	Duration = tonumber(Duration) or 5
-	local Notification = Screen.Notification.Example:Clone()
-	local Timer = Notification.Timer
-	local Top = Notification.Top
-	local Info = TweenInfo.new(Duration)
-	local Table = Utils.NotificationInfo[Type] or Utils.NotificationInfo.Information
-
-	if Title then
-		Top.Title.Text = Title
-	end
-
-	if Description then
-		Notification.Description.Text = Description
-	end
-
-	Notification.Visible = true
-	Notification.Parent = Screen.Notification
-	Timer.BackgroundColor3 = Table.Color
-
-	Tween(Timer, Info, { Size = UDim2.new(0, 0, 0, 3), Position = UDim2.new(0, 0, 0.977, 0) })
-	Tweens.Open({ Canvas = Notification, Speed = 0.25 })
-
-	Delay(Duration, function()
-		Tweens.Close({ Canvas = Notification, Speed = 0.25 })
-		Wait(0.3)
-		Notification:Destroy()
-	end)
-end
-
-Utils.Popup = function(Title, Description, Callback)
-	if not Options.Popups then Callback(); return end
-
-	local New = Popup:Clone()
-	local Content = New.Content
-	local Bottom = New.Top
-
-	local Close = function()
-		Tweens.Close({
-			Canvas = New,
-			Speed = 0.25,
-		})
-	end
-
-	Content.Title.Text = Title
-	Content.Description.Text = Description
-	New.Parent = Screen
-
-	for Index, Button in next, Bottom:GetChildren() do
-		if Button:IsA("GuiButton") then
-			if Button.Name == "Confirm" then
-				Library.Hover(Button, 0.2, Button.BackgroundColor3)
-			else
-				Library.Hover(Button, 0.2, Settings.Themes.Primary)
-			end
-
-			Connect(Button.MouseButton1Click, function()
-				if Button.Name == "Confirm" then
-					Callback()
-				end
-
-				Close()
-			end)
-		end
-	end
-
-	Tweens.Open({
-		Canvas = New,
-		Speed = 0.25,
-	})
-end
-
-Utils.ColorPopup = function(Callback)
-	local New = ColorPopup:Clone()
-	New.Parent = Screen
-
-	local Close = function()
-		Tweens.Close({
-			Canvas = New,
-			Speed = 0.25,
-		})
-	end
-
-	Tweens.Open({
-		Canvas = New,
-		Speed = 0.25,
-	})
-
-	local Color = nil
-
-	Spawn(function()
-		Color = Modules.ColorPicker:Setup(New, Callback)
-	end)
-
-	for Index, Button in next, New.Buttons:GetChildren() do
-		if Button:IsA("GuiButton") then
-			Library.Hover(Button, 0.2, Settings.Themes.Secondary)
-
-			Connect(Button.MouseButton1Click, function()
-				Close()
-				Wait(0.5)
-				New:Destroy()
-			end)
-		end
-	end
-end
-
--- Data [FUNCS]
-Data = {}
-Event = {}
-Events = {}
-
-Data.Webhook = {}
-
-Data.new = function(Name, Info)
-	if Checks.File then
-		writefile(Format('DD/Data/%s', Name), Info)
-	else
-		warn("Exploit doesn't support file functions")
-	end
-end
-
-Data.get = function(Name)
-	if Checks.File and isfile(Format('DD/Data/%s', Name)) then
-		return readfile(Format('DD/Data/%s', Name))
-	elseif Checks.File then
-		warn(Format("Couldn't find the data called %s", Name))
-	end
-end
-
-Data.GetSetting = function(Info)
-	local Settings = JSONDecode(Services.Http, Data.get("Settings.json") or JSONEncode(Services.Http, Settings))
-
-	if Settings[Info] then
-		return Settings[Info]
-	else
-		warn(Info)
-		return false
-	end
-end
-
-Data.SetSetting = function(Setting, Info)
-	local Decoded = JSONDecode(Services.Http, Data.get("Settings.json") or JSONEncode(Services.Http, Settings))
-
-	if Decoded[Setting] then
-		Decoded[Setting] = Info
-	end
-
-	Settings[Setting] = Info
-
-	Data.new("Settings.json", JSONEncode(Services.Http, Decoded));
-end
-
-Data.SaveTheme = function(ThemeTable)
-	Library.LoadTheme(ThemeTable)
-	local Themes = {}
-
-	for Index, Color in next, ThemeTable do
-		Themes[Index] = tostring(Color)
-	end
-
-	Data.new("Themes.json", JSONEncode(Services.Http, Themes));
-end
-
-Data.SetUpThemeTable = function(ThemeTable)
-	local Themes = {}
-
-	for Index, Theme in next, ThemeTable do
-		if Index ~= "Transparency" and Index ~= "Mode" then
-			Themes[Index] = StringToRGB(Theme)
-		elseif Index == "Transparency" then
-			Themes[Index] = tonumber(Theme)
-		else
-			Themes[Index] = Theme
-		end
-	end
-
-	return Themes
-end
-
-Data.SaveAlias = function(Command, Alias) 
-	if Command and Alias then
-		local AliasData = JSONDecode(Services.Http, Data.get("CustomAliases.json"))
-		AliasData[Alias] = Command
-
-		Data.new("CustomAliases.json", JSONEncode(Services.Http, AliasData));
-	end
-end
-
-Data.SetOption = function(OptionName, Value)
-	Options[OptionName] = Value
-	Data.new("Toggles.json", JSONEncode(Services.Http, Options));
-end
-
-Data.Webhook.Send = function(Webhook, Message)
-	request({
-		Url = Webhook,
-		Method = "POST",
-		Headers = {
-			["content-type"] = "application/json"
-		};
-
-		Body = JSONEncode(Services.Http, {
-			["content"] = Message
-		});
-	})
-end
-
-Event.Default =  JSONEncode(Services.Http, { ["Executed"] = {}, ["Chat"] = {}, ["Respawn"] = {}, ["Died"] = {}, ["Damaged"] = {}, ["Leaving"] = {} })
-
-if Checks.File then
-	if not Data.get("Events.json") then
-		Data.new("Events.json", Event.Default);
-	end
-	
-	if not Data.get("Settings.json") then
-		Data.new("Settings.json", JSONEncode(Services.Http, Settings));
-	end
-	
-	if not Data.get("Themes.json") then
-		local Themes = {}
-	
-		for Index, Color in next, Settings.Themes do
-			Themes[Index] = tostring(Color)
-		end
-	
-		Data.new("Themes.json", JSONEncode(Services.Http, Themes));
-	end
-	
-	if not Data.get("CustomAliases.json") then
-		Data.new("CustomAliases.json", JSONEncode(Services.Http, {}));
-	end
-	
-	if not Data.get("Scale.json") then
-		Data.new("Scale.json", "1");
-	end
-
-	if not Data.get("Toggles.json") then
-		Data.new("Toggles.json", JSONEncode(Services.Http, Options));
-	end
-
-	Spawn(function()
-		Events = JSONDecode(Services.Http, Data.get("Events.json") or Event.Default)
-		Settings.Themes = Data.SetUpThemeTable(JSONDecode(Services.Http, Data.get("Themes.json")));
-
-		local Themes = Settings.Themes;
-		Settings = JSONDecode(Services.Http, Data.get("Settings.json") or JSONEncode(Services.Http, Settings));
-		Settings.Themes = (Themes or Settings.Themes);
-		Settings.ScaleSize = (Data.get("Scale.json") or 1);
-		Options = JSONDecode(Services.Http, Data.get("Toggles.json") or JSONEncode(Services.Http, Options));
-
-		if Settings and (not Settings.Version or Settings.Version ~= OriginalSettings.Version) then
-			Utils.Notify("Information", "Outdated Settings", "Since your saved settings are outdated, Cmd has reset them. Do not worry, your prefix & themes are still the same", 15)
-
-			for Index, Setting in next, OriginalSettings do
-				if Index ~= "Prefix" and Index ~= "Themes" and Index ~= "ScaleSize" and Index ~= "Blur" then
-					Settings[Index] = Setting
-				end
-			end
-
-			if Settings.Blur == nil then
-				Settings.Blur = false
-			end
-
-			Data.new("Settings.json", JSONEncode(Services.Http, Settings));
-		end
-	end)
-end
-
-SetUIScale = function(Scale)
-	if not tonumber(Scale) then return end
-	Settings.ScaleSize = tonumber(Scale)
-
-	for Index, UIScale in next, Screen:GetDescendants() do
-		if UIScale:IsA("UIScale") and UIScale.Name == "DeviceScale" then
-			UIScale.Scale = tonumber(Scale)
-		end
-	end
-
-	if Checks.File then
-		Data.new("Scale.json", tostring(Scale))
-	end
-end
-
--- Command [LIBRARY]
-Command.Add = function(Information)
-	local Aliases = Information.Aliases;
-	local Description = Information.Description;
-	local Arguments = Information.Arguments;
-	local Plugin = Information.Plugin;
-	local Task = Information.Task;
-
-	for Index, Value in next, Aliases do
-		Index = Lower(Value)
-	end
-
-	Commands[Aliases[1]] = { Aliases, Description, Arguments, Plugin, Task } 
-	Command.Count = Command.Count + 1
-end
-
-Command.Find = function(Input)
-	for Index, Table in next, Commands do
-		local Aliases = Table[1]
-		local Found = FindTable(Aliases, Input)
-
-		if Found then
-			return Table
-		end
-	end
-end
-
-Command.Run = function(Name, Callbacks)
-	Spawn(function()
-		local Table = Command.Find(Name)
-
-		if Table and Name ~= Blank then
-			local Callback = Table[5]
-
-			xpcall(function() 
-				Callback(Unpack(Callbacks))
-			end, function(Result) 
-				warn(Format("[COMMAND ERROR] : Error occured trying to run the command - %s\nERROR: %s", Name, Result))
-			end)
-
-		elseif Name ~= Blank then
-			Utils.Notify("Error", "Command not found", Format("The command <b>%s</b> doesn't exist", Name), 5)
-		end
-	end)
-end
-
-Command.Parse = function(Input)
-	if Screen.Parent then
-		local Name, ArgsString = GSub(Input, Settings.Prefix, Blank):match("^%s*([^%s]+)%s*(.*)$")
-
-		if Name then
-			local Arguments = {}
-			for arg in ArgsString:gmatch("%s*([^"..Settings.Seperator .."]+)") do
-				Insert(Arguments, arg)
-			end
-
-			FullArgs = Arguments
-			Command.Run(Lower(Name), Arguments)
-		end
-	end
-end
-
-Command.Whitelist = function(Player)
-	Admins[Player.UserId] = true
-	Connect(Player.Chatted, function(Message)
-		if Admins[Player.UserId] and Match(Message, "^%p") then
-			Command.Parse(Message);
-		end
-	end)
-end
-
-Command.RemoveWhitelist = function(Player)
-	Admins[Player.UserId] = false
-end
-
-Autofills.Recommend = function(Input)
-	if not Options.Recommendation then 
-		Recommend.Text = Blank; return
-	end
-
-	local Lowered = Lower(Split(Input, ' ')[1])
-	local Found = false
-
-	if #Split(Input, ' ') == 1 then
-		for Index, Table in Commands do
-			for Index, Name in Table[1] do
-				if Find(Sub(Name, 1, #Lowered), Lower(Lowered)) or Name == Lowered then
-					Tween(pressTab, TweenInfo.new(0.35), { TextTransparency = 0 })
-					Recommend.Text = GSub(Name, Lowered, Split(Input, " ")[1])
-					Found = true
-				end
-			end
-		end
-	end
-
-	if #Split(Input, " ") > 1 and Screen.Parent then
-		local Command = Command.Find(Lowered)
-		if Command then
-			local Arguments = Command[3]
-			local New = Split(Input, " ")
-
-			if #Arguments > 0 then
-				if Arguments[#New - 1] and Arguments[#New - 1].Type == "Player" then
-					local PlayerFound = false
-					local Player = New[#New]
-					for Index, Plr in next, Services.Players:GetPlayers() do
-						if Find(Sub(Lower(Plr.DisplayName), 1, #Player), Lower(Player)) then
-							local Name = Format(" %s", GSub(Lower(Plr.DisplayName), Lower(Player), Player))
-							Recommend.Text = Sub(Input, 1, #Input - #Player - 1) .. Name
-							Found = true
-							PlayerFound = true
-						end
-					end
-
-					if not PlayerFound then
-						for Index, Plr in next, Services.Players:GetPlayers() do
-							if Find(Sub(Lower(Plr.Name), 1, #Player), Lower(Player)) then
-								local Name = Format(" %s", GSub(Lower(Plr.Name), Lower(Player), Player))
-								Recommend.Text = Sub(Input, 1, #Input - #Player - 1) .. Name
-								Found = true
-								PlayerFound = true
-							end
-						end
-					end
-
-					if not PlayerFound then
-						local GetPlayerArguments = { "all", "random", "others", "seated", "stood", "me", "closest", "farthest", "enemies", "dead", "alive", "friends", "nonfriends"}
-						for Index, Arg in next, GetPlayerArguments do
-							if Find(Sub(Arg, 1, #Player), Lower(Player)) then
-								local Name = Format(" %s", GSub(Lower(Arg), Lower(Player), Player))
-								Recommend.Text = Sub(Input, 1, #Input - #Player - 1) .. Name
-								Found = true
-								PlayerFound = true
-							end
-						end 
-					end
-				end
-			end
-		end
-	end
-
-	if not Found then
-		Tween(pressTab, TweenInfo.new(0.35), { TextTransparency = 1 })
-		Recommend.Text = Blank
-	end
-end
-
-local OldHealth = 100
-
-Event.New = function(Name, Connection, UseHumanoid, HumanoidProperty, HumanoidCheck, ConnectionFunction) 
-	if not Screen then return end 
-
-	if Checks.File then
-		Events[Name] = (JSONDecode(Services.Http, Data.get("Events.json") or "{'Name': {}}, ")[Name]) or {}
-	else
-		Events[Name] = {}
-	end
-
-	if Name == "Executed" then
-		for Index, Cmd in next, Events[Name] do
-			Command.Parse(Cmd)
-		end
-	elseif UseHumanoid and HumanoidProperty then
-		Connect(PropertyChanged(Local.Character.Humanoid, HumanoidProperty), function() 
-			if HumanoidCheck(Local.Character.Humanoid) then
-				for Index, Cmd in next, Events[Name] do
-					Command.Parse(Cmd)
-				end
-			end
-		end)
-
-		Local.Player.CharacterAdded:Connect(function(Char)
-			Wait(.5);
-			local Humanoid = Char:WaitForChild("Humanoid");
-			OldHealth = 100
-
-			Connect(PropertyChanged(Local.Character.Humanoid, HumanoidProperty), function() 
-				if HumanoidCheck(Local.Character.Humanoid) then
-					for Index, Cmd in next, Events[Name] do
-						Command.Parse(Cmd)
-					end
-				end
-			end)
-		end)
-	elseif ConnectionFunction then
-		Connect(Connection, function(Connect) 
-			if ConnectionFunction(Connect) then
-				for Index, Cmd in next, Events[Name] do
-					Command.Parse(Cmd);
-				end
-			end
-		end)
-	else
-		Connect(Connection, function() 
-			for Index, Cmd in next, Events[Name] do
-				Command.Parse(Cmd);
-			end
-		end)
-	end
-end
-
-Event.AddCommand = function(Event, Command)
-	if not Screen then return end 
-
-	if Events[Event] then
-		Insert(Events[Event], Command)
-
-		local SavedEvents = JSONDecode(Services.Http, Data.get("Events.json") or Event.Default);
-		local SavedEvent = Events[Event];
-
-		if not Discover(SavedEvent, Command) then
-			SavedEvent[#SavedEvent + 1] = Command
-		end
-
-		Data.new("Events.json", JSONEncode(Services.Http, Events));
-	end
-end
-
-if Checks.File then
-	Events = JSONDecode(Services.Http, Data.get("Events.json") or Event.Default);
-end
-
--- Admin [COMMANDS]
-
-Command.Add({
-	Aliases = { "commands", "cmds" },
-	Description = "See all the commands",
-	Arguments = {},
-	Plugin = false,
-	Task = function()
-		if not Screen:FindFirstChild("Commands") then
-
-			local Main = Tab.new({
-				Title = "Commands",
-				Drag = true
-			})
-
-			local Tabs = Main.Tabs
-			local MainTab = Tabs.Main.Scroll
-
-			Tweens.Open({ Canvas = Main, Speed = 0.3 })
-
-			local ShowResults = function(Message)
-				Message = Message:lower()
-
-				for Index, Cmd in next, MainTab:GetChildren() do
-					if Cmd.Name == "Label" and Cmd:IsA("Frame") then
-						local Title = Cmd.Content.Title
-						Cmd.Visible = Find(Lower(Title.Text), Message)
-					end
-				end
-			end
-
-			local Search = Library.new("Input", { 
-				Title = "Search",
-				Parent = MainTab,
-				Default = Blank,
-				Callback = function(Message)
-					ShowResults(Message)
-				end,
-			})
-
-			Connect(PropertyChanged(Search, "Text"), function()
-				ShowResults(Search.Text)
-			end)
-
-			for Index, Table in next, Commands do
-				Wait()
-				local Aliases = Table[1]
-				local Description = Table[2]
-				local Arguments = Table[3]
-				local Plugin = Table[4]
-				local Argument = Blank
-				local ArgAmount = 1
-				local Arg = Concat(Aliases, " / ")
-
-				-- Argument Description
-
-				if #Arguments > 0 then
-					for Index, Arg in Arguments do
-						if Index and Arg then
-							local Name = Arg.Name
-							local Type = Arg.Type
-							local Seperate = Blank
-
-							if ArgAmount > 1 then
-								Seperate = ", "
-							end
-
-							Argument = Argument .. Format("%s%s (%s)", Seperate, Name, Type)
-							ArgAmount = ArgAmount + 1
-						end
-					end
-				end
-
-				-- UI
-
-				if Argument ~= Blank then
-					Library.new("Label", { 
-						Title = Arg, 
-						Description = Format("%s\nArguments: %s", Description, Argument), 
-						Parent = MainTab 
-					})
-				else
-					Library.new("Label", { 
-						Title = Arg, 
-						Description = Description, 
-						Parent = MainTab 
-					})
-				end
-			end
-		else
-			Tweens.Open({ Canvas = Screen:FindFirstChild("Commands"), Speed = 0.3 })
-		end
-	end,
-})
-
-Command.Add({
-	Aliases = { "servers" },
-	Description = "Lists all other servers",
-	Arguments = {},
-	Plugin = false,
-	Task = function()
-		if not Screen:FindFirstChild("Servers") then
-
-			local Main = Tab.new({
-				Title = "Servers",
-				Drag = true
-			})
-
-			local Tabs = Main.Tabs
-			local MainTab = Tabs.Main.Scroll	
-			local URL = "https://games.roblox.com/v1/games/" .. game.PlaceId .. "/servers/Public?limit=100"
-			local ServerTable = {}
-			local Info = game:GetService("HttpService"):JSONDecode(game:HttpGetAsync(URL))
-
-			for Index, Server in next, Info.data do
-				if type(Server) == "table" and Server.maxPlayers > Server.playing then
-					Insert(ServerTable, {Server.ping, Server.id, Server.playing, Server.maxPlayers})
-				end
-			end
-
-			for Index, Info in next, ServerTable do
-				Library.new("Button", { 
-					Title = tostring(Info[2]),
-					Description =  Format('Ping: %s \n%s/%s Players', tostring(Info[1]), tostring(Info[3]), tostring(Info[4])),
-					Parent = MainTab,
-					Callback = function()
-						Services.Teleport:TeleportToPlaceInstance(game.PlaceId, Info[2], Local.Player)
-					end,
-				})
-			end
-
-			Tweens.Open({ Canvas = Main, Speed = 0.3 })
-		else
-			Tweens.Open({ Canvas = Screen:FindFirstChild("Servers"), Speed = 0.3 })
-		end
-	end,
-})
-
-Command.Add({
-	Aliases = { "settings", "options" },
-	Description = "Modify all the Settings of Cmd",
-	Arguments = {},
-	Plugin = false,
-	Task = function()
-		if not Screen:FindFirstChild("Settings") then
-			local Main = Tab.new({ Title = "Settings", Drag = true })
-			local Tabs = Main.Tabs
-			local MainTab = Tabs.Main.Scroll
-
-			-- Tabs
-			local Information = Library.new("Switch", { Title = "Information", Description = "Get info about Cmd", Parent = MainTab })
-			local EventSwitch = Library.new("Switch", { Title = "Events", Description = "Run commands whenever something happens", Parent = MainTab })
-			local Aliases = Library.new("Switch", { Title = "Aliases", Description = "Add custom aliases (nicknames) for commands!", Parent = MainTab })
-			local Toggles = Library.new("Switch", { Title = "Toggles", Description = "Enable or Disable certain Cmd options", Parent = MainTab })	
-			local Themes = Library.new("Switch", { Title = "Themes", Description = "Modify the appearance of Cmd", Parent = MainTab })	
-			local Default = Library.new("Switch", { Title = "Default Themes", Description = "Default Themes on Cmd", Parent = Themes })
-			local Custom = Library.new("Switch", { Title = "Custom", Description = "Make your own custom theme", Parent = Themes })
-
-			-- Information
-			
-			Library.new("Section", { Title = "Cmd", Parent = Information })
-
-			Library.new("Label", { Title = "Commands loaded",
-				Description = tostring(Command.Count),
-				Parent = Information 
-			})
-
-			Library.new("Label", { Title = "Version",
-				Description = Settings.Version,
-				Parent = Information 
-			})
-
-			Library.new("Label", { Title = "Prefix",
-				Description = Settings.Prefix,
-				Parent = Information 
-			})
-
-			Library.new("Label", { Title = "Player Seperator",
-				Description = Format("kill player1%splayer2", Settings.Player),
-				Parent = Information 
-			})
-
-			Library.new("Label", { Title = "UI Scale Size",
-				Description = tostring(Settings.ScaleSize),
-				Parent = Information 
-			})
-
-			-- Events
-			Library.new("Section", { Title = "Add Events", Parent = EventSwitch })
-
-			local AddEventBindButton = function(EventName, Description) 
-				local EventCommand = nil
-
-				Library.new("Button", { 
-					Title = EventName,
-					Description = Description,
-					Parent = EventSwitch,
-					Callback = function()
-						local Popup, Scroll = Tab.Popup(Main, "Add a new bind")
-	
-						Tab.ShowPopup(Popup)
-	
-						Library.new("Input", { 
-							Title = "Command",
-							Description = "The command you want to run (Arguments can be inputted too!)",
-							Parent = Scroll,
-							Default = Blank,
-							Callback = function(Cmd)
-								EventCommand = Cmd
-							end,
-						})
-	
-						
-						Library.new("Button", { 
-							Title = "Create",
-							Description = "Create the Event!",
-							Parent = Scroll,
-							Callback = function()
-								if EventCommand then
-									Event.AddCommand(EventName, EventCommand)
-									Utils.Notify("Success", "Success!", "Event command made!")
-								else
-									Utils.Notify("Error", "Error!", "Could not find Command")
-								end
-							end,
-						})		
-					end,
-				})
-			end
-
-			AddEventBindButton("Executed", "Runs a command as soon as Cmd is executed");
-			AddEventBindButton("Chat", "Runs a command as soon as you chat something");
-			AddEventBindButton("Respawn", "Runs a command as soon as your character respawns");
-			AddEventBindButton("Died", "Runs a command as soon as your character dies");
-			AddEventBindButton("Damaged", "Runs a command as soon as your character dies");
-			AddEventBindButton("Leaving", "Runs a command as soon as you're about to leave");
-
-			Library.new("Section", { Title = "Remove Events", Parent = EventSwitch })
-
-			local DeleteEventType, DeleteEvent = nil, nil
-
-			Library.new("Input", { 
-				Title = "Event Type",
-				Description = "Example; Damaged",
-				Parent = EventSwitch,
-				Default = Blank,
-				Callback = function(Cmd)
-					DeleteEventType = Cmd
-				end,
-			})
-
-			Library.new("Input", { 
-				Title = "Event Command",
-				Description = "Example; goto random",
-				Parent = EventSwitch,
-				Default = Blank,
-				Callback = function(Cmd)
-					DeleteEvent = Cmd
-				end,
-			})
-
-			Library.new("Button", { 
-				Title = "Delete",
-				Description = "Delete the event",
-				Parent = EventSwitch,
-				Callback = function()
-					local Type = Events[DeleteEventType] or {} 
-
-					for Index, Event in next, Type do
-						if Lower(Event) == Lower(DeleteEvent) then
-							Type[Index] = nil
-						end
-					end
-
-					Data.new("Events.json", JSONEncode(Services.Http, Events))
-				end,
-			})
-
-			-- Aliases
-			local CommandInputted = nil
-			local AliasInputted = nil
-
-			Library.new("Section", { Title = "Add Aliases", Parent = Aliases })
-
-			Library.new("Input", { Title = "Command Name", Description = "The name for the command you're trying to add an alias to", Default = Blank, Parent = Aliases, Callback = function(Input) 
-				CommandInputted = Input
-			end})
-
-			Library.new("Input", { Title = "Alias Name", Description = "The alias you want the command to be called", Default = Blank, Parent = Aliases, Callback = function(Input) 
-				AliasInputted = Input
-			end})
-
-			Library.new("Button", { 
-				Title = "Set Alias",
-				Description = "Set the alias for the command",
-				Parent = Aliases,
-				Callback = function()
-					if CommandInputted and AliasInputted and not Command.Find(AliasInputted) then
-						local Cmd = Command.Find(Lower(CommandInputted))
-
-						if Cmd and AliasInputted then
-							local Aliases = Cmd[1]
-							Aliases[#Aliases + 1] = Lower(AliasInputted)
-							Data.SaveAlias(CommandInputted, AliasInputted)
-							Utils.Notify("Success", "Success!", Format("Added alias '%s' to command '%s'", Lower(AliasInputted), CommandInputted), 10)
-						else
-							Utils.Notify("Error", "Error!", "Command not found, check for any spelling mistakes", 5)
-						end
-
-					else
-						Utils.Notify("Error", "Error!", "One or more arguments missing OR Alias already exists", 5)
-					end
-				end,
-			})
-
-			Library.new("Section", { Title = "Delete Aliases", Parent = Aliases })
-
-			Library.new("Input", { Title = "Delete Alias", Description = "Deletes the CUSTOM Alias you put", Default = Blank, Parent = Aliases, Callback = function(Input) 
-				local Alias = JSONDecode(Services.Http, Data.get("CustomAliases.json"));
-
-				if Alias then
-					for Aliases, Cmd in next, Alias do
-						if Aliases == Lower(Input) then
-							Alias[Input] = nil
-							Utils.Notify("Success", "Success", "Deleted alias successfully", 5)
-						end
-					end
-				end
-
-				Data.new("CustomAliases.json", JSONEncode(Services.Http, Alias));
-			end})
-
-			-- Toggles
-
-			Library.new("Section", { Title = "Interface Options", Parent = Toggles })
-
-			Library.new("Toggle", { Title = "Show Notifications",
-				Description = "If disabled, it will not show you any notifications",
-				Default = Options.Notifications,
-				Parent = Toggles,
-				Callback = function(Boolean)
-					Data.SetOption("Notifications", Boolean)
-				end,
-			})
-
-			Library.new("Toggle", { Title = "Show Popups",
-				Description = "If disabled, any popups sent will be automatically accepted",
-				Default = Options.Popups,
-				Parent = Toggles,
-				Callback = function(Boolean)
-					Data.SetOption("Popups", Boolean)
-				end,
-			})
-
-			Library.new("Toggle", { Title = "Command Bar Recommend",
-				Description = "If enabled it will give you recommendations for commands if you type something in the Command Bar",
-				Default = Options.Recommendation,
-				Parent = Toggles,
-				Callback = function(Boolean)
-					Data.SetOption("Recommendation", Boolean)
-				end,
-			})
-
-			Library.new("Toggle", { Title = "Anti Interfere",
-				Description = "Any other Command Bars like Cmdr & Kohls Admin won't show",
-				Default = Options.AntiInterfere,
-				Parent = Toggles,
-				Callback = function(Boolean)
-					Data.SetOption("AntiInterfere", Boolean)
-				end,
-			})
-
-			Library.new("Section", { Title = "Automatic Options", Parent = Toggles })
-
-			Library.new("Toggle", { Title = "Automatic Logging",
-				Description = "Automatically logs CHAT messages, even before you ran the logs command",
-				Default = Options.Logging,
-				Parent = Toggles,
-				Callback = function(Boolean)
-					Data.SetOption("Logging", Boolean)
-				end,
-			})
-
-			Library.new("Toggle", { Title = "Automatic Simulation Radius",
-				Description = "Automatically sets your simulation radius to 9e9",
-				Default = Options.AutoSimRadius,
-				Parent = Toggles,
-				Callback = function(Boolean)
-					Data.SetOption("AutoSimRadius", Boolean)
-				end,
-			})
-
-			-- Themes
-			Library.new("Input", { Title = "Transparency", Description = "Set transparency of the UI", Default = "0.05", Parent = Themes, Callback = function(Input) 
-				local Numeral = tonumber(Input)
-
-				if Numeral and Numeral < 0.9 then
-					Settings.Themes.Transparency = Numeral
-					Library.LoadTheme()
-				end
-			end})
-
-			Library.new("Input", { Title = "UIScale", Description = "Set the Scale of the UI.\nDefault - 1", Default = tostring(Settings.ScaleSize), Parent = Themes, Callback = function(Input) 
-				local Numeral = tonumber(Input)
-
-				if Numeral and Numeral < 2 and Numeral > 0.2 then
-					SetUIScale(Numeral)
-
-					Utils.Notify("Success", "Success!", "Set and saved your UIScale successfully!", 15)
-				else
-					Utils.Notify("Error", "Error!", "Couldn't set UIScale, make sure that the value inputted is more than 0.2 and less than 2!", 15)
-				end
-			end})
-
-			Library.new("Toggle", { Title = "UI Blurring",
-				Description = "Blurs the background of the UI (Graphics need to be set to 8+), recommended transparency - 0.1",
-				Default = Settings.Blur,
-				Parent = Themes,
-				Callback = function(Boolean)
-					Settings.Blur = Boolean
-
-					if Boolean then
-						local Ignore = { "Command", "Library", "Notification", "Open", "Popup", "ColorPopup", "Source" }
-
-						Foreach(Blurred, function(Index, Self) 
-							if Self.owner.Visible then
-								Self.root.Parent = workspace.CurrentCamera
-							end
-						end)
-
-						Foreach(Screen:GetChildren(), function(Index, Child) 
-							if not Discover(Ignore, Child.Name) then
-								if not Blurred[Child.Name] then
-									Blurred[Child.Name] = Modules.Blur.new(Child, 5)
-								end
-
-								if Child.Visible then
-									Blurred[Child.Name].root.Parent = workspace.CurrentCamera
-								else
-									Blurred[Child.Name].root.Parent = nil
-								end
-							end
-						end)
-					else
-						Foreach(Blurred, function(Index, Self) 
-							Self.root.Parent = nil
-						end)
-					end
-
-					Data.new("Settings.json", JSONEncode(Services.Http, Settings))
-				end,
-			})
-
-			Library.new("Button", { 
-				Title = "Save Theme",
-				Description = "Save the current theme you have applied",
-				Parent = Custom,
-				Callback = function()
-					Data.SaveTheme(Settings.Themes)
-					Utils.Notify("Success", "Success!", "Theme has been saved", 5)
-				end,
-			})
-
-			local ThemeDescriptions = {
-				["Primary"] = "Changes the background color of Cmd", ["Secondary"] = "Changes the secondary color of Cmd (buttons, topbar, etc.)", ["Title"] = "Changes the Text Color of the Titles", ["Description"] = "Changes the Text Color of descriptions", ["Icon"] = "Changes the color of all icons", ["Shadow"] = "Changes the color of the outlines around Tabs, etc.", ["Outline"] = "Changes the color of outlines inside of Tabs, etc."
-			}
-
-			for Index, Theme in next, Settings.Themes do
-				if Index ~= "Transparency" and Index ~= "Mode" then
-					Library.new("Button", { 
-						Title = Index,
-						Description = ThemeDescriptions[Index] or Blank,
-						Parent = Custom,
-						Callback = function()
-							Utils.ColorPopup(function(RGB)
-								if RGB then
-									Settings.Themes[Index] = RGB
-									Library.LoadTheme(Settings.Themes)
-								else
-									Utils.Notify("Error", "Error!", "Failed to get RGB value", 5)
-								end
-							end)
-						end,
-					})
-				end
-			end
-
-			for Index, Theme in Library.Themes do
-				Library.new("Button", { 
-					Title = Index,
-					Parent = Default,
-					Callback = function()
-						Theme()
-					end,
-				})
-			end
-
-			Tweens.Open({ Canvas = Main, Speed = 0.3 })
-		else
-			Tweens.Open({ Canvas = Screen:FindFirstChild("Settings"), Speed = 0.3 })
-		end
-	end,
-})
-
-Command.Add({
-	Aliases = { "players", },
-	Description = "Get a list of info on players",
-	Arguments = {},
-	Plugin = false,
-	Task = function()
-		if not Screen:FindFirstChild("Players") then
-			local Main = Tab.new({
-				Title = "Players",
-				Drag = true
-			})
-
-			local Tabs = Main.Tabs
-			local MainTab = Tabs.Main.Scroll
-
-			local MakeTab = function(Player)
-				if Player then
-					local Name = Player.Name
-					local Display = Player.DisplayName
-					local Age = Player.AccountAge
-					local UserId = Player.UserId
-					local Team = Player.Team
-
-					local New, Button = Library.new("Switch", { Title = Display, Description = Format("@%s", Name), Parent = MainTab })
-					Library.new("Section", { Title = "Information", Parent = New })
-
-					Library.new("Label", { 
-						Title = "Account Age",
-						Description = Format("%s days", tostring(Age)),
-						Parent = New,
-					})
-
-					Library.new("Label", { 
-						Title = "User Id",
-						Description = tostring(UserId),
-						Parent = New,
-					})
-
-					Library.new("Label", { 
-						Title = "Team",
-						Description = Team,
-						Parent = New,
-					})
-
-					Library.new("Section", { Title = "Actions", Parent = New })
-
-					Library.new("Button", { 
-						Title = "Goto",
-						Description = "Teleports you to the target",
-						Parent = New,
-						Callback = function()
-							GetRoot(Local.Character).CFrame = GetRoot(Character(Player)).CFrame
-						end,
-					})
-
-					Library.new("Toggle", { 
-						Title = "Spectate",
-						Description = "Makes you view the player",
-						Parent = New,
-						Default = false,
-						Callback = function(Bool)
-							local Humanoid = GetHumanoid(Character(Player))
-
-							if Humanoid then
-								if Bool then
-									Local.Camera.CameraSubject = Humanoid
-								else
-									Local.Camera.CameraSubject = GetHumanoid(Local.Character)
-								end
-							end
-						end,
-					})
-
-					Library.new("Input", { 
-						Title = "Whisper",
-						Description = "Whisper something to them",
-						Parent = New,
-						Default = Blank,
-						Callback = function(Message)
-							Chat(Format("/w %s %s", Name, Message))
-						end,
-					})
-
-					Connect(Services.Players.PlayerRemoving, function(PlayerInstance)
-						if PlayerInstance == Player then
-							Button:Destroy()
-						end
-					end)
-				end
-			end
-
-			for Index, Player in next, Services.Players:GetPlayers() do
-				MakeTab(Player)
-			end
-
-			Connect(Services.Players.PlayerAdded, function(Player)
-				MakeTab(Player)
-			end)
-
-			Tweens.Open({ Canvas = Main, Speed = 0.3 })
-		else
-			Tweens.Open({ Canvas = Screen:FindFirstChild("Players"), Speed = 0.3 })
-		end
-	end,
-})
-
-Command.Add({
-    Aliases = { "clogs" },
-    Description = "Shows All Logged Chats (Private | Public | Phone Logs, etc.)",
-    Arguments = {},
-    Plugin = false,
-    Task = function()
-        if not Screen:FindFirstChild("Chat Logs") then
-            local Order = 99999999
-            local Connections = {}
-            local Logs = {}
-
-            local Main = Tab.new({
-                Title = "Chat Logs",
-                Drag = true
-            })
-
-            local SetOrder = function(LibraryInstance)
-                Order = Order - 1
-                LibraryInstance.LayoutOrder = Order
-                return LibraryInstance
-            end
-
-            local Tabs = Main.Tabs
-            local MainTab = Tabs.Main.Scroll
-
-            Library.new("Section", { Title = "Chat Logs", Parent = MainTab })
-            local Chat = Library.new("Switch", { 
-                Title = "Chat", 
-                Description = "Logs every time someone chats", 
-                Parent = MainTab 
-            })
-
-            if type(AutoLogger) == "table" then
-                for _, Info in next, AutoLogger do
-                    local Message, Player = Info[1], Info[2]
-                    if Player and Message then
-                        local Username = Format("%s (@%s)", Player.DisplayName or "Unknown", Player.Name or "Unknown")
-                        local LogEntry = SetOrder(Library.new("Label", { 
-                            Title = Username, 
-                            Description = Format('said "%s"', Message), 
-                            Parent = Chat 
-                        }))
-                        table.insert(Logs, {Username = Username, Message = Message, LogEntry = LogEntry})
-                    end
-                end
-            end
-
-            for _, Player in next, Services.Players:GetPlayers() do
-                local Connection = Player.Chatted:Connect(function(Message)
-                    local Username = Format("%s (@%s)", Player.DisplayName or "Unknown", Player.Name or "Unknown")
-                    local LogEntry = SetOrder(Library.new("Label", { 
-                        Title = Username, 
-                        Description = Format('said "%s"', Message), 
-                        Parent = Chat 
-                    }))
-                    table.insert(Logs, {Username = Username, Message = Message, LogEntry = LogEntry})
-                end)
-                table.insert(Connections, Connection)
-            end
-
-            Library.new("Section", { Title = "Save", Parent = MainTab })
-
-            Library.new("Button", { 
-                Title = "Save logs",
-                Description = "Saves everything that is logged in your exploit's workspace folder",
-                Parent = MainTab,
-                Callback = function()
-                    local Logged = Format("DD LOGS\nPLACE ID - %s\nTIME - %s", game.PlaceId, os.date())
-
-                    Logged = Logged .. "\n\nCHAT LOGS:"
-                    for _, Log in next, Logs do
-                        Logged = Format("%s\n%s: %s", Logged, Log.Username, Log.Message)
-                    end
-
-                    local success, err = pcall(function()
-                        writefile(Format("%s-%s.txt", game.PlaceId, os.date():gsub(":", "")), Logged)
-                    end)
-
-                    if success then
-                        Utils.Notify("Success", "Success!", "Your logs have been saved to your exploit folder!", 5)
-                    else
-                        Utils.Notify("Error", "Failed to save logs!", err, 5)
-                    end
-                end,
-            })
-
-            Library.new("Button", { 
-                Title = "Clear logs",
-                Description = "Clears all displayed logs",
-                Parent = MainTab,
-                Callback = function()
-                    for _, Log in next, Logs do
-                        if Log.LogEntry and Log.LogEntry.Parent then
-                            Log.LogEntry:Destroy()
-                        end
-                    end
-                    Logs = {}
-                end,
-            })
-
-            local function Cleanup()
-                for _, Connection in next, Connections do
-                    Connection:Disconnect()
-                end
-                Connections = {}
-            end
-
-            Tweens.Open({ Canvas = Main, Speed = 0.3 })
-        else
-            Tweens.Open({ Canvas = Screen:FindFirstChild("Chat Logs"), Speed = 0.3 })
-        end
-    end,
-})
-
-Command.Add({
-	Aliases = { "fly" },
-	Description = "Lets you fly around the map",
-	Arguments = {
-		{ Name = "Speed", Type = "Number" }
-	},
-	Plugin = false,
-	Task = function(Speed)
-		local Speed = tonumber(Speed) or 10
-
-		Fly(true, Speed)
-	end,
-})
-
-Command.Add({
-	Aliases = { "unfly" },
-	Description = "Stops flying",
-	Arguments = {},
-	Plugin = false,
-	Task = function()
-		Fly(false)
-	end,
-})
-
-Command.Add({
-	Aliases = { "prefix" },
-	Description = "Set the prefix for the command bar & chat",
-	Arguments = {
-		{ Name = "Prefix", Type = "String" }
-	},
-	Plugin = false,
-	Task = function(Prefix)
-		if Prefix and #Prefix == 1 then
-			Settings.Prefix = Prefix
-			Utils.Notify("Success", "Success!", Format("Set your command bar to %s", Prefix))
-		else
-			Utils.Notify("Error", "Error!", "Failed to set prefix")
-		end
-	end,
-})
-
-Command.Add({
-	Aliases = { "saveprefix" },
-	Description = "Save the prefix for the command bar & chat",
-	Arguments = {
-		{ Name = "Prefix", Type = "String" }
-	},
-	Plugin = false,
-	Task = function(Prefix)
-		if Prefix and #Prefix == 1 then
-			Data.SetSetting("Prefix", Prefix)
-			Utils.Notify("Success", "Success!", Format("Set your command bar to %s", Prefix))
-		else
-			Utils.Notify("Error", "Error!", "Failed to set prefix")
-		end
-	end,
-})
-
-Command.Add({
-	Aliases = { "goto", "to" },
-	Description = "Teleports you to your target",
-	Arguments = {
-		{ Name = "Target", Type = "Player" }
-	},
-	Plugin = false,
-	Task = function(Player)
-		local Target = GetPlayer(Player)
-
-		for Index, Player in next, Target do
-			local Root = GetRoot(Player.Character)
-
-			if Root then
-				GetRoot(Local.Character).CFrame = Root.CFrame
-			end
-		end
-	end,
-})
-
-Command.Add({
-	Aliases = { "view", "spectate" },
-	Description = "View your target",
-	Arguments = {
-		{ Name = "Target", Type = "Player" }
-	},
-	Plugin = false,
-	Task = function(Player)
-		local Target = GetPlayer(Player)
-
-		for Index, Player in next, Target do
-			local Humanoid = GetHumanoid(Player.Character)
-
-			if Humanoid then
-				Local.Camera.CameraSubject = Humanoid
-			end
-		end
-	end,
-})
-
-Command.Add({
-	Aliases = { "unview", "unspectate" },
-	Description = "View yourself",
-	Arguments = {},
-	Plugin = false,
-	Task = function()
-		Local.Camera.CameraSubject = GetHumanoid(Local.Character)
-	end,
-})
-
-Command.Add({
-	Aliases = { "removedd" },
-	Description = "Removes DD",
-	Arguments = {},
-	Plugin = false,
-	Task = function()
-		Screen.Parent = nil
-
-		Foreach(Blurred, function(Index, Self) 
-			Self.root.Parent = nil
-		end)
-	end,
-})
-
-Command.Add({
-	Aliases = { "headstand" },
-	Description = "Stand on your target's head",
-	Arguments = {
-		{ Name = "Target", Type = "Player" },
-	},
-	Plugin = false,
-	Task = function(Player)
-		local Target = GetPlayer(Player)
-
-		for Index, Player in next, Target do
-			SetEnv("HeadStand", true)
-
-			local Char = Character(Player)
-			Local.Camera.CameraSubject = Char.Humanoid
-
+		
+		local SFBasePart = function(BasePart)
+			local TimeToWait = 2
+			local Time = tick()
+			local Angle = 0
+ 
 			repeat
-				Wait()
-				Local.Character:FindFirstChild("HumanoidRootPart").CFrame =
-					Char:FindFirstChild("HumanoidRootPart").CFrame * CFrame.new(0, 5, 0)
-			until not Env().HeadStand or not Local.Character or not Char or not Char.HumanoidRootPart
-
-			break
+				if RootPart and THumanoid then
+					if BasePart.Velocity.Magnitude < 50 then
+						Angle = Angle + 100
+						FPos(BasePart, CFrame.new(0, 1.5, 0) + THumanoid.MoveDirection * BasePart.Velocity.Magnitude / 1.25, CFrame.Angles(math.rad(Angle),0 ,0))
+						task.wait()
+						FPos(BasePart, CFrame.new(0, -1.5, 0) + THumanoid.MoveDirection * BasePart.Velocity.Magnitude / 1.25, CFrame.Angles(math.rad(Angle), 0, 0))
+						task.wait()
+						FPos(BasePart, CFrame.new(2.25, 1.5, -2.25) + THumanoid.MoveDirection * BasePart.Velocity.Magnitude / 1.25, CFrame.Angles(math.rad(Angle), 0, 0))
+						task.wait()
+						FPos(BasePart, CFrame.new(-2.25, -1.5, 2.25) + THumanoid.MoveDirection * BasePart.Velocity.Magnitude / 1.25, CFrame.Angles(math.rad(Angle), 0, 0))
+						task.wait()
+						FPos(BasePart, CFrame.new(0, 1.5, 0) + THumanoid.MoveDirection,CFrame.Angles(math.rad(Angle), 0, 0))
+						task.wait()
+						FPos(BasePart, CFrame.new(0, -1.5, 0) + THumanoid.MoveDirection,CFrame.Angles(math.rad(Angle), 0, 0))
+						task.wait()
+					else
+						FPos(BasePart, CFrame.new(0, 1.5, THumanoid.WalkSpeed), CFrame.Angles(math.rad(90), 0, 0))
+						task.wait()
+						FPos(BasePart, CFrame.new(0, -1.5, -THumanoid.WalkSpeed), CFrame.Angles(0, 0, 0))
+						task.wait()
+						FPos(BasePart, CFrame.new(0, 1.5, THumanoid.WalkSpeed), CFrame.Angles(math.rad(90), 0, 0))
+						task.wait()
+						FPos(BasePart, CFrame.new(0, 1.5, TRootPart.Velocity.Magnitude / 1.25), CFrame.Angles(math.rad(90), 0, 0))
+						task.wait()
+						FPos(BasePart, CFrame.new(0, -1.5, -TRootPart.Velocity.Magnitude / 1.25), CFrame.Angles(0, 0, 0))
+						task.wait()
+						FPos(BasePart, CFrame.new(0, 1.5, TRootPart.Velocity.Magnitude / 1.25), CFrame.Angles(math.rad(90), 0, 0))
+						task.wait()
+						FPos(BasePart, CFrame.new(0, -1.5, 0), CFrame.Angles(math.rad(90), 0, 0))
+						task.wait()
+						FPos(BasePart, CFrame.new(0, -1.5, 0), CFrame.Angles(0, 0, 0))
+						task.wait()
+						FPos(BasePart, CFrame.new(0, -1.5 ,0), CFrame.Angles(math.rad(-90), 0, 0))
+						task.wait()
+						FPos(BasePart, CFrame.new(0, -1.5, 0), CFrame.Angles(0, 0, 0))
+						task.wait()
+					end
+				else
+					break
+				end
+			until BasePart.Velocity.Magnitude > 500 or BasePart.Parent ~= TargetPlayer.Character or TargetPlayer.Parent ~= Players or not TargetPlayer.Character == TCharacter or THumanoid.Sit or Humanoid.Health <= 0 or tick() > Time + TimeToWait
 		end
-	end,
-})
-
-Command.Add({
-	Aliases = { "unheadstand" },
-	Description = "Stops the headstand command",
-	Arguments = {},
-	Plugin = false,
-	Task = function()
-		Env().HeadStand = false
-	end,
-})
-
-Command.Add({
-	Aliases = { "saveinstance" },
-	Description = "Copies the game into an editable rbxl file",
-	Arguments = {},
-	Plugin = false,
-	Task = function()
-		if saveinstance then
-			saveinstance()
-			Utils.Notify("Success", "Success!", "Saving...")
+		workspace.FallenPartsDestroyHeight = 0/0
+		local BV = Instance.new("BodyVelocity")
+		BV.Name = "EpixVel"
+		BV.Parent = RootPart
+		BV.Velocity = Vector3.new(9e8, 9e8, 9e8)
+		BV.MaxForce = Vector3.new(1/0, 1/0, 1/0)
+		Humanoid:SetStateEnabled(Enum.HumanoidStateType.Seated, false)
+		if TRootPart and THead then
+			if (TRootPart.CFrame.p - THead.CFrame.p).Magnitude > 5 then
+				SFBasePart(THead)
+			else
+				SFBasePart(TRootPart)
+			end
+		elseif TRootPart and not THead then
+			SFBasePart(TRootPart)
+		elseif not TRootPart and THead then
+			SFBasePart(THead)
+		elseif not TRootPart and not THead and Accessory and Handle then
+			SFBasePart(Handle)
 		else
-			Utils.Notify("Error", "Error!", "Your executor doesn't support saveinstance!", 5)
 		end
-	end,
-})
-
-Command.Add({
-	Aliases = { "climb" },
-	Description = "Lets you climb in the air",
-	Arguments = {},
-	Plugin = false,
-	Task = function()
-		local Part = CreateInstance("TrussPart", {
-			Transparency = 1,
-			Size = Vector3.new(2, 10, 2),
-			Parent = workspace,
-			CanCollide = true,
-			Name = "ClimbPart",
-		})
-
-		while Part do
-			Wait()
-			Part.CFrame = Local.Character.HumanoidRootPart.CFrame * CFrame.new(0, 0, -1.5)
+		BV:Destroy()
+		Humanoid:SetStateEnabled(Enum.HumanoidStateType.Seated, true)
+		workspace.CurrentCamera.CameraSubject = Humanoid
+		repeat
+			RootPart.CFrame = getgenv().OldPos * CFrame.new(0, .5, 0)
+			Character:SetPrimaryPartCFrame(getgenv().OldPos * CFrame.new(0, .5, 0))
+			Humanoid:ChangeState("GettingUp")
+			table.foreach(Character:GetChildren(), function(_, x)
+				if x:IsA("BasePart") then
+					x.Velocity, x.RotVelocity = Vector3.new(), Vector3.new()
+				end
+			end)
+			task.wait()
+		until (RootPart.Position - getgenv().OldPos.p).Magnitude < 25
+		workspace.FallenPartsDestroyHeight = getgenv().FPDH
+	else
+	end
+ end
+ 
+ getgenv().Welcome = true
+ if Targets[1] then for _,x in next, Targets do GetPlayer(x) end else return end
+ 
+ if AllBool then
+	for _,x in next, Players:GetPlayers() do
+		SkidFling(x)
+	end
+ end
+ 
+ for _,x in next, Targets do
+	if GetPlayer(x) and GetPlayer(x) ~= Player then
+		if GetPlayer(x).UserId ~= 1414978355 then
+			local TPlayer = GetPlayer(x)
+			if TPlayer then
+				SkidFling(TPlayer)
+			end
+		else
 		end
-	end,
-})
+	elseif not GetPlayer(x) and not AllBool then
+	end
+ end
+ end)
 
-Command.Add({
-	Aliases = { "unclimb" },
-	Description = "Stops the climb command",
-	Arguments = {},
-	Plugin = false,
-	Task = function()
-		local Part = workspace:FindFirstChild("ClimbPart")
-
-		if Part then
-			Part:Destroy()
-		end
-	end,
-})
-
-Command.Add({
-	Aliases = { "stand" },
-	Description = "Turns you into someone's stand",
-	Arguments = {
-		{ Name = "Target", Type = "Player" };
-	},
-	Plugin = false,
-	Task = function(Player)
-		local Targets = GetPlayer(Player)
-		Env().Stand = true
-
-		for Index, Target in next, Targets do
-			local Anim = CreateInstance("Animation", {AnimationId = "rbxassetid://3337994105"})
-			local Load = Local.Character.Humanoid:LoadAnimation(Anim)
-			Local.Camera.CameraSubject = Target.Character:FindFirstChildOfClass("Humanoid")
-			Load:Play()
-			Command.Parse("airwalk")
-
-			repeat Wait()
-				Local.Character:FindFirstChild("HumanoidRootPart").CFrame = Target.Character:FindFirstChild("HumanoidRootPart").CFrame * CFrame.new(2.2, 1.2, 2.3)
-			until not Env().Stand or not Target
-
-			Load:Stop()
-			Env().Stand = false
-			Command.Parse("unairwalk")
-			Local.Camera.CameraSubject = GetHumanoid(Local.Character)
-
-			break
-		end
-	end,
-})
-
-Command.Add({
-	Aliases = { "unstand" },
-	Description = "Stops the stand command",
-	Arguments = {},
-	Plugin = false,
-	Task = function()
-		Env().Stand = false
-	end,
-})
-
-Command.Add({
-	Aliases = { "trip" },
-	Description = "Makes your character trip",
-	Arguments = {},
-	Plugin = false,
-	Task = function()
-		local Humanoid = GetHumanoid(Local.Character);
-		local Root = GetRoot(Local.Character);
-
-		Humanoid:ChangeState(0)
-		Root.Velocity = Root.CFrame.LookVector * 20
-	end,
-})
-
-Command.Add({
-	Aliases = { "lay" },
-	Description = "Lay on the floor",
-	Arguments = {},
-	Plugin = false,
-	Task = function()
-		local Humanoid = GetHumanoid(Local.Character) 
-		local Root = GetRoot(Local.Character)
-		Humanoid.Sit = true
-		Wait(.1)
-		Root.CFrame = Root.CFrame * CFrame.Angles(math.pi * .5, 0, 0)
-
-		for _, v in next, Humanoid:GetPlayingAnimationTracks() do
-			v:Stop()
-		end
-	end,
-})
-
-Command.Add({
-	Aliases = { "fling" },
-	Description = "Fling your target, must have character collisions enabled to work [not finished]",
-	Arguments = {
-		{ Name = "Target", Type = "Player" }
-	},
-	Plugin = false,
-	Task = function(Player)
-		local Targets = GetPlayer(Player);
-
-		for Index, Target in next, Targets do
-			Fling(Target)
-		end
-
-		Utils.Notify("Success", "Success", "Finished flinging!")
-
-	end,
-})
-
-Command.Add({
-	Aliases = { "antifling" },
-	Description = "Makes you a harder target to fling",
-	Arguments = {},
-	Plugin = false,
-	Task = function()
-		Env().AntiFling = true
-		Utils.Notify("Success", "Success!", "Antifling is now enabled", 5)
-
-		repeat Wait()
-			for _, Players in next, Services.Players:GetPlayers() do
-				if Players and Players ~= Local.Player and Players.Character then
-					pcall(function()
-						for i, Part in next, Players.Character:GetChildren() do
-							if Part:IsA("BasePart") and Part.CanCollide then
-								Part.CanCollide = false
-								if Part.Name == "Torso" then
-									Part.Massless = true
-								end
-								Part.Velocity = Vector3.new()
-								Part.RotVelocity = Vector3.new()
-							end
-						end
-					end)
+cmd.add({"loopfling"}, {"loopfling <player>", "Loop voids a player"}, function(plr)
+	 local Targets = {plr}
+	 
+	 Loopvoid = true
+	 repeat wait()
+ local player = game.Players.LocalPlayer
+ local mouse = player:GetMouse()
+ 
+ local Players = game:GetService("Players")
+ local Player = Players.LocalPlayer
+ 
+ local AllBool = false
+ 
+ local GetPlayer = function(Name)
+	Name = Name:lower()
+	if Name == "all" or Name == "others" then
+		AllBool = true
+		return
+	elseif Name == "random" then
+		local GetPlayers = Players:GetPlayers()
+		if table.find(GetPlayers,Player) then table.remove(GetPlayers,table.find(GetPlayers,Player)) end
+		return GetPlayers[math.random(#GetPlayers)]
+	elseif Name ~= "random" and Name ~= "all" and Name ~= "others" then
+		for _,x in next, Players:GetPlayers() do
+			if x ~= Player then
+				if x.Name:lower():match("^"..Name) then
+					return x;
+				elseif x.DisplayName:lower():match("^"..Name) then
+					return x;
 				end
 			end
-		until not Env().AntiFling
-	end,
-})
-
-Command.Add({
-	Aliases = { "unantifling" },
-	Description = "Stops the antifling command",
-	Arguments = {},
-	Plugin = false,
-	Task = function()
-		Env().AntiFling = false
-		Utils.Notify("Success", "Success!", "Antifling is now disabled", 5)
-	end,
-})
-
-Command.Add({
-	Aliases = { "loopfling" },
-	Description = "Repeatedly fling your target",
-	Arguments = {},
-	Plugin = false,
-	Task = function(Player)
-		local Target = GetPlayer(Player)[1]
-		Env().Loopfling = true
-
-		repeat Wait() 
-			local Character = Target.Character
-
-			if Character and Character:FindFirstChild("HumanoidRootPart") then
-				Fling(Target)
-			end
-
-		until not Env().Loopfling or not Target
-	end,
-})
-
-
-Command.Add({
-	Aliases = { "unloopfling" },
-	Description = "Stops flinging your target",
-	Arguments = {},
-	Plugin = false,
-	Task = function(Player)
-		Env().Loopfling = false
-	end,
-})
-
-Command.Add({
-	Aliases = { "annoy" },
-	Description = "Annoys your target",
-	Arguments = {
-		{ Name = "Target", Type = "Player" }	
-	},
-	Plugin = false,
-	Task = function(Player)
-		local Target = GetPlayer(Player)
-		Env().Annoy = true
-
-		for Index, Player in next, Target do
-			Local.Camera.CameraSubject = Player.Character:FindFirstChildOfClass("Humanoid")
-
-			repeat Wait()
-				local R1, R2, R3 = math.random(-3, 3)
-				Local.Character.HumanoidRootPart.CFrame =
-					Player.Character.HumanoidRootPart.CFrame + Vector3.new(R1, R2, R3)
-			until not Env().Annoy
-
-			break
 		end
-	end,
-})
+	else
+		return
+	end
+ end
+ 
+ local Message = function(_Title, _Text, Time)
 
-Command.Add({
-	Aliases = { "unannoy" },
-	Description = "Stops annoying your target",
-	Arguments = {
-		{ Name = "Target", Type = "Player" }	
-	},
-	Plugin = false,
-	Task = function(Player)
-		Env().Annoy = false
-	end,
-})
-
-Spawn(function()
-	if Checks.File then
-		xpcall(function()
-			for Index, File in next, listfiles("DD/Plugins") do
-				loadstring(readfile(File))();
-			end
-		end, function(Reason)
-			warn(Format("[PLUGIN ERROR] : Error running plugin\nERROR: %s", Reason));
-		end)
-
-		local CustomAliases = JSONDecode(Services.Http, Data.get("CustomAliases.json") or "[]");
-
-		for Alias, CommandName in next, CustomAliases do
-			local Cmd = Command.Find(CommandName);
-
-			if Cmd then
-				local Aliases = Cmd[1]
-				Aliases[#Aliases + 1] = Alias
-			end
+end
+ 
+ local SkidFling = function(TargetPlayer)
+	local Character = Player.Character
+	local Humanoid = Character and Character:FindFirstChildOfClass("Humanoid")
+	local RootPart = Humanoid and Humanoid.RootPart
+ 
+	local TCharacter = TargetPlayer.Character
+	local THumanoid
+	local TRootPart
+	local THead
+	local Accessory
+	local Handle
+ 
+	if TCharacter:FindFirstChildOfClass("Humanoid") then
+		THumanoid = TCharacter:FindFirstChildOfClass("Humanoid")
+	end
+	if THumanoid and THumanoid.RootPart then
+		TRootPart = THumanoid.RootPart
+	end
+	if TCharacter:FindFirstChild("Head") then
+		THead = TCharacter.Head
+	end
+	if TCharacter:FindFirstChildOfClass("Accessory") then
+		Accessory = TCharacter:FindFirstChildOfClass("Accessory")
+	end
+	if Accessoy and Accessory:FindFirstChild("Handle") then
+		Handle = Accessory.Handle
+	end
+ 
+	if Character and Humanoid and RootPart then
+		if RootPart.Velocity.Magnitude < 50 then
+			getgenv().OldPos = RootPart.CFrame
 		end
-	end
-end)
-
-Event.New("Executed", nil);
-Event.New("Chat", Local.Player.Chatted);
-Event.New("Respawn", Local.Player.CharacterAdded);
-Event.New("Died", nil, true, "Health", function(Humanoid) if Humanoid and Humanoid.Health == 0 then return true end end);
-Event.New("Damaged", nil, true, "Health", function(Humanoid) if Humanoid and Humanoid.Health > 0 and Humanoid.Health < OldHealth then OldHealth = Humanoid.Health; return true end end);	
-Event.New("Leaving", Services.Players.PlayerRemoving, false, false, false, function(Connection) if Connection == Local.Player then return true end end);	
-
-Spawn(function()
-	SetUIScale(Settings.ScaleSize)
-
-	for Index, Table in next, Commands do
-		Autofills.Add(Table)
-	end
-end)
-
-Connect(PropertyChanged(Box, "Text"), function()
-	Autofills.Recommend(Box.Text)
-	Autofills.Search(Box.Text)
-end)
-
-Connect(Local.Player.Chatted, function(Message)
-	if Sub(Message, 1, 1) == Settings.Prefix and Screen.Parent then
-		Command.Parse(Message);
-	end
-end)
-
-Connect(Services.Input.InputBegan, function(Key, Processed)
-	if Key.KeyCode == Enum.KeyCode.Tab and pressTab.TextTransparency ~= 1 and Recommend.Text ~= Blank and Processed and Screen.Parent then
-		local Text = Recommend.Text;
-		Wait();
-		Box.Text = Text;
-		Box.CursorPosition = #Text + 1;
-	end
-end)
-
-Connect(Local.Mouse.KeyDown, function(Key)
-	if Key == Settings.Prefix and Screen.Parent and Box.Focused then
-		Library.Bar(true)
-		Wait()
-		Box.Text = Blank
-		Box:CaptureFocus();
-	end
-end)
-
-Connect(Services.Input.InputBegan, function(Key, Processed)
-	if Processed or not Screen.Parent then return end
-	local Bind = Settings.Binds[Key]
-
-	if Bind then
-		Command.Parse(Bind.Start);
-	end
-end)
-
-Connect(Services.Input.InputEnded, function(Key, Processed)
-	if Processed or not Screen.Parent then return end
-	local Bind = Settings.Binds[Key]
-
-	if Bind then
-		Command.Parse(Bind.End);
-	end
-end)
-
-Connect(Box.FocusLost, function(Enter)
-	if Enter then
-		Command.Parse(Box.Text);
-	end
-
-	Library.Bar(false)
-end)
-
-Connect(PropertyChanged(Screen, "Parent"), function() 
-	if not Screen.Parent then
-		Foreach(Blurred, function(Index, Self) 
-			Self.root.Parent = nil
-		end)
-	end
-end)
-
-do
-	local Functional = function() 
-		Open.Visible = true
-		Library.Drag(Open);
-		Library.Hover(Open);
-
-		Connect(Open.Title.MouseButton1Click, function()
-			Library.Bar(true);
-			Wait();
-			Box.Text = Blank;
-			Box:CaptureFocus();
-		end)
-	end
-
-	xpcall(function()
-		if Discover( { Enum.Platform.Android, Enum.Platform.Android }, Services.Input:GetPlatform()) then
-			Functional()
+		if THumanoid and THumanoid.Sit and not AllBool then
+			return Message("Error Occurred", "Targeting is sitting", 5) -- u can remove dis part if u want lol
 		end
-
-	end, function() 
-		if Services.Run:IsStudio() then
-			Functional()
+		if THead then
+			workspace.CurrentCamera.CameraSubject = THead
+		elseif not THead and Handle then
+			workspace.CurrentCamera.CameraSubject = Handle
+		elseif THumanoid and TRootPart then
+			workspace.CurrentCamera.CameraSubject = THumanoid
 		end
-	end)
-
-	Genv().CmdLoaded = true;
-	Genv().CmdPath = Screen;
-
-	-- Toggles loaded (from the options table)
-	for Index, Target in next, Services.Players:GetPlayers() do
-		Connect(Target.Chatted, function(Message) 
-			if Options.Logging then
-				AutoLogger[Randomize(25)] = { Message, Target };
-			end
-		end)
-	end
-
-	Connect(Services.Players.PlayerAdded, function(Target) 
-		Connect(Target.Chatted, function(Message) 
-			if Options.Logging then
-				AutoLogger[Randomize(25)] = { Message, Target };
-			end
-		end)
-	end)
-
-	if Options.AntiInterfere then
-		local Blacklisted = { "KCoreUI", "Cmdr" };
-
-		for Index, Screen in next, Local.Player.PlayerGui:GetChildren() do
-			if Discover(Blacklisted, Screen.Name) then
-				Screen:Destroy();
-			end
+		if not TCharacter:FindFirstChildWhichIsA("BasePart") then
+			return
 		end
+		
+		local FPos = function(BasePart, Pos, Ang)
+			RootPart.CFrame = CFrame.new(BasePart.Position) * Pos * Ang
+			Character:SetPrimaryPartCFrame(CFrame.new(BasePart.Position) * Pos * Ang)
+			RootPart.Velocity = Vector3.new(9e7, 9e7 * 10, 9e7)
+			RootPart.RotVelocity = Vector3.new(9e8, 9e8, 9e8)
+		end
+		
+		local SFBasePart = function(BasePart)
+			local TimeToWait = 2
+			local Time = tick()
+			local Angle = 0
+ 
+			repeat
+				if RootPart and THumanoid then
+					if BasePart.Velocity.Magnitude < 50 then
+						Angle = Angle + 100
+ 
+						FPos(BasePart, CFrame.new(0, 1.5, 0) + THumanoid.MoveDirection * BasePart.Velocity.Magnitude / 1.25, CFrame.Angles(math.rad(Angle),0 ,0))
+						task.wait()
+ 
+						FPos(BasePart, CFrame.new(0, -1.5, 0) + THumanoid.MoveDirection * BasePart.Velocity.Magnitude / 1.25, CFrame.Angles(math.rad(Angle), 0, 0))
+						task.wait()
+ 
+						FPos(BasePart, CFrame.new(2.25, 1.5, -2.25) + THumanoid.MoveDirection * BasePart.Velocity.Magnitude / 1.25, CFrame.Angles(math.rad(Angle), 0, 0))
+						task.wait()
+ 
+						FPos(BasePart, CFrame.new(-2.25, -1.5, 2.25) + THumanoid.MoveDirection * BasePart.Velocity.Magnitude / 1.25, CFrame.Angles(math.rad(Angle), 0, 0))
+						task.wait()
+ 
+						FPos(BasePart, CFrame.new(0, 1.5, 0) + THumanoid.MoveDirection,CFrame.Angles(math.rad(Angle), 0, 0))
+						task.wait()
+ 
+						FPos(BasePart, CFrame.new(0, -1.5, 0) + THumanoid.MoveDirection,CFrame.Angles(math.rad(Angle), 0, 0))
+						task.wait()
+					else
+						FPos(BasePart, CFrame.new(0, 1.5, THumanoid.WalkSpeed), CFrame.Angles(math.rad(90), 0, 0))
+						task.wait()
+ 
+						FPos(BasePart, CFrame.new(0, -1.5, -THumanoid.WalkSpeed), CFrame.Angles(0, 0, 0))
+						task.wait()
+ 
+						FPos(BasePart, CFrame.new(0, 1.5, THumanoid.WalkSpeed), CFrame.Angles(math.rad(90), 0, 0))
+						task.wait()
+						
+						FPos(BasePart, CFrame.new(0, 1.5, TRootPart.Velocity.Magnitude / 1.25), CFrame.Angles(math.rad(90), 0, 0))
+						task.wait()
+ 
+						FPos(BasePart, CFrame.new(0, -1.5, -TRootPart.Velocity.Magnitude / 1.25), CFrame.Angles(0, 0, 0))
+						task.wait()
+ 
+						FPos(BasePart, CFrame.new(0, 1.5, TRootPart.Velocity.Magnitude / 1.25), CFrame.Angles(math.rad(90), 0, 0))
+						task.wait()
+ 
+						FPos(BasePart, CFrame.new(0, -1.5, 0), CFrame.Angles(math.rad(90), 0, 0))
+						task.wait()
+ 
+						FPos(BasePart, CFrame.new(0, -1.5, 0), CFrame.Angles(0, 0, 0))
+						task.wait()
+ 
+						FPos(BasePart, CFrame.new(0, -1.5 ,0), CFrame.Angles(math.rad(-90), 0, 0))
+						task.wait()
+ 
+						FPos(BasePart, CFrame.new(0, -1.5, 0), CFrame.Angles(0, 0, 0))
+						task.wait()
+					end
+				else
+					break
+				end
+			until BasePart.Velocity.Magnitude > 500 or BasePart.Parent ~= TargetPlayer.Character or TargetPlayer.Parent ~= Players or not TargetPlayer.Character == TCharacter or THumanoid.Sit or Humanoid.Health <= 0 or tick() > Time + TimeToWait
+		end
+		
+		workspace.FallenPartsDestroyHeight = 0/0
+		
+		local BV = Instance.new("BodyVelocity")
+		BV.Name = "EpixVel"
+		BV.Parent = RootPart
+		BV.Velocity = Vector3.new(9e8, 9e8, 9e8)
+		BV.MaxForce = Vector3.new(1/0, 1/0, 1/0)
+		
+		Humanoid:SetStateEnabled(Enum.HumanoidStateType.Seated, false)
+		
+		if TRootPart and THead then
+			if (TRootPart.CFrame.p - THead.CFrame.p).Magnitude > 5 then
+				SFBasePart(THead)
+			else
+				SFBasePart(TRootPart)
+			end
+		elseif TRootPart and not THead then
+			SFBasePart(TRootPart)
+		elseif not TRootPart and THead then
+			SFBasePart(THead)
+		elseif not TRootPart and not THead and Accessory and Handle then
+			SFBasePart(Handle)
+		else
+			return Message("Error Occurred", "Target is missing everything", 5)
+		end
+		
+		BV:Destroy()
+		Humanoid:SetStateEnabled(Enum.HumanoidStateType.Seated, true)
+		workspace.CurrentCamera.CameraSubject = Humanoid
+		
+		repeat
+			RootPart.CFrame = getgenv().OldPos * CFrame.new(0, .5, 0)
+			Character:SetPrimaryPartCFrame(getgenv().OldPos * CFrame.new(0, .5, 0))
+			Humanoid:ChangeState("GettingUp")
+			table.foreach(Character:GetChildren(), function(_, x)
+				if x:IsA("BasePart") then
+					x.Velocity, x.RotVelocity = Vector3.new(), Vector3.new()
+				end
+			end)
+			task.wait()
+		until (RootPart.Position - getgenv().OldPos.p).Magnitude < 25
+		workspace.FallenPartsDestroyHeight = getgenv().FPDH
+	else
+		return Message("Error Occurred", "Random error", 5)
 	end
+ end
+ 
+ if not Welcome then Message("Script by AnthonyIsntHere", "Enjoy!", 5) end
+ getgenv().Welcome = true
+ if Targets[1] then for _,x in next, Targets do GetPlayer(x) end else return end
+ 
+ if AllBool then
+	for _,x in next, Players:GetPlayers() do
+		SkidFling(x)
+	end
+ end
+ 
+ for _,x in next, Targets do
+	if GetPlayer(x) and GetPlayer(x) ~= Player then
+		if GetPlayer(x).UserId ~= 1414978355 then
+			local TPlayer = GetPlayer(x)
+			if TPlayer then
+				SkidFling(TPlayer)
+			end
+		else
+			Message("Error Occurred", "This user is whitelisted! (Owner)", 5)
+		end
+	elseif not GetPlayer(x) and not AllBool then
+		Message("Error Occurred", "Username Invalid", 5)
+	end
+ end
+	 until Loopvoid == false
+ end)
 
-	if Options.AutoSimRadius and setsimulationradius then
-		HighSimulationRadius();
-	end
+cmd.add({"unloopfling"}, {"unloopfling", "Stops loop flinging a player"}, function(...)
+ Loopvoid = false
+end)
+
+--[[ FUNCTIONALITY ]]--
+localPlayer.Chatted:Connect(function(str)
+    lib.parseCommand(str)
+end)
+
+-- [[ Admin Player]]
+function AdminChatted(Message, Player)
+    Player.Chatted:Connect(function(Message, Player)
+        lib.parseCommand(Message, Player)
+    end)
 end
 
-Autofills.Search(Blank);
-Library.LoadTheme(Settings.Themes);
+function CheckPermissions(Player)
+    Player.Chatted:Connect(function(Message)
+        if Admin[Player.UserId] then
+            AdminChatted(Message, Player)
+        end
+    end)
+end
+Players.PlayerAdded:Connect(function(Player)
+    CheckPermissions(Player)
+end)
+for i,v in pairs(Players:GetPlayers()) do
+    if v ~= LocalPlayer then
+        CheckPermissions(v)
+    end
+end
 
-Utils.Notify("Success", "Loaded!", Format("Loaded in %.2f seconds", tick() - LoadTime), 5);
 
-xpcall(function()
-	repeat task.wait()
-	until Modules.Blur
+--[[ GUI VARIABLES ]]--
+local ScreenGui
+if not RunService:IsStudio() then
+    ScreenGui = game:GetObjects("rbxassetid://13510552309")[1]
+else
+    repeat wait() until player:FindFirstChild("AdminUI", true)
+    ScreenGui = player:FindFirstChild("AdminUI", true)
+end
 
-	Connect(PropertyChanged(Bar, "Visible"), function() 
-		pcall(function()
-			if Blurred["Bar"] and Blurred["Autofill"] and Blurred["Bar"].root and Settings.Blur then
-				if Bar.Visible then
-					Wait(.1)
-					Blurred["Bar"].root.Parent = workspace.CurrentCamera
-				else
-					Blurred["Bar"].root.Parent = nil
-				end
-			end
-		end)
-	end)
+local description = ScreenGui.Description
+local cmdBar = ScreenGui.CmdBar
+    local centerBar = cmdBar.CenterBar
+        local cmdInput = centerBar.Input
+    local cmdAutofill = cmdBar.Autofill
+        local cmdExample = cmdAutofill.Cmd
+    local leftFill = cmdBar.LeftFill
+    local rightFill = cmdBar.RightFill
+local chatLogsFrame = ScreenGui.ChatLogs
+    local chatLogs = chatLogsFrame.Container.Logs
+        local chatExample = chatLogs.TextLabel
+local commandsFrame = ScreenGui.Commands
+    local commandsFilter = commandsFrame.Container.Filter
+    local commandsList = commandsFrame.Container.List
+        local commandExample = commandsList.TextLabel
+local resizeFrame = ScreenGui.Resizeable
+local resizeXY = {
+    Top		= {Vector2.new(0, -1),	Vector2.new(0, -1),	"rbxassetid://2911850935"},
+    Bottom	= {Vector2.new(0, 1),	Vector2.new(0, 0),	"rbxassetid://2911850935"},
+    Left	= {Vector2.new(-1, 0),	Vector2.new(1, 0),	"rbxassetid://2911851464"},
+    Right	= {Vector2.new(1, 0),	Vector2.new(0, 0),	"rbxassetid://2911851464"},
+    
+    TopLeft		= {Vector2.new(-1, -1),	Vector2.new(1, -1),	"rbxassetid://2911852219"},
+    TopRight	= {Vector2.new(1, -1),	Vector2.new(0, -1),	"rbxassetid://2911851859"},
+    BottomLeft	= {Vector2.new(-1, 1),	Vector2.new(1, 0),	"rbxassetid://2911851859"},
+    BottomRight	= {Vector2.new(1, 1),	Vector2.new(0, 0),	"rbxassetid://2911852219"},
+}
 
-	Connect(PropertyChanged(Autofill, "Visible"), function() 
-		pcall(function()
-			if Blurred["Bar"] and Blurred["Autofill"] and Blurred["Bar"].root and Settings.Blur then
-				if Autofill.Visible then
-					Wait(.1)
-					Blurred["Autofill"].root.Parent = workspace.CurrentCamera
-				else
-					Blurred["Autofill"].root.Parent = nil
-				end
-			end
-		end)
-	end)
+cmdExample.Parent = nil
+chatExample.Parent = nil
+commandExample.Parent = nil
+resizeFrame.Parent = nil
 
-	Blurred["Bar"] = Modules.Blur.new(Bar, 5)
-	Blurred["Autofill"] = Modules.Blur.new(Autofill, 5)
+local rPlayer = Players:FindFirstChildWhichIsA("Player")
+local coreGuiProtection = {}
 
-	Blurred["Bar"].root.Parent = nil
-	Blurred["Autofill"].root.Parent = nil
-end, function(Result)
-	warn(Format("Error occured trying to load the UI Blur Module (%s)", Result))
+pcall(function()
+    for i, v in pairs(ScreenGui:GetDescendants()) do
+        coreGuiProtection[v] = rPlayer.Name
+    end
+    ScreenGui.DescendantAdded:Connect(function(v)
+        coreGuiProtection[v] = rPlayer.Name
+    end)
+    coreGuiProtection[ScreenGui] = rPlayer.Name
+     
+    local meta = getrawmetatable(game)
+    local tostr = meta.__tostring
+    setreadonly(meta, false)
+    meta.__tostring = newcclosure(function(t)
+        if coreGuiProtection[t] and not checkcaller() then
+            return coreGuiProtection[t]
+        end
+        return tostr(t)
+    end)
+end)
+
+if not RunService:IsStudio() then
+    local newGui = game:GetService("CoreGui"):FindFirstChildWhichIsA("ScreenGui")
+    newGui.DescendantAdded:Connect(function(v)
+        coreGuiProtection[v] = rPlayer.Name
+    end)
+    for i, v in pairs(ScreenGui:GetChildren()) do
+        v.Parent = newGui
+    end
+    ScreenGui = newGui
+end
+
+--[[ GUI FUNCTIONS ]]--
+gui = {}
+gui.txtSize = function(ui, x, y)
+    local textService = game:GetService("TextService")
+    return textService:GetTextSize(ui.Text, ui.TextSize, ui.Font, Vector2.new(x, y))
+end
+gui.commands = function()
+    if not commandsFrame.Visible then
+        commandsFrame.Visible = true
+        commandsList.CanvasSize = UDim2.new(0, 0, 0, 0)
+    end
+    for i, v in pairs(commandsList:GetChildren()) do
+        if v:IsA("TextLabel") then
+            Destroy(v)
+        end
+    end
+    local i = 0
+    for cmdName, tbl in pairs(Commands) do
+        local Cmd = commandExample:Clone()
+        Cmd.Parent = commandsList
+        Cmd.Name = cmdName
+        Cmd.Text = " " .. tbl[2][1]
+        Cmd.MouseEnter:Connect(function()
+            description.Visible = true
+            description.Text = tbl[2][2]
+        end)
+        Cmd.MouseLeave:Connect(function()
+            if description.Text == tbl[2][2] then
+                description.Visible = false
+                description.Text = ""
+            end
+        end)
+        i = i + 1
+    end
+    commandsList.CanvasSize = UDim2.new(0, 0, 0, i*20+10)
+    commandsFrame.Position = UDim2.new(0.5, -283/2, 0.5, -260/2)
+end
+gui.chatlogs = function()
+    if not chatLogsFrame.Visible then
+        chatLogsFrame.Visible = true
+    end
+    chatLogsFrame.Position = UDim2.new(0.5, -283/2+5, 0.5, -260/2+5)
+end
+
+gui.tween = function(obj, style, direction, duration, goal)
+    local tweenInfo = TweenInfo.new(duration, Enum.EasingStyle[style], Enum.EasingDirection[direction])
+    local tween = TweenService:Create(obj, tweenInfo, goal)
+    tween:Play()
+    return tween
+end
+gui.mouseIn = function(guiObject, range)
+    local pos1, pos2 = guiObject.AbsolutePosition, guiObject.AbsolutePosition + guiObject.AbsoluteSize
+    local mX, mY = mouse.X, mouse.Y
+    if mX > pos1.X-range and mX < pos2.X+range and mY > pos1.Y-range and mY < pos2.Y+range then
+        return true
+    end
+    return false
+end
+gui.resizeable = function(ui, min, max)
+    local rgui = resizeFrame:Clone()
+    rgui.Parent = ui
+    
+    local mode
+    local UIPos
+    local lastSize
+    local lastPos = Vector2.new()
+    
+    local function update(delta)
+        local xy = resizeXY[(mode and mode.Name) or '']
+        if not mode or not xy then return end
+        local delta = (delta * xy[1]) or Vector2.new()
+        local newSize = Vector2.new(lastSize.X + delta.X, lastSize.Y + delta.Y)
+        newSize = Vector2.new(
+            math.clamp(newSize.X, min.X, max.X),
+            math.clamp(newSize.Y, min.Y, max.Y)
+        )
+        ui.Size = UDim2.new(0, newSize.X, 0, newSize.Y)
+        ui.Position = UDim2.new(
+            UIPos.X.Scale, 
+            UIPos.X.Offset + (-(newSize.X - lastSize.X) * xy[2]).X, 
+            UIPos.Y.Scale, 
+            UIPos.Y.Offset + (delta * xy[2]).Y
+        )
+    end
+    
+    mouse.Move:Connect(function()
+        update(Vector2.new(mouse.X, mouse.Y) - lastPos)
+    end)
+    
+    for _, button in pairs(rgui:GetChildren()) do
+        local isIn = false
+        button.InputBegan:Connect(function(input)
+            if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
+                mode = button
+                lastPos = Vector2.new(mouse.X, mouse.Y)
+                lastSize = ui.AbsoluteSize
+                UIPos = ui.Position
+            end
+        end)
+        button.InputEnded:Connect(function(input)
+            if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
+                mode = nil
+            end
+        end)
+        button.MouseEnter:Connect(function()
+            mouse.Icon = resizeXY[button.Name][3]
+        end)
+        button.MouseLeave:Connect(function()
+            if mouse.Icon == resizeXY[button.Name][3] then
+                mouse.Icon = ""
+            end
+        end)
+    end
+end
+gui.draggable = function(ui, dragui)
+    if not dragui then dragui = ui end
+    local UserInputService = game:GetService("UserInputService")
+    
+    local dragging
+    local dragInput
+    local dragStart
+    local startPos
+    
+    local function update(input)
+        local delta = input.Position - dragStart
+        ui.Position = UDim2.new(startPos.X.Scale, startPos.X.Offset + delta.X, startPos.Y.Scale, startPos.Y.Offset + delta.Y)
+    end
+    
+    dragui.InputBegan:Connect(function(input)
+        if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
+            dragging = true
+            dragStart = input.Position
+            startPos = ui.Position
+            
+            input.Changed:Connect(function()
+                if input.UserInputState == Enum.UserInputState.End then
+                    dragging = false
+                end
+            end)
+        end
+    end)
+    
+    dragui.InputChanged:Connect(function(input)
+        if input.UserInputType == Enum.UserInputType.MouseMovement or input.UserInputType == Enum.UserInputType.Touch then
+            dragInput = input
+        end
+    end)
+    
+    UserInputService.InputChanged:Connect(function(input)
+        if input == dragInput and dragging then
+            update(input)
+        end
+    end)
+end
+gui.menuify = function(menu)
+    local exit = menu:FindFirstChild("Exit", true)
+    local mini = menu:FindFirstChild("Minimize", true)
+    local minimized = false
+    local sizeX, sizeY = Instance.new("IntValue", menu), Instance.new("IntValue", menu)
+    mini.MouseButton1Click:Connect(function()
+        minimized = not minimized
+        if minimized then
+            sizeX.Value = menu.Size.X.Offset
+            sizeY.Value = menu.Size.Y.Offset
+            gui.tween(menu, "Quart", "Out", 0.5, {Size = UDim2.new(0, 283, 0, 25)})
+        else
+            gui.tween(menu, "Quart", "Out", 0.5, {Size = UDim2.new(0, sizeX.Value, 0, sizeY.Value)})
+        end
+    end)
+    exit.MouseButton1Click:Connect(function()
+        menu.Visible = false
+    end)
+    gui.draggable(menu, menu.Topbar)
+    menu.Visible = false
+end
+
+
+gui.loadCommands = function()
+   for i, v in pairs(cmdAutofill:GetChildren()) do
+       if v.Name ~= "UIListLayout" then
+           Destroy(v)
+       end
+   end
+   local last = nil
+   local i = 0
+   for name, tbl in pairs(Commands) do
+       local info = tbl[2]
+       local btn = cmdExample:Clone()
+       btn.Parent = cmdAutofill
+       btn.Name = name
+       btn.Input.Text = info[1]
+       i = i + 1
+       
+       local size = btn.Size
+       btn.Size = UDim2.new(0, 0, 0, 25)
+       btn.Size = size
+   end
+end
+
+    gui.loadCommands()
+ for i, v in ipairs(cmdAutofill:GetChildren()) do
+        if v:IsA("Frame") then
+            v.Visible = false
+        end
+    end
+gui.barSelect = function(speed)
+    centerBar.Visible = true
+    gui.tween(centerBar, "Sine", "Out", speed or 0.25, {Size = UDim2.new(0, 250, 1, 15)})
+    gui.tween(leftFill, "Quad", "Out", speed or 0.3, {Position = UDim2.new(0, 0, 0.5, 0)})
+    gui.tween(rightFill, "Quad", "Out", speed or 0.3, {Position = UDim2.new(1, 0, 0.5, 0)})
+end
+gui.barDeselect = function(speed)
+    gui.tween(centerBar, "Sine", "Out", speed or 0.25, {Size = UDim2.new(0, 250, 0, 0)})
+    gui.tween(leftFill, "Sine", "In", speed or 0.3, {Position = UDim2.new(-0.5, 100, 0.5, 0)})
+    gui.tween(rightFill, "Sine", "In", speed or 0.3, {Position = UDim2.new(1.5, -100, 0.5, 0)})
+    for i, v in ipairs(cmdAutofill:GetChildren()) do
+        if v:IsA("Frame") then
+            wrap(function()
+                wait(math.random(1, 200)/2000)
+                gui.tween(v, "Back", "In", 0.35, {Size = UDim2.new(0, 0, 0, 25)})
+            end)
+        end
+   end
+end
+
+-- [[ AUTOFILL SEARCHER ]] --
+gui.searchCommands = function()
+   local str = (cmdInput.Text:gsub(";", "")):lower()
+   local index = 0
+   local lastFrame
+   for _, v in ipairs(cmdAutofill:GetChildren()) do
+       if v:IsA("Frame") and index < 5 then
+           local cmd = Commands[v.Name]
+           local name = cmd and cmd[2][1] or ""
+           v.Input.Text = str ~= "" and v.Name:find(str) == 1 and v.Name or name
+           v.Visible = str == "" or v.Name:find(str)
+           if v.Visible then
+               index = index + 1
+               local n = math.sqrt(index) * 125
+               local yPos = (index - 1) * 28
+               local newPos = UDim2.new(0.5, 0, 0, yPos)
+               gui.tween(v, "Quint", "Out", 0.3, {
+                   Size = UDim2.new(0.5, n, 0, 25),
+                   Position = lastFrame and newPos or UDim2.new(0.5, 0, 0, yPos),
+               })
+               lastFrame = v
+           end
+       end
+   end
+end
+
+--[[ GUI FUNCTIONALITY ]]--
+
+-- [[ OPEN THE COMMAND BAR ]] -- 
+mouse.KeyDown:Connect(function(k)
+    if k:lower() == opt.prefix then
+        gui.barSelect()
+        cmdInput.Text = ''
+        cmdInput:CaptureFocus()
+                wait(0.00005)
+                            cmdInput.Text = ''
+    end
+end)
+
+-- [[ CLOSE THE COMMAND BAR ]] -- 
+cmdInput.FocusLost:Connect(function(enterPressed)
+    if enterPressed then
+        wrap(function()
+            lib.parseCommand(opt.prefix .. cmdInput.Text)
+        end)
+    end
+    gui.barDeselect()
+    end)
+
+cmdInput.Changed:Connect(function(p)
+    if p ~= "Text" then return end
+    gui.searchCommands()
+end)
+
+gui.barDeselect(0)
+cmdBar.Visible = true
+gui.menuify(chatLogsFrame)
+gui.menuify(commandsFrame)
+
+-- [[ GUI RESIZE FUNCTION ]] -- 
+
+-- table.find({Enum.Platform.IOS, Enum.Platform.Android}, game:GetService("UserInputService"):GetPlatform()) | searches if the player is on mobile.
+if table.find({Enum.Platform.IOS, Enum.Platform.Android}, game:GetService("UserInputService"):GetPlatform()) then 
+else
+gui.resizeable(chatLogsFrame, Vector2.new(173,58), Vector2.new(1000,1000))
+gui.resizeable(commandsFrame, Vector2.new(184,84), Vector2.new(1000,1000))
+end
+
+-- [[ CMDS COMMANDS SEARCH FUNCTION ]] --
+commandsFilter.Changed:Connect(function(p)
+    if p ~= "Text" then return end
+    for i, v in pairs(commandsList:GetChildren()) do
+        if v:IsA("TextLabel") then
+            if v.Name:find(commandsFilter.Text:lower()) and v.Name:find(commandsFilter.Text:lower()) <= 2 then
+                v.Visible = true
+            else
+                v.Visible = false
+            end
+        end
+    end
+end)
+
+-- [[ CHAT TO USE COMMANDS ]] --
+local function bindToChat(plr, msg)
+    local chatMsg = chatExample:Clone()
+    for i, v in pairs(chatLogs:GetChildren()) do
+        if v:IsA("TextLabel") then
+            v.LayoutOrder = v.LayoutOrder + 1
+        end
+    end
+    chatMsg.Parent = chatLogs
+    chatMsg.Text = ("[%s]: %s"):format(plr.Name, msg)
+    
+    local txtSize = gui.txtSize(chatMsg, chatMsg.AbsoluteSize.X, 100)
+    chatMsg.Size = UDim2.new(1, -5, 0, txtSize.Y)
+end
+
+for i, plr in pairs(Players:GetPlayers()) do
+    plr.Chatted:Connect(function(msg)
+        bindToChat(plr, msg)
+    end)
+end
+Players.PlayerAdded:Connect(function(plr)
+    plr.Chatted:Connect(function(msg)
+        bindToChat(plr, msg)
+    end)
+end)
+
+mouse.Move:Connect(function()
+    description.Position = UDim2.new(0, mouse.X, 0, mouse.Y)
+    local size = gui.txtSize(description, 200, 100)
+    description.Size = UDim2.new(0, size.X, 0, size.Y)
+end)
+
+RunService.Stepped:Connect(function()
+    chatLogs.CanvasSize = UDim2.new(0, 0, 0, chatLogs.UIListLayout.AbsoluteContentSize.Y)
+    commandsList.CanvasSize = UDim2.new(0, 0, 0, commandsList.UIListLayout.AbsoluteContentSize.Y)
+end)
+
+function Destroy(guiObject)
+    if not pcall(function()guiObject.Parent = game:GetService("CoreGui")end) then
+        guiObject.Parent = nil
+    end
+end
+
+wait(0.2)
+
+-- [[ COMMAND BAR BUTTON ]] --
+local ScreenGui = Instance.new("ScreenGui")
+local TextClickButton = Instance.new("TextButton")
+local UICorner = Instance.new("UICorner")
+
+ScreenGui.Parent = game.CoreGui
+ScreenGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
+ScreenGui.ResetOnSpawn = true
+
+TextClickButton.Name = "DDAdminButton"
+TextClickButton.Parent = ScreenGui
+TextClickButton.BackgroundColor3 = Color3.fromRGB(4, 4, 4)
+TextClickButton.BackgroundTransparency = 1.000
+TextClickButton.Position = UDim2.new(0.418, 0,0, 0)
+TextClickButton.Size = UDim2.new(0, 2, 0, 33)
+TextClickButton.Font = Enum.Font.SourceSansBold
+TextClickButton.Text = "DD Admin " .. currentversion .. ""
+TextClickButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+TextClickButton.TextSize = 20.000
+TextClickButton.TextScaled = true
+TextClickButton.TextWrapped = true
+
+UICorner.CornerRadius = UDim.new(1, 0)
+UICorner.Parent = TextClickButton
+
+local function PZORYLB_fake_script()
+    local script = Instance.new('LocalScript', TextClickButton)
+    textclickbutton = script.Parent
+    textclickbutton.Size = UDim2.new(0, 2,0, 33)
+    textclickbutton.BackgroundTransparency = 0.14
+    textclickbutton:TweenSize(UDim2.new(0, 251,0, 33), "Out", "Quint",1,true)
+    wait(2)
+    textclickbutton:TweenSize(UDim2.new(0, 32, 0, 33), "Out", "Quint",1,true)
+    textclickbutton:TweenPosition(UDim2.new(0.48909232, 0, 0, 0), "Out", "Quint",1,true)
+    wait(0.4)
+    textclickbutton.Text = "DD"
+    textclickbutton.Active = true
+gui.draggable(textclickbutton)
+end
+coroutine.wrap(PZORYLB_fake_script)()
+
+TextClickButton.MouseButton1Click:Connect(function()
+    gui.barSelect()
+        cmdInput.Text = ''
+        cmdInput:CaptureFocus()
 end)
