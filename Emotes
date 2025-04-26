@@ -1,0 +1,639 @@
+local IsStudio = false
+
+local ContextActionService = game:GetService("ContextActionService")
+local HttpService = game:GetService("HttpService")
+local GuiService = game:GetService("GuiService")
+local CoreGui = game:GetService("CoreGui")
+local AvatarEditorService = game:GetService("AvatarEditorService")
+local Players = game:GetService("Players")
+local StarterGui = game:GetService("StarterGui")
+local UserInputService = game:GetService("UserInputService")
+local TweenService = game:GetService("TweenService")
+
+local Emotes = {}
+local function AddEmote(name: string, id: IntValue, price: IntValue?)
+    if not (name and id) then
+        return
+    end
+
+    table.insert(Emotes, {
+        ["name"] = name,
+        ["id"] = id,
+        ["icon"] = "rbxthumb://type=Asset&id=".. id .."&w=150&h=150",
+        ["price"] = price or 0,
+        ["index"] = #Emotes + 1,
+        ["sort"] = {}
+    })
+end
+local CurrentSort = "newestfirst"
+
+local FavoriteOff = "rbxassetid://10651060677"
+local FavoriteOn = "rbxassetid://10651061109"
+local FavoritedEmotes = {}
+
+local ScreenGui = Instance.new("ScreenGui")
+ScreenGui.Name = "Emotes"
+ScreenGui.DisplayOrder = 2
+ScreenGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
+ScreenGui.ResetOnSpawn = false
+ScreenGui.Enabled = false
+
+local MainFrame = Instance.new("Frame")
+MainFrame.Size = UDim2.new(0.35, 0, 0.5, 0)
+MainFrame.AnchorPoint = Vector2.new(0.5, 0.5)
+MainFrame.Position = UDim2.new(0.5, 0, 0.5, 0)
+MainFrame.BackgroundColor3 = Color3.fromRGB(15, 15, 15)
+MainFrame.BackgroundTransparency = 0.2
+MainFrame.BorderSizePixel = 0
+MainFrame.Parent = ScreenGui
+
+local UICorner = Instance.new("UICorner")
+UICorner.CornerRadius = UDim.new(0.02, 0)
+UICorner.Parent = MainFrame
+
+local UIStroke = Instance.new("UIStroke")
+UIStroke.Thickness = 1
+UIStroke.Color = Color3.fromRGB(48, 25, 52)
+UIStroke.Parent = MainFrame
+
+local Header = Instance.new("Frame")
+Header.Size = UDim2.new(1, 0, 0.08, 0)
+Header.BackgroundTransparency = 1
+Header.BorderSizePixel = 0
+Header.Parent = MainFrame
+
+local Title = Instance.new("TextLabel")
+Title.Text = "	Emotes	"
+Title.TextColor3 = Color3.fromRGB(48, 25, 52)
+Title.TextSize = 18
+Title.Font = Enum.Font.GothamBold
+Title.Size = UDim2.new(0.5, 0, 1, 0)
+Title.BackgroundTransparency = 1
+Title.TextXAlignment = Enum.TextXAlignment.Left
+Title.Parent = Header
+
+local CloseButton = Instance.new("TextButton")
+CloseButton.Text = "X"
+CloseButton.TextColor3 = Color3.fromRGB(48, 25, 52)
+CloseButton.TextSize = 18
+CloseButton.Font = Enum.Font.GothamBold
+CloseButton.Size = UDim2.new(0.1, 0, 1, 0)
+CloseButton.Position = UDim2.new(0.9, 0, 0, 0)
+CloseButton.BackgroundTransparency = 1
+CloseButton.Parent = Header
+
+local SearchBar = Instance.new("TextBox")
+SearchBar.Size = UDim2.new(0.65, 0, 0.05, 0)
+SearchBar.Position = UDim2.new(0.17, 0, 0.1, 0)
+SearchBar.PlaceholderText = "	Search...	"
+SearchBar.PlaceholderColor3 = Color3.fromRGB(48, 25, 52)
+SearchBar.TextColor3 = Color3.fromRGB(48, 25, 52)
+SearchBar.BackgroundColor3 = Color3.fromRGB(15, 15, 15)
+SearchBar.TextSize = 12
+SearchBar.Font = Enum.Font.Gotham
+SearchBar.ClearTextOnFocus = false
+SearchBar.TextXAlignment = Enum.TextXAlignment.Left
+local searchCorner = UICorner:Clone()
+searchCorner.CornerRadius = UDim.new(1, 0)
+searchCorner.Parent = SearchBar
+SearchBar.Parent = MainFrame
+
+local EmotesFrame = Instance.new("ScrollingFrame")
+EmotesFrame.Size = UDim2.new(0.95, 0, 0.78, 0)
+EmotesFrame.Position = UDim2.new(0.025, 0, 0.2, 0)
+EmotesFrame.BackgroundTransparency = 1
+EmotesFrame.ScrollBarThickness = 5
+EmotesFrame.AutomaticCanvasSize = Enum.AutomaticSize.Y
+EmotesFrame.CanvasSize = UDim2.new(0, 0, 0, 0)
+EmotesFrame.Parent = MainFrame
+
+local GridLayout = Instance.new("UIGridLayout")
+GridLayout.CellSize = UDim2.new(0.18, 0, 0, 100)
+GridLayout.CellPadding = UDim2.new(0.02, 0, 0.02, 0)
+GridLayout.SortOrder = Enum.SortOrder.LayoutOrder
+GridLayout.Parent = EmotesFrame
+
+local SortButton = Instance.new("TextButton")
+SortButton.Size = UDim2.new(0.12, 0, 0.05, 0)
+SortButton.Position = UDim2.new(0.83, 0, 0.1, 0)
+SortButton.Text = "Sort"
+SortButton.TextColor3 = Color3.fromRGB(48, 25, 52)
+SortButton.TextSize = 14
+SortButton.Font = Enum.Font.Gotham
+SortButton.BackgroundColor3 = Color3.fromRGB(15, 15, 15)
+UICorner:Clone().Parent = SortButton
+SortButton.Parent = MainFrame
+
+local SortDropdown = Instance.new("Frame")
+SortDropdown.Size = UDim2.new(0.2, 0, 0, 0)
+SortDropdown.Position = UDim2.new(0.05, 0, 0.19, 0)
+SortDropdown.BackgroundColor3 = Color3.fromRGB(15, 15, 15)
+SortDropdown.AutomaticSize = Enum.AutomaticSize.Y
+SortDropdown.Visible = false
+UICorner:Clone().Parent = SortDropdown
+SortDropdown.Parent = MainFrame
+
+local SortList = Instance.new("UIListLayout")
+SortList.Padding = UDim.new(0.02, 0)
+SortList.Parent = SortDropdown
+
+local SortOptions = {
+    {"Newest", "newestfirst"},
+    {"Oldest", "oldestfirst"},
+    {"A-Z", "alphabeticfirst"},
+    {"Z-A", "alphabeticlast"},
+    {"Price ▼", "highestprice"},
+    {"Price ▲", "lowestprice"}
+}
+
+for i, option in ipairs(SortOptions) do
+    local optionButton = Instance.new("TextButton")
+    optionButton.Size = UDim2.new(1, 0, 0, 30)
+    optionButton.Text = option[1]
+    optionButton.TextColor3 = Color3.fromRGB(48, 25, 52)
+    optionButton.TextSize = 14
+    optionButton.Font = Enum.Font.Gotham
+    optionButton.BackgroundTransparency = 1
+    optionButton.Parent = SortDropdown
+    
+    optionButton.MouseButton1Click:Connect(function()
+        CurrentSort = option[2]
+        SortDropdown.Visible = false
+        SortEmotes()
+    end)
+    
+    optionButton.MouseEnter:Connect(function()
+        optionButton.TextColor3 = Color3.fromRGB(48, 25, 52)
+    end)
+    
+    optionButton.MouseLeave:Connect(function()
+        optionButton.TextColor3 = Color3.fromRGB(48, 25, 52)
+    end)
+end
+
+local function openemotes(name, state, input)
+    if state == Enum.UserInputState.Begin then
+        ScreenGui.Enabled = not ScreenGui.Enabled
+    end
+end
+
+if IsStudio then
+    ContextActionService:BindActionAtPriority(
+        "Emote Menu",
+        openemotes,
+        true,
+        2001,
+        Enum.KeyCode.Comma
+    )
+else
+    ContextActionService:BindCoreActionAtPriority(
+        "Emote Menu",
+        openemotes,
+        true,
+        2001,
+        Enum.KeyCode.Comma
+    )
+end
+
+local inputconnect
+ScreenGui:GetPropertyChangedSignal("Enabled"):Connect(function()
+    if ScreenGui.Enabled == true then
+        SearchBar.Text = ""
+        SortDropdown.Visible = false
+        GuiService:SetEmotesMenuOpen(false)
+        inputconnect = UserInputService.InputBegan:Connect(function(input, processed)
+            if not processed then
+                if input.UserInputType == Enum.UserInputType.MouseButton1 then
+                    local mousePos = UserInputService:GetMouseLocation()
+                    local absolutePos = MainFrame.AbsolutePosition
+                    local absoluteSize = MainFrame.AbsoluteSize
+                    
+                    if not (mousePos.X >= absolutePos.X and mousePos.X <= absolutePos.X + absoluteSize.X and
+                           mousePos.Y >= absolutePos.Y and mousePos.Y <= absolutePos.Y + absoluteSize.Y) then
+                        ScreenGui.Enabled = false
+                    end
+                end
+            end
+        end)
+    else
+        if inputconnect then
+            inputconnect:Disconnect()
+        end
+    end
+end)
+
+if not IsStudio then
+    GuiService.EmotesMenuOpenChanged:Connect(function(isopen)
+        if isopen then
+            ScreenGui.Enabled = false
+        end
+    end)
+end
+
+GuiService.MenuOpened:Connect(function()
+    ScreenGui.Enabled = false
+end)
+
+if not game:IsLoaded() then
+    game.Loaded:Wait()
+end
+
+local LocalPlayer = Players.LocalPlayer
+
+if IsStudio then
+    ScreenGui.Parent = LocalPlayer.PlayerGui
+else
+    ScreenGui.Parent = CoreGui
+end
+
+local function SendNotification(title, text)
+    if (not IsStudio) and syn and syn.toast_notification then
+        syn.toast_notification({
+            Type = ToastType.Error,
+            Title = title,
+            Content = text
+        })
+    else
+        StarterGui:SetCore("SendNotification", {
+            Title = title,
+            Text = text
+        })
+    end
+end
+
+local function HumanoidPlayEmote(humanoid, name, id)
+    if IsStudio then
+        return humanoid:PlayEmote(name)
+    else
+        return humanoid:PlayEmoteAndGetAnimTrackById(id)
+    end
+end
+
+local function PlayEmote(name: string, id: IntValue)
+    SearchBar.Text = ""
+    local Humanoid = LocalPlayer.Character:FindFirstChildOfClass("Humanoid")
+    local Description = Humanoid and Humanoid:FindFirstChildOfClass("HumanoidDescription")
+    if not Description then
+        return
+    end
+    if LocalPlayer.Character.Humanoid.RigType ~= Enum.HumanoidRigType.R6 then
+        local succ, err = pcall(function()
+            HumanoidPlayEmote(Humanoid, name, id)
+        end)
+        if not succ then
+            Description:AddEmote(name, id)
+            HumanoidPlayEmote(Humanoid, name, id)
+        end
+    else
+        SendNotification("r6? lol", "you gotta be r15 dude")
+    end
+end
+
+local function WaitForChildOfClass(parent, class)
+    local child = parent:FindFirstChildOfClass(class)
+    while not child or child.ClassName ~= class do
+        child = parent.ChildAdded:Wait()
+    end
+    return child
+end
+
+local params = CatalogSearchParams.new()
+params.AssetTypes = {Enum.AvatarAssetType.EmoteAnimation}
+params.SortType = Enum.CatalogSortType.RecentlyCreated
+params.SortAggregation = Enum.CatalogSortAggregation.AllTime
+params.IncludeOffSale = true
+params.CreatorName = "Roblox"
+params.Limit = 120
+
+local function getCatalogPage()
+    local success, catalogPage = pcall(function()
+        return AvatarEditorService:SearchCatalog(params)
+    end)
+    if not success then
+        task.wait(5)
+        return getCatalogPage()
+    end
+    return catalogPage
+end
+
+local catalogPage = getCatalogPage()
+
+local pages = {}
+
+while true do
+    local currentPage = catalogPage:GetCurrentPage()
+    table.insert(pages, currentPage)
+    if catalogPage.IsFinished then
+        break
+    end
+    local function AdvanceToNextPage()
+        local success = pcall(function()
+            catalogPage:AdvanceToNextPageAsync()
+        end)
+        if not success then
+            task.wait(5)
+            return AdvanceToNextPage()
+        end
+    end
+    AdvanceToNextPage()
+end
+
+local totalEmotes = {}
+for _, page in pairs(pages) do
+    for _, emote in pairs(page) do
+        table.insert(totalEmotes, emote)
+    end
+end
+
+for i, Emote in pairs(totalEmotes) do
+    AddEmote(Emote.Name, Emote.Id, Emote.Price)
+end
+
+AddEmote("Arm Wave", 5915773155)
+AddEmote("Head Banging", 5915779725)
+AddEmote("Face Calisthenics", 9830731012)
+
+table.sort(Emotes, function(a, b)
+    return a.index < b.index
+end)
+for i,v in pairs(Emotes) do
+    v.sort.newestfirst = i
+end
+
+table.sort(Emotes, function(a, b)
+    return a.index > b.index
+end)
+for i,v in pairs(Emotes) do
+    v.sort.oldestfirst = i
+end
+
+table.sort(Emotes, function(a, b)
+    return a.name:lower() < b.name:lower()
+end)
+for i,v in pairs(Emotes) do
+    v.sort.alphabeticfirst = i
+end
+
+table.sort(Emotes, function(a, b)
+    return a.name:lower() > b.name:lower()
+end)
+for i,v in pairs(Emotes) do
+    v.sort.alphabeticlast = i
+end
+
+table.sort(Emotes, function(a, b)
+    return a.price < b.price
+end)
+for i,v in pairs(Emotes) do
+    v.sort.lowestprice = i
+end
+
+table.sort(Emotes, function(a, b)
+    return a.price > b.price
+end)
+for i,v in pairs(Emotes) do
+    v.sort.highestprice = i
+end
+
+local function SortEmotes()
+    for i,Emote in pairs(Emotes) do
+        local EmoteButton = EmotesFrame:FindFirstChild(tostring(Emote.id))
+        if not EmoteButton then
+            continue
+        end
+        local IsFavorited = table.find(FavoritedEmotes, Emote.id)
+        EmoteButton.LayoutOrder = Emote.sort[CurrentSort] + ((IsFavorited and 0) or #Emotes)
+    end
+end
+
+local function IsFileFunc(...)
+    if IsStudio then
+        return
+    elseif isfile then
+        return isfile(...)
+    end
+end
+
+local function WriteFileFunc(...)
+    if IsStudio then
+        return
+    elseif writefile then
+        return writefile(...)
+    end
+end
+
+local function ReadFileFunc(...)
+    if IsStudio then
+        return
+    elseif readfile then
+        return readfile(...)
+    end
+end
+
+if not IsStudio then
+    if IsFileFunc("FavoritedEmotes.txt") then
+        if not pcall(function()
+            FavoritedEmotes = HttpService:JSONDecode(ReadFileFunc("FavoritedEmotes.txt"))
+        end) then
+            FavoritedEmotes = {}
+        end
+    else
+        WriteFileFunc("FavoritedEmotes.txt", HttpService:JSONEncode(FavoritedEmotes))
+    end
+    local UpdatedFavorites = {}
+    for i,name in pairs(FavoritedEmotes) do
+        if typeof(name) == "string" then
+            for i,emote in pairs(Emotes) do
+                if emote.name == name then
+                    table.insert(UpdatedFavorites, emote.id)
+                    break
+                end
+            end
+        end
+    end
+    if #UpdatedFavorites ~= 0 then
+        FavoritedEmotes = UpdatedFavorites
+        WriteFileFunc("FavoritedEmotes.txt", HttpService:JSONEncode(FavoritedEmotes))
+    end
+end
+
+local function CharacterAdded(Character)
+    for i,v in pairs(EmotesFrame:GetChildren()) do
+        if not v:IsA("UIGridLayout") then
+            v:Destroy()
+        end
+    end
+    
+    local Humanoid = WaitForChildOfClass(Character, "Humanoid")
+    local Description = Humanoid:WaitForChild("HumanoidDescription", 5) or Instance.new("HumanoidDescription", Humanoid)
+    
+    local randomButton = Instance.new("ImageButton")
+    randomButton.LayoutOrder = 0
+    randomButton.BackgroundColor3 = Color3.fromRGB(15, 15, 15)
+    randomButton.AutoButtonColor = false
+    UICorner:Clone().Parent = randomButton
+    
+    local randomIcon = Instance.new("ImageLabel")
+    randomIcon.Image = "rbxassetid://7072725342"
+    randomIcon.Size = UDim2.new(0.7, 0, 0.7, 0)
+    randomIcon.Position = UDim2.new(0.15, 0, 0.15, 0)
+    randomIcon.BackgroundTransparency = 1
+    randomIcon.Parent = randomButton
+    
+    randomButton.MouseEnter:Connect(function()
+        TweenService:Create(randomButton, TweenInfo.new(0.1), {BackgroundColor3 = Color3.fromRGB(15, 15, 15)}):Play()
+        
+        local nameLabel = Instance.new("TextLabel")
+        nameLabel.Text = "Random Emote"
+        nameLabel.TextColor3 = Color3.fromRGB(48, 25, 52)
+        nameLabel.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+        nameLabel.BackgroundTransparency = 0.5
+        nameLabel.Size = UDim2.new(1, 0, 0.2, 0)
+        nameLabel.Position = UDim2.new(0, 0, 0.8, 0)
+        nameLabel.TextSize = 12
+        nameLabel.Font = Enum.Font.GothamBold
+        nameLabel.ZIndex = 2
+        UICorner:Clone().Parent = nameLabel
+        nameLabel.Parent = randomButton
+        
+        randomButton.MouseLeave:Connect(function()
+            TweenService:Create(randomButton, TweenInfo.new(0.1), {BackgroundColor3 = Color3.fromRGB(15, 15, 15)}):Play()
+            if nameLabel then
+                nameLabel:Destroy()
+            end
+        end)
+    end)
+    
+    randomButton.MouseButton1Click:Connect(function()
+        local randomEmote = Emotes[math.random(1, #Emotes)]
+        PlayEmote(randomEmote.name, randomEmote.id)
+    end)
+    
+    randomButton.Parent = EmotesFrame
+    
+    for i, Emote in pairs(Emotes) do
+        local emoteButton = Instance.new("ImageButton")
+        emoteButton.Name = tostring(Emote.id)
+        emoteButton.LayoutOrder = Emote.sort[CurrentSort] + (table.find(FavoritedEmotes, Emote.id) and 0 or #Emotes)
+        emoteButton.BackgroundColor3 = Color3.fromRGB(15, 15, 15)
+        emoteButton.AutoButtonColor = false
+        emoteButton.Image = Emote.icon
+        UICorner:Clone().Parent = emoteButton
+        
+        local favoriteButton = Instance.new("ImageButton")
+        favoriteButton.Name = "Favorite"
+        favoriteButton.Size = UDim2.new(0.25, 0, 0.25, 0)
+        favoriteButton.Position = UDim2.new(0.7, 0, 0.7, 0)
+        favoriteButton.BackgroundTransparency = 1
+        favoriteButton.Image = table.find(FavoritedEmotes, Emote.id) and FavoriteOn or FavoriteOff
+        favoriteButton.Parent = emoteButton
+        
+        favoriteButton.MouseButton1Click:Connect(function()
+            local index = table.find(FavoritedEmotes, Emote.id)
+            if index then
+                table.remove(FavoritedEmotes, index)
+                favoriteButton.Image = FavoriteOff
+            else
+                table.insert(FavoritedEmotes, Emote.id)
+                favoriteButton.Image = FavoriteOn
+            end
+            if not IsStudio and writefile then
+                writefile("FavoritedEmotes.txt", HttpService:JSONEncode(FavoritedEmotes))
+            end
+            emoteButton.LayoutOrder = Emote.sort[CurrentSort] + (table.find(FavoritedEmotes, Emote.id) and 0 or #Emotes)
+        end)
+        
+        local hoverTween
+        emoteButton.MouseEnter:Connect(function()
+            hoverTween = TweenService:Create(emoteButton, TweenInfo.new(0.1), {
+                BackgroundColor3 = Color3.fromRGB(15, 15, 15),
+                ImageColor3 = Color3.fromRGB(48, 25, 52)
+            }):Play()
+            
+            local nameLabel = Instance.new("TextLabel")
+            nameLabel.Text = Emote.name
+            nameLabel.TextColor3 = Color3.fromRGB(48, 25, 52)
+            nameLabel.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+            nameLabel.BackgroundTransparency = 0.5
+            nameLabel.Size = UDim2.new(1, 0, 0.2, 0)
+            nameLabel.Position = UDim2.new(0, 0, 0.8, 0)
+            nameLabel.TextSize = 12
+            nameLabel.Font = Enum.Font.GothamBold
+            nameLabel.ZIndex = 2
+            UICorner:Clone().Parent = nameLabel
+            nameLabel.Parent = emoteButton
+            
+            emoteButton.MouseLeave:Connect(function()
+                if hoverTween then
+                    hoverTween:Cancel()
+                end
+                TweenService:Create(emoteButton, TweenInfo.new(0.1), {
+                    BackgroundColor3 = Color3.fromRGB(15, 15, 15),
+                    ImageColor3 = Color3.fromRGB(48, 25, 52)
+                }):Play()
+                if nameLabel then
+                    nameLabel:Destroy()
+                end
+            end)
+        end)
+        
+        emoteButton.MouseButton1Click:Connect(function()
+            PlayEmote(Emote.name, Emote.id)
+        end)
+        
+        emoteButton.Parent = EmotesFrame
+    end
+end
+
+local function UpdateSearchResults()
+    local searchText = SearchBar.Text:lower()
+    for _, child in pairs(EmotesFrame:GetChildren()) do
+        if child:IsA("ImageButton") then
+            local emote = nil
+            for _, e in pairs(Emotes) do
+                if tostring(e.id) == child.Name then
+                    emote = e
+                    break
+                end
+            end
+
+            if emote then
+                local isVisible = searchText == "" or emote.name:lower():find(searchText, 1, true)
+                child.Visible = isVisible
+            end
+        end
+    end
+end
+
+SearchBar:GetPropertyChangedSignal("Text"):Connect(UpdateSearchResults)
+
+CloseButton.MouseButton1Click:Connect(function()
+    ScreenGui.Enabled = false
+end)
+
+SortButton.MouseEnter:Connect(function()
+    TweenService:Create(SortButton, TweenInfo.new(0.1), {BackgroundColor3 = Color3.fromRGB(15, 15, 15)}):Play()
+end)
+
+SortButton.MouseLeave:Connect(function()
+    TweenService:Create(SortButton, TweenInfo.new(0.1), {BackgroundColor3 = Color3.fromRGB(15, 15, 15)}):Play()
+end)
+
+SortButton.MouseButton1Click:Connect(function()
+    SortDropdown.Visible = not SortDropdown.Visible
+end)
+
+SearchBar.Focused:Connect(function()
+    TweenService:Create(SearchBar, TweenInfo.new(0.1), {BackgroundColor3 = Color3.fromRGB(15, 15, 15)}):Play()
+    TweenService:Create(SearchIcon, TweenInfo.new(0.1), {ImageColor3 = Color3.fromRGB(48, 25, 52)}):Play()
+end)
+
+SearchBar.FocusLost:Connect(function()
+    TweenService:Create(SearchBar, TweenInfo.new(0.1), {BackgroundColor3 = Color3.fromRGB(15, 15, 15)}):Play()
+    TweenService:Create(SearchIcon, TweenInfo.new(0.1), {ImageColor3 = Color3.fromRGB(48, 25, 52)}):Play()
+end)
+
+if LocalPlayer.Character then
+    CharacterAdded(LocalPlayer.Character)
+end
+LocalPlayer.CharacterAdded:Connect(CharacterAdded)
