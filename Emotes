@@ -53,7 +53,7 @@ UICorner.Parent = MainFrame
 
 local UIStroke = Instance.new("UIStroke")
 UIStroke.Thickness = 1
-UIStroke.Color = Color3.fromRGB(48, 25, 52)
+UIStroke.Color = Color3.fromRGB(148, 0, 211)
 UIStroke.Parent = MainFrame
 
 local Header = Instance.new("Frame")
@@ -64,7 +64,7 @@ Header.Parent = MainFrame
 
 local Title = Instance.new("TextLabel")
 Title.Text = "	Emotes	"
-Title.TextColor3 = Color3.fromRGB(48, 25, 52)
+Title.TextColor3 = Color3.fromRGB(148, 0, 211)
 Title.TextSize = 18
 Title.Font = Enum.Font.GothamBold
 Title.Size = UDim2.new(0.5, 0, 1, 0)
@@ -74,7 +74,7 @@ Title.Parent = Header
 
 local CloseButton = Instance.new("TextButton")
 CloseButton.Text = "X"
-CloseButton.TextColor3 = Color3.fromRGB(48, 25, 52)
+CloseButton.TextColor3 = Color3.fromRGB(148, 0, 211)
 CloseButton.TextSize = 18
 CloseButton.Font = Enum.Font.GothamBold
 CloseButton.Size = UDim2.new(0.1, 0, 1, 0)
@@ -86,8 +86,8 @@ local SearchBar = Instance.new("TextBox")
 SearchBar.Size = UDim2.new(0.65, 0, 0.05, 0)
 SearchBar.Position = UDim2.new(0.17, 0, 0.1, 0)
 SearchBar.PlaceholderText = "	Search...	"
-SearchBar.PlaceholderColor3 = Color3.fromRGB(48, 25, 52)
-SearchBar.TextColor3 = Color3.fromRGB(48, 25, 52)
+SearchBar.PlaceholderColor3 = Color3.fromRGB(148, 0, 211)
+SearchBar.TextColor3 = Color3.fromRGB(148, 0, 211)
 SearchBar.BackgroundColor3 = Color3.fromRGB(15, 15, 15)
 SearchBar.TextSize = 12
 SearchBar.Font = Enum.Font.Gotham
@@ -117,7 +117,7 @@ local SortButton = Instance.new("TextButton")
 SortButton.Size = UDim2.new(0.12, 0, 0.05, 0)
 SortButton.Position = UDim2.new(0.83, 0, 0.1, 0)
 SortButton.Text = "Sort"
-SortButton.TextColor3 = Color3.fromRGB(48, 25, 52)
+SortButton.TextColor3 = Color3.fromRGB(148, 0, 211)
 SortButton.TextSize = 14
 SortButton.Font = Enum.Font.Gotham
 SortButton.BackgroundColor3 = Color3.fromRGB(15, 15, 15)
@@ -150,7 +150,7 @@ for i, option in ipairs(SortOptions) do
     local optionButton = Instance.new("TextButton")
     optionButton.Size = UDim2.new(1, 0, 0, 30)
     optionButton.Text = option[1]
-    optionButton.TextColor3 = Color3.fromRGB(48, 25, 52)
+    optionButton.TextColor3 = Color3.fromRGB(148, 0, 211)
     optionButton.TextSize = 14
     optionButton.Font = Enum.Font.Gotham
     optionButton.BackgroundTransparency = 1
@@ -163,11 +163,11 @@ for i, option in ipairs(SortOptions) do
     end)
     
     optionButton.MouseEnter:Connect(function()
-        optionButton.TextColor3 = Color3.fromRGB(48, 25, 52)
+        optionButton.TextColor3 = Color3.fromRGB(148, 0, 211)
     end)
     
     optionButton.MouseLeave:Connect(function()
-        optionButton.TextColor3 = Color3.fromRGB(48, 25, 52)
+        optionButton.TextColor3 = Color3.fromRGB(148, 0, 211)
     end)
 end
 
@@ -485,7 +485,7 @@ local function CharacterAdded(Character)
         
         local nameLabel = Instance.new("TextLabel")
         nameLabel.Text = "Random Emote"
-        nameLabel.TextColor3 = Color3.fromRGB(48, 25, 52)
+        nameLabel.TextColor3 = Color3.fromRGB(148, 0, 211)
         nameLabel.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
         nameLabel.BackgroundTransparency = 0.5
         nameLabel.Size = UDim2.new(1, 0, 0.2, 0)
@@ -547,12 +547,12 @@ local function CharacterAdded(Character)
         emoteButton.MouseEnter:Connect(function()
             hoverTween = TweenService:Create(emoteButton, TweenInfo.new(0.1), {
                 BackgroundColor3 = Color3.fromRGB(15, 15, 15),
-                ImageColor3 = Color3.fromRGB(48, 25, 52)
+                ImageColor3 = Color3.fromRGB(148, 0, 211)
             }):Play()
             
             local nameLabel = Instance.new("TextLabel")
             nameLabel.Text = Emote.name
-            nameLabel.TextColor3 = Color3.fromRGB(48, 25, 52)
+            nameLabel.TextColor3 = Color3.fromRGB(148, 0, 211)
             nameLabel.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
             nameLabel.BackgroundTransparency = 0.5
             nameLabel.Size = UDim2.new(1, 0, 0.2, 0)
@@ -569,7 +569,7 @@ local function CharacterAdded(Character)
                 end
                 TweenService:Create(emoteButton, TweenInfo.new(0.1), {
                     BackgroundColor3 = Color3.fromRGB(15, 15, 15),
-                    ImageColor3 = Color3.fromRGB(48, 25, 52)
+                    ImageColor3 = Color3.fromRGB(148, 0, 211)
                 }):Play()
                 if nameLabel then
                     nameLabel:Destroy()
@@ -625,12 +625,12 @@ end)
 
 SearchBar.Focused:Connect(function()
     TweenService:Create(SearchBar, TweenInfo.new(0.1), {BackgroundColor3 = Color3.fromRGB(15, 15, 15)}):Play()
-    TweenService:Create(SearchIcon, TweenInfo.new(0.1), {ImageColor3 = Color3.fromRGB(48, 25, 52)}):Play()
+    TweenService:Create(SearchIcon, TweenInfo.new(0.1), {ImageColor3 = Color3.fromRGB(148, 0, 211)}):Play()
 end)
 
 SearchBar.FocusLost:Connect(function()
     TweenService:Create(SearchBar, TweenInfo.new(0.1), {BackgroundColor3 = Color3.fromRGB(15, 15, 15)}):Play()
-    TweenService:Create(SearchIcon, TweenInfo.new(0.1), {ImageColor3 = Color3.fromRGB(48, 25, 52)}):Play()
+    TweenService:Create(SearchIcon, TweenInfo.new(0.1), {ImageColor3 = Color3.fromRGB(148, 0, 211)}):Play()
 end)
 
 if LocalPlayer.Character then
