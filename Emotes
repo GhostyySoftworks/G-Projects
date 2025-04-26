@@ -30,6 +30,9 @@ local CurrentSort = "newestfirst"
 local FavoriteOff = "rbxassetid://10651060677"
 local FavoriteOn = "rbxassetid://10651061109"
 local FavoritedEmotes = {}
+local RecentEmotes = {}
+
+local ThemeColor = Color3.fromRGB(148, 0, 211)
 
 local ScreenGui = Instance.new("ScreenGui")
 ScreenGui.Name = "Emotes"
@@ -53,7 +56,7 @@ UICorner.Parent = MainFrame
 
 local UIStroke = Instance.new("UIStroke")
 UIStroke.Thickness = 1
-UIStroke.Color = Color3.fromRGB(148, 0, 211)
+UIStroke.Color = ThemeColor
 UIStroke.Parent = MainFrame
 
 local Header = Instance.new("Frame")
@@ -64,7 +67,7 @@ Header.Parent = MainFrame
 
 local Title = Instance.new("TextLabel")
 Title.Text = "	Emotes	"
-Title.TextColor3 = Color3.fromRGB(148, 0, 211)
+Title.TextColor3 = ThemeColor
 Title.TextSize = 18
 Title.Font = Enum.Font.GothamBold
 Title.Size = UDim2.new(0.5, 0, 1, 0)
@@ -72,9 +75,20 @@ Title.BackgroundTransparency = 1
 Title.TextXAlignment = Enum.TextXAlignment.Left
 Title.Parent = Header
 
+local FavoritesCount = Instance.new("TextLabel")
+FavoritesCount.Text = "Favorites: 0"
+FavoritesCount.TextColor3 = ThemeColor
+FavoritesCount.TextSize = 14
+FavoritesCount.Font = Enum.Font.Gotham
+FavoritesCount.Size = UDim2.new(0.3, 0, 1, 0)
+FavoritesCount.Position = UDim2.new(0.5, 0, 0, 0)
+FavoritesCount.BackgroundTransparency = 1
+FavoritesCount.TextXAlignment = Enum.TextXAlignment.Right
+FavoritesCount.Parent = Header
+
 local CloseButton = Instance.new("TextButton")
 CloseButton.Text = "X"
-CloseButton.TextColor3 = Color3.fromRGB(148, 0, 211)
+CloseButton.TextColor3 = ThemeColor
 CloseButton.TextSize = 18
 CloseButton.Font = Enum.Font.GothamBold
 CloseButton.Size = UDim2.new(0.1, 0, 1, 0)
@@ -86,8 +100,8 @@ local SearchBar = Instance.new("TextBox")
 SearchBar.Size = UDim2.new(0.65, 0, 0.05, 0)
 SearchBar.Position = UDim2.new(0.17, 0, 0.1, 0)
 SearchBar.PlaceholderText = "	Search...	"
-SearchBar.PlaceholderColor3 = Color3.fromRGB(148, 0, 211)
-SearchBar.TextColor3 = Color3.fromRGB(148, 0, 211)
+SearchBar.PlaceholderColor3 = ThemeColor
+SearchBar.TextColor3 = ThemeColor
 SearchBar.BackgroundColor3 = Color3.fromRGB(15, 15, 15)
 SearchBar.TextSize = 12
 SearchBar.Font = Enum.Font.Gotham
@@ -98,6 +112,40 @@ searchCorner.CornerRadius = UDim.new(1, 0)
 searchCorner.Parent = SearchBar
 SearchBar.Parent = MainFrame
 
+local LoadingFrame = Instance.new("Frame")
+LoadingFrame.Size = UDim2.new(1, 0, 1, 0)
+LoadingFrame.BackgroundTransparency = 0.5
+LoadingFrame.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+LoadingFrame.ZIndex = 10
+LoadingFrame.Visible = false
+LoadingFrame.Parent = MainFrame
+
+local LoadingContainer = Instance.new("Frame")
+LoadingContainer.Size = UDim2.new(0.4, 0, 0.2, 0)
+LoadingContainer.AnchorPoint = Vector2.new(0.5, 0.5)
+LoadingContainer.Position = UDim2.new(0.5, 0, 0.5, 0)
+LoadingContainer.BackgroundTransparency = 1
+LoadingContainer.Parent = LoadingFrame
+
+local LoadingSpinner = Instance.new("ImageLabel")
+LoadingSpinner.Image = "rbxassetid://9125473266"
+LoadingSpinner.Size = UDim2.new(0.4, 0, 0.4, 0)
+LoadingSpinner.AnchorPoint = Vector2.new(0.5, 0.5)
+LoadingSpinner.Position = UDim2.new(0.5, 0, 0.4, 0)
+LoadingSpinner.BackgroundTransparency = 1
+LoadingSpinner.Parent = LoadingContainer
+
+local LoadingText = Instance.new("TextLabel")
+LoadingText.Text = "Loading Emotes..."
+LoadingText.TextColor3 = Color3.fromRGB(255, 255, 255)
+LoadingText.TextSize = 16
+LoadingText.Font = Enum.Font.Gotham
+LoadingText.Size = UDim2.new(1, 0, 0.3, 0)
+LoadingText.Position = UDim2.new(0, 0, 0.6, 0)
+LoadingText.BackgroundTransparency = 1
+LoadingText.TextXAlignment = Enum.TextXAlignment.Center
+LoadingText.Parent = LoadingContainer
+
 local EmotesFrame = Instance.new("ScrollingFrame")
 EmotesFrame.Size = UDim2.new(0.95, 0, 0.78, 0)
 EmotesFrame.Position = UDim2.new(0.025, 0, 0.2, 0)
@@ -105,6 +153,9 @@ EmotesFrame.BackgroundTransparency = 1
 EmotesFrame.ScrollBarThickness = 5
 EmotesFrame.AutomaticCanvasSize = Enum.AutomaticSize.Y
 EmotesFrame.CanvasSize = UDim2.new(0, 0, 0, 0)
+EmotesFrame.ScrollingEnabled = true
+EmotesFrame.ScrollBarImageColor3 = ThemeColor
+EmotesFrame.ScrollBarImageTransparency = 0.7
 EmotesFrame.Parent = MainFrame
 
 local GridLayout = Instance.new("UIGridLayout")
@@ -117,7 +168,7 @@ local SortButton = Instance.new("TextButton")
 SortButton.Size = UDim2.new(0.12, 0, 0.05, 0)
 SortButton.Position = UDim2.new(0.83, 0, 0.1, 0)
 SortButton.Text = "Sort"
-SortButton.TextColor3 = Color3.fromRGB(148, 0, 211)
+SortButton.TextColor3 = ThemeColor
 SortButton.TextSize = 14
 SortButton.Font = Enum.Font.Gotham
 SortButton.BackgroundColor3 = Color3.fromRGB(15, 15, 15)
@@ -150,7 +201,7 @@ for i, option in ipairs(SortOptions) do
     local optionButton = Instance.new("TextButton")
     optionButton.Size = UDim2.new(1, 0, 0, 30)
     optionButton.Text = option[1]
-    optionButton.TextColor3 = Color3.fromRGB(148, 0, 211)
+    optionButton.TextColor3 = ThemeColor
     optionButton.TextSize = 14
     optionButton.Font = Enum.Font.Gotham
     optionButton.BackgroundTransparency = 1
@@ -163,17 +214,82 @@ for i, option in ipairs(SortOptions) do
     end)
     
     optionButton.MouseEnter:Connect(function()
-        optionButton.TextColor3 = Color3.fromRGB(148, 0, 211)
+        optionButton.TextColor3 = ThemeColor
     end)
     
     optionButton.MouseLeave:Connect(function()
-        optionButton.TextColor3 = Color3.fromRGB(148, 0, 211)
+        optionButton.TextColor3 = ThemeColor
+    end)
+end
+local function CreateHoverEffect(button)
+    local hoverTween
+    local nameLabel
+    
+    button.ImageColor3 = ThemeColor
+    
+    button.MouseEnter:Connect(function()
+        if hoverTween then
+            hoverTween:Cancel()
+        end
+        
+        button.BackgroundColor3 = Color3.fromRGB(15, 15, 15)
+        button.ImageColor3 = ThemeColor
+        
+        if nameLabel then
+            nameLabel:Destroy()
+            nameLabel = nil
+        end
+        
+        nameLabel = Instance.new("TextLabel")
+        local emoteName = "Random Emote"
+        if button:FindFirstChild("Favorite") then
+            for _, emote in pairs(Emotes) do
+                if tostring(emote.id) == button.Name then
+                    emoteName = emote.name
+                    break
+                end
+            end
+        end
+        nameLabel.Text = emoteName
+        nameLabel.TextColor3 = ThemeColor
+        nameLabel.BackgroundColor3 = Color3.fromRGB(15, 15, 15)
+        nameLabel.BackgroundTransparency = 0.5
+        nameLabel.Size = UDim2.new(1, 0, 0.2, 0)
+        nameLabel.Position = UDim2.new(0, 0, 0.8, 0)
+        nameLabel.TextSize = 12
+        nameLabel.Font = Enum.Font.GothamBold
+        nameLabel.ZIndex = 2
+        UICorner:Clone().Parent = nameLabel
+        nameLabel.Parent = button
+    end)
+    
+    button.MouseLeave:Connect(function()
+        if hoverTween then
+            hoverTween:Cancel()
+        end
+        
+        if nameLabel then
+            nameLabel:Destroy()
+            nameLabel = nil
+        end
+        
+        hoverTween = TweenService:Create(button, TweenInfo.new(0.1), {
+            BackgroundColor3 = Color3.fromRGB(15, 15, 15),
+            ImageColor3 = ThemeColor -- Keep purple when not hovered
+        })
+        hoverTween:Play()
     end)
 end
 
 local function openemotes(name, state, input)
     if state == Enum.UserInputState.Begin then
         ScreenGui.Enabled = not ScreenGui.Enabled
+        if ScreenGui.Enabled then
+            MainFrame.Position = UDim2.new(0.5, 0, 0.4, 0)
+            TweenService:Create(MainFrame, TweenInfo.new(0.2), {
+                Position = UDim2.new(0.5, 0, 0.5, 0)
+            }):Play()
+        end
     end
 end
 
@@ -270,6 +386,11 @@ local function HumanoidPlayEmote(humanoid, name, id)
 end
 
 local function PlayEmote(name: string, id: IntValue)
+    table.insert(RecentEmotes, 1, {name = name, id = id})
+    if #RecentEmotes > 5 then
+        table.remove(RecentEmotes, 6)
+    end
+    
     SearchBar.Text = ""
     local Humanoid = LocalPlayer.Character:FindFirstChildOfClass("Humanoid")
     local Description = Humanoid and Humanoid:FindFirstChildOfClass("HumanoidDescription")
@@ -316,6 +437,7 @@ local function getCatalogPage()
     return catalogPage
 end
 
+LoadingFrame.Visible = true
 local catalogPage = getCatalogPage()
 
 local pages = {}
@@ -457,6 +579,10 @@ if not IsStudio then
     end
 end
 
+local function UpdateFavoritesCount()
+    FavoritesCount.Text = "Favorites: "..#FavoritedEmotes
+end
+
 local function CharacterAdded(Character)
     for i,v in pairs(EmotesFrame:GetChildren()) do
         if not v:IsA("UIGridLayout") then
@@ -471,6 +597,7 @@ local function CharacterAdded(Character)
     randomButton.LayoutOrder = 0
     randomButton.BackgroundColor3 = Color3.fromRGB(15, 15, 15)
     randomButton.AutoButtonColor = false
+    randomButton.ImageColor3 = ThemeColor
     UICorner:Clone().Parent = randomButton
     
     local randomIcon = Instance.new("ImageLabel")
@@ -478,31 +605,10 @@ local function CharacterAdded(Character)
     randomIcon.Size = UDim2.new(0.7, 0, 0.7, 0)
     randomIcon.Position = UDim2.new(0.15, 0, 0.15, 0)
     randomIcon.BackgroundTransparency = 1
+    randomIcon.ImageColor3 = ThemeColor
     randomIcon.Parent = randomButton
     
-    randomButton.MouseEnter:Connect(function()
-        TweenService:Create(randomButton, TweenInfo.new(0.1), {BackgroundColor3 = Color3.fromRGB(15, 15, 15)}):Play()
-        
-        local nameLabel = Instance.new("TextLabel")
-        nameLabel.Text = "Random Emote"
-        nameLabel.TextColor3 = Color3.fromRGB(148, 0, 211)
-        nameLabel.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
-        nameLabel.BackgroundTransparency = 0.5
-        nameLabel.Size = UDim2.new(1, 0, 0.2, 0)
-        nameLabel.Position = UDim2.new(0, 0, 0.8, 0)
-        nameLabel.TextSize = 12
-        nameLabel.Font = Enum.Font.GothamBold
-        nameLabel.ZIndex = 2
-        UICorner:Clone().Parent = nameLabel
-        nameLabel.Parent = randomButton
-        
-        randomButton.MouseLeave:Connect(function()
-            TweenService:Create(randomButton, TweenInfo.new(0.1), {BackgroundColor3 = Color3.fromRGB(15, 15, 15)}):Play()
-            if nameLabel then
-                nameLabel:Destroy()
-            end
-        end)
-    end)
+    CreateHoverEffect(randomButton)
     
     randomButton.MouseButton1Click:Connect(function()
         local randomEmote = Emotes[math.random(1, #Emotes)]
@@ -518,6 +624,7 @@ local function CharacterAdded(Character)
         emoteButton.BackgroundColor3 = Color3.fromRGB(15, 15, 15)
         emoteButton.AutoButtonColor = false
         emoteButton.Image = Emote.icon
+        emoteButton.ImageColor3 = ThemeColor
         UICorner:Clone().Parent = emoteButton
         
         local favoriteButton = Instance.new("ImageButton")
@@ -526,6 +633,7 @@ local function CharacterAdded(Character)
         favoriteButton.Position = UDim2.new(0.7, 0, 0.7, 0)
         favoriteButton.BackgroundTransparency = 1
         favoriteButton.Image = table.find(FavoritedEmotes, Emote.id) and FavoriteOn or FavoriteOff
+        favoriteButton.ImageColor3 = ThemeColor
         favoriteButton.Parent = emoteButton
         
         favoriteButton.MouseButton1Click:Connect(function()
@@ -541,41 +649,10 @@ local function CharacterAdded(Character)
                 writefile("FavoritedEmotes.txt", HttpService:JSONEncode(FavoritedEmotes))
             end
             emoteButton.LayoutOrder = Emote.sort[CurrentSort] + (table.find(FavoritedEmotes, Emote.id) and 0 or #Emotes)
+            UpdateFavoritesCount()
         end)
         
-        local hoverTween
-        emoteButton.MouseEnter:Connect(function()
-            hoverTween = TweenService:Create(emoteButton, TweenInfo.new(0.1), {
-                BackgroundColor3 = Color3.fromRGB(15, 15, 15),
-                ImageColor3 = Color3.fromRGB(148, 0, 211)
-            }):Play()
-            
-            local nameLabel = Instance.new("TextLabel")
-            nameLabel.Text = Emote.name
-            nameLabel.TextColor3 = Color3.fromRGB(148, 0, 211)
-            nameLabel.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
-            nameLabel.BackgroundTransparency = 0.5
-            nameLabel.Size = UDim2.new(1, 0, 0.2, 0)
-            nameLabel.Position = UDim2.new(0, 0, 0.8, 0)
-            nameLabel.TextSize = 12
-            nameLabel.Font = Enum.Font.GothamBold
-            nameLabel.ZIndex = 2
-            UICorner:Clone().Parent = nameLabel
-            nameLabel.Parent = emoteButton
-            
-            emoteButton.MouseLeave:Connect(function()
-                if hoverTween then
-                    hoverTween:Cancel()
-                end
-                TweenService:Create(emoteButton, TweenInfo.new(0.1), {
-                    BackgroundColor3 = Color3.fromRGB(15, 15, 15),
-                    ImageColor3 = Color3.fromRGB(148, 0, 211)
-                }):Play()
-                if nameLabel then
-                    nameLabel:Destroy()
-                end
-            end)
-        end)
+        CreateHoverEffect(emoteButton)
         
         emoteButton.MouseButton1Click:Connect(function()
             PlayEmote(Emote.name, Emote.id)
@@ -583,6 +660,9 @@ local function CharacterAdded(Character)
         
         emoteButton.Parent = EmotesFrame
     end
+    
+    LoadingFrame.Visible = false
+    UpdateFavoritesCount()
 end
 
 local function UpdateSearchResults()
@@ -625,12 +705,10 @@ end)
 
 SearchBar.Focused:Connect(function()
     TweenService:Create(SearchBar, TweenInfo.new(0.1), {BackgroundColor3 = Color3.fromRGB(15, 15, 15)}):Play()
-    TweenService:Create(SearchIcon, TweenInfo.new(0.1), {ImageColor3 = Color3.fromRGB(148, 0, 211)}):Play()
 end)
 
 SearchBar.FocusLost:Connect(function()
     TweenService:Create(SearchBar, TweenInfo.new(0.1), {BackgroundColor3 = Color3.fromRGB(15, 15, 15)}):Play()
-    TweenService:Create(SearchIcon, TweenInfo.new(0.1), {ImageColor3 = Color3.fromRGB(148, 0, 211)}):Play()
 end)
 
 if LocalPlayer.Character then
