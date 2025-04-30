@@ -462,8 +462,8 @@ cmd.add({"fling"}, {"fling <player>", "Fling the given player"}, function(plr)
             local FPos = function(BasePart, Pos, Ang)
                 RootPart.CFrame = CFrame.new(BasePart.Position) * Pos * Ang
                 Character:SetPrimaryPartCFrame(CFrame.new(BasePart.Position) * Pos * Ang)
-                RootPart.Velocity = Vector3.new(9e7, 9e7 * 10, 9e7)
-                RootPart.RotVelocity = Vector3.new(9e8, 9e8, 9e8)
+                RootPart.Velocity = Vector3.new(9e8, 9e8 * 10, 9e8)
+                RootPart.RotVelocity = Vector3.new(9e9, 9e9, 9e9)
             end
             
             local SFBasePart = function(BasePart)
@@ -519,7 +519,7 @@ cmd.add({"fling"}, {"fling <player>", "Fling the given player"}, function(plr)
             local BV = Instance.new("BodyVelocity")
             BV.Name = "EpixVel"
             BV.Parent = RootPart
-            BV.Velocity = Vector3.new(9e8, 9e8, 9e8)
+            BV.Velocity = Vector3.new(9e9, 9e9, 9e9)
             BV.MaxForce = Vector3.new(1/0, 1/0, 1/0)
     
             if TRootPart and THead then
@@ -643,8 +643,8 @@ cmd.add({"loopfling"}, {"loopfling <player>", "Continuously fling a player"}, fu
                 local FPos = function(BasePart, Pos, Ang)
                     RootPart.CFrame = CFrame.new(BasePart.Position) * Pos * Ang
                     Character:SetPrimaryPartCFrame(CFrame.new(BasePart.Position) * Pos * Ang)
-                    RootPart.Velocity = Vector3.new(9e7, 9e7 * 10, 9e7)
-                    RootPart.RotVelocity = Vector3.new(9e8, 9e8, 9e8)
+                    RootPart.Velocity = Vector3.new(9e8, 9e8 * 10, 9e8)
+                    RootPart.RotVelocity = Vector3.new(9e9, 9e9, 9e9)
                 end
                 
                 local SFBasePart = function(BasePart)
@@ -700,7 +700,7 @@ cmd.add({"loopfling"}, {"loopfling <player>", "Continuously fling a player"}, fu
                 local BV = Instance.new("BodyVelocity")
                 BV.Name = "EpixVel"
                 BV.Parent = RootPart
-                BV.Velocity = Vector3.new(9e8, 9e8, 9e8)
+                BV.Velocity = Vector3.new(9e9, 9e9, 9e9)
                 BV.MaxForce = Vector3.new(1/0, 1/0, 1/0)
                 
                 if TRootPart and THead then
