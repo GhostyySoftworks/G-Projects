@@ -74,7 +74,7 @@ if TextChatService.ChatVersion == Enum.ChatVersion.TextChatService then
         showNotification("ACL Script", "Already loaded!", "rbxassetid://123456")
     end
 else
-    loadstring(game:HttpGet("https://gitlab.com/Dypasser/DRepos/-/raw/main/DACL?ref_type=heads"))()
+    loadstring(game:HttpGet("https://gitlab.com/DDSoftworks/D-Projects/-/raw/main/DACL"))()
 end
 
 task.spawn(function()
