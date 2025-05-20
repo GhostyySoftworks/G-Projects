@@ -1408,7 +1408,7 @@ TextClickButton.Size = UDim2.new(0, 2, 0, 33)
 TextClickButton.Font = Enum.Font.SourceSansBold
 TextClickButton.Text = "DD Admin " .. currentversion .. ""
 TextClickButton.TextColor3 = Color3.fromRGB(128, 34, 178)
-TextClickButton.TextSize = 20.000
+TextClickButton.TextSize = 14
 TextClickButton.TextScaled = true
 TextClickButton.TextWrapped = true
 
