@@ -2,12 +2,66 @@ if not game:IsLoaded() then
     game.Loaded:Wait()
 end
 
+local StarterGui = game:GetService("StarterGui")
+StarterGui:SetCore("SendNotification", {
+    Title = "DD'S ACL",
+    Text = "Loading DD'S Anti Chat & Screenshot Logger..",
+    Icon = "rbxassetid://2541869220",
+    Duration = 15
+})
+
 local TextChatService = game:GetService("TextChatService")
 local Players = game:GetService("Players")
 local LocalPlayer = Players.LocalPlayer
-local StarterGui = game:GetService("StarterGui")
 
-local function ensureHasExecuted()
+local features = {
+    setflag = type(setfflag) == "function",
+    request = type(request) == "function" or type(http) == "table" and type(http.request) == "function" or type(syn) == "table" and type(syn.request) == "function",
+    hookfunction = type(hookfunction) == "function" or type(replaceclosure) == "function",
+    newcclosure = type(newcclosure) == "function" or type(protect_function) == "function"
+}
+
+local function safehook(func, newfunc)
+    if type(hookfunction) == "function" then
+        return hookfunction(func, newfunc)
+    elseif type(replaceclosure) == "function" then
+        return replaceclosure(func, newfunc)
+    end
+    return func
+end
+
+local function safeprotect(func)
+    if type(newcclosure) == "function" then
+        return newcclosure(func)
+    elseif type(protect_function) == "function" then
+        return protect_function(func)
+    end
+    return func
+end
+
+local function saferequest(url)
+    local content = nil
+
+    if type(request) == "function" then
+        local response = request({Url = url, Method = "GET"})
+        if response and response.Body then content = response.Body end
+    elseif type(http) == "table" and type(http.request) == "function" then
+        local response = http.request({Url = url, Method = "GET"})
+        if response and response.Body then content = response.Body end
+    elseif type(syn) == "table" and type(syn.request) == "function" then
+        local response = syn.request({Url = url, Method = "GET"})
+        if response and response.Body then content = response.Body end
+    elseif type(game.HttpGet) == "function" then
+        local success, result = pcall(function()
+            return game:HttpGet(url)
+        end)
+        if success then content = result end
+    end
+
+    return content
+end
+
+if TextChatService.ChatVersion == Enum.ChatVersion.TextChatService then
     local hasExecuted = LocalPlayer:FindFirstChild("HasExecuted")
     if not hasExecuted then
         hasExecuted = Instance.new("BoolValue")
@@ -15,71 +69,109 @@ local function ensureHasExecuted()
         hasExecuted.Value = false
         hasExecuted.Parent = LocalPlayer
     end
-    return hasExecuted
-end
 
-local function ensureChatEnabled(maxAttempts)
-    local attempts = 0
-    repeat
-        StarterGui:SetCoreGuiEnabled(Enum.CoreGuiType.Chat, true)
-        task.wait(0.1)
-        attempts += 1
-    until StarterGui:GetCoreGuiEnabled(Enum.CoreGuiType.Chat) or attempts >= maxAttempts
-end
+    local startTime = tick()
 
-local function showNotification(title, description, imageId)
-    if StarterGui then
-        StarterGui:SetCore("SendNotification", {
-            Title = title;
-            Text = description;
-            Icon = imageId;
-            Duration = 15;
-        })
+    local function showNotification(title, description, imageId)
+        pcall(function()
+            StarterGui:SetCore("SendNotification", {
+                Title = title,
+                Text = description,
+                Icon = imageId,
+                Duration = 15
+            })
+        end)
     end
-end
 
-if TextChatService.ChatVersion == Enum.ChatVersion.TextChatService then
-    local hasExecuted = ensureHasExecuted()
+    local function executeScript()
+        if hasExecuted.Value then
+            showNotification("DD'S ACL", "Anti Chat & Screenshot Logger already loaded!", "rbxassetid://2541869220")
+            return
+        end
 
-    if not hasExecuted.Value then
-        local startTime = tick()
         hasExecuted.Value = true
-        print("Executing ACL script...")
+        local ACLloadTime = tick() - startTime
 
-        if setfflag then
+        if features.setflag then
             pcall(function()
                 setfflag("AbuseReportScreenshot", "False")
                 setfflag("AbuseReportScreenshotPercentage", "0")
             end)
         end
 
-        TextChatService.OnIncomingMessage = function(message)
-            if message.Text:sub(1, 2) == "/e" then
-                return message.Text
+        if features.hookfunction then
+            pcall(function()
+                local oldReportAbuse = safehook(Players.ReportAbuse, safeprotect(function(self, player, reason, description)
+                    return oldReportAbuse(self, player, reason, "")
+                end))
+            end)
+        end
+
+        local function AntiChatLog(message)
+            if message:sub(1, 2) == "/e" or message:sub(1, 2) == "/w" then
+                return message
             else
-                message.Text = message.Text .. ""
+                return " ְ" .. message
             end
         end
 
-        task.spawn(function()
-            ensureChatEnabled(10)
+        pcall(function()
+            TextChatService.OnIncomingMessage = function(message)
+                local modifiedMessage = AntiChatLog(message.Text)
+                message.Text = modifiedMessage
+            end
         end)
 
-        local ACLloadTime = tick() - startTime
-        print(string.format("ACL successfully loaded in %.2f seconds!", ACLloadTime))
-        showNotification("ACL Script", string.format("Loaded in %.2f seconds!", ACLloadTime), "rbxassetid://123456")
+        if features.hookfunction then
+            pcall(function()
+                local mainChannel = TextChatService.TextChannels:FindFirstChild("RBXGeneral")
+                if mainChannel then
+                    local oldSendAsync = safehook(mainChannel.SendAsync, safeprotect(function(self, message, ...)
+                        return oldSendAsync(self, AntiChatLog(message), ...)
+                    end))
+                end
+            end)
+        end
 
-    else
-        print("ACL already loaded!")
-        showNotification("ACL Script", "Already loaded!", "rbxassetid://123456")
+        showNotification("DD'S ACL", "Anti Chat & Screenshot Logger Loaded!", "rbxassetid://2541869220")
+        wait(5)
     end
+
+    wait(0.21)
+    executeScript()
 else
-    loadstring(game:HttpGet("https://gitlab.com/DDSoftworks/D-Projects/-/raw/main/DACL"))()
+    local function loadAnthonyACL()
+        local success = false
+
+        local aclScript = saferequest("https://raw.githubusercontent.com/vqmpjayZ/More-Scripts/main/Anthony's%20ACL")
+
+        if aclScript then
+            success = pcall(function()
+                loadstring(aclScript)()
+            end)
+        end
+
+        if not success then
+            local ReplicatedStorage = game:GetService("ReplicatedStorage")
+            local ChatRemote = ReplicatedStorage:FindFirstChild("SayMessageRequest", true)
+
+            if ChatRemote and features.hookfunction then
+                pcall(function()
+                    local oldChatRemote = safehook(ChatRemote.FireServer, safeprotect(function(self, message, ...)
+                        message = message .. " "
+                        return oldChatRemote(self, message, ...)
+                    end))
+                end)
+            end
+        end
+    end
+
+    loadAnthonyACL()
 end
 
 task.spawn(function()
     repeat
-        StarterGui:SetCoreGuiEnabled(Enum.CoreGuiType.Chat, true)
+        pcall(function() StarterGui:SetCoreGuiEnabled(Enum.CoreGuiType.Chat, true) end)
         task.wait()
     until StarterGui:GetCoreGuiEnabled(Enum.CoreGuiType.Chat)
 end)
