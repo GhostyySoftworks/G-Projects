@@ -2,23 +2,36 @@ if not game:IsLoaded() then
     game.Loaded:Wait()
 end
 
-local StarterGui = game:GetService("StarterGui")
-StarterGui:SetCore("SendNotification", {
-    Title = "DD'S ACL",
-    Text = "Loading DD'S Anti Chat & Screenshot Logger..",
-    Icon = "rbxassetid://2541869220",
-    Duration = 15
-})
-
-local TextChatService = game:GetService("TextChatService")
 local Players = game:GetService("Players")
+local TextChatService = game:GetService("TextChatService")
+local StarterGui = game:GetService("StarterGui")
 local LocalPlayer = Players.LocalPlayer
+
+local function showNotification(title, text, duration, icon)
+    pcall(function()
+        StarterGui:SetCore("SendNotification", {
+            Title = title,
+            Text = text,
+            Icon = icon or "rbxassetid://2541869220",
+            Duration = duration or 5
+        })
+    end)
+end
+
+showNotification("DD'S ACL", "Loading Anti-Chat & Screenshot Protections...", 3)
 
 local features = {
     setflag = type(setfflag) == "function",
-    request = type(request) == "function" or type(http) == "table" and type(http.request) == "function" or type(syn) == "table" and type(syn.request) == "function",
-    hookfunction = type(hookfunction) == "function" or type(replaceclosure) == "function",
-    newcclosure = type(newcclosure) == "function" or type(protect_function) == "function"
+    request = type(request) == "function" or 
+             (type(http) == "table" and type(http.request) == "function") or
+             (type(syn) == "table" and type(syn.request) == "function"),
+    hookfunction = type(hookfunction) == "function" or 
+                  type(replaceclosure) == "function",
+    newcclosure = type(newcclosure) == "function" or 
+                 type(protect_function) == "function",
+    getgc = type(getgc) == "function",
+    getconnections = type(getconnections) == "function" or
+                    (type(syn) == "table" and type(syn.getconnections) == "function")
 }
 
 local function safehook(func, newfunc)
@@ -39,139 +52,149 @@ local function safeprotect(func)
     return func
 end
 
-local function saferequest(url)
-    local content = nil
-
-    if type(request) == "function" then
-        local response = request({Url = url, Method = "GET"})
-        if response and response.Body then content = response.Body end
-    elseif type(http) == "table" and type(http.request) == "function" then
-        local response = http.request({Url = url, Method = "GET"})
-        if response and response.Body then content = response.Body end
-    elseif type(syn) == "table" and type(syn.request) == "function" then
-        local response = syn.request({Url = url, Method = "GET"})
-        if response and response.Body then content = response.Body end
-    elseif type(game.HttpGet) == "function" then
-        local success, result = pcall(function()
-            return game:HttpGet(url)
-        end)
-        if success then content = result end
+local function AntiChatLog(message)
+    if message:sub(1, 1) == "/" then
+        return message
     end
-
-    return content
+    
+    local zwChars = {"‌", "‍", "⁡", "⁢", "⁣", "​"}
+    local protected = "​"
+    
+    for i = 1, #message do
+        local char = message:sub(i, i)
+        protected = protected .. char .. zwChars[(i % #zwChars) + 1]
+    end
+    
+    return protected .. "​"
 end
 
-if TextChatService.ChatVersion == Enum.ChatVersion.TextChatService then
-    local hasExecuted = LocalPlayer:FindFirstChild("HasExecuted")
-    if not hasExecuted then
-        hasExecuted = Instance.new("BoolValue")
-        hasExecuted.Name = "HasExecuted"
-        hasExecuted.Value = false
-        hasExecuted.Parent = LocalPlayer
+local function applyScreenshotProtection()
+    if not features.setflag then 
+        showNotification("DD'S ACL", "Warning: Screenshot protection limited (missing setfflag)", 5)
+        return 
     end
-
-    local startTime = tick()
-
-    local function showNotification(title, description, imageId)
-        pcall(function()
-            StarterGui:SetCore("SendNotification", {
-                Title = title,
-                Text = description,
-                Icon = imageId,
-                Duration = 15
-            })
-        end)
+    
+    local flags = {
+        "AbuseReportScreenshot",
+        "AbuseReportScreenshotPercentage",
+        "AbuseReportScreenshotQuality",
+        "AbuseReportScreenshotMaxResolution",
+        "ScreenShotQualityLevel",
+        "ScreenShotBufferSize"
+    }
+    
+    local successCount = 0
+    for _, flag in ipairs(flags) do
+        local success = pcall(setfflag, flag, "0")
+        if success then successCount = successCount + 1 end
     end
+    
+    showNotification("DD'S ACL", string.format("Screenshot protection applied (%d/%d flags)", successCount, #flags), 3)
+end
 
-    local function executeScript()
-        if hasExecuted.Value then
-            showNotification("DD'S ACL", "Anti Chat & Screenshot Logger already loaded!", "rbxassetid://2541869220")
-            return
-        end
-
-        hasExecuted.Value = true
-        local ACLloadTime = tick() - startTime
-
-        if features.setflag then
-            pcall(function()
-                setfflag("AbuseReportScreenshot", "False")
-                setfflag("AbuseReportScreenshotPercentage", "0")
-            end)
-        end
-
-        if features.hookfunction then
-            pcall(function()
-                local oldReportAbuse = safehook(Players.ReportAbuse, safeprotect(function(self, player, reason, description)
-                    return oldReportAbuse(self, player, reason, "")
-                end))
-            end)
-        end
-
-        local function AntiChatLog(message)
-            if message:sub(1, 2) == "/e" or message:sub(1, 2) == "/w" then
-                return message
-            else
-                return " ְ" .. message
+local function protectNewChatSystem()
+    if TextChatService.ChatVersion ~= Enum.ChatVersion.TextChatService then return end
+    
+    pcall(function()
+        TextChatService.OnIncomingMessage = function(message)
+            if message.TextSpeaker and message.TextSpeaker ~= LocalPlayer then
+                local properties = {
+                    Text = AntiChatLog(message.Text),
+                    PrefixText = message.PrefixText,
+                    TextChannel = message.TextChannel
+                }
+                return properties
             end
         end
-
+    end)
+    
+    local mainChannel = TextChatService.TextChannels:FindFirstChild("RBXGeneral")
+    if mainChannel and features.hookfunction then
         pcall(function()
-            TextChatService.OnIncomingMessage = function(message)
-                local modifiedMessage = AntiChatLog(message.Text)
-                message.Text = modifiedMessage
-            end
+            local oldSendAsync = safehook(mainChannel.SendAsync, safeprotect(function(self, message, ...)
+                return oldSendAsync(self, AntiChatLog(message), ...)
+            end))
         end)
+    end
+    
+    showNotification("DD'S ACL", "New chat system protected", 3)
+end
 
-        if features.hookfunction then
-            pcall(function()
-                local mainChannel = TextChatService.TextChannels:FindFirstChild("RBXGeneral")
-                if mainChannel then
-                    local oldSendAsync = safehook(mainChannel.SendAsync, safeprotect(function(self, message, ...)
-                        return oldSendAsync(self, AntiChatLog(message), ...)
-                    end))
+local function protectLegacyChat()
+    local ReplicatedStorage = game:GetService("ReplicatedStorage")
+    local ChatRemote = ReplicatedStorage:FindFirstChild("SayMessageRequest", true) or 
+                      ReplicatedStorage:FindFirstChild("SayMessageRequest", true)
+    
+    if ChatRemote and features.hookfunction then
+        pcall(function()
+            local oldFireServer = safehook(ChatRemote.FireServer, safeprotect(function(self, message, ...)
+                if type(message) == "string" then
+                    message = AntiChatLog(message)
                 end
+                return oldFireServer(self, message, ...)
+            end))
+            showNotification("DD'S ACL", "Legacy chat system protected", 3)
+        end)
+    end
+end
+
+local function blockChatLogAccess()
+    if features.hookfunction and Players.GetChatLog then
+        pcall(function()
+            safehook(Players.GetChatLog, safeprotect(function()
+                return {}
+            end))
+            showNotification("DD'S ACL", "Chat log access blocked", 3)
+        end)
+    end
+end
+
+local function initializeProtections()
+    if LocalPlayer:FindFirstChild("DDACL_Initialized") then 
+        showNotification("DD'S ACL", "Protections already loaded!", 5)
+        return 
+    end
+    
+    local marker = Instance.new("BoolValue")
+    marker.Name = "DDACL_Initialized"
+    marker.Parent = LocalPlayer
+    
+    showNotification("DD'S ACL", "Initializing protections...", 2)
+    
+    task.spawn(function()
+        applyScreenshotProtection()
+        task.wait(0.5)
+        protectNewChatSystem()
+        task.wait(0.5)
+        protectLegacyChat()
+        task.wait(0.5)
+        blockChatLogAccess()
+        
+        if features.hookfunction then
+            pcall(function()
+                safehook(Players.ReportAbuse, safeprotect(function(self, player, reason, description)
+                    return "Report blocked by DDACL"
+                end))
+                showNotification("DD'S ACL", "Abuse report protection active", 3)
             end)
         end
-
-        showNotification("DD'S ACL", "Anti Chat & Screenshot Logger Loaded!", "rbxassetid://2541869220")
-        wait(5)
-    end
-
-    wait(0.21)
-    executeScript()
-else
-    local function loadAnthonyACL()
-        local success = false
-
-        local aclScript = saferequest("https://raw.githubusercontent.com/vqmpjayZ/More-Scripts/main/Anthony's%20ACL")
-
-        if aclScript then
-            success = pcall(function()
-                loadstring(aclScript)()
-            end)
-        end
-
-        if not success then
-            local ReplicatedStorage = game:GetService("ReplicatedStorage")
-            local ChatRemote = ReplicatedStorage:FindFirstChild("SayMessageRequest", true)
-
-            if ChatRemote and features.hookfunction then
-                pcall(function()
-                    local oldChatRemote = safehook(ChatRemote.FireServer, safeprotect(function(self, message, ...)
-                        message = message .. " "
-                        return oldChatRemote(self, message, ...)
-                    end))
-                end)
-            end
-        end
-    end
-
-    loadAnthonyACL()
+        
+        showNotification("DD'S ACL", "Protections fully loaded!\nChat & Screenshot secured", 5)
+    end)
 end
 
 task.spawn(function()
+    repeat task.wait() until LocalPlayer and TextChatService
+    showNotification("DD'S ACL", "Game fully loaded, starting protections...", 2)
+    task.wait(1)
+    initializeProtections()
+end)
+
+task.spawn(function()
     repeat
-        pcall(function() StarterGui:SetCoreGuiEnabled(Enum.CoreGuiType.Chat, true) end)
-        task.wait()
-    until StarterGui:GetCoreGuiEnabled(Enum.CoreGuiType.Chat)
+        pcall(function() 
+            StarterGui:SetCoreGuiEnabled(Enum.CoreGuiType.Chat, true) 
+        end)
+        task.wait(5)
+    until false
 end)
