@@ -97,13 +97,13 @@ local function protectNewChatSystem()
     
     pcall(function()
         TextChatService.OnIncomingMessage = function(message)
-            if message.TextSpeaker and message.TextSpeaker ~= LocalPlayer then
-                local properties = {
+            local sender = Players:GetPlayerByUserId(message.UserId)
+            if sender and sender ~= LocalPlayer then
+                return {
                     Text = AntiChatLog(message.Text),
                     PrefixText = message.PrefixText,
                     TextChannel = message.TextChannel
                 }
-                return properties
             end
         end
     end)
