@@ -139,13 +139,17 @@ local function protectLegacyChat()
 end
 
 local function blockChatLogAccess()
-    if features.hookfunction and Players.GetChatLog then
-        pcall(function()
-            safehook(Players.GetChatLog, safeprotect(function()
-                return {}
-            end))
-            showNotification("DD'S ACL", "Chat log access blocked", 3)
-        end)
+    if features.hookfunction then
+        if game:GetService("Chat"):FindFirstChild("GetChatHistory") then
+            pcall(function()
+                safehook(game:GetService("Chat").GetChatHistory, safeprotect(function()
+                    return {}
+                end))
+                showNotification("DD'S ACL", "Chat history access blocked", 3)
+            end)
+        else
+            showNotification("DD'S ACL", "Chat log protection not needed (modern chat system)", 3)
+        end
     end
 end
 
@@ -168,6 +172,7 @@ local function initializeProtections()
         task.wait(0.5)
         protectLegacyChat()
         task.wait(0.5)
+        
         blockChatLogAccess()
         
         if features.hookfunction then
