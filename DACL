@@ -96,15 +96,27 @@ local function protectNewChatSystem()
     if TextChatService.ChatVersion ~= Enum.ChatVersion.TextChatService then return end
     
     pcall(function()
+        local originalOnIncomingMessage = TextChatService.OnIncomingMessage
         TextChatService.OnIncomingMessage = function(message)
-            local sender = Players:GetPlayerByUserId(message.UserId)
-            if sender and sender ~= LocalPlayer then
-                return {
-                    Text = AntiChatLog(message.Text),
-                    PrefixText = message.PrefixText,
-                    TextChannel = message.TextChannel
-                }
+            if originalOnIncomingMessage then
+                originalOnIncomingMessage(message)
             end
+            
+            if message and message.Text then
+                local sender = nil
+                if message.UserId then
+                    sender = Players:GetPlayerByUserId(message.UserId)
+                end
+                
+                if not sender or sender ~= LocalPlayer then
+                    return {
+                        Text = AntiChatLog(message.Text),
+                        PrefixText = message.PrefixText,
+                        TextChannel = message.TextChannel
+                    }
+                end
+            end
+            return nil
         end
     end)
     
@@ -112,7 +124,10 @@ local function protectNewChatSystem()
     if mainChannel and features.hookfunction then
         pcall(function()
             local oldSendAsync = safehook(mainChannel.SendAsync, safeprotect(function(self, message, ...)
-                return oldSendAsync(self, AntiChatLog(message), ...)
+                if type(message) == "string" then
+                    message = AntiChatLog(message)
+                end
+                return oldSendAsync(self, message, ...)
             end))
         end)
     end
@@ -140,9 +155,9 @@ end
 
 local function blockChatLogAccess()
     if features.hookfunction then
-        if game:GetService("Chat"):FindFirstChild("GetChatHistory") then
+        if TextChatService.GetMessageHistory then
             pcall(function()
-                safehook(game:GetService("Chat").GetChatHistory, safeprotect(function()
+                safehook(TextChatService.GetMessageHistory, safeprotect(function()
                     return {}
                 end))
                 showNotification("DD'S ACL", "Chat history access blocked", 3)
