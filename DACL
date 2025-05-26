@@ -22,16 +22,10 @@ showNotification("DD'S ACL", "Loading Anti-Chat & Screenshot Protections...", 3)
 
 local features = {
     setflag = type(setfflag) == "function",
-    request = type(request) == "function" or 
-             (type(http) == "table" and type(http.request) == "function") or
-             (type(syn) == "table" and type(syn.request) == "function"),
     hookfunction = type(hookfunction) == "function" or 
                   type(replaceclosure) == "function",
     newcclosure = type(newcclosure) == "function" or 
-                 type(protect_function) == "function",
-    getgc = type(getgc) == "function",
-    getconnections = type(getconnections) == "function" or
-                    (type(syn) == "table" and type(syn.getconnections) == "function")
+                 type(protect_function) == "function"
 }
 
 local function safehook(func, newfunc)
@@ -53,9 +47,8 @@ local function safeprotect(func)
 end
 
 local function AntiChatLog(message)
-    if message:sub(1, 1) == "/" then
-        return message
-    end
+    if not message or type(message) ~= "string" then return message end
+    if message:sub(1, 1) == "/" then return message end
     
     local zwChars = {"‌", "‍", "⁡", "⁢", "⁣", "​"}
     local protected = "​"
@@ -70,7 +63,7 @@ end
 
 local function applyScreenshotProtection()
     if not features.setflag then 
-        showNotification("DD'S ACL", "Warning: Screenshot protection limited (missing setfflag)", 5)
+        showNotification("DD'S ACL", "Warning: Screenshot protection limited", 5)
         return 
     end
     
@@ -78,9 +71,7 @@ local function applyScreenshotProtection()
         "AbuseReportScreenshot",
         "AbuseReportScreenshotPercentage",
         "AbuseReportScreenshotQuality",
-        "AbuseReportScreenshotMaxResolution",
-        "ScreenShotQualityLevel",
-        "ScreenShotBufferSize"
+        "AbuseReportScreenshotMaxResolution"
     }
     
     local successCount = 0
@@ -94,6 +85,18 @@ end
 
 local function protectNewChatSystem()
     if TextChatService.ChatVersion ~= Enum.ChatVersion.TextChatService then return end
+    
+    local mainChannel = TextChatService.TextChannels:FindFirstChild("RBXGeneral")
+    if mainChannel and features.hookfunction then
+        pcall(function()
+            local oldSendAsync = safehook(mainChannel.SendAsync, safeprotect(function(self, message, ...)
+                if type(message) == "string" then
+                    message = AntiChatLog(message)
+                end
+                return oldSendAsync(self, message, ...)
+            end))
+        end)
+    end
     
     pcall(function()
         local originalOnIncomingMessage = TextChatService.OnIncomingMessage
@@ -116,21 +119,8 @@ local function protectNewChatSystem()
                     }
                 end
             end
-            return nil
         end
     end)
-    
-    local mainChannel = TextChatService.TextChannels:FindFirstChild("RBXGeneral")
-    if mainChannel and features.hookfunction then
-        pcall(function()
-            local oldSendAsync = safehook(mainChannel.SendAsync, safeprotect(function(self, message, ...)
-                if type(message) == "string" then
-                    message = AntiChatLog(message)
-                end
-                return oldSendAsync(self, message, ...)
-            end))
-        end)
-    end
     
     showNotification("DD'S ACL", "New chat system protected", 3)
 end
@@ -154,18 +144,7 @@ local function protectLegacyChat()
 end
 
 local function blockChatLogAccess()
-    if features.hookfunction then
-        if TextChatService.GetMessageHistory then
-            pcall(function()
-                safehook(TextChatService.GetMessageHistory, safeprotect(function()
-                    return {}
-                end))
-                showNotification("DD'S ACL", "Chat history access blocked", 3)
-            end)
-        else
-            showNotification("DD'S ACL", "Chat log protection not needed (modern chat system)", 3)
-        end
-    end
+    showNotification("DD'S ACL", "Chat protection active (modern system)", 3)
 end
 
 local function initializeProtections()
@@ -187,7 +166,6 @@ local function initializeProtections()
         task.wait(0.5)
         protectLegacyChat()
         task.wait(0.5)
-        
         blockChatLogAccess()
         
         if features.hookfunction then
