@@ -68,7 +68,7 @@ local function ConfigureTextChatService()
     if CHAT_VERSION ~= Enum.ChatVersion.TextChatService then return end
     
     pcall(function()
-    TextChatService.OnIncomingMessage = function(message)
+        TextChatService.OnIncomingMessage = function(message)
             if message.TextSource then
                 local player = Players:GetPlayerByUserId(message.TextSource.UserId)
                 if player and player ~= LocalPlayer then
@@ -83,10 +83,12 @@ local function ConfigureTextChatService()
         end
     end)
     
-    for _, channel in ipairs(TextChatService.TextChannels:GetChildren()) do
-        if channel:IsA("TextChannel") and FEATURES.CanHook then
-            local originalSend = channel.SendAsync
-            channel.SendAsync = function(self, message, ...)
+    local function configureChannel(channel)
+        if not channel:IsA("TextChannel") or not FEATURES.CanHook then return end
+        
+        local originalSend = channel.SendMessage or channel.sendMessage
+        if originalSend then
+            channel.SendMessage = function(self, message, ...)
                 if type(message) == "string" then
                     message = AdvancedChatObfuscation(message)
                 end
@@ -95,17 +97,13 @@ local function ConfigureTextChatService()
         end
     end
     
+    for _, channel in ipairs(TextChatService.TextChannels:GetChildren()) do
+        configureChannel(channel)
+    end
+    
     TextChatService.TextChannels.ChildAdded:Connect(function(channel)
-        if channel:IsA("TextChannel") and FEATURES.CanHook then
-            task.wait(0.5)
-            local originalSend = channel.SendAsync
-            channel.SendAsync = function(self, message, ...)
-                if type(message) == "string" then
-                    message = AdvancedChatObfuscation(message)
-                end
-                return originalSend(self, message, ...)
-            end
-        end
+        task.wait(0.5)
+        configureChannel(channel)
     end)
 end
 
