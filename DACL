@@ -6,7 +6,8 @@ local LocalPlayer = Players.LocalPlayer or Players:GetPropertyChangedSignal("Loc
 
 local CHAT_VERSION = TextChatService.ChatVersion
 local IS_BUBBLE_CHAT_ENABLED = TextChatService.BubbleChatConfiguration.Enabled
-local IS_TEXT_CHAT_ENABLED = TextChatService.TextChannel:FindFirstChild("RBXGeneral") ~= nil
+local IS_TEXT_CHAT_ENABLED = TextChatService:FindFirstChild("TextChannels") 
+    and TextChatService.TextChannels:FindFirstChild("RBXGeneral") ~= nil
 
 local OBFUSCATION_LAYERS = {
     ZeroWidth = {"\u{200B}", "\u{200C}", "\u{200D}", "\u{2060}", "\u{FEFF}"},
