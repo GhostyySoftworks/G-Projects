@@ -1,180 +1,198 @@
-local Players = game:GetService("Players")
-local TextChatService = game:GetService("TextChatService")
-local ReplicatedStorage = game:GetService("ReplicatedStorage")
-local StarterGui = game:GetService("StarterGui")
-local LocalPlayer = Players.LocalPlayer or Players:GetPropertyChangedSignal("LocalPlayer"):Wait()
-
-local CHAT_VERSION = TextChatService.ChatVersion
-local IS_BUBBLE_CHAT_ENABLED = TextChatService.BubbleChatConfiguration.Enabled
-local IS_TEXT_CHAT_ENABLED = TextChatService:FindFirstChild("TextChannels") 
-    and TextChatService.TextChannels:FindFirstChild("RBXGeneral") ~= nil
-
-local OBFUSCATION_LAYERS = {
-    ZeroWidth = {"\u{200B}", "\u{200C}", "\u{200D}", "\u{2060}", "\u{FEFF}"},
-    Invisible = {"\u{E0000}", "᠎", " ", "⁠", "￼", "�"},
-    Special = {"\u{202A}", "\u{202B}", "\u{202D}", "\u{202E}"}
-}
-
-local CONFIG = {
-    MessageCooldown = 0.3,
-    MaxMessageLength = 250,
-    UseBidirectionalObfuscation = true
-}
-
-local FEATURES = {
-    CanHook = (type(hookfunction) == "function") or (type(replaceclosure) == "function"),
-    CanProtect = (type(newcclosure) == "function") or (type(protect_function) == "function"),
-    CanSetFlags = (type(setfflag) == "function") or (type(setsimulationflag) == "function"),
-    HasMemoryAccess = type(writefile) == "function"
-}
-
-local lastMessageTime = 0
-local function rateLimitedNotify(title, text, duration)
-    local now = os.clock()
-    if now - lastMessageTime >= CONFIG.MessageCooldown then
-        lastMessageTime = now
-        pcall(StarterGui.SetCore, StarterGui, "SendNotification", {
-            Title = title,
-            Text = text,
-            Duration = duration or 3
-        })
-    end
+if not game:IsLoaded() then
+    game.Loaded:Wait()
 end
 
-local function AdvancedChatObfuscation(message)
-    if type(message) ~= "string" then return message end
-    if message:sub(1, 1) == "/" then return message end
-    
-    message = message:sub(1, CONFIG.MaxMessageLength)
-    
-    return message:gsub(".", function(char)
-        local parts = {char}
-        
-        table.insert(parts, OBFUSCATION_LAYERS.ZeroWidth[math.random(#OBFUSCATION_LAYERS.ZeroWidth)])
-        
-        if CONFIG.UseBidirectionalObfuscation then
-            table.insert(parts, OBFUSCATION_LAYERS.Special[math.random(#OBFUSCATION_LAYERS.Special)])
-        end
-        
-        if math.random() > 0.5 then
-            parts[1], parts[2] = parts[2], parts[1]
-        end
-        
-        return table.concat(parts)
+local Players = game:GetService("Players")
+local TextChatService = game:GetService("TextChatService")
+local StarterGui = game:GetService("StarterGui")
+local LocalPlayer = Players.LocalPlayer
+
+local function showNotification(title, text, duration, icon)
+    pcall(function()
+        StarterGui:SetCore("SendNotification", {
+            Title = title,
+            Text = text,
+            Icon = icon or "rbxassetid://2541869220",
+            Duration = duration or 5
+        })
     end)
 end
 
-local function ConfigureTextChatService()
-    if CHAT_VERSION ~= Enum.ChatVersion.TextChatService then return end
+showNotification("DD'S ACL", "Loading Anti-Chat & Screenshot Protections...", 3)
+
+local features = {
+    setflag = type(setfflag) == "function",
+    hookfunction = type(hookfunction) == "function" or 
+                  type(replaceclosure) == "function",
+    newcclosure = type(newcclosure) == "function" or 
+                 type(protect_function) == "function"
+}
+
+local function safehook(func, newfunc)
+    if type(hookfunction) == "function" then
+        return hookfunction(func, newfunc)
+    elseif type(replaceclosure) == "function" then
+        return replaceclosure(func, newfunc)
+    end
+    return func
+end
+
+local function safeprotect(func)
+    if type(newcclosure) == "function" then
+        return newcclosure(func)
+    elseif type(protect_function) == "function" then
+        return protect_function(func)
+    end
+    return func
+end
+
+local function AntiChatLog(message)
+    if not message or type(message) ~= "string" then return message end
+    if message:sub(1, 1) == "/" then return message end
+    
+    local zwChars = {"‌", "‍", "⁡", "⁢", "⁣", "​"}
+    local protected = "​"
+    
+    for i = 1, #message do
+        local char = message:sub(i, i)
+        protected = protected .. char .. zwChars[(i % #zwChars) + 1]
+    end
+    
+    return protected .. "​"
+end
+
+local function applyScreenshotProtection()
+    if not features.setflag then 
+        showNotification("DD'S ACL", "Warning: Screenshot protection limited", 5)
+        return 
+    end
+    
+    local flags = {
+        "AbuseReportScreenshot",
+        "AbuseReportScreenshotPercentage",
+        "AbuseReportScreenshotQuality",
+        "AbuseReportScreenshotMaxResolution"
+    }
+    
+    local successCount = 0
+    for _, flag in ipairs(flags) do
+        local success = pcall(setfflag, flag, "0")
+        if success then successCount = successCount + 1 end
+    end
+    
+    showNotification("DD'S ACL", string.format("Screenshot protection applied (%d/%d flags)", successCount, #flags), 3)
+end
+
+local function protectNewChatSystem()
+    if TextChatService.ChatVersion ~= Enum.ChatVersion.TextChatService then return end
+    
+    local mainChannel = TextChatService.TextChannels:FindFirstChild("RBXGeneral")
+    if mainChannel and features.hookfunction then
+        pcall(function()
+            local oldSendAsync = safehook(mainChannel.SendAsync, safeprotect(function(self, message, ...)
+                if type(message) == "string" then
+                    message = AntiChatLog(message)
+                end
+                return oldSendAsync(self, message, ...)
+            end))
+        end)
+    end
     
     pcall(function()
+        local originalOnIncomingMessage = TextChatService.OnIncomingMessage
         TextChatService.OnIncomingMessage = function(message)
-            if message.TextSource then
-                local player = Players:GetPlayerByUserId(message.TextSource.UserId)
-                if player and player ~= LocalPlayer then
+            if originalOnIncomingMessage then
+                originalOnIncomingMessage(message)
+            end
+            
+            if message and message.Text then
+                local sender = nil
+                if message.UserId then
+                    sender = Players:GetPlayerByUserId(message.UserId)
+                end
+                
+                if not sender or sender ~= LocalPlayer then
                     return {
-                        Text = AdvancedChatObfuscation(message.Text),
-                        TextSource = message.TextSource,
-                        Metadata = message.Metadata
+                        Text = AntiChatLog(message.Text),
+                        PrefixText = message.PrefixText,
+                        TextChannel = message.TextChannel
                     }
                 end
             end
-            return message
         end
     end)
+    
+    showNotification("DD'S ACL", "New chat system protected", 3)
 end
 
-local function ConfigureBubbleChat()
-    if not IS_BUBBLE_CHAT_ENABLED then return end
+local function protectLegacyChat()
+    local ReplicatedStorage = game:GetService("ReplicatedStorage")
+    local ChatRemote = ReplicatedStorage:FindFirstChild("SayMessageRequest", true) or 
+                      ReplicatedStorage:FindFirstChild("SayMessageRequest", true)
     
-    if FEATURES.CanHook and LocalPlayer.Character then
-        local function processBubble(char)
-            local humanoid = char:FindFirstChildOfClass("Humanoid")
-            if humanoid then
-                local originalDisplay = humanoid.DisplayDistanceType
-                humanoid.DisplayDistanceType = Enum.HumanoidDisplayDistanceType.None
-                
-                if char:FindFirstChild("Head") then
-                    local bubble = char.Head:FindFirstChild("ChatBubble")
-                    if bubble then
-                        bubble:Destroy()
-                    end
+    if ChatRemote and features.hookfunction then
+        pcall(function()
+            local oldFireServer = safehook(ChatRemote.FireServer, safeprotect(function(self, message, ...)
+                if type(message) == "string" then
+                    message = AntiChatLog(message)
                 end
-            end
-        end
-        
-        LocalPlayer.CharacterAdded:Connect(processBubble)
-        if LocalPlayer.Character then
-            processBubble(LocalPlayer.Character)
-        end
+                return oldFireServer(self, message, ...)
+            end))
+            showNotification("DD'S ACL", "Legacy chat system protected", 3)
+        end)
     end
 end
 
-local function ConfigureLegacyChat()
-    local chatEvents = ReplicatedStorage:FindFirstChild("DefaultChatSystemChatEvents")
-    if not chatEvents then return end
-    
-    local sayMessage = chatEvents:FindFirstChild("SayMessageRequest")
-    if sayMessage and FEATURES.CanHook then
-        local originalFire = sayMessage.FireServer
-        sayMessage.FireServer = function(self, message, ...)
-            if type(message) == "string" then
-                message = AdvancedChatObfuscation(message)
-            end
-            return originalFire(self, message, ...)
-        end
-    end
-    
-    local onMessageDone = chatEvents:FindFirstChild("OnMessageDoneFiltering")
-    if onMessageDone and FEATURES.CanHook then
-        local originalInvoke = onMessageDone.InvokeServer
-        onMessageDone.InvokeServer = function(self, ...)
-            local args = {...}
-            if type(args[2]) == "string" then
-                args[2] = AdvancedChatObfuscation(args[2])
-            end
-            return originalInvoke(self, unpack(args))
-        end
-    end
+local function blockChatLogAccess()
+    showNotification("DD'S ACL", "Chat protection active (modern system)", 3)
 end
 
-local function InitializeProtections()
-    if LocalPlayer:FindFirstChild("TextChatProtectionLoaded") then return end
+local function initializeProtections()
+    if LocalPlayer:FindFirstChild("DDACL_Initialized") then 
+        showNotification("DD'S ACL", "Protections already loaded!", 5)
+        return 
+    end
+    
     local marker = Instance.new("BoolValue")
-    marker.Name = "TextChatProtectionLoaded"
+    marker.Name = "DDACL_Initialized"
     marker.Parent = LocalPlayer
     
-    ConfigureTextChatService()
-    ConfigureBubbleChat()
+    showNotification("DD'S ACL", "Initializing protections...", 2)
     
-    task.defer(ConfigureLegacyChat)
-    
-    task.delay(3, function()
-        rateLimitedNotify("Chat Protection", 
-            string.format("Active (Mode: %s)", 
-                CHAT_VERSION == Enum.ChatVersion.TextChatService and "Modern" or "Legacy"), 
-            5)
+    task.spawn(function()
+        applyScreenshotProtection()
+        task.wait(0.5)
+        protectNewChatSystem()
+        task.wait(0.5)
+        protectLegacyChat()
+        task.wait(0.5)
+        blockChatLogAccess()
+        
+        if features.hookfunction then
+            pcall(function()
+                safehook(Players.ReportAbuse, safeprotect(function(self, player, reason, description)
+                    return "Report blocked by DDACL"
+                end))
+                showNotification("DD'S ACL", "Abuse report protection active", 3)
+            end)
+        end
+        
+        showNotification("DD'S ACL", "Protections fully loaded!\nChat & Screenshot secured", 5)
     end)
 end
 
-if IS_TEXT_CHAT_ENABLED then
-    LocalPlayer.OnTeleport:Once(function(state)
-        if state == Enum.TeleportState.InProgress then
-            _G.TextChatProtectionConfig = CONFIG
-        end
-    end)
-    
-    local success = pcall(function()
-        if CHAT_VERSION == Enum.ChatVersion.TextChatService then
-            TextChatService:WaitForChild("TextChannels")
-        end
-    end)
-    
-    if success then
-        InitializeProtections()
-    else
-        task.delay(5, InitializeProtections)
-    end
-else
-    warn("Text chat not enabled - protection system limited")
-end
+task.spawn(function()
+    repeat task.wait() until LocalPlayer and TextChatService
+    showNotification("DD'S ACL", "Game fully loaded, starting protections...", 2)
+    task.wait(1)
+    initializeProtections()
+end)
+
+task.spawn(function()
+    repeat
+        pcall(function() 
+            StarterGui:SetCoreGuiEnabled(Enum.CoreGuiType.Chat, true) 
+        end)
+        task.wait(5)
+    until false
+end)
