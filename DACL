@@ -1,239 +1,204 @@
-if not game:IsLoaded() then game.Loaded:Wait() end
-
 local Players = game:GetService("Players")
 local TextChatService = game:GetService("TextChatService")
-local StarterGui = game:GetService("StarterGui")
-local LocalPlayer = Players.LocalPlayer
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local StarterGui = game:GetService("StarterGui")
+local LocalPlayer = Players.LocalPlayer or Players:GetPropertyChangedSignal("LocalPlayer"):Wait()
 
-local zwChars = {
-    "\u{200B}", "\u{200C}", "\u{200D}", "\u{2060}", "\u{FEFF}",
-    "\u{E0000}", "᠎", " ", "⁠", "￼", "�", "​", "‌", "‍", "⁡", "⁢", "⁣"
+local CHAT_VERSION = TextChatService.ChatVersion
+local IS_BUBBLE_CHAT_ENABLED = TextChatService.BubbleChatConfiguration.Enabled
+local IS_TEXT_CHAT_ENABLED = TextChatService.TextChannel:FindFirstChild("RBXGeneral") ~= nil
+
+local OBFUSCATION_LAYERS = {
+    ZeroWidth = {"\u{200B}", "\u{200C}", "\u{200D}", "\u{2060}", "\u{FEFF}"},
+    Invisible = {"\u{E0000}", "᠎", " ", "⁠", "￼", "�"},
+    Special = {"\u{202A}", "\u{202B}", "\u{202D}", "\u{202E}"}
 }
 
-local features = {
-    setflag = (type(setfflag) == "function") or (type(setfflags) == "function"),
-    hookfunction = (type(hookfunction) == "function") or 
-                  (type(replaceclosure) == "function"),
-    newcclosure = (type(newcclosure) == "function") or 
-                 (type(protect_function) == "function",
-    writefile = type(writefile) == "function"
+local CONFIG = {
+    MessageCooldown = 0.3,
+    MaxMessageLength = 250,
+    UseBidirectionalObfuscation = true
 }
 
-local config = {
-    AntiScreenshot = true,
-    AntiChatLog = true,
-    AntiReport = true,
-    ForceEnableChat = true
+local FEATURES = {
+    CanHook = (type(hookfunction) == "function") or (type(replaceclosure) == "function"),
+    CanProtect = (type(newcclosure) == "function") or (type(protect_function) == "function"),
+    CanSetFlags = (type(setfflag) == "function") or (type(setsimulationflag) == "function"),
+    HasMemoryAccess = type(writefile) == "function"
 }
 
-local function notify(title, text, duration)
-    pcall(function()
-        StarterGui:SetCore("SendNotification", {
+local lastMessageTime = 0
+local function rateLimitedNotify(title, text, duration)
+    local now = os.clock()
+    if now - lastMessageTime >= CONFIG.MessageCooldown then
+        lastMessageTime = now
+        pcall(StarterGui.SetCore, StarterGui, "SendNotification", {
             Title = title,
             Text = text,
-            Icon = "rbxassetid://2541869220",
-            Duration = duration or 5
+            Duration = duration or 3
         })
-    end)
-end
-
-local function safeHook(func, newFunc)
-    if features.hookfunction then
-        if type(hookfunction) == "function" then
-            return hookfunction(func, newFunc)
-        elseif type(replaceclosure) == "function" then
-            return replaceclosure(func, newFunc)
-        end
-    end
-    return func
-end
-
-local function protectFunc(func)
-    if features.newcclosure then
-        if type(newcclosure) == "function" then
-            return newcclosure(func)
-        elseif type(protect_function) == "function" then
-            return protect_function(func)
-        end
-    end
-    return func
-end
-
-local function applyMemoryPatches()
-    if not features.writefile then return end
-    
-    local patches = {
-        {"FInt.AbuseReportScreenshot", "0"},
-        {"FFlag.AbuseReportScreenshot", "False"},
-        {"FInt.AbuseReportScreenshotPercentage", "0"},
-        {"FInt.AbuseReportScreenshotQuality", "0"},
-        {"FInt.AbuseReportScreenshotMaxResolution", "0"}
-    }
-    
-    for _, patch in ipairs(patches) do
-        pcall(writefile, patch[1], patch[2])
     end
 end
 
-local function setScreenshotFlags(value)
-    if not features.setflag then return end
+local function AdvancedChatObfuscation(message)
+    if type(message) ~= "string" then return message end
+    if message:sub(1, 1) == "/" then return message end
     
-    local flagValue = value and "0" or "1"
-    local flags = {
-        "AbuseReportScreenshot",
-        "AbuseReportScreenshotPercentage",
-        "AbuseReportScreenshotQuality",
-        "AbuseReportScreenshotMaxResolution"
-    }
+    message = message:sub(1, CONFIG.MaxMessageLength)
     
-    local setter = type(setfflags) == "function" and setfflags or setfflag
-    for _, flag in ipairs(flags) do
-        pcall(setter, flag, flagValue)
-    end
-end
-
-local function hookScreenshotFunction()
-    if not features.hookfunction then return end
-    
-    local success, screenshotFunc = pcall(function()
-        return game:GetService("Players").TakeScreenshot
-    end)
-    
-    if success and screenshotFunc then
-        safeHook(screenshotFunc, protectFunc(function()
-            return nil
-        end))
-    end
-end
-
-local function AdvancedAntiLog(message)
-    if type(message) ~= "string" or message:sub(1, 1) == "/" then 
-        return message 
-    end
-    
-    return message:gsub(".", function(c)
-        local layers = math.random(1, 3)
-        local result = c
-        for _ = 1, layers do
-            result = result .. zwChars[math.random(#zwChars)]
-        end
-        return result
-    end)
-end
-
-local function protectNewChatSystem()
-    if TextChatService.ChatVersion ~= Enum.ChatVersion.TextChatService then return end
-    
-    local function hookSendAsync(channel)
-        if not features.hookfunction then return end
+    return message:gsub(".", function(char)
+        local parts = {char}
         
-        local oldSend = channel.SendAsync
-        safeHook(oldSend, protectFunc(function(self, message, ...)
-            if config.AntiChatLog and type(message) == "string" then
-                setScreenshotFlags(true)
-                message = AdvancedAntiLog(message)
-                task.delay(1, setScreenshotFlags, false)
-            end
-            return oldSend(self, message, ...)
-        end))
-    end
+        table.insert(parts, OBFUSCATION_LAYERS.ZeroWidth[math.random(#OBFUSCATION_LAYERS.ZeroWidth)])
+        
+        if CONFIG.UseBidirectionalObfuscation then
+            table.insert(parts, OBFUSCATION_LAYERS.Special[math.random(#OBFUSCATION_LAYERS.Special)])
+        end
+        
+        if math.random() > 0.5 then
+            parts[1], parts[2] = parts[2], parts[1]
+        end
+        
+        return table.concat(parts)
+    end)
+end
 
-    for _, channel in ipairs(TextChatService.TextChannels:GetChildren()) do
-        if channel:IsA("TextChannel") then
-            pcall(hookSendAsync, channel)
+local function ConfigureTextChatService()
+    if CHAT_VERSION ~= Enum.ChatVersion.TextChatService then return end
+    
+    if TextChatService.OnIncomingMessage then
+        TextChatService.OnIncomingMessage = function(message)
+            if message.TextSource then
+                local player = Players:GetPlayerByUserId(message.TextSource.UserId)
+                if player and player ~= LocalPlayer then
+                    return {
+                        Text = AdvancedChatObfuscation(message.Text),
+                        TextSource = message.TextSource,
+                        Metadata = message.Metadata
+                    }
+                end
+            end
+            return message
         end
     end
-
+    
+    for _, channel in ipairs(TextChatService.TextChannels:GetChildren()) do
+        if channel:IsA("TextChannel") and FEATURES.CanHook then
+            local originalSend = channel.SendAsync
+            channel.SendAsync = function(self, message, ...)
+                if type(message) == "string" then
+                    message = AdvancedChatObfuscation(message)
+                end
+                return originalSend(self, message, ...)
+            end
+        end
+    end
+    
     TextChatService.TextChannels.ChildAdded:Connect(function(channel)
-        if channel:IsA("TextChannel") then
-            pcall(hookSendAsync, channel)
+        if channel:IsA("TextChannel") and FEATURES.CanHook then
+            task.wait(0.5)
+            local originalSend = channel.SendAsync
+            channel.SendAsync = function(self, message, ...)
+                if type(message) == "string" then
+                    message = AdvancedChatObfuscation(message)
+                end
+                return originalSend(self, message, ...)
+            end
         end
     end)
 end
 
-local function protectLegacyChat()
-    local chatRemotes = {
-        ReplicatedStorage:FindFirstChild("SayMessageRequest"),
-        ReplicatedStorage:FindFirstChild("DefaultChatSystemChatEvents") and
-            ReplicatedStorage.DefaultChatSystemChatEvents:FindFirstChild("SayMessageRequest")
-    }
-
-    for _, remote in ipairs(chatRemotes) do
-        if remote and features.hookfunction then
-            local oldFire = remote.FireServer
-            safeHook(oldFire, protectFunc(function(self, message, ...)
-                if config.AntiChatLog and type(message) == "string" then
-                    setScreenshotFlags(true)
-                    message = AdvancedAntiLog(message)
-                    task.delay(1, setScreenshotFlags, false)
+local function ConfigureBubbleChat()
+    if not IS_BUBBLE_CHAT_ENABLED then return end
+    
+    if FEATURES.CanHook and LocalPlayer.Character then
+        local function processBubble(char)
+            local humanoid = char:FindFirstChildOfClass("Humanoid")
+            if humanoid then
+                local originalDisplay = humanoid.DisplayDistanceType
+                humanoid.DisplayDistanceType = Enum.HumanoidDisplayDistanceType.None
+                
+                if char:FindFirstChild("Head") then
+                    local bubble = char.Head:FindFirstChild("ChatBubble")
+                    if bubble then
+                        bubble:Destroy()
+                    end
                 end
-                return oldFire(self, message, ...)
-            end))
+            end
+        end
+        
+        LocalPlayer.CharacterAdded:Connect(processBubble)
+        if LocalPlayer.Character then
+            processBubble(LocalPlayer.Character)
         end
     end
 end
 
-local function hookReportFunctions()
-    if not features.hookfunction then return end
+local function ConfigureLegacyChat()
+    local chatEvents = ReplicatedStorage:FindFirstChild("DefaultChatSystemChatEvents")
+    if not chatEvents then return end
     
-    local reportFunctions = {
-        Players.ReportAbuse,
-        game:GetService("ScriptContext").ReportAbuse
-    }
-    
-    for _, func in ipairs(reportFunctions) do
-        pcall(function()
-            safeHook(func, protectFunc(function(...)
-                return "Report blocked by protection system"
-            end))
-        end)
-    end
-end
-
-local function initializeProtections()
-    if LocalPlayer:FindFirstChild("ProtectionInitialized") then return end
-    
-    local marker = Instance.new("BoolValue")
-    marker.Name = "ProtectionInitialized"
-    marker.Parent = LocalPlayer
-
-    notify("Protection System", "Initializing...", 2)
-
-    if config.AntiScreenshot then
-        applyMemoryPatches()
-        setScreenshotFlags(false)
-        hookScreenshotFunction()
-    end
-
-    if config.AntiChatLog then
-        protectNewChatSystem()
-        protectLegacyChat()
-    end
-
-    if config.AntiReport then
-        hookReportFunctions()
-    end
-
-    if config.ForceEnableChat then
-        spawn(function()
-            while true do
-                pcall(function() 
-                    StarterGui:SetCoreGuiEnabled(Enum.CoreGuiType.Chat, true) 
-                end)
-                task.wait(5)
+    local sayMessage = chatEvents:FindFirstChild("SayMessageRequest")
+    if sayMessage and FEATURES.CanHook then
+        local originalFire = sayMessage.FireServer
+        sayMessage.FireServer = function(self, message, ...)
+            if type(message) == "string" then
+                message = AdvancedChatObfuscation(message)
             end
-        end)
+            return originalFire(self, message, ...)
+        end
     end
-
-    notify("Protection System", "All protections activated!\nChat & Screenshot secured", 5)
+    
+    local onMessageDone = chatEvents:FindFirstChild("OnMessageDoneFiltering")
+    if onMessageDone and FEATURES.CanHook then
+        local originalInvoke = onMessageDone.InvokeServer
+        onMessageDone.InvokeServer = function(self, ...)
+            local args = {...}
+            if type(args[2]) == "string" then
+                args[2] = AdvancedChatObfuscation(args[2])
+            end
+            return originalInvoke(self, unpack(args))
+        end
+    end
 end
 
-local function playerReady()
-    repeat task.wait() until LocalPlayer and TextChatService
-    notify("Protection System", "Game loaded, starting protections...", 2)
-    task.wait(1)
-    initializeProtections()
+local function InitializeProtections()
+    if LocalPlayer:FindFirstChild("TextChatProtectionLoaded") then return end
+    local marker = Instance.new("BoolValue")
+    marker.Name = "TextChatProtectionLoaded"
+    marker.Parent = LocalPlayer
+    
+    ConfigureTextChatService()
+    ConfigureBubbleChat()
+    
+    task.defer(ConfigureLegacyChat)
+    
+    task.delay(3, function()
+        rateLimitedNotify("Chat Protection", 
+            string.format("Active (Mode: %s)", 
+                CHAT_VERSION == Enum.ChatVersion.TextChatService and "Modern" or "Legacy"), 
+            5)
+    end)
 end
 
-coroutine.wrap(playerReady)()
+if IS_TEXT_CHAT_ENABLED then
+    LocalPlayer.OnTeleport:Once(function(state)
+        if state == Enum.TeleportState.InProgress then
+            _G.TextChatProtectionConfig = CONFIG
+        end
+    end)
+    
+    local success = pcall(function()
+        if CHAT_VERSION == Enum.ChatVersion.TextChatService then
+            TextChatService:WaitForChild("TextChannels")
+        end
+    end)
+    
+    if success then
+        InitializeProtections()
+    else
+        task.delay(5, InitializeProtections)
+    end
+else
+    warn("Text chat not enabled - protection system limited")
+end
