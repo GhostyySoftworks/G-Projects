@@ -82,28 +82,28 @@ local function ConfigureTextChatService()
             return message
         end
     end)
-    
+
     local function configureChannel(channel)
         if not channel:IsA("TextChannel") or not FEATURES.CanHook then return end
-        
-        local originalSend = channel.SendMessage or channel.sendMessage
-        if originalSend then
-            channel.SendMessage = function(self, message, ...)
+
+        if channel.postAsync then
+            local originalPost = channel.postAsync
+            channel.postAsync = function(self, message)
                 if type(message) == "string" then
                     message = AdvancedChatObfuscation(message)
                 end
-                return originalSend(self, message, ...)
+                return originalPost(self, message)
             end
         end
     end
-    
+
     for _, channel in ipairs(TextChatService.TextChannels:GetChildren()) do
-        configureChannel(channel)
+        task.spawn(configureChannel, channel)
     end
-    
+
     TextChatService.TextChannels.ChildAdded:Connect(function(channel)
         task.wait(0.5)
-        configureChannel(channel)
+        task.spawn(configureChannel, channel)
     end)
 end
 
