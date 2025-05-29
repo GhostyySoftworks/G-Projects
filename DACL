@@ -67,6 +67,7 @@ end
 local function ConfigureTextChatService()
     if CHAT_VERSION ~= Enum.ChatVersion.TextChatService then return end
     
+    pcall(function()
     TextChatService.OnIncomingMessage = function(message)
             if message.TextSource then
                 local player = Players:GetPlayerByUserId(message.TextSource.UserId)
@@ -80,7 +81,7 @@ local function ConfigureTextChatService()
             end
             return message
         end
-    end
+    end)
     
     for _, channel in ipairs(TextChatService.TextChannels:GetChildren()) do
         if channel:IsA("TextChannel") and FEATURES.CanHook then
