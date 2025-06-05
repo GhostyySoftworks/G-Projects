@@ -1709,8 +1709,8 @@ function DDLib:MakeWindow(WindowConfig)
 	end  
 	
 	DDLib:MakeNotification({
-		Name = " Thank You",
-		Content = "Thank You Guys For Using DD Bypassed!",
+		Name = " Thanks",
+		Content = "Thanks For Using DD Bypassed!",
 		Time = 5
 	})
 	
