@@ -45,7 +45,7 @@ local MainFrame = Instance.new("Frame")
 MainFrame.Size = UDim2.new(0.35, 0, 0.5, 0)
 MainFrame.AnchorPoint = Vector2.new(0.5, 0.5)
 MainFrame.Position = UDim2.new(0.5, 0, 0.5, 0)
-MainFrame.BackgroundColor3 = Color3.fromRGB(15, 15, 15)
+MainFrame.BackgroundColor3 = Color3.fromRGB(20, 20, 20)
 MainFrame.BackgroundTransparency = 0.2
 MainFrame.BorderSizePixel = 0
 MainFrame.Parent = ScreenGui
@@ -102,7 +102,7 @@ SearchBar.Position = UDim2.new(0.17, 0, 0.1, 0)
 SearchBar.PlaceholderText = "	Search...	"
 SearchBar.PlaceholderColor3 = ThemeColor
 SearchBar.TextColor3 = ThemeColor
-SearchBar.BackgroundColor3 = Color3.fromRGB(15, 15, 15)
+SearchBar.BackgroundColor3 = Color3.fromRGB(20, 20, 20)
 SearchBar.TextSize = 12
 SearchBar.Font = Enum.Font.Gotham
 SearchBar.ClearTextOnFocus = false
@@ -171,14 +171,14 @@ SortButton.Text = "Sort"
 SortButton.TextColor3 = ThemeColor
 SortButton.TextSize = 14
 SortButton.Font = Enum.Font.Gotham
-SortButton.BackgroundColor3 = Color3.fromRGB(15, 15, 15)
+SortButton.BackgroundColor3 = Color3.fromRGB(20, 20, 20)
 UICorner:Clone().Parent = SortButton
 SortButton.Parent = MainFrame
 
 local SortDropdown = Instance.new("Frame")
 SortDropdown.Size = UDim2.new(0.2, 0, 0, 0)
 SortDropdown.Position = UDim2.new(0.05, 0, 0.19, 0)
-SortDropdown.BackgroundColor3 = Color3.fromRGB(15, 15, 15)
+SortDropdown.BackgroundColor3 = Color3.fromRGB(20, 20, 20)
 SortDropdown.AutomaticSize = Enum.AutomaticSize.Y
 SortDropdown.Visible = false
 UICorner:Clone().Parent = SortDropdown
@@ -232,7 +232,7 @@ local function CreateHoverEffect(button)
             hoverTween:Cancel()
         end
         
-        button.BackgroundColor3 = Color3.fromRGB(15, 15, 15)
+        button.BackgroundColor3 = Color3.fromRGB(20, 20, 20)
         button.ImageColor3 = ThemeColor
         
         if nameLabel then
@@ -252,7 +252,7 @@ local function CreateHoverEffect(button)
         end
         nameLabel.Text = emoteName
         nameLabel.TextColor3 = ThemeColor
-        nameLabel.BackgroundColor3 = Color3.fromRGB(15, 15, 15)
+        nameLabel.BackgroundColor3 = Color3.fromRGB(20, 20, 20)
         nameLabel.BackgroundTransparency = 0.5
         nameLabel.Size = UDim2.new(1, 0, 0.2, 0)
         nameLabel.Position = UDim2.new(0, 0, 0.8, 0)
@@ -274,8 +274,8 @@ local function CreateHoverEffect(button)
         end
         
         hoverTween = TweenService:Create(button, TweenInfo.new(0.1), {
-            BackgroundColor3 = Color3.fromRGB(15, 15, 15),
-            ImageColor3 = ThemeColor -- Keep purple when not hovered
+            BackgroundColor3 = Color3.fromRGB(20, 20, 20),
+            ImageColor3 = ThemeColor
         })
         hoverTween:Play()
     end)
@@ -595,7 +595,7 @@ local function CharacterAdded(Character)
     
     local randomButton = Instance.new("ImageButton")
     randomButton.LayoutOrder = 0
-    randomButton.BackgroundColor3 = Color3.fromRGB(15, 15, 15)
+    randomButton.BackgroundColor3 = Color3.fromRGB(20, 20, 20)
     randomButton.AutoButtonColor = false
     randomButton.ImageColor3 = ThemeColor
     UICorner:Clone().Parent = randomButton
@@ -621,7 +621,7 @@ local function CharacterAdded(Character)
         local emoteButton = Instance.new("ImageButton")
         emoteButton.Name = tostring(Emote.id)
         emoteButton.LayoutOrder = Emote.sort[CurrentSort] + (table.find(FavoritedEmotes, Emote.id) and 0 or #Emotes)
-        emoteButton.BackgroundColor3 = Color3.fromRGB(15, 15, 15)
+        emoteButton.BackgroundColor3 = Color3.fromRGB(20, 20, 20)
         emoteButton.AutoButtonColor = false
         emoteButton.Image = Emote.icon
         emoteButton.ImageColor3 = ThemeColor
@@ -692,11 +692,11 @@ CloseButton.MouseButton1Click:Connect(function()
 end)
 
 SortButton.MouseEnter:Connect(function()
-    TweenService:Create(SortButton, TweenInfo.new(0.1), {BackgroundColor3 = Color3.fromRGB(15, 15, 15)}):Play()
+    TweenService:Create(SortButton, TweenInfo.new(0.1), {BackgroundColor3 = Color3.fromRGB(20, 20, 20)}):Play()
 end)
 
 SortButton.MouseLeave:Connect(function()
-    TweenService:Create(SortButton, TweenInfo.new(0.1), {BackgroundColor3 = Color3.fromRGB(15, 15, 15)}):Play()
+    TweenService:Create(SortButton, TweenInfo.new(0.1), {BackgroundColor3 = Color3.fromRGB(20, 20, 20)}):Play()
 end)
 
 SortButton.MouseButton1Click:Connect(function()
@@ -704,11 +704,11 @@ SortButton.MouseButton1Click:Connect(function()
 end)
 
 SearchBar.Focused:Connect(function()
-    TweenService:Create(SearchBar, TweenInfo.new(0.1), {BackgroundColor3 = Color3.fromRGB(15, 15, 15)}):Play()
+    TweenService:Create(SearchBar, TweenInfo.new(0.1), {BackgroundColor3 = Color3.fromRGB(20, 20, 20)}):Play()
 end)
 
 SearchBar.FocusLost:Connect(function()
-    TweenService:Create(SearchBar, TweenInfo.new(0.1), {BackgroundColor3 = Color3.fromRGB(15, 15, 15)}):Play()
+    TweenService:Create(SearchBar, TweenInfo.new(0.1), {BackgroundColor3 = Color3.fromRGB(20, 20, 20)}):Play()
 end)
 
 if LocalPlayer.Character then
