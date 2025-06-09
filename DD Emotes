@@ -32,7 +32,7 @@ local FavoriteOn = "rbxassetid://10651061109"
 local FavoritedEmotes = {}
 local RecentEmotes = {}
 
-local ThemeColor = Color3.fromRGB(178, 34, 34)
+local ThemeColor = Color3.fromRGB(255, 255, 255)
 
 local ScreenGui = Instance.new("ScreenGui")
 ScreenGui.Name = "Emotes"
