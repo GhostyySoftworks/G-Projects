@@ -155,7 +155,6 @@ EmotesFrame.AutomaticCanvasSize = Enum.AutomaticSize.Y
 EmotesFrame.CanvasSize = UDim2.new(0, 0, 0, 0)
 EmotesFrame.ScrollingEnabled = true
 EmotesFrame.ScrollBarImageColor3 = ThemeColor
-EmotesFrame.ScrollBarImageTransparency = 0.7
 EmotesFrame.Parent = MainFrame
 
 local GridLayout = Instance.new("UIGridLayout")
@@ -236,23 +235,7 @@ local function openemotes(name, state, input)
     end
 end
 
-if IsStudio then
-    ContextActionService:BindActionAtPriority(
-        "Emote Menu",
-        openemotes,
-        true,
-        2001,
-        Enum.KeyCode.Comma
-    )
-else
-    ContextActionService:BindCoreActionAtPriority(
-        "Emote Menu",
-        openemotes,
-        true,
-        2001,
-        Enum.KeyCode.Comma
-    )
-end
+if IsStudio then ContextActionService:BindActionAtPriority( "Emote Menu", openemotes, true, 2001, Enum.KeyCode.Comma ) else ContextActionService:BindCoreActionAtPriority( "Emote Menu", openemotes, true, 2001, Enum.KeyCode.Comma ) end
 
 local inputconnect
 ScreenGui:GetPropertyChangedSignal("Enabled"):Connect(function()
@@ -304,20 +287,7 @@ else
     ScreenGui.Parent = CoreGui
 end
 
-local function SendNotification(title, text)
-    if (not IsStudio) and syn and syn.toast_notification then
-        syn.toast_notification({
-            Type = ToastType.Error,
-            Title = title,
-            Content = text
-        })
-    else
-        StarterGui:SetCore("SendNotification", {
-            Title = title,
-            Text = text
-        })
-    end
-end
+local function SendNotification(title, text) if (not IsStudio) and syn and syn.toast_notification then syn.toast_notification({ Type = ToastType.Error, Title = title, Content = text }) else StarterGui:SetCore("SendNotification", { Title = title, Text = text }) end end
 
 local function HumanoidPlayEmote(humanoid, name, id)
     if IsStudio then
