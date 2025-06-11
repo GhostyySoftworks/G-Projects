@@ -164,63 +164,6 @@ GridLayout.CellPadding = UDim2.new(0.02, 0, 0.02, 0)
 GridLayout.SortOrder = Enum.SortOrder.LayoutOrder
 GridLayout.Parent = EmotesFrame
 
-local SortButton = Instance.new("TextButton")
-SortButton.Size = UDim2.new(0.12, 0, 0.05, 0)
-SortButton.Position = UDim2.new(0.83, 0, 0.1, 0)
-SortButton.Text = "Sort"
-SortButton.TextColor3 = ThemeColor
-SortButton.TextSize = 14
-SortButton.Font = Enum.Font.Gotham
-SortButton.BackgroundColor3 = Color3.fromRGB(20, 20, 20)
-UICorner:Clone().Parent = SortButton
-SortButton.Parent = MainFrame
-
-local SortDropdown = Instance.new("Frame")
-SortDropdown.Size = UDim2.new(0.2, 0, 0, 0)
-SortDropdown.Position = UDim2.new(0.05, 0, 0.19, 0)
-SortDropdown.BackgroundColor3 = Color3.fromRGB(20, 20, 20)
-SortDropdown.AutomaticSize = Enum.AutomaticSize.Y
-SortDropdown.Visible = false
-UICorner:Clone().Parent = SortDropdown
-SortDropdown.Parent = MainFrame
-
-local SortList = Instance.new("UIListLayout")
-SortList.Padding = UDim.new(0.02, 0)
-SortList.Parent = SortDropdown
-
-local SortOptions = {
-    {"Newest", "newestfirst"},
-    {"Oldest", "oldestfirst"},
-    {"A-Z", "alphabeticfirst"},
-    {"Z-A", "alphabeticlast"},
-    {"Price ▼", "highestprice"},
-    {"Price ▲", "lowestprice"}
-}
-
-for i, option in ipairs(SortOptions) do
-    local optionButton = Instance.new("TextButton")
-    optionButton.Size = UDim2.new(1, 0, 0, 30)
-    optionButton.Text = option[1]
-    optionButton.TextColor3 = ThemeColor
-    optionButton.TextSize = 14
-    optionButton.Font = Enum.Font.Gotham
-    optionButton.BackgroundTransparency = 1
-    optionButton.Parent = SortDropdown
-    
-    optionButton.MouseButton1Click:Connect(function()
-        CurrentSort = option[2]
-        SortDropdown.Visible = false
-        SortEmotes()
-    end)
-    
-    optionButton.MouseEnter:Connect(function()
-        optionButton.TextColor3 = ThemeColor
-    end)
-    
-    optionButton.MouseLeave:Connect(function()
-        optionButton.TextColor3 = ThemeColor
-    end)
-end
 local function CreateHoverEffect(button)
     local hoverTween
     local nameLabel
@@ -315,7 +258,6 @@ local inputconnect
 ScreenGui:GetPropertyChangedSignal("Enabled"):Connect(function()
     if ScreenGui.Enabled == true then
         SearchBar.Text = ""
-        SortDropdown.Visible = false
         GuiService:SetEmotesMenuOpen(false)
         inputconnect = UserInputService.InputBegan:Connect(function(input, processed)
             if not processed then
@@ -689,18 +631,6 @@ SearchBar:GetPropertyChangedSignal("Text"):Connect(UpdateSearchResults)
 
 CloseButton.MouseButton1Click:Connect(function()
     ScreenGui.Enabled = false
-end)
-
-SortButton.MouseEnter:Connect(function()
-    TweenService:Create(SortButton, TweenInfo.new(0.1), {BackgroundColor3 = Color3.fromRGB(20, 20, 20)}):Play()
-end)
-
-SortButton.MouseLeave:Connect(function()
-    TweenService:Create(SortButton, TweenInfo.new(0.1), {BackgroundColor3 = Color3.fromRGB(20, 20, 20)}):Play()
-end)
-
-SortButton.MouseButton1Click:Connect(function()
-    SortDropdown.Visible = not SortDropdown.Visible
 end)
 
 SearchBar.Focused:Connect(function()
