@@ -1,3 +1,18 @@
+local function ApplyUICornerAndStroke(instance)
+    if instance:IsA("GuiObject") and not instance:FindFirstChildOfClass("UICorner") then
+        local corner = Instance.new("UICorner")
+        corner.CornerRadius = UDim.new(0, 8)
+        corner.Parent = instance
+        
+        if not instance:FindFirstChildOfClass("UIStroke") then
+            local stroke = Instance.new("UIStroke")
+            stroke.Thickness = 1
+            stroke.Color = Color3.fromRGB(20, 20, 20)
+            stroke.Parent = instance
+        end
+    end
+end
+
 local IsStudio = false
 
 local ContextActionService = game:GetService("ContextActionService")
@@ -40,6 +55,7 @@ ScreenGui.DisplayOrder = 2
 ScreenGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
 ScreenGui.ResetOnSpawn = false
 ScreenGui.Enabled = false
+ApplyUICornerAndStroke(ScreenGui)
 
 local MainFrame = Instance.new("Frame")
 MainFrame.Size = UDim2.new(0.35, 0, 0.5, 0)
@@ -56,49 +72,54 @@ UICorner.Parent = MainFrame
 
 local UIStroke = Instance.new("UIStroke")
 UIStroke.Thickness = 1
-UIStroke.Color = ThemeColor
+UIStroke.Color = Color3.fromRGB(20, 20, 20)
 UIStroke.Parent = MainFrame
 
 local Header = Instance.new("Frame")
-Header.Size = UDim2.new(1, 0, 0.08, 0)
+Header.Size = UDim2.new(1, 0, 0.12, 0)
 Header.BackgroundTransparency = 1
 Header.BorderSizePixel = 0
 Header.Parent = MainFrame
+ApplyUICornerAndStroke(Header)
 
 local Title = Instance.new("TextLabel")
-Title.Text = "	Emotes	"
+Title.Text = "Emotes"
 Title.TextColor3 = ThemeColor
 Title.TextSize = 18
 Title.Font = Enum.Font.GothamBold
-Title.Size = UDim2.new(0.5, 0, 1, 0)
+Title.Size = UDim2.new(1, 0, 0.5, 0)
+Title.Position = UDim2.new(0, 0, 0, 0)
 Title.BackgroundTransparency = 1
-Title.TextXAlignment = Enum.TextXAlignment.Left
+Title.TextXAlignment = Enum.TextXAlignment.Center
 Title.Parent = Header
+ApplyUICornerAndStroke(Title)
 
 local FavoritesCount = Instance.new("TextLabel")
 FavoritesCount.Text = "Favorites: 0"
 FavoritesCount.TextColor3 = ThemeColor
 FavoritesCount.TextSize = 14
 FavoritesCount.Font = Enum.Font.Gotham
-FavoritesCount.Size = UDim2.new(0.3, 0, 1, 0)
-FavoritesCount.Position = UDim2.new(0.5, 0, 0, 0)
+FavoritesCount.Size = UDim2.new(1, 0, 0.3, 0)
+FavoritesCount.Position = UDim2.new(0, 0, 0.5, 0)
 FavoritesCount.BackgroundTransparency = 1
-FavoritesCount.TextXAlignment = Enum.TextXAlignment.Right
+FavoritesCount.TextXAlignment = Enum.TextXAlignment.Center
 FavoritesCount.Parent = Header
+ApplyUICornerAndStroke(FavoritesCount)
 
 local CloseButton = Instance.new("TextButton")
 CloseButton.Text = "X"
 CloseButton.TextColor3 = ThemeColor
 CloseButton.TextSize = 18
 CloseButton.Font = Enum.Font.GothamBold
-CloseButton.Size = UDim2.new(0.1, 0, 1, 0)
+CloseButton.Size = UDim2.new(0.1, 0, 0.5, 0)
 CloseButton.Position = UDim2.new(0.9, 0, 0, 0)
 CloseButton.BackgroundTransparency = 1
 CloseButton.Parent = Header
+ApplyUICornerAndStroke(CloseButton)
 
 local SearchBar = Instance.new("TextBox")
 SearchBar.Size = UDim2.new(0.65, 0, 0.05, 0)
-SearchBar.Position = UDim2.new(0.17, 0, 0.1, 0)
+SearchBar.Position = UDim2.new(0.17, 0, 0.15, 0)
 SearchBar.PlaceholderText = "	Search...	"
 SearchBar.PlaceholderColor3 = ThemeColor
 SearchBar.TextColor3 = ThemeColor
@@ -111,6 +132,7 @@ local searchCorner = UICorner:Clone()
 searchCorner.CornerRadius = UDim.new(1, 0)
 searchCorner.Parent = SearchBar
 SearchBar.Parent = MainFrame
+ApplyUICornerAndStroke(SearchBar)
 
 local LoadingFrame = Instance.new("Frame")
 LoadingFrame.Size = UDim2.new(1, 0, 1, 0)
@@ -119,6 +141,7 @@ LoadingFrame.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
 LoadingFrame.ZIndex = 10
 LoadingFrame.Visible = false
 LoadingFrame.Parent = MainFrame
+ApplyUICornerAndStroke(LoadingFrame)
 
 local LoadingContainer = Instance.new("Frame")
 LoadingContainer.Size = UDim2.new(0.4, 0, 0.2, 0)
@@ -126,6 +149,7 @@ LoadingContainer.AnchorPoint = Vector2.new(0.5, 0.5)
 LoadingContainer.Position = UDim2.new(0.5, 0, 0.5, 0)
 LoadingContainer.BackgroundTransparency = 1
 LoadingContainer.Parent = LoadingFrame
+ApplyUICornerAndStroke(LoadingContainer)
 
 local LoadingSpinner = Instance.new("ImageLabel")
 LoadingSpinner.Image = "rbxassetid://9125473266"
@@ -134,6 +158,7 @@ LoadingSpinner.AnchorPoint = Vector2.new(0.5, 0.5)
 LoadingSpinner.Position = UDim2.new(0.5, 0, 0.4, 0)
 LoadingSpinner.BackgroundTransparency = 1
 LoadingSpinner.Parent = LoadingContainer
+ApplyUICornerAndStroke(LoadingSpinner)
 
 local LoadingText = Instance.new("TextLabel")
 LoadingText.Text = "Loading Emotes..."
@@ -145,10 +170,11 @@ LoadingText.Position = UDim2.new(0, 0, 0.6, 0)
 LoadingText.BackgroundTransparency = 1
 LoadingText.TextXAlignment = Enum.TextXAlignment.Center
 LoadingText.Parent = LoadingContainer
+ApplyUICornerAndStroke(LoadingText)
 
 local EmotesFrame = Instance.new("ScrollingFrame")
-EmotesFrame.Size = UDim2.new(0.95, 0, 0.78, 0)
-EmotesFrame.Position = UDim2.new(0.025, 0, 0.2, 0)
+EmotesFrame.Size = UDim2.new(0.95, 0, 0.73, 0)
+EmotesFrame.Position = UDim2.new(0.025, 0, 0.25, 0)
 EmotesFrame.BackgroundTransparency = 1
 EmotesFrame.ScrollBarThickness = 5
 EmotesFrame.AutomaticCanvasSize = Enum.AutomaticSize.Y
@@ -156,12 +182,14 @@ EmotesFrame.CanvasSize = UDim2.new(0, 0, 0, 0)
 EmotesFrame.ScrollingEnabled = true
 EmotesFrame.ScrollBarImageColor3 = ThemeColor
 EmotesFrame.Parent = MainFrame
+ApplyUICornerAndStroke(EmotesFrame)
 
 local GridLayout = Instance.new("UIGridLayout")
 GridLayout.CellSize = UDim2.new(0.18, 0, 0, 100)
 GridLayout.CellPadding = UDim2.new(0.02, 0, 0.02, 0)
 GridLayout.SortOrder = Enum.SortOrder.LayoutOrder
 GridLayout.Parent = EmotesFrame
+ApplyUICornerAndStroke(GridLayout)
 
 local function CreateHoverEffect(button)
     local hoverTween
@@ -201,7 +229,13 @@ local function CreateHoverEffect(button)
         nameLabel.TextSize = 12
         nameLabel.Font = Enum.Font.GothamBold
         nameLabel.ZIndex = 2
-        UICorner:Clone().Parent = nameLabel
+        local nameCorner = Instance.new("UICorner")
+        nameCorner.CornerRadius = UDim.new(0, 8)
+        nameCorner.Parent = nameLabel
+        local nameStroke = Instance.new("UIStroke")
+        nameStroke.Thickness = 1
+        nameStroke.Color = Color3.fromRGB(20, 20, 20)
+        nameStroke.Parent = nameLabel
         nameLabel.Parent = button
     end)
     
@@ -510,7 +544,13 @@ local function CharacterAdded(Character)
     randomButton.BackgroundColor3 = Color3.fromRGB(20, 20, 20)
     randomButton.AutoButtonColor = false
     randomButton.ImageColor3 = ThemeColor
-    UICorner:Clone().Parent = randomButton
+    local randomCorner = Instance.new("UICorner")
+    randomCorner.CornerRadius = UDim.new(0, 8)
+    randomCorner.Parent = randomButton
+    local randomStroke = Instance.new("UIStroke")
+    randomStroke.Thickness = 1
+    randomStroke.Color = Color3.fromRGB(20, 20, 20)
+    randomStroke.Parent = randomButton
     
     local randomIcon = Instance.new("ImageLabel")
     randomIcon.Image = "rbxassetid://7072725342"
@@ -537,7 +577,13 @@ local function CharacterAdded(Character)
         emoteButton.AutoButtonColor = false
         emoteButton.Image = Emote.icon
         emoteButton.ImageColor3 = ThemeColor
-        UICorner:Clone().Parent = emoteButton
+        local emoteCorner = Instance.new("UICorner")
+        emoteCorner.CornerRadius = UDim.new(0, 8)
+        emoteCorner.Parent = emoteButton
+        local emoteStroke = Instance.new("UIStroke")
+        emoteStroke.Thickness = 1
+        emoteStroke.Color = Color3.fromRGB(20, 20, 20)
+        emoteStroke.Parent = emoteButton
         
         local favoriteButton = Instance.new("ImageButton")
         favoriteButton.Name = "Favorite"
@@ -546,6 +592,13 @@ local function CharacterAdded(Character)
         favoriteButton.BackgroundTransparency = 1
         favoriteButton.Image = table.find(FavoritedEmotes, Emote.id) and FavoriteOn or FavoriteOff
         favoriteButton.ImageColor3 = ThemeColor
+        local favoriteCorner = Instance.new("UICorner")
+        favoriteCorner.CornerRadius = UDim.new(0, 8)
+        favoriteCorner.Parent = favoriteButton
+        local favoriteStroke = Instance.new("UIStroke")
+        favoriteStroke.Thickness = 1
+        favoriteStroke.Color = Color3.fromRGB(20, 20, 20)
+        favoriteStroke.Parent = favoriteButton
         favoriteButton.Parent = emoteButton
         
         favoriteButton.MouseButton1Click:Connect(function()
