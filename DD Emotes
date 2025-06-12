@@ -1,7 +1,7 @@
 local function ApplyUICornerAndStroke(instance)
     if instance:IsA("GuiObject") and not instance:FindFirstChildOfClass("UICorner") then
         local corner = Instance.new("UICorner")
-        corner.CornerRadius = UDim.new(0, 8)
+        corner.CornerRadius = UDim.new(0, 20)
         corner.Parent = instance
         
         if not instance:FindFirstChildOfClass("UIStroke") then
@@ -67,7 +67,7 @@ MainFrame.BorderSizePixel = 0
 MainFrame.Parent = ScreenGui
 
 local UICorner = Instance.new("UICorner")
-UICorner.CornerRadius = UDim.new(0, 8)
+UICorner.CornerRadius = UDim.new(0, 20)
 UICorner.Parent = MainFrame
 
 local UIStroke = Instance.new("UIStroke")
@@ -129,7 +129,7 @@ SearchBar.Font = Enum.Font.Gotham
 SearchBar.ClearTextOnFocus = false
 SearchBar.TextXAlignment = Enum.TextXAlignment.Left
 local searchCorner = UICorner:Clone()
-searchCorner.CornerRadius = UDim.new(1, 0)
+searchCorner.CornerRadius = UDim.new(0, 20)
 searchCorner.Parent = SearchBar
 SearchBar.Parent = MainFrame
 ApplyUICornerAndStroke(SearchBar)
@@ -230,7 +230,7 @@ local function CreateHoverEffect(button)
         nameLabel.Font = Enum.Font.GothamBold
         nameLabel.ZIndex = 2
         local nameCorner = Instance.new("UICorner")
-        nameCorner.CornerRadius = UDim.new(0, 8)
+        nameCorner.CornerRadius = UDim.new(0, 20)
         nameCorner.Parent = nameLabel
         local nameStroke = Instance.new("UIStroke")
         nameStroke.Thickness = 1
@@ -545,7 +545,7 @@ local function CharacterAdded(Character)
     randomButton.AutoButtonColor = false
     randomButton.ImageColor3 = ThemeColor
     local randomCorner = Instance.new("UICorner")
-    randomCorner.CornerRadius = UDim.new(0, 8)
+    randomCorner.CornerRadius = UDim.new(0, 20)
     randomCorner.Parent = randomButton
     local randomStroke = Instance.new("UIStroke")
     randomStroke.Thickness = 1
@@ -578,7 +578,7 @@ local function CharacterAdded(Character)
         emoteButton.Image = Emote.icon
         emoteButton.ImageColor3 = ThemeColor
         local emoteCorner = Instance.new("UICorner")
-        emoteCorner.CornerRadius = UDim.new(0, 8)
+        emoteCorner.CornerRadius = UDim.new(0, 20)
         emoteCorner.Parent = emoteButton
         local emoteStroke = Instance.new("UIStroke")
         emoteStroke.Thickness = 1
@@ -593,7 +593,7 @@ local function CharacterAdded(Character)
         favoriteButton.Image = table.find(FavoritedEmotes, Emote.id) and FavoriteOn or FavoriteOff
         favoriteButton.ImageColor3 = ThemeColor
         local favoriteCorner = Instance.new("UICorner")
-        favoriteCorner.CornerRadius = UDim.new(0, 8)
+        favoriteCorner.CornerRadius = UDim.new(0, 20)
         favoriteCorner.Parent = favoriteButton
         local favoriteStroke = Instance.new("UIStroke")
         favoriteStroke.Thickness = 1
