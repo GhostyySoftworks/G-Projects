@@ -47,7 +47,7 @@ local FavoriteOn = "rbxassetid://10651061109"
 local FavoritedEmotes = {}
 local RecentEmotes = {}
 
-local ThemeColor = Color3.fromRGB(178, 34, 34)
+local ThemeColor = Color3.fromRGB(213, 0, 64)
 
 local ScreenGui = Instance.new("ScreenGui")
 ScreenGui.Name = "Emotes"
@@ -162,7 +162,7 @@ ApplyUICornerAndStroke(LoadingSpinner)
 
 local LoadingText = Instance.new("TextLabel")
 LoadingText.Text = "Loading Emotes..."
-LoadingText.TextColor3 = Color3.fromRGB(178, 34, 34)
+LoadingText.TextColor3 = Color3.fromRGB(213, 0, 64)
 LoadingText.TextSize = 16
 LoadingText.Font = Enum.Font.Gotham
 LoadingText.Size = UDim2.new(1, 0, 0.3, 0)
