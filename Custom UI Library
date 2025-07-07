@@ -2,7 +2,6 @@ local Library = {}
 
 local CoreGui = game:GetService("CoreGui")
 local TweenService = game:GetService("TweenService")
-local UIS = game:GetService("UserInputService")
 
 function Library:CreateWindow(config)
     local ScreenGui = Instance.new("ScreenGui")
@@ -93,14 +92,11 @@ function Library:CreateWindow(config)
     UIStroke3.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
     UIStroke3.Parent = TabsList
 
-    local PagesFrame = Instance.new("ScrollingFrame")
+    local PagesFrame = Instance.new("Frame")
     PagesFrame.BackgroundColor3 = Color3.fromRGB(20, 20, 20)
     PagesFrame.BorderSizePixel = 0
     PagesFrame.Position = UDim2.new(0, 128, 0, 57)
     PagesFrame.Size = UDim2.new(1, -128, 1, -57)
-    PagesFrame.ScrollBarThickness = 8
-    PagesFrame.CanvasSize = UDim2.new(0, 0, 0, 0)
-    PagesFrame.AutomaticCanvasSize = Enum.AutomaticSize.Y
     PagesFrame.Parent = Frame
 
     local UICorner6 = Instance.new("UICorner")
@@ -113,101 +109,145 @@ function Library:CreateWindow(config)
     UIStroke4.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
     UIStroke4.Parent = PagesFrame
 
+    local Tabs = {}
+
     local Window = {}
 
-    function Window:AddButton(text, callback)
-        local Button = Instance.new("TextButton")
-        Button.Size = UDim2.new(1, -10, 0, 30)
-        Button.Position = UDim2.new(0, 5, 0, 0)
-        Button.Text = text
-        Button.Font = Enum.Font.SourceSansBold
-        Button.TextColor3 = Color3.fromRGB(255, 255, 255)
-        Button.TextSize = 14
-        Button.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
-        Button.Parent = PagesFrame
-        Button.MouseButton1Click:Connect(function()
-            if callback then
-                callback()
+    function Window:AddTab(name)
+        local TabButton = Instance.new("TextButton")
+        TabButton.Size = UDim2.new(1, -10, 0, 30)
+        TabButton.Position = UDim2.new(0, 5, 0, (#Tabs * 35))
+        TabButton.Text = name
+        TabButton.Font = Enum.Font.SourceSansBold
+        TabButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+        TabButton.TextSize = 14
+        TabButton.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
+        TabButton.Parent = TabsList
+
+        local Page = Instance.new("ScrollingFrame")
+        Page.BackgroundColor3 = Color3.fromRGB(20, 20, 20)
+        Page.BorderSizePixel = 0
+        Page.Size = UDim2.new(1, 0, 1, 0)
+        Page.ScrollBarThickness = 8
+        Page.CanvasSize = UDim2.new(0, 0, 0, 0)
+        Page.AutomaticCanvasSize = Enum.AutomaticSize.Y
+        Page.Visible = #Tabs == 0
+        Page.Parent = PagesFrame
+
+        local ElementsLayout = Instance.new("UIListLayout")
+        ElementsLayout.Padding = UDim.new(0, 5)
+        ElementsLayout.Parent = Page
+
+        for _, other in ipairs(PagesFrame:GetChildren()) do
+            if other:IsA("ScrollingFrame") and other ~= Page then
+                other.Visible = false
             end
+        end
+
+        TabButton.MouseButton1Click:Connect(function()
+            for _, other in ipairs(PagesFrame:GetChildren()) do
+                if other:IsA("ScrollingFrame") then
+                    other.Visible = false
+                end
+            end
+            Page.Visible = true
         end)
-    end
 
-    function Window:AddToggle(text, callback)
-        local Toggle = Instance.new("TextButton")
-        Toggle.Size = UDim2.new(1, -10, 0, 30)
-        Toggle.Position = UDim2.new(0, 5, 0, 0)
-        Toggle.Text = text .. ": Off"
-        Toggle.Font = Enum.Font.SourceSansBold
-        Toggle.TextColor3 = Color3.fromRGB(255, 255, 255)
-        Toggle.TextSize = 14
-        Toggle.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
-        Toggle.Parent = PagesFrame
+        local Tab = {}
 
-        local state = false
-        Toggle.MouseButton1Click:Connect(function()
-            state = not state
-            Toggle.Text = text .. (state and ": On" or ": Off")
-            if callback then
-                callback(state)
-            end
-        end)
-    end
+        function Tab:AddButton(text, callback)
+            local Button = Instance.new("TextButton")
+            Button.Size = UDim2.new(1, -10, 0, 30)
+            Button.Text = text
+            Button.Font = Enum.Font.SourceSansBold
+            Button.TextColor3 = Color3.fromRGB(255, 255, 255)
+            Button.TextSize = 14
+            Button.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
+            Button.Parent = Page
+            Button.MouseButton1Click:Connect(function()
+                if callback then
+                    callback()
+                end
+            end)
+        end
 
-    function Window:AddSlider(text, min, max, callback)
-        local Holder = Instance.new("Frame")
-        Holder.Size = UDim2.new(1, -10, 0, 30)
-        Holder.Position = UDim2.new(0, 5, 0, 0)
-        Holder.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
-        Holder.Parent = PagesFrame
+        function Tab:AddToggle(text, callback)
+            local Toggle = Instance.new("TextButton")
+            Toggle.Size = UDim2.new(1, -10, 0, 30)
+            Toggle.Text = text .. ": Off"
+            Toggle.Font = Enum.Font.SourceSansBold
+            Toggle.TextColor3 = Color3.fromRGB(255, 255, 255)
+            Toggle.TextSize = 14
+            Toggle.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
+            Toggle.Parent = Page
 
-        local Label = Instance.new("TextLabel")
-        Label.Size = UDim2.new(0.5, 0, 1, 0)
-        Label.Text = text .. ": " .. tostring(min)
-        Label.Font = Enum.Font.SourceSansBold
-        Label.TextColor3 = Color3.fromRGB(255, 255, 255)
-        Label.TextSize = 14
-        Label.BackgroundTransparency = 1
-        Label.Parent = Holder
+            local state = false
+            Toggle.MouseButton1Click:Connect(function()
+                state = not state
+                Toggle.Text = text .. (state and ": On" or ": Off")
+                if callback then
+                    callback(state)
+                end
+            end)
+        end
 
-        local SliderButton = Instance.new("TextButton")
-        SliderButton.Size = UDim2.new(0.5, 0, 1, 0)
-        SliderButton.Position = UDim2.new(0.5, 0, 0, 0)
-        SliderButton.Text = "Change"
-        SliderButton.Font = Enum.Font.SourceSansBold
-        SliderButton.TextColor3 = Color3.fromRGB(255, 255, 255)
-        SliderButton.TextSize = 14
-        SliderButton.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
-        SliderButton.Parent = Holder
+        function Tab:AddSlider(text, min, max, callback)
+            local Holder = Instance.new("Frame")
+            Holder.Size = UDim2.new(1, -10, 0, 30)
+            Holder.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
+            Holder.Parent = Page
 
-        local current = min
-        SliderButton.MouseButton1Click:Connect(function()
-            current = current + 1
-            if current > max then
-                current = min
-            end
-            Label.Text = text .. ": " .. tostring(current)
-            if callback then
-                callback(current)
-            end
-        end)
-    end
+            local Label = Instance.new("TextLabel")
+            Label.Size = UDim2.new(0.5, 0, 1, 0)
+            Label.Text = text .. ": " .. tostring(min)
+            Label.Font = Enum.Font.SourceSansBold
+            Label.TextColor3 = Color3.fromRGB(255, 255, 255)
+            Label.TextSize = 14
+            Label.BackgroundTransparency = 1
+            Label.Parent = Holder
 
-    function Window:AddInput(text, callback)
-        local Box = Instance.new("TextBox")
-        Box.Size = UDim2.new(1, -10, 0, 30)
-        Box.Position = UDim2.new(0, 5, 0, 0)
-        Box.PlaceholderText = text
-        Box.Text = ""
-        Box.Font = Enum.Font.SourceSansBold
-        Box.TextColor3 = Color3.fromRGB(255, 255, 255)
-        Box.TextSize = 14
-        Box.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
-        Box.Parent = PagesFrame
-        Box.FocusLost:Connect(function()
-            if callback then
-                callback(Box.Text)
-            end
-        end)
+            local Button = Instance.new("TextButton")
+            Button.Size = UDim2.new(0.5, 0, 1, 0)
+            Button.Position = UDim2.new(0.5, 0, 0, 0)
+            Button.Text = "Change"
+            Button.Font = Enum.Font.SourceSansBold
+            Button.TextColor3 = Color3.fromRGB(255, 255, 255)
+            Button.TextSize = 14
+            Button.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
+            Button.Parent = Holder
+
+            local value = min
+            Button.MouseButton1Click:Connect(function()
+                value = value + 1
+                if value > max then
+                    value = min
+                end
+                Label.Text = text .. ": " .. tostring(value)
+                if callback then
+                    callback(value)
+                end
+            end)
+        end
+
+        function Tab:AddInput(text, callback)
+            local Box = Instance.new("TextBox")
+            Box.Size = UDim2.new(1, -10, 0, 30)
+            Box.PlaceholderText = text
+            Box.Text = ""
+            Box.Font = Enum.Font.SourceSansBold
+            Box.TextColor3 = Color3.fromRGB(255, 255, 255)
+            Box.TextSize = 14
+            Box.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
+            Box.Parent = Page
+            Box.FocusLost:Connect(function()
+                if callback then
+                    callback(Box.Text)
+                end
+            end)
+        end
+
+        table.insert(Tabs, Tab)
+        return Tab
     end
 
     return Window
