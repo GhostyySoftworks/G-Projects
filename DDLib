@@ -1,6 +1,6 @@
 local Library = {}
 
-local DDVersion = "v1.1A."
+local DDVersion = "v1.2A."
 
 local TweenService = game:GetService("TweenService")
 local input = game:GetService("UserInputService")
@@ -798,6 +798,7 @@ function Library:Window(options)
                     Textbox.Name = "Textbox"
                     Textbox.Parent = sectionFrame
                     Textbox.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+                    Textbox.BorderColor3 = Color3.fromRGB(20, 20, 20)
                     Textbox.BackgroundTransparency = 1.000
                     Textbox.BorderSizePixel = 0
                     Textbox.Position = UDim2.new(0.0348837227, 0, 0.945454538, 0)
@@ -808,6 +809,7 @@ function Library:Window(options)
                     textBoxLabel.Parent = Textbox
                     textBoxLabel.AnchorPoint = Vector2.new(0.5, 0.5)
                     textBoxLabel.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+                    textBoxLabel.BorderColor3 = Color3.fromRGB(20, 20, 20)
                     textBoxLabel.BackgroundTransparency = 1.000
                     textBoxLabel.Position = UDim2.new(0.237000003, 0, 0.5, 0)
                     textBoxLabel.Size = UDim2.new(0, 99, 0, 22)
@@ -821,6 +823,7 @@ function Library:Window(options)
                     textBox.Parent = Textbox
                     textBox.AnchorPoint = Vector2.new(0.5, 0.5)
                     textBox.BackgroundColor3 = Color3.fromRGB(20, 20, 20)
+                    textBox.BorderColor3 = Color3.fromRGB(20, 20, 20)
                     textBox.Position = UDim2.new(0.850000024, 0, 0.5, 0)
                     textBox.Size = UDim2.new(0, 53, 0, 15)
                     textBox.Font = Enum.Font.Gotham
