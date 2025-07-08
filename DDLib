@@ -670,6 +670,7 @@ function Library:Window(options)
                     Dropdown.Name = "Dropdown"
                     Dropdown.Parent = sectionFrame
                     Dropdown.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+                    Dropdown.BorderColor3 = Color3.fromRGB(20, 20, 20)
                     Dropdown.BackgroundTransparency = 1.000
                     Dropdown.BorderSizePixel = 0
                     Dropdown.Position = UDim2.new(0.0697674453, 0, 0.237037033, 0)
@@ -679,6 +680,7 @@ function Library:Window(options)
                     dropdownLabel.Name = "dropdownLabel"
                     dropdownLabel.Parent = Dropdown
                     dropdownLabel.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+                    dropdownLabel.BorderColor3 = Color3.fromRGB(20, 20, 20)
                     dropdownLabel.BackgroundTransparency = 1.000
                     dropdownLabel.BorderSizePixel = 0
                     dropdownLabel.Size = UDim2.new(0, 105, 0, 22)
@@ -692,6 +694,7 @@ function Library:Window(options)
                     dropdownText.Name = "dropdownText"
                     dropdownText.Parent = dropdownLabel
                     dropdownText.BackgroundColor3 = Color3.fromRGB(20, 20, 20)
+                    dropdownText.BorderColor3 = Color3.fromRGB(20, 20, 20)
                     dropdownText.Position = UDim2.new(1.08571434, 0, 0.0909090936, 0)
                     dropdownText.Size = UDim2.new(0, 87, 0, 18)
                     dropdownText.Font = Enum.Font.Gotham
@@ -704,6 +707,7 @@ function Library:Window(options)
                     dropdownArrow.Name = "dropdownArrow"
                     dropdownArrow.Parent = dropdownText
                     dropdownArrow.BackgroundColor3 = Color3.fromRGB(20, 20, 20)
+                    dropdownArrow.BorderColor3 = Color3.fromRGB(20, 20, 20)
                     dropdownArrow.BorderSizePixel = 0
                     dropdownArrow.Position = UDim2.new(0.87356323, 0, 0.138888866, 0)
                     dropdownArrow.Size = UDim2.new(0, 11, 0, 13)
