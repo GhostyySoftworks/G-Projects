@@ -131,7 +131,7 @@ function Library:Window(options)
     Body.Position = UDim2.new(0.465730786, 0, 0.5, 0)
     Body.Size = UDim2.new(0, 658, 0, 516)
 
-    bodyCorner.CornerRadius = UDim.new(0, 4)
+    bodyCorner.CornerRadius = UDim.new(0, 8)
     bodyCorner.Name = "bodyCorner"
     bodyCorner.Parent = Body
 
@@ -142,7 +142,7 @@ function Library:Window(options)
     SideBar.BorderSizePixel = 1
     SideBar.Size = UDim2.new(0, 187, 0, 516)
 
-    sidebarCorner.CornerRadius = UDim.new(0, 4)
+    sidebarCorner.CornerRadius = UDim.new(0, 8)
     sidebarCorner.Name = "sidebarCorner"
     sidebarCorner.Parent = SideBar
 
@@ -295,7 +295,7 @@ function Library:Window(options)
                 }):Play()
             end)
 
-            tabButtonCorner.CornerRadius = UDim.new(0, 4)
+            tabButtonCorner.CornerRadius = UDim.new(0, 8)
             tabButtonCorner.Name = "tabButtonCorner"
             tabButtonCorner.Parent = tabButton
 
@@ -364,7 +364,7 @@ function Library:Window(options)
                 sectionLabel.TextSize = 14.000
                 sectionLabel.TextXAlignment = Enum.TextXAlignment.Left
 
-                sectionFrameCorner.CornerRadius = UDim.new(0, 4)
+                sectionFrameCorner.CornerRadius = UDim.new(0, 8)
                 sectionFrameCorner.Name = "sectionFrameCorner"
                 sectionFrameCorner.Parent = sectionFrame
 
@@ -415,7 +415,7 @@ function Library:Window(options)
                     TextButton.TextSize = 14.000
                     TextButton.BackgroundTransparency = 1
                     
-                    ButtonCorner.CornerRadius = UDim.new(0, 4)
+                    ButtonCorner.CornerRadius = UDim.new(0, 8)
                     ButtonCorner.Parent = TextButton
                     
                     buttoneffect({frame = TextButton, entered = TextButton})
