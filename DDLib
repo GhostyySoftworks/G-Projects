@@ -455,7 +455,7 @@ function Library:Window(options)
                             TextColor3 = State and Color3.fromRGB(255, 255, 255) or Color3.fromRGB(255, 255, 255)
                         }):Play()
                         TweenService:Create(toggleButton, TweenInfo.new(0.06, Enum.EasingStyle.Quart, Enum.EasingDirection.InOut), {
-                            BackgroundColor3 = State and Color3.fromRGB(0, 162, 255) or Color3.fromRGB(100, 100, 100)
+                            BackgroundColor3 = State and Color3.fromRGB(255, 255, 255) or Color3.fromRGB(100, 100, 100)
                         }):Play()
                         TweenService:Create(toggleFrame, TweenInfo.new(0.06, Enum.EasingStyle.Quart, Enum.EasingDirection.InOut), {
                             BackgroundColor3 = State and Color3.fromRGB(20, 20, 20) or Color3.fromRGB(20, 20, 20)
