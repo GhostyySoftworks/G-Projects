@@ -22,7 +22,6 @@ local function Notify(tt, tx)
 end
 
 local function Dragify(frame, parent)
-
     parent = parent or frame
 
     local dragging = false
@@ -68,16 +67,16 @@ end
 local function buttoneffect(options)
     pcall(function()
         options.entered.MouseEnter:Connect(function()
-            if options.frame.TextColor3 ~= Color3.fromRGB(234, 239, 246) then
+            if options.frame.TextColor3 ~= Color3.fromRGB(255, 255, 255) then
                 TweenService:Create(options.frame, TweenInfo.new(0.06, Enum.EasingStyle.Quart, Enum.EasingDirection.In), {
-                    TextColor3 = Color3.fromRGB(234, 239, 245)
+                    TextColor3 = Color3.fromRGB(255, 255, 255)
                 }):Play()
             end
         end)
         options.entered.MouseLeave:Connect(function()
-            if options.frame.TextColor3 ~= Color3.fromRGB(157, 171, 182) and options.frame.TextColor3 ~= Color3.fromRGB(234, 239, 246) then
+            if options.frame.TextColor3 ~= Color3.fromRGB(255, 255, 255) and options.frame.TextColor3 ~= Color3.fromRGB(255, 255, 255) then
                 TweenService:Create(options.frame, TweenInfo.new(0.06, Enum.EasingStyle.Quart, Enum.EasingDirection.In), {
-                    TextColor3 = Color3.fromRGB(157, 171, 182)
+                    TextColor3 = Color3.fromRGB(255, 255, 255)
                 }):Play()
             end
         end)
@@ -95,9 +94,9 @@ local function clickEffect(options)
 end
 
 function Library:Toggle(value)
-    if game:GetServer("CoreGui"):FindFirstChild("DD") == nil then return end
-    enabled = (type(value) == "boolean" and value) or game:GetServer("CoreGui"):FindFirstChild("DD").Enabled
-    game:GetServer("CoreGui"):FindFirstChild("DD").Enabled = not enabled
+    if game:GetService("CoreGui"):FindFirstChild("DD") == nil then return end
+    enabled = (type(value) == "boolean" and value) or game:GetService("CoreGui"):FindFirstChild("DD").Enabled
+    game:GetService("CoreGui"):FindFirstChild("DD").Enabled = not enabled
 end
 
 function Library:Window(options)
@@ -115,8 +114,6 @@ function Library:Window(options)
     local TopBar = Instance.new("Frame")
     local tbLine = Instance.new("Frame")
     local Title = Instance.new("TextLabel")
-    --local saveBtn = Instance.new("TextButton")
-    --local saveLabel = Instance.new("ImageLabel")
 
     local allPages = Instance.new("Frame")
     local tabContainer = Instance.new("Frame")
@@ -127,7 +124,7 @@ function Library:Window(options)
     Body.Name = "Body"
     Body.Parent = SG
     Body.AnchorPoint = Vector2.new(0.5, 0.5)
-    Body.BackgroundColor3 = Color3.fromRGB(9, 8, 13)
+    Body.BackgroundColor3 = Color3.fromRGB(20, 20, 20)
     Body.BorderSizePixel = 0
     Body.Position = UDim2.new(0.465730786, 0, 0.5, 0)
     Body.Size = UDim2.new(0, 658, 0, 516)
@@ -138,7 +135,7 @@ function Library:Window(options)
 
     SideBar.Name = "SideBar"
     SideBar.Parent = Body
-    SideBar.BackgroundColor3 = Color3.fromRGB(26, 36, 48)
+    SideBar.BackgroundColor3 = Color3.fromRGB(20, 20, 20)
     SideBar.BorderSizePixel = 0
     SideBar.Size = UDim2.new(0, 187, 0, 516)
 
@@ -148,66 +145,43 @@ function Library:Window(options)
 
     sbLine.Name = "sbLine"
     sbLine.Parent = SideBar
-    sbLine.BackgroundColor3 = Color3.fromRGB(15, 23, 36)
+    sbLine.BackgroundColor3 = Color3.fromRGB(20, 20, 20)
     sbLine.BorderSizePixel = 0
     sbLine.Position = UDim2.new(0.99490571, 0, 0, 0)
     sbLine.Size = UDim2.new(0, 3, 0, 516)
 
     TopBar.Name = "TopBar"
     TopBar.Parent = Body
-    TopBar.BackgroundColor3 = Color3.fromRGB(9, 8, 13)
+    TopBar.BackgroundColor3 = Color3.fromRGB(20, 20, 20)
     TopBar.BackgroundTransparency = 1.000
-    TopBar.BorderColor3 = Color3.fromRGB(14, 21, 32)
+    TopBar.BorderColor3 = Color3.fromRGB(20, 20, 20)
     TopBar.BorderSizePixel = 0
     TopBar.Position = UDim2.new(0.25166446, 0, 0, 0)
     TopBar.Size = UDim2.new(0, 562, 0, 49)
 
     tbLine.Name = "tbLine"
     tbLine.Parent = TopBar
-    tbLine.BackgroundColor3 = Color3.fromRGB(15, 23, 36)
+    tbLine.BackgroundColor3 = Color3.fromRGB(20, 20, 20)
     tbLine.BorderSizePixel = 0
     tbLine.Position = UDim2.new(0.0400355868, 0, 1, 0)
     tbLine.Size = UDim2.new(0, 469, 0, 3)
 
     Title.Name = "Title"
     Title.Parent = SideBar
-    Title.BackgroundColor3 = Color3.fromRGB(234, 239, 245)
+    Title.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
     Title.BackgroundTransparency = 1.000
     Title.BorderSizePixel = 0
     Title.Position = UDim2.new(0.0614973232, 0, 0.0213178284, 0)
-    Title.Size = UDim2.new(0, 162, 0, 26)
+    Title.Size = UDim2.new(0, 180, 0, 26)
     Title.Font = Enum.Font.ArialBold
     Title.Text = options.text
-    Title.TextColor3 = Color3.fromRGB(234, 239, 245)
-    Title.TextSize = 28.000
+    Title.TextColor3 = Color3.fromRGB(255, 255, 255)
+    Title.TextSize = 22.000
     Title.TextWrapped = true
-
-    --[[saveBtn.Name = "saveBtn"
-    saveBtn.Parent = TopBar
-    saveBtn.AnchorPoint = Vector2.new(0.5, 0.5)
-    saveBtn.BackgroundColor3 = Color3.fromRGB(9, 8, 13)
-    saveBtn.Position = UDim2.new(0.146918148, 0, 0.479591846, 0)
-    saveBtn.Size = UDim2.new(0, 88, 0, 20)
-    saveBtn.AutoButtonColor = false
-    saveBtn.Font = Enum.Font.GothamBold
-    saveBtn.Text = "   Save"
-    saveBtn.TextColor3 = Color3.fromRGB(132, 146, 153)
-    saveBtn.TextSize = 14.000
-
-    saveLabel.Name = "saveLabel"
-    saveLabel.Parent = saveBtn
-    saveLabel.BackgroundColor3 = Color3.fromRGB(234, 239, 245)
-    saveLabel.BackgroundTransparency = 1.000
-    saveLabel.BorderSizePixel = 0
-    saveLabel.Position = UDim2.new(0.0862553269, 0, 0.0500000007, 0)
-    saveLabel.Size = UDim2.new(0, 18, 0, 18)
-    saveLabel.Image = "rbxassetid://7999984136"
-    saveLabel.ImageColor3 = Color3.fromRGB(132, 146, 153)
-    ]]
 
     allPages.Name = "allPages"
     allPages.Parent = Body
-    allPages.BackgroundColor3 = Color3.fromRGB(234, 239, 245)
+    allPages.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
     allPages.BackgroundTransparency = 1.000
     allPages.BorderSizePixel = 0
     allPages.Position = UDim2.new(0.29508087, 0, 0.100775197, 0)
@@ -215,11 +189,18 @@ function Library:Window(options)
 
     tabContainer.Name = "tabContainer"
     tabContainer.Parent = SideBar
-    tabContainer.BackgroundColor3 = Color3.fromRGB(234, 239, 245)
+    tabContainer.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
     tabContainer.BackgroundTransparency = 1.000
     tabContainer.BorderSizePixel = 0
     tabContainer.Position = UDim2.new(0, 0, 0.100775197, 0)
     tabContainer.Size = UDim2.new(0, 187, 0, 464)
+
+    -- Add hide/unhide keybind
+    game:GetService("UserInputService").InputBegan:Connect(function(input, gameProcessed)
+        if not gameProcessed and input.KeyCode == Enum.KeyCode.RightControl then
+            Library:Toggle()
+        end
+    end)
 
     local tabsections = {}
 
@@ -236,7 +217,7 @@ function Library:Window(options)
 
         tabSection.Name = "tabSection"
         tabSection.Parent = tabContainer
-        tabSection.BackgroundColor3 = Color3.fromRGB(234, 239, 245)
+        tabSection.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
         tabSection.BackgroundTransparency = 1.000
         tabSection.BorderSizePixel = 0
         tabSection.Size = UDim2.new(0, 189, 0, 22)
@@ -247,13 +228,13 @@ function Library:Window(options)
 
         tabSectionLabel.Name = "tabSectionLabel"
         tabSectionLabel.Parent = tabSection
-        tabSectionLabel.BackgroundColor3 = Color3.fromRGB(234, 239, 245)
+        tabSectionLabel.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
         tabSectionLabel.BackgroundTransparency = 1.000
         tabSectionLabel.BorderSizePixel = 0
         tabSectionLabel.Size = UDim2.new(0, 190, 0, 22)
         tabSectionLabel.Font = Enum.Font.Gotham
         tabSectionLabel.Text = "     ".. options.text
-        tabSectionLabel.TextColor3 = Color3.fromRGB(79, 107, 126)
+        tabSectionLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
         tabSectionLabel.TextSize = 17.000
         tabSectionLabel.TextXAlignment = Enum.TextXAlignment.Left
 
@@ -278,14 +259,14 @@ function Library:Window(options)
 
             tabButton.Name = "tabButton"
             tabButton.Parent = tabSection
-            tabButton.BackgroundColor3 = Color3.fromRGB(13, 57, 84)
+            tabButton.BackgroundColor3 = Color3.fromRGB(20, 20, 20)
             tabButton.BorderSizePixel = 0
             tabButton.Position = UDim2.new(0.0714285746, 0, 0.402777791, 0)
             tabButton.Size = UDim2.new(0, 165, 0, 30)
             tabButton.AutoButtonColor = false
             tabButton.Font = Enum.Font.GothamSemibold
             tabButton.Text = "         " .. options.text
-            tabButton.TextColor3 = Color3.fromRGB(234, 239, 245)
+            tabButton.TextColor3 = Color3.fromRGB(255, 255, 255)
             tabButton.TextSize = 14.000
             tabButton.BackgroundTransparency = 1
             tabButton.TextXAlignment = Enum.TextXAlignment.Left
@@ -315,18 +296,18 @@ function Library:Window(options)
 
             tabIcon.Name = "tabIcon"
             tabIcon.Parent = tabButton
-            tabIcon.BackgroundColor3 = Color3.fromRGB(234, 239, 245)
+            tabIcon.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
             tabIcon.BackgroundTransparency = 1.000
             tabIcon.BorderSizePixel = 0
             tabIcon.Position = UDim2.new(0.0408859849, 0, 0.133333355, 0)
             tabIcon.Size = UDim2.new(0, 21, 0, 21)
             tabIcon.Image = options.icon
-            tabIcon.ImageColor3 = Color3.fromRGB(43, 154, 198)
+            tabIcon.ImageColor3 = Color3.fromRGB(255, 255, 255)
 
             newPage.Name = "newPage"
             newPage.Parent = allPages
             newPage.Visible = false
-            newPage.BackgroundColor3 = Color3.fromRGB(234, 239, 245)
+            newPage.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
             newPage.BackgroundTransparency = 1.000
             newPage.BorderSizePixel = 0
             newPage.ClipsDescendants = false
@@ -360,20 +341,20 @@ function Library:Window(options)
 
                 sectionFrame.Name = "sectionFrame"
                 sectionFrame.Parent = newPage
-                sectionFrame.BackgroundColor3 = Color3.fromRGB(0, 15, 30)
+                sectionFrame.BackgroundColor3 = Color3.fromRGB(20, 20, 20)
                 sectionFrame.BorderSizePixel = 0
                 sectionFrame.Size = UDim2.new(0, 215, 0, 134)
 
                 sectionLabel.Name = "sectionLabel"
                 sectionLabel.Parent = sectionFrame
-                sectionLabel.BackgroundColor3 = Color3.fromRGB(234, 239, 245)
+                sectionLabel.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
                 sectionLabel.BackgroundTransparency = 1.000
                 sectionLabel.BorderSizePixel = 0
                 sectionLabel.Position = UDim2.new(0.0121902823, 0, 0, 0)
                 sectionLabel.Size = UDim2.new(0, 213, 0, 25)
                 sectionLabel.Font = Enum.Font.GothamSemibold
                 sectionLabel.Text = "   " .. options.text
-                sectionLabel.TextColor3 = Color3.fromRGB(234, 239, 245)
+                sectionLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
                 sectionLabel.TextSize = 14.000
                 sectionLabel.TextXAlignment = Enum.TextXAlignment.Left
 
@@ -389,7 +370,7 @@ function Library:Window(options)
 
                 sLine.Name = "sLine"
                 sLine.Parent = sectionFrame
-                sLine.BackgroundColor3 = Color3.fromRGB(13, 28, 44)
+                sLine.BackgroundColor3 = Color3.fromRGB(20, 20, 20)
                 sLine.BorderSizePixel = 0
                 sLine.Position = UDim2.new(0.0255813953, 0, 0.41538462, 0)
                 sLine.Size = UDim2.new(0, 202, 0, 3)
@@ -414,14 +395,14 @@ function Library:Window(options)
                     local TextButton = Instance.new("TextButton")
 
                     TextButton.Parent = sectionFrame
-                    TextButton.BackgroundColor3 = Color3.fromRGB(13, 57, 84)
+                    TextButton.BackgroundColor3 = Color3.fromRGB(20, 20, 20)
                     TextButton.BorderSizePixel = 0
                     TextButton.Position = UDim2.new(0.0348837227, 0, 0.355555564, 0)
                     TextButton.Size = UDim2.new(0, 200, 0, 22)
                     TextButton.AutoButtonColor = false
                     TextButton.Text = options.text
                     TextButton.Font = Enum.Font.Gotham
-                    TextButton.TextColor3 = Color3.fromRGB(157, 171, 182)
+                    TextButton.TextColor3 = Color3.fromRGB(255, 255, 255)
                     TextButton.TextSize = 14.000
                     TextButton.BackgroundTransparency = 1
                     buttoneffect({frame = TextButton, entered = TextButton})
@@ -446,20 +427,20 @@ function Library:Window(options)
 
                     if options.state then
                         toggleButton.Position = UDim2.new(0.74, 0, 0.5, 0)
-                        toggleLabel.TextColor3 = Color3.fromRGB(234, 239, 246)
-                        toggleButton.BackgroundColor3 = Color3.fromRGB(2, 162, 243)
-                        toggleFrame.BackgroundColor3 = Color3.fromRGB(2, 23, 49)
+                        toggleLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
+                        toggleButton.BackgroundColor3 = Color3.fromRGB(0, 162, 255)
+                        toggleFrame.BackgroundColor3 = Color3.fromRGB(20, 20, 20)
                     end
 
                     toggleLabel.Name = "toggleLabel"
                     toggleLabel.Parent = sectionFrame
-                    toggleLabel.BackgroundColor3 = Color3.fromRGB(157, 171, 182)
+                    toggleLabel.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
                     toggleLabel.BackgroundTransparency = 1.000
                     toggleLabel.Position = UDim2.new(0.0348837227, 0, 0.965517223, 0)
                     toggleLabel.Size = UDim2.new(0, 200, 0, 22)
                     toggleLabel.Font = Enum.Font.Gotham
                     toggleLabel.Text = " " .. options.text
-                    toggleLabel.TextColor3 = Color3.fromRGB(157, 171, 182)
+                    toggleLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
                     toggleLabel.TextSize = 14.000
                     toggleLabel.TextXAlignment = Enum.TextXAlignment.Left
                     buttoneffect({frame = toggleLabel, entered = toggleLabel})
@@ -471,19 +452,19 @@ function Library:Window(options)
                             Position = State and UDim2.new(0.74, 0, 0.5, 0) or UDim2.new(0.25, 0, 0.5, 0)
                         }):Play()
                         TweenService:Create(toggleLabel, TweenInfo.new(0.06, Enum.EasingStyle.Quart, Enum.EasingDirection.InOut), {
-                            TextColor3 = State and Color3.fromRGB(234, 239, 246) or Color3.fromRGB(157, 171, 182)
+                            TextColor3 = State and Color3.fromRGB(255, 255, 255) or Color3.fromRGB(255, 255, 255)
                         }):Play()
                         TweenService:Create(toggleButton, TweenInfo.new(0.06, Enum.EasingStyle.Quart, Enum.EasingDirection.InOut), {
-                            BackgroundColor3 = State and Color3.fromRGB(2, 162, 243) or Color3.fromRGB(77, 77, 77)
+                            BackgroundColor3 = State and Color3.fromRGB(0, 162, 255) or Color3.fromRGB(100, 100, 100)
                         }):Play()
                         TweenService:Create(toggleFrame, TweenInfo.new(0.06, Enum.EasingStyle.Quart, Enum.EasingDirection.InOut), {
-                            BackgroundColor3 = State and Color3.fromRGB(2, 23, 49) or Color3.fromRGB(4, 4, 11)
+                            BackgroundColor3 = State and Color3.fromRGB(20, 20, 20) or Color3.fromRGB(20, 20, 20)
                         }):Play()
                     end
 
                     toggleFrame.Name = "toggleFrame"
                     toggleFrame.Parent = toggleLabel
-                    toggleFrame.BackgroundColor3 = Color3.fromRGB(4, 4, 11)
+                    toggleFrame.BackgroundColor3 = Color3.fromRGB(20, 20, 20)
                     toggleFrame.BorderSizePixel = 0
                     toggleFrame.AnchorPoint = Vector2.new(0.5, 0.5)
                     toggleFrame.Position = UDim2.new(0.9, 0, 0.5, 0)
@@ -503,7 +484,7 @@ function Library:Window(options)
 
                     toggleButton.Name = "toggleButton"
                     toggleButton.Parent = toggleFrame
-                    toggleButton.BackgroundColor3 = Color3.fromRGB(77, 77, 77)
+                    toggleButton.BackgroundColor3 = Color3.fromRGB(100, 100, 100)
                     toggleButton.BorderSizePixel = 0
                     toggleButton.AnchorPoint = Vector2.new(0.5, 0.5)
                     toggleButton.Position = UDim2.new(0.25, 0, 0.5, 0)
@@ -559,7 +540,7 @@ function Library:Window(options)
 
                     Slider.Name = "Slider"
                     Slider.Parent = sectionFrame
-                    Slider.BackgroundColor3 = Color3.fromRGB(157, 171, 182)
+                    Slider.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
                     Slider.BackgroundTransparency = 1.000
                     Slider.Position = UDim2.new(0.0395348854, 0, 0.947335422, 0)
                     Slider.Size = UDim2.new(0, 200, 0, 22)
@@ -567,13 +548,13 @@ function Library:Window(options)
                     sliderLabel.Name = "sliderLabel"
                     sliderLabel.Parent = Slider
                     sliderLabel.AnchorPoint = Vector2.new(0.5, 0.5)
-                    sliderLabel.BackgroundColor3 = Color3.fromRGB(157, 171, 182)
+                    sliderLabel.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
                     sliderLabel.BackgroundTransparency = 1.000
                     sliderLabel.Position = UDim2.new(0.2, 0, 0.5, 0)
                     sliderLabel.Size = UDim2.new(0, 77, 0, 22)
                     sliderLabel.Font = Enum.Font.Gotham
                     sliderLabel.Text = " " .. options.text
-                    sliderLabel.TextColor3 = Color3.fromRGB(157, 171, 182)
+                    sliderLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
                     sliderLabel.TextSize = 14.000
                     sliderLabel.TextXAlignment = Enum.TextXAlignment.Left
                     sliderLabel:GetPropertyChangedSignal("TextBounds"):Connect(function()
@@ -586,7 +567,7 @@ function Library:Window(options)
 
                     sliderFrame.Name = "sliderFrame"
                     sliderFrame.Parent = sliderLabel
-                    sliderFrame.BackgroundColor3 = Color3.fromRGB(29, 87, 118)
+                    sliderFrame.BackgroundColor3 = Color3.fromRGB(20, 20, 20)
                     sliderFrame.BorderSizePixel = 0
                     sliderFrame.AnchorPoint = Vector2.new(0.5, 0.5)
                     sliderFrame.Position = UDim2.new(1.6, 0, 0.5, 0)
@@ -600,7 +581,7 @@ function Library:Window(options)
                     sliderBall.Name = "sliderBall"
                     sliderBall.Parent = sliderFrame
                     sliderBall.AnchorPoint = Vector2.new(0.5, 0.5)
-                    sliderBall.BackgroundColor3 = Color3.fromRGB(67, 136, 231)
+                    sliderBall.BackgroundColor3 = Color3.fromRGB(0, 162, 255)
                     sliderBall.BorderSizePixel = 0
                     sliderBall.Position = UDim2.new(0, 0, 0.5, 0)
                     sliderBall.Size = UDim2.new(0, 14, 0, 14)
@@ -637,22 +618,22 @@ function Library:Window(options)
 
                     sliderTextBox.Name = "sliderTextBox"
                     sliderTextBox.Parent = sliderLabel
-                    sliderTextBox.BackgroundColor3 = Color3.fromRGB(1, 7, 17)
+                    sliderTextBox.BackgroundColor3 = Color3.fromRGB(20, 20, 20)
                     sliderTextBox.AnchorPoint = Vector2.new(0.5, 0.5)
                     sliderTextBox.Position = UDim2.new(2.4, 0, 0.5, 0)
                     sliderTextBox.Size = UDim2.new(0, 31, 0, 15)
                     sliderTextBox.Font = Enum.Font.Gotham
                     sliderTextBox.Text = options.min
-                    sliderTextBox.TextColor3 = Color3.fromRGB(234, 239, 245)
+                    sliderTextBox.TextColor3 = Color3.fromRGB(255, 255, 255)
                     sliderTextBox.TextSize = 11.000
                     sliderTextBox.TextWrapped = true
 
                     sliderTextBox.Focused:Connect(function()
-                        TweenService:Create(sliderLabel, TweenInfo.new(0.06, Enum.EasingStyle.Quart, Enum.EasingDirection.In), {TextColor3 = Color3.fromRGB(234, 239, 246)}):Play()
+                        TweenService:Create(sliderLabel, TweenInfo.new(0.06, Enum.EasingStyle.Quart, Enum.EasingDirection.In), {TextColor3 = Color3.fromRGB(255, 255, 255)}):Play()
                     end)
 
                     sliderTextBox.FocusLost:Connect(function(Enter)
-                        TweenService:Create(sliderLabel, TweenInfo.new(0.06, Enum.EasingStyle.Quart, Enum.EasingDirection.In), {TextColor3 = Color3.fromRGB(157, 171, 182)}):Play()
+                        TweenService:Create(sliderLabel, TweenInfo.new(0.06, Enum.EasingStyle.Quart, Enum.EasingDirection.In), {TextColor3 = Color3.fromRGB(255, 255, 255)}):Play()
                         if Enter then
                             if sliderTextBox.Text ~= nil and sliderTextBox.Text ~= "" then
                                 if tonumber(sliderTextBox.Text) > options.max then
@@ -703,39 +684,39 @@ function Library:Window(options)
                     dropdownLabel.Size = UDim2.new(0, 105, 0, 22)
                     dropdownLabel.Font = Enum.Font.Gotham
                     dropdownLabel.Text = " " .. options.text
-                    dropdownLabel.TextColor3 = Color3.fromRGB(157, 171, 182)
+                    dropdownLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
                     dropdownLabel.TextSize = 14.000
                     dropdownLabel.TextXAlignment = Enum.TextXAlignment.Left
                     dropdownLabel.TextWrapped = true
 
                     dropdownText.Name = "dropdownText"
                     dropdownText.Parent = dropdownLabel
-                    dropdownText.BackgroundColor3 = Color3.fromRGB(2, 5, 12)
+                    dropdownText.BackgroundColor3 = Color3.fromRGB(20, 20, 20)
                     dropdownText.Position = UDim2.new(1.08571434, 0, 0.0909090936, 0)
                     dropdownText.Size = UDim2.new(0, 87, 0, 18)
                     dropdownText.Font = Enum.Font.Gotham
                     dropdownText.Text = " " .. options.default
-                    dropdownText.TextColor3 = Color3.fromRGB(234, 239, 245)
+                    dropdownText.TextColor3 = Color3.fromRGB(255, 255, 255)
                     dropdownText.TextSize = 12.000
                     dropdownText.TextXAlignment = Enum.TextXAlignment.Left
                     dropdownText.TextWrapped = true
 
                     dropdownArrow.Name = "dropdownArrow"
                     dropdownArrow.Parent = dropdownText
-                    dropdownArrow.BackgroundColor3 = Color3.fromRGB(2, 5, 12)
+                    dropdownArrow.BackgroundColor3 = Color3.fromRGB(20, 20, 20)
                     dropdownArrow.BorderSizePixel = 0
                     dropdownArrow.Position = UDim2.new(0.87356323, 0, 0.138888866, 0)
                     dropdownArrow.Size = UDim2.new(0, 11, 0, 13)
                     dropdownArrow.AutoButtonColor = false
                     dropdownArrow.Image = "rbxassetid://8008296380"
-                    dropdownArrow.ImageColor3 = Color3.fromRGB(157, 171, 182)
+                    dropdownArrow.ImageColor3 = Color3.fromRGB(255, 255, 255)
 
                     dropdownArrow.MouseButton1Click:Connect(function()
                         Dropped = not Dropped
                         if Dropped then
-                            if dropdownLabel.TextColor3 ~= Color3.fromRGB(234, 239, 245) then
+                            if dropdownLabel.TextColor3 ~= Color3.fromRGB(255, 255, 255) then
                                 TweenService:Create(dropdownLabel, TweenInfo.new(0.06, Enum.EasingStyle.Quad, Enum.EasingDirection.In), {
-                                    TextColor3 = Color3.fromRGB(234, 239, 246)
+                                    TextColor3 = Color3.fromRGB(255, 255, 255)
                                 }):Play()
                             end
                             TweenService:Create(dropdownList, TweenInfo.new(0.06, Enum.EasingStyle.Quad, Enum.EasingDirection.In), {
@@ -745,9 +726,9 @@ function Library:Window(options)
                                 BorderSizePixel = 1
                             }):Play()
                         elseif not Dropped then
-                            if dropdownLabel.TextColor3 ~= Color3.fromRGB(157, 171, 182) then
+                            if dropdownLabel.TextColor3 ~= Color3.fromRGB(255, 255, 255) then
                                 TweenService:Create(dropdownLabel, TweenInfo.new(0.12, Enum.EasingStyle.Quad, Enum.EasingDirection.In), {
-                                    TextColor3 = Color3.fromRGB(157, 171, 182)
+                                    TextColor3 = Color3.fromRGB(255, 255, 255)
                                 }):Play()
                             end
                             TweenService:Create(dropdownList, TweenInfo.new(0.06, Enum.EasingStyle.Quad, Enum.EasingDirection.In), {
@@ -761,7 +742,7 @@ function Library:Window(options)
 
                     dropdownList.Name = "dropdownList"
                     dropdownList.Parent = dropdownText
-                    dropdownList.BackgroundColor3 = Color3.fromRGB(2, 5, 12)
+                    dropdownList.BackgroundColor3 = Color3.fromRGB(20, 20, 20)
                     dropdownList.Position = UDim2.new(0, 0, 1, 0)
                     dropdownList.Size = UDim2.new(0, 87, 0, 0)
                     dropdownList.ClipsDescendants = true
@@ -779,14 +760,14 @@ function Library:Window(options)
 
                         dropdownBtn.Name = "dropdownBtn"
                         dropdownBtn.Parent = dropdownList
-                        dropdownBtn.BackgroundColor3 = Color3.fromRGB(234, 239, 245)
+                        dropdownBtn.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
                         dropdownBtn.BackgroundTransparency = 1.000
                         dropdownBtn.BorderSizePixel = 0
                         dropdownBtn.Position = UDim2.new(-0.0110929646, 0, 0.0305557251, 0)
                         dropdownBtn.Size = UDim2.new(0, 87, 0, 18)
                         dropdownBtn.AutoButtonColor = false
                         dropdownBtn.Font = Enum.Font.Gotham
-                        dropdownBtn.TextColor3 = Color3.fromRGB(234, 239, 245)
+                        dropdownBtn.TextColor3 = Color3.fromRGB(255, 255, 255)
                         dropdownBtn.TextSize = 12.000
                         dropdownBtn.Text = v
                         dropdownBtn.ZIndex = 15
@@ -822,36 +803,37 @@ function Library:Window(options)
                     textBoxLabel.Name = "textBoxLabel"
                     textBoxLabel.Parent = Textbox
                     textBoxLabel.AnchorPoint = Vector2.new(0.5, 0.5)
-                    textBoxLabel.BackgroundColor3 = Color3.fromRGB(157, 171, 182)
+                    textBoxLabel.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
                     textBoxLabel.BackgroundTransparency = 1.000
                     textBoxLabel.Position = UDim2.new(0.237000003, 0, 0.5, 0)
                     textBoxLabel.Size = UDim2.new(0, 99, 0, 22)
                     textBoxLabel.Font = Enum.Font.Gotham
                     textBoxLabel.Text = "  " .. options.text
-                    textBoxLabel.TextColor3 = Color3.fromRGB(157, 171, 182)
+                    textBoxLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
                     textBoxLabel.TextSize = 14.000
                     textBoxLabel.TextXAlignment = Enum.TextXAlignment.Left
 
                     textBox.Name = "textBox"
                     textBox.Parent = Textbox
                     textBox.AnchorPoint = Vector2.new(0.5, 0.5)
-                    textBox.BackgroundColor3 = Color3.fromRGB(1, 7, 17)
+                    textBox.BackgroundColor3 = Color3.fromRGB(20, 20, 20)
                     textBox.Position = UDim2.new(0.850000024, 0, 0.5, 0)
                     textBox.Size = UDim2.new(0, 53, 0, 15)
                     textBox.Font = Enum.Font.Gotham
                     textBox.Text = options.value
-                    textBox.TextColor3 = Color3.fromRGB(234, 239, 245)
+                    textBox.TextColor3 = Color3.fromRGB(255, 255, 255)
+                    textBox.PlaceholderColor3 = Color3.fromRGB(255, 255, 255)
                     textBox.TextSize = 11.000
                     textBox.TextWrapped = true
 
                     Resize(25)
 
                     textBox.Focused:Connect(function()
-                        TweenService:Create(textBoxLabel, TweenInfo.new(0.06, Enum.EasingStyle.Quad, Enum.EasingDirection.In), {TextColor3 = Color3.fromRGB(234, 239, 246)}):Play()
+                        TweenService:Create(textBoxLabel, TweenInfo.new(0.06, Enum.EasingStyle.Quad, Enum.EasingDirection.In), {TextColor3 = Color3.fromRGB(255, 255, 255)}):Play()
                     end)
 
                     textBox.FocusLost:Connect(function(Enter)
-                        TweenService:Create(textBoxLabel, TweenInfo.new(0.06, Enum.EasingStyle.Quad, Enum.EasingDirection.In), {TextColor3 = Color3.fromRGB(157, 171, 182)}):Play()
+                        TweenService:Create(textBoxLabel, TweenInfo.new(0.06, Enum.EasingStyle.Quad, Enum.EasingDirection.In), {TextColor3 = Color3.fromRGB(255, 255, 255)}):Play()
                         if Enter then
                             if textBox.Text ~= nil and textBox.Text ~= "" then
                                 options.callback(textBox.Text)
@@ -892,13 +874,13 @@ function Library:Window(options)
                     colorpickerLabel.Name = "colorpickerLabel"
                     colorpickerLabel.Parent = Colorpicker
                     colorpickerLabel.AnchorPoint = Vector2.new(0.5, 0.5)
-                    colorpickerLabel.BackgroundColor3 = Color3.fromRGB(157, 171, 182)
+                    colorpickerLabel.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
                     colorpickerLabel.BackgroundTransparency = 1.000
                     colorpickerLabel.Position = UDim2.new(0.5, 0, 0.5, 0)
                     colorpickerLabel.Size = UDim2.new(0, 200, 0, 22)
                     colorpickerLabel.Font = Enum.Font.Gotham
                     colorpickerLabel.Text = " " .. options.text
-                    colorpickerLabel.TextColor3 = Color3.fromRGB(157, 171, 182)
+                    colorpickerLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
                     colorpickerLabel.TextSize = 14.000
                     colorpickerLabel.TextXAlignment = Enum.TextXAlignment.Left
 
@@ -915,14 +897,14 @@ function Library:Window(options)
                         colorpickerFrame.Visible = not colorpickerFrame.Visible
                         vis = not vis
                         TweenService:Create(colorpickerLabel, TweenInfo.new(0.06, Enum.EasingStyle.Quart, Enum.EasingDirection.InOut), {
-                            TextColor3 = vis and Color3.fromRGB(234, 239, 246) or Color3.fromRGB(157, 171, 182)
+                            TextColor3 = vis and Color3.fromRGB(255, 255, 255) or Color3.fromRGB(255, 255, 255)
                         }):Play()
                     end)
 
                     colorpickerFrame.Name = "colorpickerFrame"
                     colorpickerFrame.Parent = Colorpicker
                     colorpickerFrame.Visible = false
-                    colorpickerFrame.BackgroundColor3 = Color3.fromRGB(0, 10, 21)
+                    colorpickerFrame.BackgroundColor3 = Color3.fromRGB(20, 20, 20)
                     colorpickerFrame.Position = UDim2.new(1.15, 0, 0.5, 0)
                     colorpickerFrame.Size = UDim2.new(0, 251, 0, 221)
                     colorpickerFrame.ZIndex = 15
@@ -943,7 +925,7 @@ function Library:Window(options)
                     RGBCircle.Parent = RGB
                     RGBCircle.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
                     RGBCircle.BackgroundTransparency = 1.000
-                    RGBCircle.BorderColor3 = Color3.fromRGB(27, 42, 53)
+                    RGBCircle.BorderColor3 = Color3.fromRGB(20, 20, 20)
                     RGBCircle.BorderSizePixel = 0
                     RGBCircle.Size = UDim2.new(0, 14, 0, 14)
                     RGBCircle.Image = "rbxassetid://3926309567"
@@ -971,23 +953,23 @@ function Library:Window(options)
 
                     colorHex.Name = "colorHex"
                     colorHex.Parent = colorpickerFrame
-                    colorHex.BackgroundColor3 = Color3.fromRGB(9, 8, 13)
+                    colorHex.BackgroundColor3 = Color3.fromRGB(20, 20, 20)
                     colorHex.Position = UDim2.new(0.0717131495, 0, 0.850678742, 0)
                     colorHex.Size = UDim2.new(0, 94, 0, 24)
                     colorHex.Font = Enum.Font.GothamSemibold
                     colorHex.Text = "#FFFFFF"
-                    colorHex.TextColor3 = Color3.fromRGB(234, 239, 245)
+                    colorHex.TextColor3 = Color3.fromRGB(255, 255, 255)
                     colorHex.TextSize = 14.000
                     colorHex.ZIndex = 16
 
                     Copy.Parent = colorpickerFrame
-                    Copy.BackgroundColor3 = Color3.fromRGB(9, 8, 13)
+                    Copy.BackgroundColor3 = Color3.fromRGB(20, 20, 20)
                     Copy.Position = UDim2.new(0.72111553, 0, 0.850678742, 0)
                     Copy.Size = UDim2.new(0, 60, 0, 24)
                     Copy.AutoButtonColor = false
                     Copy.Font = Enum.Font.GothamSemibold
                     Copy.Text = "Copy"
-                    Copy.TextColor3 = Color3.fromRGB(234, 239, 245)
+                    Copy.TextColor3 = Color3.fromRGB(255, 255, 255)
                     Copy.TextSize = 14.000
                     Copy.ZIndex = 16
                     Resize(25)
@@ -1178,33 +1160,33 @@ function Library:Window(options)
                     keybindButton.AutoButtonColor = false
                     keybindButton.Font = Enum.Font.Gotham
                     keybindButton.Text = " " .. options.text
-                    keybindButton.TextColor3 = Color3.fromRGB(157, 171, 182)
+                    keybindButton.TextColor3 = Color3.fromRGB(255, 255, 255)
                     keybindButton.TextSize = 14.000
                     keybindButton.TextXAlignment = Enum.TextXAlignment.Left
                     keybindButton.MouseButton1Click:Connect(function()
                         keybindLabel.Text = "... "
                         TweenService:Create(keybindButton, TweenInfo.new(0.06, Enum.EasingStyle.Quad, Enum.EasingDirection.In), {
-                            TextColor3 = Color3.fromRGB(234, 239, 246)
+                            TextColor3 = Color3.fromRGB(255, 255, 255)
                         }):Play()
                         TweenService:Create(keybindLabel, TweenInfo.new(0.06, Enum.EasingStyle.Quad, Enum.EasingDirection.In), {
-                            TextColor3 = Color3.fromRGB(234, 239, 246)
+                            TextColor3 = Color3.fromRGB(255, 255, 255)
                         }):Play()
                         local inputbegan = game:GetService("UserInputService").InputBegan:wait()
                         if not blacklisted[inputbegan.KeyCode.Name] then
                             TweenService:Create(keybindLabel, TweenInfo.new(0.06, Enum.EasingStyle.Quad, Enum.EasingDirection.In), {
-                                TextColor3 = Color3.fromRGB(157, 171, 182)
+                                TextColor3 = Color3.fromRGB(255, 255, 255)
                             }):Play()
                             TweenService:Create(keybindButton, TweenInfo.new(0.06, Enum.EasingStyle.Quad, Enum.EasingDirection.In), {
-                                TextColor3 = Color3.fromRGB(157, 171, 182)
+                                TextColor3 = Color3.fromRGB(255, 255, 255)
                             }):Play()
                             keybindLabel.Text = short[inputbegan.KeyCode.Name] or inputbegan.KeyCode.Name
                             oldKey = inputbegan.KeyCode.Name
                         else
                             TweenService:Create(keybindButton, TweenInfo.new(0.06, Enum.EasingStyle.Quad, Enum.EasingDirection.In), {
-                                TextColor3 = Color3.fromRGB(157, 171, 182)
+                                TextColor3 = Color3.fromRGB(255, 255, 255)
                             }):Play()
                             TweenService:Create(keybindLabel, TweenInfo.new(0.06, Enum.EasingStyle.Quad, Enum.EasingDirection.In), {
-                                TextColor3 = Color3.fromRGB(157, 171, 182)
+                                TextColor3 = Color3.fromRGB(255, 255, 255)
                             }):Play()
                             keybindLabel.Text = short[oldKey] or oldKey
                         end
@@ -1221,13 +1203,13 @@ function Library:Window(options)
                     keybindLabel.Name = "keybindLabel"
                     keybindLabel.Parent = keybindButton
                     keybindLabel.AnchorPoint = Vector2.new(0.5, 0.5)
-                    keybindLabel.BackgroundColor3 = Color3.fromRGB(157, 171, 182)
+                    keybindLabel.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
                     keybindLabel.BackgroundTransparency = 1.000
                     keybindLabel.Position = UDim2.new(0.910000026, 0, 0.5, 0)
                     keybindLabel.Size = UDim2.new(0, 36, 0, 22)
                     keybindLabel.Font = Enum.Font.Gotham
                     keybindLabel.Text = oldKey .. " "
-                    keybindLabel.TextColor3 = Color3.fromRGB(157, 171, 182)
+                    keybindLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
                     keybindLabel.TextSize = 14.000
                     keybindLabel.TextXAlignment = Enum.TextXAlignment.Right
                 end
