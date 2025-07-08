@@ -115,7 +115,6 @@ function Library:Window(options)
     local TopBar = Instance.new("Frame")
     local tbLine = Instance.new("Frame")
     local Title = Instance.new("TextLabel")
-    local SubTitle = Instance.new("TextLabel")
 
     local allPages = Instance.new("Frame")
     local tabContainer = Instance.new("Frame")
@@ -184,20 +183,7 @@ function Library:Window(options)
     Title.TextColor3 = Color3.fromRGB(255, 255, 255)
     Title.TextSize = 22.000
     Title.TextWrapped = true
-
-    SubTitle.Name = "SubTitle"
-    SubTitle.Parent = SideBar
-    SubTitle.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-    SubTitle.BackgroundTransparency = 1.000
-    SubTitle.BorderSizePixel = 0
-    SubTitle.Position = UDim2.new(0.0614973232, 0, 0.0713178284, 0)
-    SubTitle.Size = UDim2.new(0, 180, 0, 16)
-    SubTitle.Font = Enum.Font.Arial
-    SubTitle.Text = options.subtext
-    SubTitle.TextColor3 = Color3.fromRGB(200, 200, 200)
-    SubTitle.TextSize = 14.000
-    SubTitle.TextWrapped = true
-
+    
     allPages.Name = "allPages"
     allPages.Parent = Body
     allPages.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
