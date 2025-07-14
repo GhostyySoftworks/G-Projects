@@ -25,11 +25,11 @@ if TextChatService.ChatVersion == Enum.ChatVersion.TextChatService then
     end
 
     if _G.GhostyyACLLoaded then
-        showNotification("Ghostyy ACL", "Anti Chat & Screenshot Logger already loaded!", "rbxassetid://2541869220")
+        showNotification("Ghostyy ACL", "Anti Chat & Screenshot Logger already loaded!", "rbxassetid://2541869220")
         return
     end
     _G.GhostyyACLLoaded = true
-    showNotification("Ghostyy ACL", string.format("Anti Chat & Screenshot Logger Loaded in %.2fs!", tick() - startTime), "rbxassetid://2541869220")
+    showNotification("Ghostyy ACL", string.format("Anti Chat & Screenshot Logger Loaded in %.2fs!", tick() - startTime), "rbxassetid://2541869220")
 
     if setfflag then
         pcall(function()
@@ -188,7 +188,12 @@ if TextChatService.ChatVersion == Enum.ChatVersion.TextChatService then
     task.spawn(function()
         local function suppressEmoteError(obj)
             if obj:IsA("TextLabel") and obj.Text:lower():find("you do not own that emote") then
-                obj:Destroy()
+                local fullPath = obj:GetFullName()
+                if fullPath:find("Chat") or fullPath:find("TextChannel") or fullPath:find("Message") then
+                    return
+                end
+                obj.Text = ""
+                obj.Visible = false
             end
         end
         for _, obj in pairs(CoreGui:GetDescendants()) do
