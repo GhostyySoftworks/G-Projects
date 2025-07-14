@@ -188,8 +188,7 @@ if TextChatService.ChatVersion == Enum.ChatVersion.TextChatService then
     task.spawn(function()
         local function suppressEmoteError(obj)
             if obj:IsA("TextLabel") and obj.Text:lower():find("you do not own that emote") then
-                local parent = obj:FindFirstAncestor("TextMessage")
-                if parent then parent:Destroy() else obj:Destroy() end
+                obj:Destroy()
             end
         end
         for _, obj in pairs(CoreGui:GetDescendants()) do
