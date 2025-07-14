@@ -1,6 +1,7 @@
 if not game:IsLoaded() then
     game.Loaded:Wait()
 end
+
 local Players = game:GetService("Players")
 local TextChatService = game:GetService("TextChatService")
 local RunService = game:GetService("RunService")
@@ -41,10 +42,9 @@ if TextChatService.ChatVersion == Enum.ChatVersion.TextChatService then
         pcall(function()
             setfflag("AbuseReportScreenshot", "False")
             setfflag("AbuseReportScreenshotPercentage", "0")
-        end) --anti screenshot logger
+        end)
     end
 
-    --anti chat logger code
     local channel = TextChatService.TextChannels:FindFirstChild("RBXGeneral")
     local spamText = "/e abc"
     local isPlayingEmote = false
@@ -54,6 +54,12 @@ if TextChatService.ChatVersion == Enum.ChatVersion.TextChatService then
     if not _G.GhostyysACLConnections then
         _G.GhostyysACLConnections = {}
     end
+
+    local emoteErrorMessages = {
+        '<font color="#f74b52">You can\'t use Emotes here.</font>',
+        '<font color="#f74b52"><font color=\'#00FF00\'>You do not own that emote.</font></font>',
+        'You do not own that emote.'
+    }
 
     local function checkCharacterType()
         local char = lp.Character
@@ -87,13 +93,8 @@ if TextChatService.ChatVersion == Enum.ChatVersion.TextChatService then
         if not char then return false end
         local animate = char:FindFirstChild("Animate")
         if not animate then return false end
-        
         local animId = animationTrack.Animation.AnimationId
-        
-        local defaultAnimations = {
-            "idle", "walk", "run", "jump", "fall", "climb", "sit", "swimidle", "swim"
-        }
-        
+        local defaultAnimations = {"idle", "walk", "run", "jump", "fall", "climb", "sit", "swimidle", "swim"}
         for _, animType in pairs(defaultAnimations) do
             local animFolder = animate:FindFirstChild(animType)
             if animFolder then
@@ -104,7 +105,6 @@ if TextChatService.ChatVersion == Enum.ChatVersion.TextChatService then
                 end
             end
         end
-        
         local toolFolder = animate:FindFirstChild("toolnone")
         if toolFolder then
             for _, child in pairs(toolFolder:GetChildren()) do
@@ -113,7 +113,6 @@ if TextChatService.ChatVersion == Enum.ChatVersion.TextChatService then
                 end
             end
         end
-        
         return true
     end
 
@@ -124,7 +123,6 @@ if TextChatService.ChatVersion == Enum.ChatVersion.TextChatService then
                 if isEmoteAnimation(animationTrack) then
                     isPlayingEmote = true
                     useTextMethod = true
-                    
                     animationTrack.Stopped:Connect(function()
                         isPlayingEmote = false
                         useTextMethod = false
@@ -196,7 +194,6 @@ if TextChatService.ChatVersion == Enum.ChatVersion.TextChatService then
             local connection = chatBar.FocusLost:Connect(function(enterPressed)
                 if enterPressed then
                     local message = chatBar.Text
-                    
                     if useTextMethod then
                         chatBar.Text = ""
                         if message and message ~= "" then
@@ -218,21 +215,17 @@ if TextChatService.ChatVersion == Enum.ChatVersion.TextChatService then
                 end
                 return nil
             end
-            
             ChatBar = findChatBar()
-            
             if ChatBar then
                 local success, err = pcall(function()
                     for _, c in pairs(getconnections(ChatBar.FocusLost)) do
                         c:Disconnect()
                     end
                 end)
-                
                 local connection = ChatBar.FocusLost:Connect(function(enterPressed)
                     if enterPressed then
                         local message = ChatBar.Text
                         ChatBar.Text = ""
-                        
                         if message and message ~= "" then
                             local modifiedMessage = AntiChatLog(message)
                             local Channel = TextChatService.TextChannels:FindFirstChild("RBXGeneral")
@@ -284,23 +277,46 @@ if TextChatService.ChatVersion == Enum.ChatVersion.TextChatService then
     end)
 
     task.spawn(function()
-        local emoteErr = '<font color="#f74b52">You can\'t use Emotes here.</font>'
         local function onDescendantAdded(obj)
             if not _G.GhostyysACLLoaded then return end
-            if obj:IsA("TextLabel") and obj.Text == emoteErr then
-                if hasCharacterWithHumanoid and not useTextMethod then
-                    local msg = obj:FindFirstAncestor("TextMessage")
-                    if msg then
-                        msg:Destroy()
+            if obj:IsA("TextLabel") then
+                for _, errorMsg in pairs(emoteErrorMessages) do
+                    if string.find(obj.Text, errorMsg) then
+                        if hasCharacterWithHumanoid and not useTextMethod then
+                            local msg = obj:FindFirstAncestorWhichIsA("TextMessage") or obj:FindFirstAncestorWhichIsA("TextLabel")
+                            if msg then
+                                msg:Destroy()
+                            end
+                        end
+                        break
                     end
                 end
             end
         end
 
-        for _, obj in ipairs(CoreGui:GetDescendants()) do
-            onDescendantAdded(obj)
+        local function scanExistingMessages()
+            local chatWindow = CoreGui:FindFirstChild("ExperienceChat") and CoreGui.ExperienceChat:FindFirstChild("appLayout") and CoreGui.ExperienceChat.appLayout:FindFirstChild("chatWindow")
+            if chatWindow then
+                local scrollingView = chatWindow:FindFirstChild("scrollingview") or chatWindow:FindFirstChild("ScrollingFrame")
+                if scrollingView then
+                    local scrollContent = scrollingView:FindFirstChild("bottomlockedscrollview") or scrollingView:FindFirstChild("RCTScrollView") or scrollingView:FindFirstChild("RTCScrollContentView") or scrollingView:FindFirstChildWhichIsA("Frame")
+                    if scrollContent then
+                        for _, child in ipairs(scrollContent:GetDescendants()) do
+                            if child:IsA("TextLabel") then
+                                onDescendantAdded(child)
+                            end
+                        end
+                    end
+                end
+            end
         end
+
+        scanExistingMessages()
         CoreGui.DescendantAdded:Connect(onDescendantAdded)
+        while _G.GhostyysACLLoaded do
+            task.wait(5)
+            scanExistingMessages()
+        end
     end)
 else
     if not pcall(function()
