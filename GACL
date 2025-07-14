@@ -28,38 +28,26 @@ if TextChatService.ChatVersion == Enum.ChatVersion.TextChatService then
     end
 
     if _G.GhostyysACLLoaded then
-        showNotification("Ghostyys ACL", "Anti Chat & Screenshot Logger already loaded!", "rbxassetid://2541869220")
+        showNotification("Ghostyys ACL", "Anti Chat & Screenshot Logger already loaded!", "rbxassetid://2541869220")
         print("Anti Chat Logger already loaded!")
         return
     end
     _G.GhostyysACLLoaded = true
 
-    showNotification("Ghostyys ACL", string.format("Anti Chat & Screenshot Logger Loaded in %.2fs!", tick() - startTime), "rbxassetid://2541869220")
+    showNotification("Ghostyys ACL", string.format("Anti Chat & Screenshot Logger Loaded in %.2fs!", tick() - startTime), "rbxassetid://2541869220")
     print(string.format("Semi Anti Chat Logger successfully loaded in %.2f seconds!", tick() - startTime))
 
     if setfflag then
         pcall(function()
             setfflag("AbuseReportScreenshot", "False")
             setfflag("AbuseReportScreenshotPercentage", "0")
-        end)
+        end) --anti screenshot logger
     end
 
+    --anti chat logger code
     local channel = TextChatService.TextChannels:FindFirstChild("RBXGeneral")
-    
-    local function getRandomSpamText(length)
-        local chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
-        local result = {}
-        for i = 1, length do
-            local rand = math.random(1, #chars)
-            table.insert(result, chars:sub(rand, rand))
-        end
-        return table.concat(result)
-    end
-
-    local function spamText()
-        return "/e " .. getRandomSpamText(6)
-    end
-    
+    local spamText = "/e abc"
+    local isPlayingEmote = false
     local useTextMethod = false
     local hasCharacterWithHumanoid = false
 
@@ -74,6 +62,24 @@ if TextChatService.ChatVersion == Enum.ChatVersion.TextChatService then
         else
             hasCharacterWithHumanoid = false
         end
+    end
+
+    local function getIdleAnimationId()
+        local char = lp.Character
+        if not char then return nil end
+        local animate = char:FindFirstChild("Animate")
+        if not animate then return nil end
+        local idle = animate:FindFirstChild("idle")
+        if not idle then return nil end
+        local idleAnim1 = idle:FindFirstChild("Animation1")
+        if idleAnim1 and idleAnim1:IsA("Animation") then
+            return idleAnim1.AnimationId
+        end
+        local idleAnim2 = idle:FindFirstChild("Animation2")
+        if idleAnim2 and idleAnim2:IsA("Animation") then
+            return idleAnim2.AnimationId
+        end
+        return nil
     end
 
     local function isEmoteAnimation(animationTrack)
@@ -116,9 +122,11 @@ if TextChatService.ChatVersion == Enum.ChatVersion.TextChatService then
         if humanoid then
             humanoid.AnimationPlayed:Connect(function(animationTrack)
                 if isEmoteAnimation(animationTrack) then
+                    isPlayingEmote = true
                     useTextMethod = true
                     
                     animationTrack.Stopped:Connect(function()
+                        isPlayingEmote = false
                         useTextMethod = false
                     end)
                 end
@@ -128,6 +136,7 @@ if TextChatService.ChatVersion == Enum.ChatVersion.TextChatService then
 
     lp.CharacterAdded:Connect(function(character)
         checkCharacterType()
+        isPlayingEmote = false
         useTextMethod = false
         setupEmoteDetection(character)
     end)
@@ -136,6 +145,28 @@ if TextChatService.ChatVersion == Enum.ChatVersion.TextChatService then
         checkCharacterType()
         setupEmoteDetection(lp.Character)
     end
+
+    task.spawn(function()
+        while _G.GhostyysACLLoaded do
+            if hasCharacterWithHumanoid and not useTextMethod then
+                pcall(function()
+                    local char = lp.Character
+                    if not char then return end
+                    local animate = char:FindFirstChild("Animate")
+                    if not animate then return end
+                    local cheer = animate:FindFirstChild("cheer")
+                    if not cheer then return end
+                    local cheerAnim = cheer:FindFirstChild("CheerAnim")
+                    if not cheerAnim or not cheerAnim:IsA("Animation") then return end
+                    local idleAnimId = getIdleAnimationId()
+                    if idleAnimId and cheerAnim.AnimationId ~= idleAnimId then
+                        cheerAnim.AnimationId = idleAnimId
+                    end
+                end)
+            end
+            task.wait(0.1)
+        end
+    end)
 
     local function AntiChatLog(message)
         if message:sub(1, 1) == "/" then
@@ -224,7 +255,7 @@ if TextChatService.ChatVersion == Enum.ChatVersion.TextChatService then
         if not hasCharacterWithHumanoid or useTextMethod then return end
         pcall(function()
             if channel then
-                channel:SendAsync(spamText())
+                channel:SendAsync(spamText)
             end
         end)
     end)
@@ -234,7 +265,7 @@ if TextChatService.ChatVersion == Enum.ChatVersion.TextChatService then
         if not hasCharacterWithHumanoid or useTextMethod then return end
         pcall(function()
             if channel then
-                channel:SendAsync(spamText())
+                channel:SendAsync(spamText)
             end
         end)
     end)
@@ -245,7 +276,7 @@ if TextChatService.ChatVersion == Enum.ChatVersion.TextChatService then
         while _G.GhostyysACLLoaded do
             if hasCharacterWithHumanoid and sayRemote and not useTextMethod then
                 pcall(function()
-                    sayRemote:FireServer(spamText(), "All")
+                    sayRemote:FireServer(spamText, "All")
                 end)
             end
             task.wait(0.04)
@@ -253,20 +284,23 @@ if TextChatService.ChatVersion == Enum.ChatVersion.TextChatService then
     end)
 
     task.spawn(function()
-        local function suppressEmoteError(obj)
-            if obj:IsA("TextLabel") and obj.Text and string.find(obj.Text:lower(), "you do not own that emote") then
-                local parent = obj.Parent
-                if parent and (parent:IsA("Frame") or parent:IsA("TextButton")) then
-                    obj.Text = ""
-                    obj.Visible = false
-                    parent.Visible = false
+        local emoteErr = '<font color="#f74b52">You can\'t use Emotes here.</font>'
+        local function onDescendantAdded(obj)
+            if not _G.GhostyysACLLoaded then return end
+            if obj:IsA("TextLabel") and obj.Text == emoteErr then
+                if hasCharacterWithHumanoid and not useTextMethod then
+                    local msg = obj:FindFirstAncestor("TextMessage")
+                    if msg then
+                        msg:Destroy()
+                    end
                 end
             end
         end
-        CoreGui.DescendantAdded:Connect(suppressEmoteError)
-        for _, descendant in pairs(CoreGui:GetDescendants()) do
-            suppressEmoteError(descendant)
+
+        for _, obj in ipairs(CoreGui:GetDescendants()) do
+            onDescendantAdded(obj)
         end
+        CoreGui.DescendantAdded:Connect(onDescendantAdded)
     end)
 else
     if not pcall(function()
