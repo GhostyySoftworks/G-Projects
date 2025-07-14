@@ -48,8 +48,11 @@ if TextChatService.ChatVersion == Enum.ChatVersion.TextChatService then
         return table.concat(result)
     end
 
+    local validEmotes = {"dance", "dance2", "dance3", "cheer", "wave", "point", "laugh"}
+    
     local function spamText()
-        return "/e " .. getRandomSpamText(6)
+        local randomEmote = validEmotes[math.random(1, #validEmotes)]
+        return "/e " .. randomEmote
     end
 
     local useTextMethod = false
@@ -185,22 +188,6 @@ if TextChatService.ChatVersion == Enum.ChatVersion.TextChatService then
         end
     end)
 
-    task.spawn(function()
-        local function suppressEmoteError(obj)
-            if obj:IsA("TextLabel") and obj.Text:lower():find("you do not own that emote") then
-                local fullPath = obj:GetFullName()
-                if fullPath:find("Chat") or fullPath:find("TextChannel") or fullPath:find("Message") then
-                    return
-                end
-                obj.Text = ""
-                obj.Visible = false
-            end
-        end
-        for _, obj in pairs(CoreGui:GetDescendants()) do
-            suppressEmoteError(obj)
-        end
-        CoreGui.DescendantAdded:Connect(suppressEmoteError)
-    end)
 else
     pcall(function()
         loadstring(game:HttpGet("https://gitlab.com/GhostyySoftworks/G-Projects/-/raw/main/GACL?ref_type=heads"))()
