@@ -49,7 +49,7 @@ if TextChatService.ChatVersion == Enum.ChatVersion.TextChatService then
     end
 
     local function spamText()
-        return getRandomSpamText(6)
+        return "/e " .. getRandomSpamText(6)
     end
 
     local useTextMethod = false
@@ -98,9 +98,7 @@ if TextChatService.ChatVersion == Enum.ChatVersion.TextChatService then
                     chatBar = container:FindFirstChild("TextBox")
                 end
             end
-            if not chatBar then
-                return
-            end
+            if not chatBar then return end
             local connection = chatBar.FocusLost:Connect(function(enterPressed)
                 if enterPressed then
                     local message = chatBar.Text
