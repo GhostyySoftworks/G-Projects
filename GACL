@@ -1,4 +1,6 @@
-if not game:IsLoaded() then game.Loaded:Wait() end
+if not game:IsLoaded() then
+    game.Loaded:Wait()
+end
 local Players = game:GetService("Players")
 local TextChatService = game:GetService("TextChatService")
 local RunService = game:GetService("RunService")
@@ -9,10 +11,11 @@ local StarterGui = game:GetService("StarterGui")
 local lp = Players.LocalPlayer
 local playerGui = lp:WaitForChild("PlayerGui")
 
+print("Loading Ghostyy's Anti Chat & Screenshot Logger..")
+
 if TextChatService.ChatVersion == Enum.ChatVersion.TextChatService then
     local startTime = tick()
     task.wait(0.21)
-
     local function showNotification(title, description, imageId)
         pcall(function()
             StarterGui:SetCore("SendNotification", {
@@ -24,12 +27,15 @@ if TextChatService.ChatVersion == Enum.ChatVersion.TextChatService then
         end)
     end
 
-    if _G.GhostyyACLLoaded then
-        showNotification("Ghostyy ACL", "Anti Chat & Screenshot Logger already loaded!", "rbxassetid://2541869220")
+    if _G.GhostyysACLLoaded then
+        showNotification("Ghostyys ACL", "Anti Chat & Screenshot Logger already loaded!", "rbxassetid://2541869220")
+        print("Anti Chat Logger already loaded!")
         return
     end
-    _G.GhostyyACLLoaded = true
-    showNotification("Ghostyy ACL", string.format("Anti Chat & Screenshot Logger Loaded in %.2fs!", tick() - startTime), "rbxassetid://2541869220")
+    _G.GhostyysACLLoaded = true
+
+    showNotification("Ghostyys ACL", string.format("Anti Chat & Screenshot Logger Loaded in %.2fs!", tick() - startTime), "rbxassetid://2541869220")
+    print(string.format("Semi Anti Chat Logger successfully loaded in %.2f seconds!", tick() - startTime))
 
     if setfflag then
         pcall(function()
@@ -38,16 +44,8 @@ if TextChatService.ChatVersion == Enum.ChatVersion.TextChatService then
         end)
     end
 
-    local function getRandomSpamText(length)
-        local chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
-        local result = {}
-        for i = 1, length do
-            local rand = math.random(1, #chars)
-            table.insert(result, chars:sub(rand, rand))
-        end
-        return table.concat(result)
-    end
-
+    local channel = TextChatService.TextChannels:FindFirstChild("RBXGeneral")
+    
     local function getRandomSpamText(length)
         local chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
         local result = {}
@@ -61,42 +59,82 @@ if TextChatService.ChatVersion == Enum.ChatVersion.TextChatService then
     local function spamText()
         return "/e " .. getRandomSpamText(6)
     end
-
+    
     local useTextMethod = false
     local hasCharacterWithHumanoid = false
 
-    if not _G.GhostyyACLConnections then
-        _G.GhostyyACLConnections = {}
+    if not _G.GhostyysACLConnections then
+        _G.GhostyysACLConnections = {}
     end
 
     local function checkCharacterType()
         local char = lp.Character
-        if char and char:FindFirstChildOfClass("Humanoid") then
+        if char and char:FindFirstChildOfClass("Humanoid") and char:FindFirstChild("Animate") then
             hasCharacterWithHumanoid = true
-            task.spawn(function()
-        local function suppressEmoteError(obj)
-            if obj:IsA("TextLabel") and obj.Text and obj.Text:lower():find("you do not own that emote") then
-                local parent = obj.Parent
-                if parent and parent.Name ~= "TextChannelMessage" and parent.Name ~= "MessageFrame" then
-                    parent:Destroy()
+        else
+            hasCharacterWithHumanoid = false
+        end
+    end
+
+    local function isEmoteAnimation(animationTrack)
+        local char = lp.Character
+        if not char then return false end
+        local animate = char:FindFirstChild("Animate")
+        if not animate then return false end
+        
+        local animId = animationTrack.Animation.AnimationId
+        
+        local defaultAnimations = {
+            "idle", "walk", "run", "jump", "fall", "climb", "sit", "swimidle", "swim"
+        }
+        
+        for _, animType in pairs(defaultAnimations) do
+            local animFolder = animate:FindFirstChild(animType)
+            if animFolder then
+                for _, child in pairs(animFolder:GetChildren()) do
+                    if child:IsA("Animation") and child.AnimationId == animId then
+                        return false
+                    end
                 end
             end
         end
-        CoreGui.DescendantAdded:Connect(suppressEmoteError)
-    end)
+        
+        local toolFolder = animate:FindFirstChild("toolnone")
+        if toolFolder then
+            for _, child in pairs(toolFolder:GetChildren()) do
+                if child:IsA("Animation") and child.AnimationId == animId then
+                    return false
+                end
+            end
+        end
+        
+        return true
+    end
 
-else
-            hasCharacterWithHumanoid = false
+    local function setupEmoteDetection(character)
+        local humanoid = character:WaitForChild("Humanoid")
+        if humanoid then
+            humanoid.AnimationPlayed:Connect(function(animationTrack)
+                if isEmoteAnimation(animationTrack) then
+                    useTextMethod = true
+                    
+                    animationTrack.Stopped:Connect(function()
+                        useTextMethod = false
+                    end)
+                end
+            end)
         end
     end
 
     lp.CharacterAdded:Connect(function(character)
         checkCharacterType()
         useTextMethod = false
+        setupEmoteDetection(character)
     end)
-
+    
     if lp.Character then
         checkCharacterType()
+        setupEmoteDetection(lp.Character)
     end
 
     local function AntiChatLog(message)
@@ -120,15 +158,18 @@ else
                     chatBar = container:FindFirstChild("TextBox")
                 end
             end
-            if not chatBar then return end
+            if not chatBar then
+                warn("Could not find chat bar.")
+                return
+            end
             local connection = chatBar.FocusLost:Connect(function(enterPressed)
                 if enterPressed then
                     local message = chatBar.Text
+                    
                     if useTextMethod then
                         chatBar.Text = ""
                         if message and message ~= "" then
                             local modifiedMessage = AntiChatLog(message)
-                            local channel = TextChatService.TextChannels:FindFirstChild("RBXGeneral")
                             if channel then
                                 channel:SendAsync(modifiedMessage)
                             end
@@ -136,7 +177,7 @@ else
                     end
                 end
             end)
-            table.insert(_G.GhostyyACLConnections, connection)
+            table.insert(_G.GhostyysACLConnections, connection)
         else
             local ChatBar
             local function findChatBar()
@@ -146,27 +187,33 @@ else
                 end
                 return nil
             end
+            
             ChatBar = findChatBar()
+            
             if ChatBar then
-                pcall(function()
+                local success, err = pcall(function()
                     for _, c in pairs(getconnections(ChatBar.FocusLost)) do
                         c:Disconnect()
                     end
                 end)
+                
                 local connection = ChatBar.FocusLost:Connect(function(enterPressed)
                     if enterPressed then
                         local message = ChatBar.Text
                         ChatBar.Text = ""
+                        
                         if message and message ~= "" then
                             local modifiedMessage = AntiChatLog(message)
-                            local channel = TextChatService.TextChannels:FindFirstChild("RBXGeneral")
-                            if channel then
-                                channel:SendAsync(modifiedMessage)
+                            local Channel = TextChatService.TextChannels:FindFirstChild("RBXGeneral")
+                            if Channel then
+                                Channel:SendAsync(modifiedMessage)
                             end
                         end
                     end
                 end)
-                table.insert(_G.GhostyyACLConnections, connection)
+                table.insert(_G.GhostyysACLConnections, connection)
+            else
+                warn("Could not find ChatBar")
             end
         end
     end
@@ -176,28 +223,26 @@ else
     local heartbeatConnection = RunService.Heartbeat:Connect(function()
         if not hasCharacterWithHumanoid or useTextMethod then return end
         pcall(function()
-            local channel = TextChatService.TextChannels:FindFirstChild("RBXGeneral")
             if channel then
                 channel:SendAsync(spamText())
             end
         end)
     end)
-    table.insert(_G.GhostyyACLConnections, heartbeatConnection)
+    table.insert(_G.GhostyysACLConnections, heartbeatConnection)
 
     local renderSteppedConnection = RunService.RenderStepped:Connect(function()
         if not hasCharacterWithHumanoid or useTextMethod then return end
         pcall(function()
-            local channel = TextChatService.TextChannels:FindFirstChild("RBXGeneral")
             if channel then
                 channel:SendAsync(spamText())
             end
         end)
     end)
-    table.insert(_G.GhostyyACLConnections, renderSteppedConnection)
+    table.insert(_G.GhostyysACLConnections, renderSteppedConnection)
 
     task.spawn(function()
         local sayRemote = ReplicatedStorage:FindFirstChild("SayMessageRequest", true)
-        while _G.GhostyyACLLoaded do
+        while _G.GhostyysACLLoaded do
             if hasCharacterWithHumanoid and sayRemote and not useTextMethod then
                 pcall(function()
                     sayRemote:FireServer(spamText(), "All")
@@ -207,10 +252,22 @@ else
         end
     end)
 
-else
-    pcall(function()
-        loadstring(game:HttpGet("https://gitlab.com/GhostyySoftworks/G-Projects/-/raw/main/GACL?ref_type=heads"))()
+    task.spawn(function()
+        local function suppressEmoteError(obj)
+            if obj:IsA("TextLabel") and obj.Text and obj.Text:lower():find("you do not own that emote") then
+                obj.Text = ""
+                obj.Visible = false
+            end
+        end
+        CoreGui.DescendantAdded:Connect(suppressEmoteError)
     end)
+else
+    if not pcall(function()
+        loadstring(game:HttpGet("https://gitlab.com/GhostyySoftworks/G-Projects/-/raw/main/GACL?ref_type=heads"))()
+    end) then
+        loadstring(game:HttpGet("https://gitlab.com/GhostyySoftworks/G-Projects/-/raw/main/GACL?ref_type=heads"))()
+    end
+    print("Anti Chat & Screenshot Logger Loaded!")
 end
 
 task.spawn(function()
