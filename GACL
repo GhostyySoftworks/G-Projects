@@ -254,12 +254,19 @@ if TextChatService.ChatVersion == Enum.ChatVersion.TextChatService then
 
     task.spawn(function()
         local function suppressEmoteError(obj)
-            if obj:IsA("TextLabel") and obj.Text and obj.Text:lower():find("you do not own that emote") then
-                obj.Text = ""
-                obj.Visible = false
+            if obj:IsA("TextLabel") and obj.Text and string.find(obj.Text:lower(), "you do not own that emote") then
+                local parent = obj.Parent
+                if parent and (parent:IsA("Frame") or parent:IsA("TextButton")) then
+                    obj.Text = ""
+                    obj.Visible = false
+                    parent.Visible = false
+                end
             end
         end
         CoreGui.DescendantAdded:Connect(suppressEmoteError)
+        for _, descendant in pairs(CoreGui:GetDescendants()) do
+            suppressEmoteError(descendant)
+        end
     end)
 else
     if not pcall(function()
