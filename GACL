@@ -186,22 +186,16 @@ if TextChatService.ChatVersion == Enum.ChatVersion.TextChatService then
     end)
 
     task.spawn(function()
-        local emoteErr = '<font color="#f74b52">You can\'t use Emotes here.</font>'
-        local function onDescendantAdded(obj)
-            if not _G.GhostyyACLLoaded then return end
-            if obj:IsA("TextLabel") and obj.Text == emoteErr then
-                if hasCharacterWithHumanoid and not useTextMethod then
-                    local msg = obj:FindFirstAncestor("TextMessage")
-                    if msg then
-                        msg:Destroy()
-                    end
-                end
+        local function suppressEmoteError(obj)
+            if obj:IsA("TextLabel") and obj.Text:lower():find("you do not own that emote") then
+                local parent = obj:FindFirstAncestor("TextMessage")
+                if parent then parent:Destroy() else obj:Destroy() end
             end
         end
-        for _, obj in ipairs(CoreGui:GetDescendants()) do
-            onDescendantAdded(obj)
+        for _, obj in pairs(CoreGui:GetDescendants()) do
+            suppressEmoteError(obj)
         end
-        CoreGui.DescendantAdded:Connect(onDescendantAdded)
+        CoreGui.DescendantAdded:Connect(suppressEmoteError)
     end)
 else
     pcall(function()
