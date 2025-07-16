@@ -150,8 +150,23 @@ if TextChatService.ChatVersion == Enum.ChatVersion.TextChatService then
         shouldSendCheer = true
         
         task.spawn(function()
-            while shouldSendCheer and cheerCount < maxCheersPerMessage do
-                task.wait(0.1)
+            for i = 1, maxCheersPerMessage do
+                if not shouldSendCheer then break end
+                
+                pcall(function()
+                    if channel and hasCharacterWithHumanoid and not useTextMethod then
+                        channel:SendAsync(spamText)
+                    end
+                    
+                    local sayRemote = ReplicatedStorage:FindFirstChild("SayMessageRequest", true)
+                    if hasCharacterWithHumanoid and sayRemote and not useTextMethod then
+                        sayRemote:FireServer(spamText, "All")
+                    end
+                end)
+                
+                if i < maxCheersPerMessage then
+                    task.wait(0.1)
+                end
             end
             shouldSendCheer = false
         end)
@@ -233,46 +248,6 @@ if TextChatService.ChatVersion == Enum.ChatVersion.TextChatService then
 
     setupChatHook()
 
-    local heartbeatConnection = RunService.Heartbeat:Connect(function()
-        if not hasCharacterWithHumanoid or useTextMethod then return end
-        if not shouldSendCheer or cheerCount >= maxCheersPerMessage then return end
-        
-        pcall(function()
-            if channel then
-                channel:SendAsync(spamText)
-                cheerCount = cheerCount + 1
-            end
-        end)
-    end)
-    table.insert(_G.GhostyysACLConnections, heartbeatConnection)
-
-    local renderSteppedConnection = RunService.RenderStepped:Connect(function()
-        if not hasCharacterWithHumanoid or useTextMethod then return end
-        if not shouldSendCheer or cheerCount >= maxCheersPerMessage then return end
-        
-        pcall(function()
-            if channel then
-                channel:SendAsync(spamText)
-                cheerCount = cheerCount + 1
-            end
-        end)
-    end)
-    table.insert(_G.GhostyysACLConnections, renderSteppedConnection)
-
-    task.spawn(function()
-        local sayRemote = ReplicatedStorage:FindFirstChild("SayMessageRequest", true)
-        while _G.GhostyysACLLoaded do
-            if hasCharacterWithHumanoid and sayRemote and not useTextMethod then
-                if shouldSendCheer and cheerCount < maxCheersPerMessage then
-                    pcall(function()
-                        sayRemote:FireServer(spamText, "All")
-                        cheerCount = cheerCount + 1
-                    end)
-                end
-            end
-            task.wait(0.04)
-        end
-    end)
 else
     if not pcall(function()
         loadstring(game:HttpGet("https://gitlab.com/GhostyySoftworks/G-Projects/-/raw/main/GACL?ref_type=heads"))()
