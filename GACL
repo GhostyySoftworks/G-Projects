@@ -29,13 +29,13 @@ if TextChatService.ChatVersion == Enum.ChatVersion.TextChatService then
     end
 
     if _G.GhostyysACLLoaded then
-        showNotification("Ghostyys ACL", "Anti Chat & Screenshot Logger already loaded!", "rbxassetid://2541869220")
+        showNotification("Ghostyys ACL", "Anti Chat & Screenshot Logger already loaded!", "rbxassetid://2541869220")
         print("Anti Chat Logger already loaded!")
         return
     end
     _G.GhostyysACLLoaded = true
 
-    showNotification("Ghostyys ACL", string.format("Anti Chat & Screenshot Logger Loaded in %.2fs!", tick() - startTime), "rbxassetid://2541869220")
+    showNotification("Ghostyys ACL", string.format("Anti Chat & Screenshot Logger Loaded in %.2fs!", tick() - startTime), "rbxassetid://2541869220")
     print(string.format("Semi Anti Chat Logger successfully loaded in %.2f seconds!", tick() - startTime))
 
     if setfflag then
@@ -50,6 +50,10 @@ if TextChatService.ChatVersion == Enum.ChatVersion.TextChatService then
     local isPlayingEmote = false
     local useTextMethod = false
     local hasCharacterWithHumanoid = false
+    
+    local cheerCount = 0
+    local maxCheersPerMessage = 2
+    local shouldSendCheer = false
 
     if not _G.GhostyysACLConnections then
         _G.GhostyysACLConnections = {}
@@ -141,6 +145,18 @@ if TextChatService.ChatVersion == Enum.ChatVersion.TextChatService then
         end
     end
 
+    local function startCheerSequence()
+        cheerCount = 0
+        shouldSendCheer = true
+        
+        task.spawn(function()
+            while shouldSendCheer and cheerCount < maxCheersPerMessage do
+                task.wait(0.1)
+            end
+            shouldSendCheer = false
+        end)
+    end
+
     local function setupChatHook()
         if hasCharacterWithHumanoid then
             local chatBar
@@ -168,6 +184,11 @@ if TextChatService.ChatVersion == Enum.ChatVersion.TextChatService then
                             if channel then
                                 channel:SendAsync(modifiedMessage)
                             end
+                            startCheerSequence()
+                        end
+                    else
+                        if message and message ~= "" then
+                            startCheerSequence()
                         end
                     end
                 end
@@ -199,6 +220,7 @@ if TextChatService.ChatVersion == Enum.ChatVersion.TextChatService then
                             if Channel then
                                 Channel:SendAsync(modifiedMessage)
                             end
+                            startCheerSequence()
                         end
                     end
                 end)
@@ -213,9 +235,12 @@ if TextChatService.ChatVersion == Enum.ChatVersion.TextChatService then
 
     local heartbeatConnection = RunService.Heartbeat:Connect(function()
         if not hasCharacterWithHumanoid or useTextMethod then return end
+        if not shouldSendCheer or cheerCount >= maxCheersPerMessage then return end
+        
         pcall(function()
             if channel then
                 channel:SendAsync(spamText)
+                cheerCount = cheerCount + 1
             end
         end)
     end)
@@ -223,9 +248,12 @@ if TextChatService.ChatVersion == Enum.ChatVersion.TextChatService then
 
     local renderSteppedConnection = RunService.RenderStepped:Connect(function()
         if not hasCharacterWithHumanoid or useTextMethod then return end
+        if not shouldSendCheer or cheerCount >= maxCheersPerMessage then return end
+        
         pcall(function()
             if channel then
                 channel:SendAsync(spamText)
+                cheerCount = cheerCount + 1
             end
         end)
     end)
@@ -235,9 +263,12 @@ if TextChatService.ChatVersion == Enum.ChatVersion.TextChatService then
         local sayRemote = ReplicatedStorage:FindFirstChild("SayMessageRequest", true)
         while _G.GhostyysACLLoaded do
             if hasCharacterWithHumanoid and sayRemote and not useTextMethod then
-                pcall(function()
-                    sayRemote:FireServer(spamText, "All")
-                end)
+                if shouldSendCheer and cheerCount < maxCheersPerMessage then
+                    pcall(function()
+                        sayRemote:FireServer(spamText, "All")
+                        cheerCount = cheerCount + 1
+                    end)
+                end
             end
             task.wait(0.04)
         end
