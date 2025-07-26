@@ -27,11 +27,11 @@ local RunService = game:GetService("RunService")
 local function ApplyUICornerAndStroke(instance)
 	if instance:IsA("GuiObject") and not instance:FindFirstChildOfClass("UICorner") then
 		local corner = Instance.new("UICorner")
-		corner.CornerRadius = UDim.new(0, 12)
+		corner.CornerRadius = UDim.new(0, 0)
 		corner.Parent = instance
 		if not instance:FindFirstChildOfClass("UIStroke") then
 			local stroke = Instance.new("UIStroke")
-			stroke.Thickness = 1
+			stroke.Thickness = 0
 			stroke.Color = Colors.Border
 			stroke.Parent = instance
 		end
@@ -62,7 +62,6 @@ local EmoteFrame = CreateInstance('Frame', {
 })
 
 ApplyUICornerAndStroke(EmoteFrame)
-
 TweenService:Create(EmoteFrame, TweenInfo.new(0.5, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {
 	BackgroundTransparency = 0,
 	Position = UDim2.new(0, 0, 0.6, -194.5)
@@ -193,9 +192,10 @@ local SearchBar = CreateInstance("TextBox", {
 	ClearTextOnFocus = true,
 	Parent = EmoteFrame
 })
+
 ApplyUICornerAndStroke(SearchBar)
 local searchCorner = SearchBar:FindFirstChildOfClass("UICorner")
-if searchCorner then searchCorner.CornerRadius = UDim.new(0, 8) end
+if searchCorner then searchCorner.CornerRadius = UDim.new(0, 0) end
 
 local EmoteScroll = CreateInstance('ScrollingFrame', {
 	Name = 'EmoteScroll',
@@ -248,6 +248,7 @@ local LoadingFrame = CreateInstance('Frame', {
 	Visible = false,
 	Parent = EmoteFrame
 })
+
 ApplyUICornerAndStroke(LoadingFrame)
 
 local LoadingContainer = CreateInstance('Frame', {
@@ -257,6 +258,7 @@ local LoadingContainer = CreateInstance('Frame', {
 	BackgroundTransparency = 1,
 	Parent = LoadingFrame
 })
+
 ApplyUICornerAndStroke(LoadingContainer)
 
 local LoadingSpinner = CreateInstance('ImageLabel', {
@@ -267,6 +269,7 @@ local LoadingSpinner = CreateInstance('ImageLabel', {
 	BackgroundTransparency = 1,
 	Parent = LoadingContainer
 })
+
 ApplyUICornerAndStroke(LoadingSpinner)
 
 local LoadingText = CreateInstance('TextLabel', {
@@ -280,6 +283,7 @@ local LoadingText = CreateInstance('TextLabel', {
 	TextXAlignment = Enum.TextXAlignment.Center,
 	Parent = LoadingContainer
 })
+
 ApplyUICornerAndStroke(LoadingText)
 
 local Emotes = {}
@@ -515,6 +519,7 @@ local function UpdateSearchResults()
 			end
 		end
 	end
+
 	local order = 0
 	for _, child in pairs(CustomScroll:GetChildren()) do
 		if child:IsA("TextButton") then
@@ -537,6 +542,7 @@ local function LoadEmotes()
 			child:Destroy()
 		end
 	end
+
 	table.clear(Emotes)
 
 	local params = CatalogSearchParams.new()
@@ -643,7 +649,6 @@ local tabFrames = {
 
 local function switchTab(tabName)
 	if currentTab == tabName then return end
-
 	local oldFrame = tabFrames[currentTab]
 	local newFrame = tabFrames[tabName]
 	local oldButton = tabButtons[currentTab]
@@ -661,7 +666,6 @@ local function switchTab(tabName)
 	wait(0.2)
 
 	oldFrame.Visible = false
-
 	newFrame.Visible = true
 	newFrame.Size = UDim2.new(0.8, 0, 1, -72)
 	newFrame.Position = UDim2.new(0.1, 0, 0, 72)
@@ -674,7 +678,7 @@ local function switchTab(tabName)
 	}):Play()
 
 	currentTab = tabName
-	
+
 	if tabName == "CustomEmotes" then
 		FreezeButton.Visible = true
 	else
@@ -709,13 +713,11 @@ local function Cleanup()
 		BackgroundTransparency = 1,
 		Position = UDim2.new(0, -312, 0.6, -194.5)
 	}):Play()
-
 	wait(0.5)
 	EmoteGui:Destroy()
 end
 
 CloseButton.MouseButton1Click:Connect(Cleanup)
-
 SearchBar:GetPropertyChangedSignal("Text"):Connect(UpdateSearchResults)
 
 FreezeButton.MouseButton1Click:Connect(function()
