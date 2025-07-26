@@ -8,7 +8,7 @@ end
 
 local Colors = {
 	Background = Color3.fromRGB(30, 30, 30),
-	Border = Color3.fromRGB(255, 255, 255), 
+	Border = Color3.fromRGB(255, 255, 255),
 	Text = Color3.fromRGB(255, 255, 255),
 	TabSelected = Color3.fromRGB(30, 30, 30),
 	TabHover = Color3.fromRGB(30, 30, 30)
@@ -60,7 +60,9 @@ local EmoteFrame = CreateInstance('Frame', {
 	ClipsDescendants = true,
 	BackgroundTransparency = 1
 })
+
 ApplyUICornerAndStroke(EmoteFrame)
+
 TweenService:Create(EmoteFrame, TweenInfo.new(0.5, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {
 	BackgroundTransparency = 0,
 	Position = UDim2.new(0, 0, 0.6, -194.5)
@@ -78,6 +80,7 @@ local EmoteLabel = CreateInstance('TextLabel', {
 	TextColor3 = Colors.Text,
 	ZIndex = 2
 })
+
 ApplyUICornerAndStroke(EmoteLabel)
 
 local CloseButton = CreateInstance('TextButton', {
@@ -94,6 +97,7 @@ local CloseButton = CreateInstance('TextButton', {
 	TextSize = 18,
 	TextColor3 = Colors.Text
 })
+
 ApplyUICornerAndStroke(CloseButton)
 
 local MinimizeButton = CreateInstance('TextButton', {
@@ -110,6 +114,7 @@ local MinimizeButton = CreateInstance('TextButton', {
 	TextSize = 18,
 	TextColor3 = Colors.Text
 })
+
 ApplyUICornerAndStroke(MinimizeButton)
 
 local FreezeButton = CreateInstance('TextButton', {
@@ -127,6 +132,7 @@ local FreezeButton = CreateInstance('TextButton', {
 	AnchorPoint = Vector2.new(1, 0.5),
 	Visible = false
 })
+
 ApplyUICornerAndStroke(FreezeButton)
 
 local TabContainer = CreateInstance('Frame', {
@@ -137,6 +143,7 @@ local TabContainer = CreateInstance('Frame', {
 	Position = UDim2.new(0, 0, 0, 23),
 	Size = UDim2.new(1, 0, 0, 23),
 })
+
 ApplyUICornerAndStroke(TabContainer)
 
 local EmoteTabs = CreateInstance('TextButton', {
@@ -152,6 +159,7 @@ local EmoteTabs = CreateInstance('TextButton', {
 	Size = UDim2.new(0.5, 0, 1, 0),
 	TextColor3 = Colors.Text
 })
+
 ApplyUICornerAndStroke(EmoteTabs)
 
 local CustomEmotes = CreateInstance('TextButton', {
@@ -167,6 +175,7 @@ local CustomEmotes = CreateInstance('TextButton', {
 	Size = UDim2.new(0.5, 0, 1, 0),
 	TextColor3 = Colors.Text
 })
+
 ApplyUICornerAndStroke(CustomEmotes)
 
 local SearchBar = CreateInstance("TextBox", {
@@ -422,6 +431,7 @@ local function CreateEmoteButton(parentFrame, emoteData)
 		AutoButtonColor = false,
 		Parent = parentFrame
 	})
+
 	ApplyUICornerAndStroke(emoteButton)
 	CreateHoverEffect(emoteButton)
 
@@ -436,6 +446,7 @@ local function CreateEmoteButton(parentFrame, emoteData)
 		AutoButtonColor = false,
 		Parent = emoteButton
 	})
+
 	ApplyUICornerAndStroke(favoriteButton)
 
 	favoriteButton.MouseButton1Click:Connect(function()
@@ -476,6 +487,7 @@ local function CreateCustomEmoteButton(parentFrame, emoteData)
 		AutoButtonColor = false,
 		Parent = parentFrame
 	})
+
 	ApplyUICornerAndStroke(emoteButton)
 	CreateHoverEffect(emoteButton)
 
@@ -503,7 +515,6 @@ local function UpdateSearchResults()
 			end
 		end
 	end
-
 	local order = 0
 	for _, child in pairs(CustomScroll:GetChildren()) do
 		if child:IsA("TextButton") then
@@ -632,6 +643,7 @@ local tabFrames = {
 
 local function switchTab(tabName)
 	if currentTab == tabName then return end
+
 	local oldFrame = tabFrames[currentTab]
 	local newFrame = tabFrames[tabName]
 	local oldButton = tabButtons[currentTab]
@@ -642,20 +654,27 @@ local function switchTab(tabName)
 		Position = UDim2.new(0.1, 0, 0, 72),
 		BackgroundTransparency = 1
 	}):Play()
+
 	oldButton.BackgroundColor3 = Colors.Background
 	newButton.BackgroundColor3 = Colors.TabSelected
+
 	wait(0.2)
+
 	oldFrame.Visible = false
+
 	newFrame.Visible = true
 	newFrame.Size = UDim2.new(0.8, 0, 1, -72)
 	newFrame.Position = UDim2.new(0.1, 0, 0, 72)
 	newFrame.BackgroundTransparency = 1
+
 	TweenService:Create(newFrame, TweenInfo.new(0.2, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {
 		Size = UDim2.new(1, 0, 1, -72),
 		Position = UDim2.new(0, 0, 0, 72),
 		BackgroundTransparency = 0
 	}):Play()
+
 	currentTab = tabName
+	
 	if tabName == "CustomEmotes" then
 		FreezeButton.Visible = true
 	else
@@ -666,6 +685,7 @@ end
 EmoteTabs.MouseButton1Click:Connect(function()
 	switchTab("EmoteTabs")
 end)
+
 CustomEmotes.MouseButton1Click:Connect(function()
 	switchTab("CustomEmotes")
 end)
@@ -689,9 +709,11 @@ local function Cleanup()
 		BackgroundTransparency = 1,
 		Position = UDim2.new(0, -312, 0.6, -194.5)
 	}):Play()
+
 	wait(0.5)
 	EmoteGui:Destroy()
 end
+
 CloseButton.MouseButton1Click:Connect(Cleanup)
 
 SearchBar:GetPropertyChangedSignal("Text"):Connect(UpdateSearchResults)
