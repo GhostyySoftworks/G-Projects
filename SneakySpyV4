@@ -2203,7 +2203,7 @@ newButton(
     end
 )
 
-game:GetService("StarterGui"):SetCore("SendNotification", { Title = "SneakySpy-V4", Text = "RemoteSpy Loaded : [Background Worker].", Duration = 5 })
+game:GetService("StarterGui"):SetCore("SendNotification", { Title = "SneakySpy-V4", Text = "RemoteSpy Loaded : [Background Worker].", Duration = 1 })
 
 --- Attempts to decompile the source script
 newButton("Decompile",
