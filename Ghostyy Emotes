@@ -8,7 +8,7 @@ end
 
 local Colors = {
 	Background = Color3.fromRGB(30, 30, 30),
-	Border = Color3.fromRGB(255, 255, 255),
+	Border = Color3.fromRGB(30, 30, 30),
 	Text = Color3.fromRGB(255, 255, 255),
 	TabSelected = Color3.fromRGB(30, 30, 30),
 	TabHover = Color3.fromRGB(30, 30, 30)
