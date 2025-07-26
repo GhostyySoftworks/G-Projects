@@ -14,12 +14,7 @@ local playerGui = lp:WaitForChild("PlayerGui")
 
 local function showNotification(title, description, imageId)
     pcall(function()
-        StarterGui:SetCore("SendNotification", {
-            Title = title;
-            Text = description;
-            Icon = imageId;
-            Duration = 5;
-        })
+        StarterGui:SetCore("SendNotification", { Title = title; Text = description; Icon = imageId; Duration = 1; })
     end)
 end
 
@@ -51,7 +46,7 @@ if TextChatService.ChatVersion == Enum.ChatVersion.TextChatService then
     local hasCharacterWithHumanoid = false
 
     local cheerCount = 0
-    local maxCheersPerMessage = 2
+    local maxCheersPerMessage = 4
     local shouldSendCheer = false
 
     if not _G.GhostyysACLConnections then
