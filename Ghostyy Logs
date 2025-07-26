@@ -127,7 +127,7 @@ local SearchBox = CreateInstance("TextBox", {
     Font = Enum.Font.SourceSans,
     TextSize = 14,
     TextXAlignment = Enum.TextXAlignment.Left,
-    ClearTextOnFocus = false
+    ClearTextOnFocus = true
 })
 
 local Scroll = Instance.new("ScrollingFrame", LogsFrame)
@@ -137,6 +137,7 @@ Scroll.CanvasSize = UDim2.new(0, 0, 0, 0)
 Scroll.BackgroundTransparency = 1
 Scroll.ScrollBarThickness = 6
 Scroll.Name = "LogScroll"
+Scroll.ScrollBarImageTransparency = 1 -- fully transparent scrollbar
 
 local UIList = Instance.new("UIListLayout", Scroll)
 UIList.SortOrder = Enum.SortOrder.LayoutOrder
@@ -178,20 +179,13 @@ local filteredLogs = {}
 local currentSearch = ""
 
 local function getPlayerDisplayName(player)
-    local displayName = player.DisplayName
-    local name = player.Name
-    
-    if displayName == name then
-        return name
-    else
-        return displayName .. " (" .. name .. ")"
-    end
+    return player.DisplayName
 end
 
 local function addLog(msg, player)
     local playerName = player and getPlayerDisplayName(player) or "System"
     local fullMsg = playerName .. ": " .. msg
-    
+
     local lbl = Instance.new("TextLabel")
     lbl.Size = UDim2.new(1, -12, 0, 20)
     lbl.BackgroundTransparency = 1
@@ -203,19 +197,18 @@ local function addLog(msg, player)
     lbl.TextWrapped = true
     lbl.Parent = Scroll
     lbl.Name = "LogEntry"
-    
     lbl:SetAttribute("OriginalText", fullMsg)
-    
+
     table.insert(logs, fullMsg)
     table.insert(filteredLogs, lbl)
-    
+
     if #logs > maxLogs then
         table.remove(logs, 1)
         if Scroll:FindFirstChildOfClass("TextLabel") then
             Scroll:FindFirstChildOfClass("TextLabel"):Destroy()
         end
     end
-    
+
     task.wait()
     Scroll.CanvasSize = UDim2.new(0, 0, 0, UIList.AbsoluteContentSize.Y)
     if autoScroll then
@@ -229,9 +222,9 @@ local function updateFilteredLogs()
             v.Visible = false
         end
     end
-    
+
     filteredLogs = {}
-    
+
     for _, logLabel in pairs(Scroll:GetChildren()) do
         if logLabel:IsA("TextLabel") and logLabel.Name == "LogEntry" then
             local originalText = logLabel:GetAttribute("OriginalText") or ""
@@ -243,7 +236,7 @@ local function updateFilteredLogs()
             end
         end
     end
-    
+
     Scroll.CanvasSize = UDim2.new(0, 0, 0, UIList.AbsoluteContentSize.Y)
     if autoScroll then
         Scroll.CanvasPosition = Vector2.new(0, Scroll.CanvasSize.Y.Offset)
