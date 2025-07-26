@@ -56,7 +56,7 @@ local EmoteFrame = CreateInstance('Frame', {
 	BackgroundColor3 = Colors.Background,
 	BorderSizePixel = 0,
 	Size = UDim2.new(0, 312, 0, 389),
-	Position = UDim2.new(0, -312, 0.6, -194.5),
+	Position = UDim2.new(0, -312, 0.6, -613),
 	ClipsDescendants = true,
 	BackgroundTransparency = 1
 })
@@ -64,7 +64,7 @@ local EmoteFrame = CreateInstance('Frame', {
 ApplyUICornerAndStroke(EmoteFrame)
 TweenService:Create(EmoteFrame, TweenInfo.new(0.5, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {
 	BackgroundTransparency = 0,
-	Position = UDim2.new(0, 0, 0.6, -194.5)
+	Position = UDim2.new(0, 0, 0.6, -613)
 }):Play()
 
 local EmoteLabel = CreateInstance('TextLabel', {
