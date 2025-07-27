@@ -11,7 +11,8 @@ local Colors = {
 	Border = Color3.fromRGB(30, 30, 30),
 	Text = Color3.fromRGB(255, 255, 255),
 	TabSelected = Color3.fromRGB(30, 30, 30),
-	TabHover = Color3.fromRGB(30, 30, 30)
+	TabHover = Color3.fromRGB(30, 30, 30),
+	SearchBar = Color3.fromRGB(30, 30, 30)
 }
 
 local CoreGui = game:GetService("CoreGui")
@@ -24,10 +25,33 @@ local GuiService = game:GetService("GuiService")
 local ContextActionService = game:GetService("ContextActionService")
 local RunService = game:GetService("RunService")
 
-local function ApplyUICornerAndStroke(instance)
+local existing = CoreGui:FindFirstChild("GhostyyWareGui")
+if existing then
+	existing:Destroy()
+end
+
+local MainGui = CreateInstance("ScreenGui", {
+	Name = "GhostyyWareGui",
+	ResetOnSpawn = false,
+	ZIndexBehavior = Enum.ZIndexBehavior.Sibling,
+	Parent = CoreGui
+})
+
+local MainFrame = CreateInstance('Frame', {
+	Name = 'MainFrame',
+	Parent = MainGui,
+	BackgroundColor3 = Colors.Background,
+	BorderSizePixel = 0,
+	Size = UDim2.new(0, 312, 0, 400),
+	Position = UDim2.new(0, -312, 0.5, 0),
+	ClipsDescendants = true,
+	BackgroundTransparency = 1
+})
+
+local function ApplyUICornerAndStroke(instance, cornerRadius)
 	if instance:IsA("GuiObject") and not instance:FindFirstChildOfClass("UICorner") then
 		local corner = Instance.new("UICorner")
-		corner.CornerRadius = UDim.new(0, 0)
+		corner.CornerRadius = UDim.new(0, cornerRadius or 0)
 		corner.Parent = instance
 		if not instance:FindFirstChildOfClass("UIStroke") then
 			local stroke = Instance.new("UIStroke")
@@ -38,39 +62,17 @@ local function ApplyUICornerAndStroke(instance)
 	end
 end
 
-local existing = CoreGui:FindFirstChild("EmoteGui")
-if existing then
-	existing:Destroy()
-end
+ApplyUICornerAndStroke(MainFrame)
 
-local EmoteGui = CreateInstance("ScreenGui", {
-	Name = "EmoteGui",
-	ResetOnSpawn = false,
-	ZIndexBehavior = Enum.ZIndexBehavior.Sibling,
-	Parent = CoreGui
-})
-
-local EmoteFrame = CreateInstance('Frame', {
-	Name = 'EmoteFrame',
-	Parent = EmoteGui,
-	BackgroundColor3 = Colors.Background,
-	BorderSizePixel = 0,
-	Size = UDim2.new(0, 312, 0, 389),
-	Position = UDim2.new(0, -312, 0.6, -613),
-	ClipsDescendants = true,
-	BackgroundTransparency = 1
-})
-
-ApplyUICornerAndStroke(EmoteFrame)
-TweenService:Create(EmoteFrame, TweenInfo.new(0.5, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {
+TweenService:Create(MainFrame, TweenInfo.new(0.5, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {
 	BackgroundTransparency = 0,
-	Position = UDim2.new(0, 0, 0.6, -613)
+	Position = UDim2.new(0, 0, 0.5, 0)
 }):Play()
 
-local EmoteLabel = CreateInstance('TextLabel', {
-	Name = 'EmoteLabel',
-	Parent = EmoteFrame,
-	Text = 'GhostyyWare | Emotes',
+local MainLabel = CreateInstance('TextLabel', {
+	Name = 'MainLabel',
+	Parent = MainFrame,
+	Text = 'GhostyyWare',
 	Font = Enum.Font.SourceSansBold,
 	TextSize = 17,
 	BackgroundColor3 = Colors.Background,
@@ -79,12 +81,11 @@ local EmoteLabel = CreateInstance('TextLabel', {
 	TextColor3 = Colors.Text,
 	ZIndex = 2
 })
-
-ApplyUICornerAndStroke(EmoteLabel)
+ApplyUICornerAndStroke(MainLabel)
 
 local CloseButton = CreateInstance('TextButton', {
 	Name = 'CloseButton',
-	Parent = EmoteLabel,
+	Parent = MainLabel,
 	Position = UDim2.new(1, -5, 0.5, 0),
 	AnchorPoint = Vector2.new(1, 0.5),
 	Size = UDim2.new(0, 22, 0, 22),
@@ -96,12 +97,11 @@ local CloseButton = CreateInstance('TextButton', {
 	TextSize = 18,
 	TextColor3 = Colors.Text
 })
-
 ApplyUICornerAndStroke(CloseButton)
 
 local MinimizeButton = CreateInstance('TextButton', {
 	Name = 'MinimizeButton',
-	Parent = EmoteLabel,
+	Parent = MainLabel,
 	Position = UDim2.new(1, -32, 0.5, 0),
 	AnchorPoint = Vector2.new(1, 0.5),
 	Size = UDim2.new(0, 22, 0, 22),
@@ -113,12 +113,11 @@ local MinimizeButton = CreateInstance('TextButton', {
 	TextSize = 18,
 	TextColor3 = Colors.Text
 })
-
 ApplyUICornerAndStroke(MinimizeButton)
 
 local FreezeButton = CreateInstance('TextButton', {
 	Name = 'FreezeButton',
-	Parent = EmoteLabel,
+	Parent = MainLabel,
 	Text = "F",
 	Font = Enum.Font.SourceSans,
 	TextSize = 12,
@@ -131,22 +130,20 @@ local FreezeButton = CreateInstance('TextButton', {
 	AnchorPoint = Vector2.new(1, 0.5),
 	Visible = false
 })
-
 ApplyUICornerAndStroke(FreezeButton)
 
 local TabContainer = CreateInstance('Frame', {
 	Name = 'TabContainer',
-	Parent = EmoteFrame,
+	Parent = MainFrame,
 	BackgroundColor3 = Colors.Background,
 	BorderSizePixel = 0,
 	Position = UDim2.new(0, 0, 0, 23),
 	Size = UDim2.new(1, 0, 0, 23),
 })
-
 ApplyUICornerAndStroke(TabContainer)
 
-local EmoteTabs = CreateInstance('TextButton', {
-	Name = 'EmoteTabs',
+local EmoteTabBtn = CreateInstance('TextButton', {
+	Name = 'EmoteTab',
 	Parent = TabContainer,
 	Text = 'Emotes',
 	Font = Enum.Font.SourceSansBold,
@@ -155,29 +152,53 @@ local EmoteTabs = CreateInstance('TextButton', {
 	BorderColor3 = Colors.Border,
 	BorderSizePixel = 0,
 	Position = UDim2.new(0, 0, 0, 0),
-	Size = UDim2.new(0.5, 0, 1, 0),
+	Size = UDim2.new(0.333, 0, 1, 0),
 	TextColor3 = Colors.Text
 })
+ApplyUICornerAndStroke(EmoteTabBtn)
 
-ApplyUICornerAndStroke(EmoteTabs)
-
-local CustomEmotes = CreateInstance('TextButton', {
-	Name = 'CustomEmotes',
+local CustomEmoteTabBtn = CreateInstance('TextButton', {
+	Name = 'CustomEmoteTab',
 	Parent = TabContainer,
-	Text = 'Custom Emotes',
+	Text = 'Custom',
 	Font = Enum.Font.SourceSansBold,
 	TextSize = 14,
 	BackgroundColor3 = Colors.Background,
 	BorderColor3 = Colors.Border,
 	BorderSizePixel = 0,
-	Position = UDim2.new(0.5, 0, 0, 0),
-	Size = UDim2.new(0.5, 0, 1, 0),
+	Position = UDim2.new(0.333, 0, 0, 0),
+	Size = UDim2.new(0.333, 0, 1, 0),
 	TextColor3 = Colors.Text
 })
+ApplyUICornerAndStroke(CustomEmoteTabBtn)
 
-ApplyUICornerAndStroke(CustomEmotes)
+local LogsTabBtn = CreateInstance('TextButton', {
+	Name = 'LogsTab',
+	Parent = TabContainer,
+	Text = 'Logs',
+	Font = Enum.Font.SourceSansBold,
+	TextSize = 15,
+	BackgroundColor3 = Colors.Background,
+	BorderColor3 = Colors.Border,
+	BorderSizePixel = 0,
+	Position = UDim2.new(0.666, 0, 0, 0),
+	Size = UDim2.new(0.334, 0, 1, 0),
+	TextColor3 = Colors.Text
+})
+ApplyUICornerAndStroke(LogsTabBtn)
 
-local SearchBar = CreateInstance("TextBox", {
+local EmoteFrame = CreateInstance('Frame', {
+	Name = 'EmoteFrame',
+	Parent = MainFrame,
+	BackgroundColor3 = Colors.Background,
+	BorderSizePixel = 0,
+	Size = UDim2.new(1, 0, 1, -46),
+	Position = UDim2.new(0, 0, 0, 46),
+	Visible = true,
+	BackgroundTransparency = 0
+})
+
+local EmoteSearchBar = CreateInstance("TextBox", {
 	PlaceholderText = "Search emotes...",
 	PlaceholderColor3 = Colors.Text,
 	TextColor3 = Colors.Text,
@@ -185,23 +206,22 @@ local SearchBar = CreateInstance("TextBox", {
 	TextSize = 14,
 	Font = Enum.Font.SourceSans,
 	Size = UDim2.new(1, -10, 0, 20),
-	Position = UDim2.new(0, 5, 0, 48),
+	Position = UDim2.new(0, 5, 0, 5),
 	BackgroundColor3 = Colors.Background,
 	BorderSizePixel = 0,
-	TextXAlignment = Enum.TextXAlignment.Left,
+	TextXAlignment = Enum.TextXAlignment.Center,
 	ClearTextOnFocus = true,
 	Parent = EmoteFrame
 })
-
-ApplyUICornerAndStroke(SearchBar)
-local searchCorner = SearchBar:FindFirstChildOfClass("UICorner")
+ApplyUICornerAndStroke(EmoteSearchBar)
+local searchCorner = EmoteSearchBar:FindFirstChildOfClass("UICorner")
 if searchCorner then searchCorner.CornerRadius = UDim.new(0, 0) end
 
 local EmoteScroll = CreateInstance('ScrollingFrame', {
 	Name = 'EmoteScroll',
 	Parent = EmoteFrame,
-	Position = UDim2.new(0, 0, 0, 72),
-	Size = UDim2.new(1, 0, 1, -72),
+	Position = UDim2.new(0, 0, 0, 30),
+	Size = UDim2.new(1, 0, 1, -30),
 	CanvasSize = UDim2.new(0, 0, 0, 0),
 	ScrollBarThickness = 6,
 	ScrollBarImageTransparency = 1,
@@ -214,8 +234,8 @@ local EmoteScroll = CreateInstance('ScrollingFrame', {
 local CustomScroll = CreateInstance('ScrollingFrame', {
 	Name = 'CustomScroll',
 	Parent = EmoteFrame,
-	Position = UDim2.new(0, 0, 0, 72),
-	Size = UDim2.new(1, 0, 1, -72),
+	Position = UDim2.new(0, 0, 0, 30),
+	Size = UDim2.new(1, 0, 1, -30),
 	CanvasSize = UDim2.new(0, 0, 0, 0),
 	ScrollBarThickness = 6,
 	ScrollBarImageTransparency = 1,
@@ -225,14 +245,14 @@ local CustomScroll = CreateInstance('ScrollingFrame', {
 	AutomaticCanvasSize = Enum.AutomaticSize.Y
 })
 
-local GridLayout1 = CreateInstance('UIGridLayout', {
+local EmoteGridLayout = CreateInstance('UIGridLayout', {
 	CellSize = UDim2.new(0, 90, 0, 90),
 	CellPadding = UDim2.new(0, 5, 0, 5),
 	SortOrder = Enum.SortOrder.LayoutOrder,
 	Parent = EmoteScroll
 })
 
-local GridLayout2 = CreateInstance('UIGridLayout', {
+local CustomGridLayout = CreateInstance('UIGridLayout', {
 	CellSize = UDim2.new(0, 90, 0, 90),
 	CellPadding = UDim2.new(0, 5, 0, 5),
 	SortOrder = Enum.SortOrder.LayoutOrder,
@@ -248,7 +268,6 @@ local LoadingFrame = CreateInstance('Frame', {
 	Visible = false,
 	Parent = EmoteFrame
 })
-
 ApplyUICornerAndStroke(LoadingFrame)
 
 local LoadingContainer = CreateInstance('Frame', {
@@ -258,7 +277,6 @@ local LoadingContainer = CreateInstance('Frame', {
 	BackgroundTransparency = 1,
 	Parent = LoadingFrame
 })
-
 ApplyUICornerAndStroke(LoadingContainer)
 
 local LoadingSpinner = CreateInstance('ImageLabel', {
@@ -269,7 +287,6 @@ local LoadingSpinner = CreateInstance('ImageLabel', {
 	BackgroundTransparency = 1,
 	Parent = LoadingContainer
 })
-
 ApplyUICornerAndStroke(LoadingSpinner)
 
 local LoadingText = CreateInstance('TextLabel', {
@@ -283,8 +300,86 @@ local LoadingText = CreateInstance('TextLabel', {
 	TextXAlignment = Enum.TextXAlignment.Center,
 	Parent = LoadingContainer
 })
-
 ApplyUICornerAndStroke(LoadingText)
+
+local LogsFrame = CreateInstance('Frame', {
+	Name = 'LogsFrame',
+	Parent = MainFrame,
+	BackgroundColor3 = Colors.Background,
+	BorderSizePixel = 0,
+	Size = UDim2.new(1, 0, 1, -46),
+	Position = UDim2.new(0, 0, 0, 46),
+	Visible = false,
+	BackgroundTransparency = 0
+})
+
+local LogsSearchFrame = CreateInstance("Frame", {
+    Name = "LogsSearchFrame",
+    Parent = LogsFrame,
+    Size = UDim2.new(1, -10, 0, 25),
+    Position = UDim2.new(0, 5, 0, 5),
+    BackgroundColor3 = Colors.SearchBar,
+    BorderSizePixel = 0
+})
+ApplyUICornerAndStroke(LogsSearchFrame, 4)
+
+local LogsSearchBox = CreateInstance("TextBox", {
+    Name = "LogsSearchBox",
+    Parent = LogsSearchFrame,
+    Size = UDim2.new(1, -10, 1, 0),
+    Position = UDim2.new(0, 5, 0, 0),
+    BackgroundTransparency = 1,
+    Text = "",
+    PlaceholderText = "Search logs...",
+    TextColor3 = Colors.Text,
+    PlaceholderColor3 = Colors.Text,
+    Font = Enum.Font.SourceSans,
+    TextSize = 14,
+    TextXAlignment = Enum.TextXAlignment.Center,
+    ClearTextOnFocus = true
+})
+
+local LogsScroll = Instance.new("ScrollingFrame", LogsFrame)
+LogsScroll.Position = UDim2.new(0, 0, 0, 35)
+LogsScroll.Size = UDim2.new(1, 0, 1, -70)
+LogsScroll.CanvasSize = UDim2.new(0, 0, 0, 0)
+LogsScroll.BackgroundTransparency = 1
+LogsScroll.ScrollBarThickness = 6
+LogsScroll.Name = "LogsScroll"
+LogsScroll.ScrollBarImageTransparency = 1
+
+local LogsUIList = Instance.new("UIListLayout", LogsScroll)
+LogsUIList.SortOrder = Enum.SortOrder.LayoutOrder
+LogsUIList.Padding = UDim.new(0, 2)
+
+local LogsControlBar = CreateInstance("Frame", {
+    Name = "LogsControlBar",
+    Parent = LogsFrame,
+    Size = UDim2.new(1, 0, 0, 35),
+    Position = UDim2.new(0, 0, 1, -35),
+    BackgroundTransparency = 1
+})
+
+local function CreateLogBtn(name, text, xPos)
+    local btn = CreateInstance("TextButton", {
+        Name = name,
+        Parent = LogsControlBar,
+        Size = UDim2.new(0, 90, 0, 28),
+        Position = UDim2.new(0, xPos, 0.5, -14),
+        BackgroundColor3 = Colors.Background,
+        BorderSizePixel = 0,
+        Text = text,
+        TextColor3 = Colors.Text,
+        Font = Enum.Font.SourceSansBold,
+        TextSize = 15
+    })
+    ApplyUICornerAndStroke(btn, 4)
+    return btn
+end
+
+local LogsClearBtn = CreateLogBtn("Clear", "Clear", 6)
+local LogsSaveBtn = CreateLogBtn("Save", "Save", 106)
+local LogsAutoBtn = CreateLogBtn("AutoScroll", "Auto: On", 206)
 
 local Emotes = {}
 local ThemeColor = Colors.Text
@@ -292,7 +387,6 @@ local FavoriteOff = "rbxassetid://10651060677"
 local FavoriteOn = "rbxassetid://10651061109"
 local FavoritedEmotes = {}
 local IsStudio = false
-
 local CustomEmoteList = {
 	{"Dance 1", 12521009666},
 	{"Dance 2", 12521169800},
@@ -310,7 +404,6 @@ local CustomEmoteList = {
 	{"Roblox - Rifle Reload", 3972131105},
 	{"Accurate T Pose", 2516930867},
 }
-
 local freezeEmotes = false
 
 local function AddEmote(name, id, price)
@@ -367,8 +460,7 @@ local function CreateHoverEffect(button)
 end
 
 local function StopAnim()
-	local LocalPlayer = Players.LocalPlayer
-	local character = LocalPlayer.Character
+	local character = Players.LocalPlayer.Character
 	local humanoid = character and character:FindFirstChildOfClass("Humanoid")
 	if humanoid then
 		for _, track in ipairs(humanoid:GetPlayingAnimationTracks()) do
@@ -379,8 +471,7 @@ end
 
 local function PlayCustomEmote(id)
 	StopAnim()
-	local LocalPlayer = Players.LocalPlayer
-	local character = LocalPlayer.Character
+	local character = Players.LocalPlayer.Character
 	local humanoid = character and character:FindFirstChildOfClass("Humanoid")
 	if not humanoid then return end
 	local animation = Instance.new("Animation")
@@ -402,8 +493,7 @@ local function PlayCustomEmote(id)
 end
 
 local function PlayCatalogEmote(name, id)
-	local LocalPlayer = Players.LocalPlayer
-	local character = LocalPlayer.Character or LocalPlayer.CharacterAdded:Wait()
+	local character = Players.LocalPlayer.Character or Players.LocalPlayer.CharacterAdded:Wait()
 	local humanoid = character:FindFirstChildOfClass("Humanoid")
 	if humanoid and humanoid.RigType == Enum.HumanoidRigType.R15 then
 		local success, err = pcall(function()
@@ -435,10 +525,8 @@ local function CreateEmoteButton(parentFrame, emoteData)
 		AutoButtonColor = false,
 		Parent = parentFrame
 	})
-
 	ApplyUICornerAndStroke(emoteButton)
 	CreateHoverEffect(emoteButton)
-
 	local isFavorited = table.find(FavoritedEmotes, emoteData.id) ~= nil
 	local favoriteButton = CreateInstance('ImageButton', {
 		Name = "Favorite",
@@ -450,9 +538,7 @@ local function CreateEmoteButton(parentFrame, emoteData)
 		AutoButtonColor = false,
 		Parent = emoteButton
 	})
-
 	ApplyUICornerAndStroke(favoriteButton)
-
 	favoriteButton.MouseButton1Click:Connect(function()
 		local index = table.find(FavoritedEmotes, emoteData.id)
 		if index then
@@ -466,11 +552,9 @@ local function CreateEmoteButton(parentFrame, emoteData)
 			WriteFileFunc("FavoritedEmotes.txt", HttpService:JSONEncode(FavoritedEmotes))
 		end
 	end)
-
 	emoteButton.MouseButton1Click:Connect(function()
 		PlayCatalogEmote(emoteData.name, emoteData.id)
 	end)
-
 	return emoteButton
 end
 
@@ -491,19 +575,16 @@ local function CreateCustomEmoteButton(parentFrame, emoteData)
 		AutoButtonColor = false,
 		Parent = parentFrame
 	})
-
 	ApplyUICornerAndStroke(emoteButton)
 	CreateHoverEffect(emoteButton)
-
 	emoteButton.MouseButton1Click:Connect(function()
 		PlayCustomEmote(id)
 	end)
-
 	return emoteButton
 end
 
-local function UpdateSearchResults()
-	local searchText = SearchBar.Text:lower()
+local function UpdateEmoteSearchResults()
+	local searchText = EmoteSearchBar.Text:lower()
 	for _, child in pairs(EmoteScroll:GetChildren()) do
 		if child:IsA("ImageButton") and child.Name ~= "Favorite" then
 			local emote = nil
@@ -519,7 +600,6 @@ local function UpdateSearchResults()
 			end
 		end
 	end
-
 	local order = 0
 	for _, child in pairs(CustomScroll:GetChildren()) do
 		if child:IsA("TextButton") then
@@ -536,15 +616,12 @@ end
 
 local function LoadEmotes()
 	LoadingFrame.Visible = true
-
 	for _, child in ipairs(EmoteScroll:GetChildren()) do
 		if not child:IsA("UIGridLayout") and not child:IsA("UIListLayout") and not child:IsA("UIPadding") then
 			child:Destroy()
 		end
 	end
-
 	table.clear(Emotes)
-
 	local params = CatalogSearchParams.new()
 	params.AssetTypes = {Enum.AvatarAssetType.EmoteAnimation}
 	params.SortType = Enum.CatalogSortType.RecentlyCreated
@@ -552,7 +629,6 @@ local function LoadEmotes()
 	params.IncludeOffSale = true
 	params.CreatorName = "Roblox"
 	params.Limit = 120
-
 	local function getCatalogPage()
 		local success, catalogPage = pcall(function()
 			return AvatarEditorService:SearchCatalog(params)
@@ -563,14 +639,12 @@ local function LoadEmotes()
 		end
 		return catalogPage
 	end
-
 	local catalogPage = getCatalogPage()
 	if not catalogPage then
 		warn("Failed to fetch emote catalog.")
 		LoadingFrame.Visible = false
 		return
 	end
-
 	local pages = {}
 	while true do
 		local currentPageSuccess, currentPage = pcall(function() return catalogPage:GetCurrentPage() end)
@@ -585,41 +659,201 @@ local function LoadEmotes()
 			task.wait(2)
 		end
 	end
-
 	local totalEmotes = {}
 	for _, page in pairs(pages) do
 		for _, emote in pairs(page) do
 			table.insert(totalEmotes, emote)
 		end
 	end
-
 	for _, emote in pairs(totalEmotes) do
 		AddEmote(emote.Name, emote.Id, emote.Price)
 	end
-
 	AddEmote("Arm Wave", 5915773155)
 	AddEmote("Head Banging", 5915779725)
 	AddEmote("Face Calisthenics", 9830731012)
-
 	table.sort(Emotes, function(a, b) return a.index < b.index end)
-
 	for _, emoteData in pairs(Emotes) do
 		CreateEmoteButton(EmoteScroll, emoteData)
 	end
-
 	for _, child in ipairs(CustomScroll:GetChildren()) do
 		if not child:IsA("UIGridLayout") and not child:IsA("UIListLayout") and not child:IsA("UIPadding") then
 			child:Destroy()
 		end
 	end
-
 	for _, data in ipairs(CustomEmoteList) do
 		CreateCustomEmoteButton(CustomScroll, data)
 	end
-
-	UpdateSearchResults()
+	UpdateEmoteSearchResults()
 	LoadingFrame.Visible = false
 end
+
+local maxLogs = 10000
+local autoScroll = true
+local logs = {}
+local filteredLogs = {}
+local currentLogSearch = ""
+
+local function getPlayerDisplayName(player)
+    return player.DisplayName
+end
+
+local function addLog(msg, player)
+    local playerName = player and getPlayerDisplayName(player) or "System"
+    local fullMsg = playerName .. ": " .. msg
+
+    local lbl = Instance.new("TextLabel")
+    lbl.Size = UDim2.new(1, -12, 0, 20)
+    lbl.BackgroundTransparency = 1
+    lbl.TextColor3 = Colors.Text
+    lbl.Font = Enum.Font.SourceSans
+    lbl.TextSize = 14
+    lbl.Text = fullMsg
+    lbl.TextXAlignment = Enum.TextXAlignment.Center
+    lbl.TextWrapped = true
+    lbl.Parent = LogsScroll
+    lbl.Name = "LogEntry"
+    lbl:SetAttribute("OriginalText", fullMsg)
+
+    table.insert(logs, fullMsg)
+    table.insert(filteredLogs, lbl)
+
+    if #logs > maxLogs then
+        table.remove(logs, 1)
+        if LogsScroll:FindFirstChildOfClass("TextLabel") then
+            LogsScroll:FindFirstChildOfClass("TextLabel"):Destroy()
+        end
+    end
+
+    task.wait()
+    LogsScroll.CanvasSize = UDim2.new(0, 0, 0, LogsUIList.AbsoluteContentSize.Y)
+    if autoScroll then
+        LogsScroll.CanvasPosition = Vector2.new(0, LogsScroll.CanvasSize.Y.Offset)
+    end
+end
+
+local function updateFilteredLogs()
+    for _, v in pairs(LogsScroll:GetChildren()) do
+        if v:IsA("TextLabel") and v.Name == "LogEntry" then
+            v.Visible = false
+        end
+    end
+
+    filteredLogs = {}
+
+    for _, logLabel in pairs(LogsScroll:GetChildren()) do
+        if logLabel:IsA("TextLabel") and logLabel.Name == "LogEntry" then
+            local originalText = logLabel:GetAttribute("OriginalText") or ""
+            if currentLogSearch == "" or string.find(string.lower(originalText), string.lower(currentLogSearch)) then
+                logLabel.Visible = true
+                table.insert(filteredLogs, logLabel)
+            else
+                logLabel.Visible = false
+            end
+        end
+    end
+
+    LogsScroll.CanvasSize = UDim2.new(0, 0, 0, LogsUIList.AbsoluteContentSize.Y)
+    if autoScroll then
+        LogsScroll.CanvasPosition = Vector2.new(0, LogsScroll.CanvasSize.Y.Offset)
+    end
+end
+
+LogsSearchBox:GetPropertyChangedSignal("Text"):Connect(function()
+    currentLogSearch = LogsSearchBox.Text
+    updateFilteredLogs()
+end)
+
+for _, plr in pairs(Players:GetPlayers()) do
+    plr.Chatted:Connect(function(msg)
+        addLog(msg, plr)
+    end)
+end
+
+Players.PlayerAdded:Connect(function(plr)
+    plr.Chatted:Connect(function(msg)
+        addLog(msg, plr)
+    end)
+end)
+
+addLog("Chat logger initialized", nil)
+
+LogsClearBtn.MouseButton1Click:Connect(function()
+    for _, v in pairs(LogsScroll:GetChildren()) do
+        if v:IsA("TextLabel") and v.Name == "LogEntry" then
+            v:Destroy()
+        end
+    end
+    logs = {}
+    filteredLogs = {}
+end)
+
+LogsSaveBtn.MouseButton1Click:Connect(function()
+    local joined = table.concat(logs, "\n")
+    if writefile then
+        writefile("chat_logs.txt", joined)
+        addLog("Chat logs saved to chat_logs.txt", nil)
+    else
+        setclipboard(joined)
+        addLog("Chat logs copied to clipboard", nil)
+    end
+end)
+
+LogsAutoBtn.MouseButton1Click:Connect(function()
+    autoScroll = not autoScroll
+    LogsAutoBtn.Text = "Auto: " .. (autoScroll and "On" or "Off")
+end)
+
+local currentTab = "EmoteTab"
+local tabButtons = {
+	EmoteTab = EmoteTabBtn,
+	CustomEmoteTab = CustomEmoteTabBtn,
+	LogsTab = LogsTabBtn
+}
+local tabFrames = {
+	EmoteTab = {frame = EmoteFrame, scroll = EmoteScroll},
+	CustomEmoteTab = {frame = EmoteFrame, scroll = CustomScroll},
+	LogsTab = {frame = LogsFrame, scroll = nil}
+}
+
+local function switchTab(tabName)
+	if currentTab == tabName then return end
+
+	local oldTabData = tabFrames[currentTab]
+	local newTabData = tabFrames[tabName]
+
+	local oldButton = tabButtons[currentTab]
+	local newButton = tabButtons[tabName]
+
+	oldButton.BackgroundColor3 = Colors.Background
+	newButton.BackgroundColor3 = Colors.TabSelected
+
+	if oldTabData.frame ~= newTabData.frame then
+		oldTabData.frame.Visible = false
+	end
+
+	if oldTabData.scroll then oldTabData.scroll.Visible = false end
+	if newTabData.scroll then newTabData.scroll.Visible = true end
+
+	newTabData.frame.Visible = true
+
+	currentTab = tabName
+
+	if tabName == "CustomEmoteTab" then
+		FreezeButton.Visible = true
+	else
+		FreezeButton.Visible = false
+	end
+end
+
+EmoteTabBtn.MouseButton1Click:Connect(function()
+	switchTab("EmoteTab")
+end)
+CustomEmoteTabBtn.MouseButton1Click:Connect(function()
+	switchTab("CustomEmoteTab")
+end)
+LogsTabBtn.MouseButton1Click:Connect(function()
+	switchTab("LogsTab")
+end)
 
 local function connectButton(button, downColor, upColor)
 	local down = button.MouseButton1Down:Connect(function()
@@ -637,88 +871,32 @@ end
 connectButton(CloseButton, Colors.Background, Colors.Background)
 connectButton(MinimizeButton, Colors.Background, Colors.Background)
 
-local currentTab = "EmoteTabs"
-local tabButtons = {
-	EmoteTabs = EmoteTabs,
-	CustomEmotes = CustomEmotes
-}
-local tabFrames = {
-	EmoteTabs = EmoteScroll,
-	CustomEmotes = CustomScroll
-}
-
-local function switchTab(tabName)
-	if currentTab == tabName then return end
-	local oldFrame = tabFrames[currentTab]
-	local newFrame = tabFrames[tabName]
-	local oldButton = tabButtons[currentTab]
-	local newButton = tabButtons[tabName]
-
-	TweenService:Create(oldFrame, TweenInfo.new(0.2, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {
-		Size = UDim2.new(0.8, 0, 1, -72),
-		Position = UDim2.new(0.1, 0, 0, 72),
-		BackgroundTransparency = 1
-	}):Play()
-
-	oldButton.BackgroundColor3 = Colors.Background
-	newButton.BackgroundColor3 = Colors.TabSelected
-
-	wait(0.2)
-
-	oldFrame.Visible = false
-	newFrame.Visible = true
-	newFrame.Size = UDim2.new(0.8, 0, 1, -72)
-	newFrame.Position = UDim2.new(0.1, 0, 0, 72)
-	newFrame.BackgroundTransparency = 1
-
-	TweenService:Create(newFrame, TweenInfo.new(0.2, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {
-		Size = UDim2.new(1, 0, 1, -72),
-		Position = UDim2.new(0, 0, 0, 72),
-		BackgroundTransparency = 0
-	}):Play()
-
-	currentTab = tabName
-
-	if tabName == "CustomEmotes" then
-		FreezeButton.Visible = true
-	else
-		FreezeButton.Visible = false
-	end
-end
-
-EmoteTabs.MouseButton1Click:Connect(function()
-	switchTab("EmoteTabs")
-end)
-
-CustomEmotes.MouseButton1Click:Connect(function()
-	switchTab("CustomEmotes")
-end)
-
 local minimized = false
 MinimizeButton.MouseButton1Click:Connect(function()
 	minimized = not minimized
 	if minimized then
-		TweenService:Create(EmoteFrame, TweenInfo.new(0.3, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {
+		TweenService:Create(MainFrame, TweenInfo.new(0.3, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {
 			Size = UDim2.new(0, 312, 0, 23)
 		}):Play()
 	else
-		TweenService:Create(EmoteFrame, TweenInfo.new(0.3, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {
-			Size = UDim2.new(0, 312, 0, 389)
+		TweenService:Create(MainFrame, TweenInfo.new(0.3, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {
+			Size = UDim2.new(0, 312, 0, 400)
 		}):Play()
 	end
 end)
 
 local function Cleanup()
-	TweenService:Create(EmoteFrame, TweenInfo.new(0.5, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {
+	TweenService:Create(MainFrame, TweenInfo.new(0.5, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {
 		BackgroundTransparency = 1,
-		Position = UDim2.new(0, -312, 0.6, -194.5)
+		Position = UDim2.new(0, -312, 0.5, 0)
 	}):Play()
 	wait(0.5)
-	EmoteGui:Destroy()
+	MainGui:Destroy()
 end
 
 CloseButton.MouseButton1Click:Connect(Cleanup)
-SearchBar:GetPropertyChangedSignal("Text"):Connect(UpdateSearchResults)
+
+EmoteSearchBar:GetPropertyChangedSignal("Text"):Connect(UpdateEmoteSearchResults)
 
 FreezeButton.MouseButton1Click:Connect(function()
 	freezeEmotes = not freezeEmotes
@@ -729,8 +907,8 @@ spawn(function()
 	LoadEmotes()
 end)
 
-EmoteGui.AncestryChanged:Connect(function()
-	if not EmoteGui:IsDescendantOf(game) then
-		EmoteGui:Destroy()
+MainGui.AncestryChanged:Connect(function()
+	if not MainGui:IsDescendantOf(game) then
+		MainGui:Destroy()
 	end
 end)
