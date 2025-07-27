@@ -702,25 +702,34 @@ local function addLog(msg, player)
     local fullMsg = playerName .. ": " .. msg
 
     local lbl = Instance.new("TextLabel")
-    lbl.Size = UDim2.new(1, -12, 0, 20)
+    lbl.Name = "LogEntry"
+    lbl.Text = fullMsg
+    lbl.TextWrapped = true
+    lbl.TextXAlignment = Enum.TextXAlignment.Left
+    lbl.TextYAlignment = Enum.TextYAlignment.Top
     lbl.BackgroundTransparency = 1
     lbl.TextColor3 = Colors.Text
     lbl.Font = Enum.Font.SourceSans
     lbl.TextSize = 14
-    lbl.Text = fullMsg
-    lbl.TextXAlignment = Enum.TextXAlignment.Center
-    lbl.TextWrapped = true
-    lbl.Parent = LogsScroll
-    lbl.Name = "LogEntry"
+    lbl.Size = UDim2.new(1, -12, 0, 0)
+    lbl.AutomaticSize = Enum.AutomaticSize.Y
     lbl:SetAttribute("OriginalText", fullMsg)
+    lbl.Parent = LogsScroll
+
+    local padding = Instance.new("UIPadding")
+    padding.PaddingLeft = UDim.new(0, 6)
+    padding.PaddingRight = UDim.new(0, 6)
+    padding.PaddingTop = UDim.new(0, 2)
+    padding.PaddingBottom = UDim.new(0, 2)
+    padding.Parent = lbl
 
     table.insert(logs, fullMsg)
     table.insert(filteredLogs, lbl)
 
     if #logs > maxLogs then
         table.remove(logs, 1)
-        if LogsScroll:FindFirstChildOfClass("TextLabel") then
-            LogsScroll:FindFirstChildOfClass("TextLabel"):Destroy()
+        if LogsScroll:FindFirstChild("LogEntry") then
+            LogsScroll:FindFirstChild("LogEntry"):Destroy()
         end
     end
 
