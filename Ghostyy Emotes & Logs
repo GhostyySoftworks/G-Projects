@@ -7,12 +7,12 @@ local function CreateInstance(cls, props)
 end
 
 local Colors = {
-	Background = Color3.fromRGB(30, 30, 30),
-	Border = Color3.fromRGB(30, 30, 30),
-	Text = Color3.fromRGB(255, 255, 255),
-	TabSelected = Color3.fromRGB(30, 30, 30),
-	TabHover = Color3.fromRGB(30, 30, 30),
-	SearchBar = Color3.fromRGB(30, 30, 30)
+	Background = Color3.fromRGB(15, 15, 15),
+	Border = Color3.fromRGB(25, 25, 25),
+	Text = Color3.fromRGB(160, 160, 160),
+	TabSelected = Color3.fromRGB(15, 15, 15),
+	TabHover = Color3.fromRGB(15, 15, 15),
+	SearchBar = Color3.fromRGB(15, 15, 15)
 }
 
 local CoreGui = game:GetService("CoreGui")
