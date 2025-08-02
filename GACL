@@ -18,14 +18,14 @@ local function showNotification(title, description, imageId)
     end)
 end
 
-showNotification("Ghostyys ACL", "Loading Anti Chat & Screenshot Logger...", "rbxassetid://14436167187")
+showNotification("Ghostyys ACL", "Loading Anti Chat & Screenshot Logger...", "rbxassetid://130542052317197")
 
 if TextChatService.ChatVersion == Enum.ChatVersion.TextChatService then
     local startTime = tick()
     task.wait(0.21)
 
     if _G.GhostyysACLLoaded then
-        showNotification("Ghostyys ACL", "Anti Chat & Screenshot Logger already loaded!", "rbxassetid://14436167187")
+        showNotification("Ghostyys ACL", "Anti Chat & Screenshot Logger already loaded!", "rbxassetid://130542052317197")
         return
     end
     _G.GhostyysACLLoaded = true
@@ -244,7 +244,7 @@ else
     end) then
         loadstring(game:HttpGet("https://gitlab.com/GhostyySoftworks/G-Projects/-/raw/main/GACL?ref_type=heads"))()
     end
-    showNotification("Ghostyys ACL", "Anti Chat & Screenshot Logger Loaded!", "rbxassetid://14436167187")
+    showNotification("Ghostyys ACL", "Anti Chat & Screenshot Logger Loaded!", "rbxassetid://130542052317197")
 end
 
 task.spawn(function()
