@@ -30,7 +30,7 @@ if TextChatService.ChatVersion == Enum.ChatVersion.TextChatService then
     end
     _G.GhostyysACLLoaded = true
 
-    showNotification("Ghostyys ACL", string.format("Anti Chat & Screenshot Logger Loaded in %.2fs!", tick() - startTime), "rbxassetid://14436167187")
+    showNotification("Ghostyys ACL", string.format("Anti Chat & Screenshot Logger Loaded in %.2fs!", tick() - startTime), "rbxassetid://130542052317197")
 
     if setfflag then
         pcall(function()
