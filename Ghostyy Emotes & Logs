@@ -704,24 +704,25 @@ local function addLog(msg, player)
     lbl.AutomaticSize = Enum.AutomaticSize.Y
     lbl:SetAttribute("OriginalText", fullMsg)
     lbl.Parent = LogsScroll
-
     local padding = Instance.new("UIPadding")
     padding.PaddingLeft = UDim.new(0, 6)
     padding.PaddingRight = UDim.new(0, 6)
     padding.PaddingTop = UDim.new(0, 2)
     padding.PaddingBottom = UDim.new(0, 2)
     padding.Parent = lbl
-
     table.insert(logs, fullMsg)
-
+    table.insert(filteredLogs, lbl)
     if #logs > maxLogs then
         table.remove(logs, 1)
         if LogsScroll:FindFirstChild("LogEntry") then
             LogsScroll:FindFirstChild("LogEntry"):Destroy()
         end
     end
-
-    updateFilteredLogs()
+    task.wait()
+    LogsScroll.CanvasSize = UDim2.new(0, 0, 0, LogsUIList.AbsoluteContentSize.Y)
+    if autoScroll then
+        LogsScroll.CanvasPosition = Vector2.new(0, LogsScroll.CanvasSize.Y.Offset)
+    end
 end
 
 local function updateFilteredLogs()
@@ -730,19 +731,18 @@ local function updateFilteredLogs()
             v.Visible = false
         end
     end
-
     filteredLogs = {}
     for _, logLabel in pairs(LogsScroll:GetChildren()) do
         if logLabel:IsA("TextLabel") and logLabel.Name == "LogEntry" then
             local originalText = logLabel:GetAttribute("OriginalText") or ""
-            if currentLogSearch == "" or string.find(string.lower(originalText), string.lower(currentLogSearch), 1, true) then
+            if currentLogSearch == "" or string.find(string.lower(originalText), string.lower(currentLogSearch)) then
                 logLabel.Visible = true
                 table.insert(filteredLogs, logLabel)
+            else
+                logLabel.Visible = false
             end
         end
     end
-
-    task.wait()
     LogsScroll.CanvasSize = UDim2.new(0, 0, 0, LogsUIList.AbsoluteContentSize.Y)
     if autoScroll then
         LogsScroll.CanvasPosition = Vector2.new(0, LogsScroll.CanvasSize.Y.Offset)
