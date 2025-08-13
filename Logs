@@ -35,7 +35,7 @@ local MainFrame = CreateInstance('Frame', {
     BackgroundColor3 = Colors.Background,
     BorderSizePixel = 0,
     Size = UDim2.new(0, 312, 0, 400),
-    Position = UDim2.new(5, -312, 0, 35),
+    Position = UDim2.new(0, -312, 2, 36),
     ClipsDescendants = true,
     BackgroundTransparency = 1
 })
@@ -52,7 +52,7 @@ end
 
 TweenService:Create(MainFrame, TweenInfo.new(0.5, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {
     BackgroundTransparency = 0,
-    Position = UDim2.new(0, 0, 0, 33)
+    Position = UDim2.new(0, 2, 0, 36)
 }):Play()
 
 local MainLabel = CreateInstance('TextLabel', {
