@@ -13,7 +13,8 @@ end
 
 local Colors = {
     Background = Color3.fromRGB(15, 15, 15),
-    Text = Color3.fromRGB(0, 85, 255)
+    Text = Color3.fromRGB(0, 85, 255),
+    Border = Color3.fromRGB(0, 85, 255)
 }
 
 local existing = CoreGui:FindFirstChild("GhostyyWareGui")
@@ -42,6 +43,11 @@ do
     local corner = Instance.new("UICorner")
     corner.CornerRadius = UDim.new(0, 8)
     corner.Parent = MainFrame
+    
+    local stroke = Instance.new("UIStroke")
+    stroke.Color = Colors.Border
+    stroke.Thickness = 2
+    stroke.Parent = MainFrame
 end
 
 TweenService:Create(MainFrame, TweenInfo.new(0.5, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {
@@ -294,13 +300,12 @@ Players.PlayerAdded:Connect(function(plr)
     end)
 end)
 
--- 🔔 Notification: Chat logger initialized
 StarterGui:SetCore("SendNotification", {
     Title = "Chat Log System",
     Text = "Chat logger initialized",
     Duration = 2,
-    Icon = "", -- Optional icon (you can set an asset ID if desired)
-    SoundId = "rbxassetid://18448089848" -- 🔊 Sound effect
+    Icon = "",
+    SoundId = "rbxassetid://18448089848"
 })
 
 LogsClearBtn.MouseButton1Click:Connect(function()
@@ -353,7 +358,6 @@ LogsAutoBtn.MouseButton1Click:Connect(function()
     })
 end)
 
--- Minimize/Restore
 local minimized = false
 local originalSize = MainFrame.Size
 local tweenInfo = TweenInfo.new(0.3, Enum.EasingStyle.Quad, Enum.EasingDirection.Out)
@@ -371,7 +375,6 @@ MinimizeButton.MouseButton1Click:Connect(function()
     end
 end)
 
--- Close with animation
 CloseButton.MouseButton1Click:Connect(function()
     local tween = TweenService:Create(MainFrame, tweenInfo, {
         Position = UDim2.new(0, -MainFrame.AbsoluteSize.X, 0, MainFrame.Position.Y.Offset)
