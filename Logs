@@ -35,7 +35,7 @@ local MainFrame = CreateInstance('Frame', {
     BackgroundColor3 = Colors.Background,
     BorderSizePixel = 0,
     Size = UDim2.new(0, 312, 0, 400),
-    Position = UDim2.new(0, -312, 35, 35),
+    Position = UDim2.new(35, -312, 0, 35),
     ClipsDescendants = true,
     BackgroundTransparency = 1
 })
