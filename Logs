@@ -12,9 +12,9 @@ local function CreateInstance(cls, props)
 end
 
 local Colors = {
-    Background = Color3.fromRGB(15, 15, 15),
-    Text = Color3.fromRGB(255, 255, 255),
-    Border = Color3.fromRGB(25, 25, 25)
+    Background = Color3.fromRGB(255, 255, 255),
+    Text = Color3.fromRGB(15, 15, 15),
+    Border = Color3.fromRGB(15, 15, 15)
 }
 
 local existing = CoreGui:FindFirstChild("GhostyyWareGui")
