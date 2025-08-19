@@ -13,8 +13,8 @@ end
 
 local Colors = {
     Background = Color3.fromRGB(10, 10, 10),
-    Text = Color3.fromRGB(178, 34, 34),
-    Border = Color3.fromRGB(178, 34, 34)
+    Text = Color3.fromRGB(191, 191, 191),
+    Border = Color3.fromRGB(191, 191, 191)
 }
 
 local existing = CoreGui:FindFirstChild("GhostyyWareGui")
@@ -385,3 +385,4 @@ CloseButton.MouseButton1Click:Connect(function()
     end)
 
 end)
+
