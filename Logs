@@ -2,6 +2,7 @@ local Players = game:GetService("Players")
 local CoreGui = game:GetService("CoreGui")
 local TweenService = game:GetService("TweenService")
 local StarterGui = game:GetService("StarterGui")
+local TextChatService = game:GetService("TextChatService")
 
 local function CreateInstance(cls, props)
     local inst = Instance.new(cls)
@@ -288,21 +289,16 @@ LogsSearchBox:GetPropertyChangedSignal("Text"):Connect(function()
     updateFilteredLogs()
 end)
 
-for _, plr in pairs(Players:GetPlayers()) do
-    plr.Chatted:Connect(function(msg)
-        addLog(msg, plr)
-    end)
-end
-
-Players.PlayerAdded:Connect(function(plr)
-    plr.Chatted:Connect(function(msg)
-        addLog(msg, plr)
-    end)
+TextChatService.MessageReceived:Connect(function(textChatMessage)
+    local player = Players:GetPlayerByUserId(textChatMessage.TextSource.UserId)
+    if player then
+        addLog(textChatMessage.Text, player)
+    end
 end)
 
 StarterGui:SetCore("SendNotification", {
     Title = "Chat Log System",
-    Text = "Chat logger initialized",
+    Text = "Chat logger initialized (TextChatService)",
     Duration = 2,
     Icon = "",
     SoundId = "rbxassetid://18448089848"
@@ -383,5 +379,4 @@ CloseButton.MouseButton1Click:Connect(function()
     tween.Completed:Connect(function()
         MainGui:Destroy()
     end)
-
 end)
