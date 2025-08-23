@@ -1,0 +1,386 @@
+local Players = game:GetService("Players")
+local CoreGui = game:GetService("CoreGui")
+local TweenService = game:GetService("TweenService")
+local StarterGui = game:GetService("StarterGui")
+
+local function CreateInstance(cls, props)
+    local inst = Instance.new(cls)
+    for i, v in pairs(props) do
+        inst[i] = v
+    end
+    return inst
+end
+
+local Colors = {
+    Background = Color3.fromRGB(10, 10, 10),
+    Text = Color3.fromRGB(0, 85, 255),
+    Border = Color3.fromRGB(0, 85, 255)
+}
+
+local existing = CoreGui:FindFirstChild("GhostyyWareGui")
+if existing then
+    existing:Destroy()
+end
+
+local MainGui = CreateInstance("ScreenGui", {
+    Name = "GhostyyWareGui",
+    ResetOnSpawn = false,
+    ZIndexBehavior = Enum.ZIndexBehavior.Sibling,
+    Parent = CoreGui
+})
+
+local MainFrame = CreateInstance('Frame', {
+    Name = 'MainFrame',
+    Parent = MainGui,
+    BackgroundColor3 = Colors.Background,
+    BorderSizePixel = 0,
+    Size = UDim2.new(0, 312, 0, 400),
+    Position = UDim2.new(0, -312, 2, 36),
+    ClipsDescendants = true,
+    BackgroundTransparency = 1
+})
+do
+    local corner = Instance.new("UICorner")
+    corner.CornerRadius = UDim.new(0, 8)
+    corner.Parent = MainFrame
+    
+    local stroke = Instance.new("UIStroke")
+    stroke.Color = Colors.Border
+    stroke.Thickness = 2
+    stroke.Parent = MainFrame
+end
+
+TweenService:Create(MainFrame, TweenInfo.new(0.5, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {
+    BackgroundTransparency = 0,
+    Position = UDim2.new(0, 2, 0, 36)
+}):Play()
+
+local MainLabel = CreateInstance('TextLabel', {
+    Name = 'MainLabel',
+    Parent = MainFrame,
+    Text = 'GhostyyWare',
+    Font = Enum.Font.SourceSansBold,
+    TextSize = 17,
+    BackgroundColor3 = Colors.Background,
+    BorderSizePixel = 0,
+    Size = UDim2.new(1, 0, 0, 23),
+    TextColor3 = Colors.Text,
+    ZIndex = 2
+})
+do
+    local corner = Instance.new("UICorner")
+    corner.CornerRadius = UDim.new(0, 8)
+    corner.Parent = MainLabel
+end
+
+local CloseButton = CreateInstance('TextButton', {
+    Name = 'CloseButton',
+    Parent = MainLabel,
+    Text = 'X',
+    Font = Enum.Font.SourceSansBold,
+    TextSize = 17,
+    BackgroundColor3 = Colors.Background,
+    BorderSizePixel = 0,
+    Position = UDim2.new(1, -25, 0, 0),
+    Size = UDim2.new(0, 23, 1, 0),
+    TextColor3 = Colors.Text,
+    ZIndex = 3
+})
+do
+    local corner = Instance.new("UICorner")
+    corner.CornerRadius = UDim.new(0, 8)
+    corner.Parent = CloseButton
+end
+
+local MinimizeButton = CreateInstance('TextButton', {
+    Name = 'MinimizeButton',
+    Parent = MainLabel,
+    Text = '_',
+    Font = Enum.Font.SourceSansBold,
+    TextSize = 17,
+    BackgroundColor3 = Colors.Background,
+    BorderSizePixel = 0,
+    Position = UDim2.new(1, -50, 0, 0),
+    Size = UDim2.new(0, 23, 1, 0),
+    TextColor3 = Colors.Text,
+    ZIndex = 3
+})
+do
+    local corner = Instance.new("UICorner")
+    corner.CornerRadius = UDim.new(0, 8)
+    corner.Parent = MinimizeButton
+end
+
+local LogsFrame = CreateInstance('Frame', {
+    Name = 'LogsFrame',
+    Parent = MainFrame,
+    BackgroundColor3 = Colors.Background,
+    BorderSizePixel = 0,
+    Size = UDim2.new(1, 0, 1, -23),
+    Position = UDim2.new(0, 0, 0, 23),
+    Visible = true,
+    BackgroundTransparency = 0
+})
+do
+    local corner = Instance.new("UICorner")
+    corner.CornerRadius = UDim.new(0, 8)
+    corner.Parent = LogsFrame
+end
+
+local LogsSearchFrame = CreateInstance("Frame", {
+    Name = "LogsSearchFrame",
+    Parent = LogsFrame,
+    Size = UDim2.new(1, -10, 0, 25),
+    Position = UDim2.new(0, 5, 0, 5),
+    BackgroundColor3 = Colors.Background,
+    BorderSizePixel = 0
+})
+do
+    local corner = Instance.new("UICorner")
+    corner.CornerRadius = UDim.new(0, 8)
+    corner.Parent = LogsSearchFrame
+end
+
+local LogsSearchBox = CreateInstance("TextBox", {
+    Name = "LogsSearchBox",
+    Parent = LogsSearchFrame,
+    Size = UDim2.new(1, -10, 1, 0),
+    Position = UDim2.new(0, 5, 0, 0),
+    BackgroundTransparency = 1,
+    Text = "",
+    PlaceholderText = "Search logs...",
+    TextColor3 = Colors.Text,
+    PlaceholderColor3 = Colors.Text,
+    Font = Enum.Font.SourceSans,
+    TextSize = 14,
+    TextXAlignment = Enum.TextXAlignment.Center,
+    ClearTextOnFocus = true
+})
+
+local LogsScroll = Instance.new("ScrollingFrame", LogsFrame)
+LogsScroll.Position = UDim2.new(0, 0, 0, 35)
+LogsScroll.Size = UDim2.new(1, 0, 1, -70)
+LogsScroll.CanvasSize = UDim2.new(0, 0, 0, 0)
+LogsScroll.BackgroundTransparency = 1
+LogsScroll.ScrollBarThickness = 6
+LogsScroll.Name = "LogsScroll"
+LogsScroll.ScrollBarImageTransparency = 1
+do
+    local corner = Instance.new("UICorner")
+    corner.CornerRadius = UDim.new(0, 8)
+    corner.Parent = LogsScroll
+end
+
+local LogsUIList = Instance.new("UIListLayout", LogsScroll)
+LogsUIList.SortOrder = Enum.SortOrder.LayoutOrder
+LogsUIList.Padding = UDim.new(0, 2)
+
+LogsUIList:GetPropertyChangedSignal("AbsoluteContentSize"):Connect(function()
+    LogsScroll.CanvasSize = UDim2.new(0, 0, 0, LogsUIList.AbsoluteContentSize.Y)
+end)
+
+local LogsControlBar = CreateInstance("Frame", {
+    Name = "LogsControlBar",
+    Parent = LogsFrame,
+    Size = UDim2.new(1, 0, 0, 35),
+    Position = UDim2.new(0, 0, 1, -35),
+    BackgroundTransparency = 1
+})
+
+local function CreateLogBtn(name, text, xPos)
+    local btn = CreateInstance("TextButton", {
+        Name = name,
+        Parent = LogsControlBar,
+        Size = UDim2.new(0, 90, 0, 28),
+        Position = UDim2.new(0, xPos, 0.5, -14),
+        BackgroundColor3 = Colors.Background,
+        BorderSizePixel = 0,
+        Text = text,
+        TextColor3 = Colors.Text,
+        Font = Enum.Font.SourceSansBold,
+        TextSize = 15
+    })
+    do
+        local corner = Instance.new("UICorner")
+        corner.CornerRadius = UDim.new(0, 8)
+        corner.Parent = btn
+    end
+    return btn
+end
+
+local LogsClearBtn = CreateLogBtn("Clear", "Clear", 6)
+local LogsSaveBtn = CreateLogBtn("Save", "Save", 106)
+local LogsAutoBtn = CreateLogBtn("AutoScroll", "Auto: On", 206)
+
+local maxLogs = 10000
+local autoScroll = true
+local logs = {}
+local filteredLogs = {}
+local currentLogSearch = ""
+
+local function getPlayerDisplayName(player)
+    return player.DisplayName
+end
+
+local function addLog(msg, player)
+    local playerName = player and getPlayerDisplayName(player) or "System"
+    local fullMsg = playerName .. ": " .. msg
+    local lbl = Instance.new("TextLabel")
+    lbl.Name = "LogEntry"
+    lbl.Text = fullMsg
+    lbl.TextWrapped = true
+    lbl.TextXAlignment = Enum.TextXAlignment.Left
+    lbl.TextYAlignment = Enum.TextYAlignment.Top
+    lbl.BackgroundTransparency = 1
+    lbl.TextColor3 = Colors.Text
+    lbl.Font = Enum.Font.SourceSans
+    lbl.TextSize = 14
+    lbl.Size = UDim2.new(1, -12, 0, 0)
+    lbl.AutomaticSize = Enum.AutomaticSize.Y
+    lbl:SetAttribute("OriginalText", fullMsg)
+    lbl.Parent = LogsScroll
+
+    local padding = Instance.new("UIPadding")
+    padding.PaddingLeft = UDim.new(0, 6)
+    padding.PaddingRight = UDim.new(0, 6)
+    padding.PaddingTop = UDim.new(0, 2)
+    padding.PaddingBottom = UDim.new(0, 2)
+    padding.Parent = lbl
+
+    table.insert(logs, fullMsg)
+    table.insert(filteredLogs, lbl)
+
+    if #logs > maxLogs then
+        table.remove(logs, 1)
+        local firstChild = LogsScroll:FindFirstChild("LogEntry")
+        if firstChild then
+            firstChild:Destroy()
+        end
+    end
+
+    LogsScroll.CanvasSize = UDim2.new(0, 0, 0, LogsUIList.AbsoluteContentSize.Y)
+    if autoScroll then
+        LogsScroll.CanvasPosition = Vector2.new(0, LogsScroll.CanvasSize.Y.Offset)
+    end
+end
+
+local function updateFilteredLogs()
+    filteredLogs = {}
+    for _, logLabel in pairs(LogsScroll:GetChildren()) do
+        if logLabel:IsA("TextLabel") and logLabel.Name == "LogEntry" then
+            local originalText = logLabel:GetAttribute("OriginalText") or ""
+            if currentLogSearch == "" or string.find(string.lower(originalText), string.lower(currentLogSearch)) then
+                logLabel.Visible = true
+                table.insert(filteredLogs, logLabel)
+            else
+                logLabel.Visible = false
+            end
+        end
+    end
+    LogsScroll.CanvasSize = UDim2.new(0, 0, 0, LogsUIList.AbsoluteContentSize.Y)
+    if autoScroll then
+        LogsScroll.CanvasPosition = Vector2.new(0, LogsScroll.CanvasSize.Y.Offset)
+    end
+end
+
+LogsSearchBox:GetPropertyChangedSignal("Text"):Connect(function()
+    currentLogSearch = LogsSearchBox.Text
+    updateFilteredLogs()
+end)
+
+for _, plr in pairs(Players:GetPlayers()) do
+    plr.Chatted:Connect(function(msg)
+        addLog(msg, plr)
+    end)
+end
+
+Players.PlayerAdded:Connect(function(plr)
+    plr.Chatted:Connect(function(msg)
+        addLog(msg, plr)
+    end)
+end)
+
+StarterGui:SetCore("SendNotification", {
+    Title = "Chat Log System",
+    Text = "Chat logger initialized",
+    Duration = 2,
+    Icon = "",
+    SoundId = "rbxassetid://18448089848"
+})
+
+LogsClearBtn.MouseButton1Click:Connect(function()
+    for _, v in pairs(LogsScroll:GetChildren()) do
+        if v:IsA("TextLabel") and v.Name == "LogEntry" then
+            v:Destroy()
+        end
+    end
+    logs = {}
+    filteredLogs = {}
+
+    StarterGui:SetCore("SendNotification", {
+        Title = "Chat Log System",
+        Text = "All logs cleared",
+        Duration = 1.5,
+        SoundId = "rbxassetid://18448089848"
+    })
+end)
+
+LogsSaveBtn.MouseButton1Click:Connect(function()
+    local joined = table.concat(logs, "\n")
+    if writefile then
+        writefile("chat_logs.txt", joined)
+        StarterGui:SetCore("SendNotification", {
+            Title = "Chat Log System",
+            Text = "Logs saved to chat_logs.txt",
+            Duration = 3,
+            SoundId = "rbxassetid://18448089848"
+        })
+    else
+        setclipboard(joined)
+        StarterGui:SetCore("SendNotification", {
+            Title = "Chat Log System",
+            Text = "Logs copied to clipboard",
+            Duration = 2.5,
+            SoundId = "rbxassetid://18448089848"
+        })
+    end
+end)
+
+LogsAutoBtn.MouseButton1Click:Connect(function()
+    autoScroll = not autoScroll
+    LogsAutoBtn.Text = "Auto: " .. (autoScroll and "On" or "Off")
+
+    StarterGui:SetCore("SendNotification", {
+        Title = "Chat Log System",
+        Text = "Auto-scroll " .. (autoScroll and "enabled" or "disabled"),
+        Duration = 1.2,
+        SoundId = "rbxassetid://18448089848"
+    })
+end)
+
+local minimized = false
+local originalSize = MainFrame.Size
+local tweenInfo = TweenInfo.new(0.3, Enum.EasingStyle.Quad, Enum.EasingDirection.Out)
+
+MinimizeButton.MouseButton1Click:Connect(function()
+    minimized = not minimized
+    if minimized then
+        TweenService:Create(MainFrame, tweenInfo, {
+            Size = UDim2.new(originalSize.X.Scale, originalSize.X.Offset, 0, 23)
+        }):Play()
+    else
+        TweenService:Create(MainFrame, tweenInfo, {
+            Size = originalSize
+        }):Play()
+    end
+end)
+
+CloseButton.MouseButton1Click:Connect(function()
+    local tween = TweenService:Create(MainFrame, tweenInfo, {
+        Position = UDim2.new(0, -MainFrame.AbsoluteSize.X, 0, MainFrame.Position.Y.Offset)
+    })
+    tween:Play()
+    tween.Completed:Connect(function()
+        MainGui:Destroy()
+    end)
+end)
