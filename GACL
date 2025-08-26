@@ -18,19 +18,19 @@ local function showNotification(title, description, imageId)
     end)
 end
 
-showNotification("Ghostyys ACL", "Loading Anti Chat & Screenshot Logger...", "rbxassetid://90911933368493")
+showNotification("Ghostyys ACL", "Loading Anti Chat & Screenshot Logger...", "rbxassetid://89861885969531")
 
 if TextChatService.ChatVersion == Enum.ChatVersion.TextChatService then
     local startTime = tick()
     task.wait(0.21)
 
     if _G.GhostyysACLLoaded then
-        showNotification("Ghostyys ACL", "Anti Chat & Screenshot Logger already loaded!", "rbxassetid://90911933368493")
+        showNotification("Ghostyys ACL", "Anti Chat & Screenshot Logger already loaded!", "rbxassetid://89861885969531")
         return
     end
     _G.GhostyysACLLoaded = true
 
-    showNotification("Ghostyys ACL", string.format("Anti Chat & Screenshot Logger Loaded in %.2fs!", tick() - startTime), "rbxassetid://90911933368493")
+    showNotification("Ghostyys ACL", string.format("Anti Chat & Screenshot Logger Loaded in %.2fs!", tick() - startTime), "rbxassetid://89861885969531")
 
     if setfflag then
         pcall(function()
@@ -240,11 +240,11 @@ if TextChatService.ChatVersion == Enum.ChatVersion.TextChatService then
     setupChatHook()
 else
     if not pcall(function()
-        loadstring(game:HttpGet("https://gitlab.com/GhostyySoftworks/G-Projects/-/raw/main/GACL?ref_type=heads"))()
+        loadstring(game:HttpGet("https://raw.githubusercontent.com/GhostyySoftworks/G-Projects/refs/heads/main/GACL"))()
     end) then
-        loadstring(game:HttpGet("https://gitlab.com/GhostyySoftworks/G-Projects/-/raw/main/GACL?ref_type=heads"))()
+        loadstring(game:HttpGet("https://raw.githubusercontent.com/GhostyySoftworks/G-Projects/refs/heads/main/GACL"))()
     end
-    showNotification("Ghostyys ACL", "Anti Chat & Screenshot Logger Loaded!", "rbxassetid://90911933368493")
+    showNotification("Ghostyys ACL", "Anti Chat & Screenshot Logger Loaded!", "rbxassetid://89861885969531")
 end
 
 task.spawn(function()
@@ -254,5 +254,6 @@ task.spawn(function()
     until StarterGui:GetCoreGuiEnabled(Enum.CoreGuiType.Chat)
 
 end)
+
 
 
