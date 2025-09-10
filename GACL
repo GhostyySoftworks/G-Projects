@@ -1,259 +1,180 @@
+local StartTime = tick()
+
 if not game:IsLoaded() then
     game.Loaded:Wait()
 end
 
 local Players = game:GetService("Players")
 local TextChatService = game:GetService("TextChatService")
-local RunService = game:GetService("RunService")
-local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local CoreGui = game:GetService("CoreGui")
 local StarterGui = game:GetService("StarterGui")
-
+local UserInputService = game:GetService("UserInputService")
 local lp = Players.LocalPlayer
-local playerGui = lp:WaitForChild("PlayerGui")
 
-local function showNotification(title, description, imageId)
+local function ShowNotification(title, description)
     pcall(function()
-        StarterGui:SetCore("SendNotification", { Title = title; Text = description; Icon = imageId; Duration = 1; })
+        StarterGui:SetCore("SendNotification", { Title = title; Text = description; Icon = "rbxassetid://2541869220"; Duration = 10; })
     end)
 end
 
-showNotification("Ghostyys ACL", "Loading Anti Chat & Screenshot Logger...", "rbxassetid://89861885969531")
-
-if TextChatService.ChatVersion == Enum.ChatVersion.TextChatService then
-    local startTime = tick()
-    task.wait(0.21)
-
-    if _G.GhostyysACLLoaded then
-        showNotification("Ghostyys ACL", "Anti Chat & Screenshot Logger already loaded!", "rbxassetid://89861885969531")
-        return
-    end
-    _G.GhostyysACLLoaded = true
-
-    showNotification("Ghostyys ACL", string.format("Anti Chat & Screenshot Logger Loaded in %.2fs!", tick() - startTime), "rbxassetid://89861885969531")
-
-    if setfflag then
-        pcall(function()
-            setfflag("AbuseReportScreenshot", "False")
-            setfflag("AbuseReportScreenshotPercentage", "0")
-        end)
-    end
-
-    local channel = TextChatService.TextChannels:FindFirstChild("RBXGeneral")
-    local spamText = "/e cheer"
-    local isPlayingEmote = false
-    local useTextMethod = false
-    local hasCharacterWithHumanoid = false
-
-    local cheerCount = 0
-    local maxCheersPerMessage = 4
-    local shouldSendCheer = false
-
-    if not _G.GhostyysACLConnections then
-        _G.GhostyysACLConnections = {}
-    end
-
-    local function checkCharacterType()
-        local char = lp.Character
-        if char and char:FindFirstChildOfClass("Humanoid") and char:FindFirstChild("Animate") then
-            hasCharacterWithHumanoid = true
-        else
-            hasCharacterWithHumanoid = false
-        end
-    end
-
-    local function getIdleAnimationId()
-        local char = lp.Character
-        if not char then return nil end
-        local animate = char:FindFirstChild("Animate")
-        if not animate then return nil end
-        local idle = animate:FindFirstChild("idle")
-        if not idle then return nil end
-        local idleAnim1 = idle:FindFirstChild("Animation1")
-        if idleAnim1 and idleAnim1:IsA("Animation") then
-            return idleAnim1.AnimationId
-        end
-        local idleAnim2 = idle:FindFirstChild("Animation2")
-        if idleAnim2 and idleAnim2:IsA("Animation") then
-            return idleAnim2.AnimationId
-        end
-        return nil
-    end
-
-    local function blockCheerAnimation()
-        pcall(function()
-            local char = lp.Character
-            if not char then return end
-            local animate = char:FindFirstChild("Animate")
-            if not animate then return end
-            local cheer = animate:FindFirstChild("cheer")
-            if not cheer then return end
-            local cheerAnim = cheer:FindFirstChild("CheerAnim")
-            if not cheerAnim or not cheerAnim:IsA("Animation") then return end
-
-            local idleAnimId = getIdleAnimationId()
-            if idleAnimId then
-                cheerAnim.AnimationId = idleAnimId
-            end
-        end)
-    end
-
-    local function setupEmoteDetection(character)
-        local humanoid = character:WaitForChild("Humanoid")
-        if humanoid then
-            humanoid.AnimationPlayed:Connect(function(animationTrack)
-                if animationTrack.Name == "cheer" then
-                    animationTrack:Stop()
-                    blockCheerAnimation()
-                end
-            end)
-        end
-    end
-
-    lp.CharacterAdded:Connect(function(character)
-        checkCharacterType()
-        blockCheerAnimation()
-        setupEmoteDetection(character)
-    end)
-
-    if lp.Character then
-        checkCharacterType()
-        blockCheerAnimation()
-        setupEmoteDetection(lp.Character)
-    end
-
-    task.spawn(function()
-        while _G.GhostyysACLLoaded do
-            if hasCharacterWithHumanoid then
-                blockCheerAnimation()
-            end
-            task.wait(0.5)
-        end
-    end)
-
-    local function AntiChatLog(message)
-        if message:sub(1, 1) == "/" then
-            return message
-        else
-            return "ּ" .. message
-        end
-    end
-
-    local function startCheerSequence()
-        cheerCount = 0
-        shouldSendCheer = true
-
-        task.spawn(function()
-            for i = 1, maxCheersPerMessage do
-                if not shouldSendCheer then break end
-
-                pcall(function()
-                    if channel and hasCharacterWithHumanoid and not useTextMethod then
-                        channel:SendAsync(spamText)
-                    end
-
-                    local sayRemote = ReplicatedStorage:FindFirstChild("SayMessageRequest", true)
-                    if hasCharacterWithHumanoid and sayRemote and not useTextMethod then
-                        sayRemote:FireServer(spamText, "All")
-                    end
-                end)
-
-                if i < maxCheersPerMessage then
-                    task.wait(0.1)
-                end
-            end
-            shouldSendCheer = false
-        end)
-    end
-
-    local function setupChatHook()
-        if hasCharacterWithHumanoid then
-            local chatBar
-            local chat = playerGui:FindFirstChild("Chat")
-            if chat then
-                chatBar = chat:FindFirstChild("ChatBar", true)
-            end
-            if not chatBar then
-                local container = CoreGui:FindFirstChild("TextBoxContainer", true)
-                if container then
-                    chatBar = container:FindFirstChild("TextBox")
-                end
-            end
-            if not chatBar then
-                return
-            end
-            local connection = chatBar.FocusLost:Connect(function(enterPressed)
-                if enterPressed then
-                    local message = chatBar.Text
-                    if useTextMethod then
-                        chatBar.Text = ""
-                        if message and message ~= "" then
-                            local modifiedMessage = AntiChatLog(message)
-                            if channel then
-                                channel:SendAsync(modifiedMessage)
-                            end
-                            startCheerSequence()
-                        end
-                    else
-                        if message and message ~= "" then
-                            startCheerSequence()
-                        end
-                    end
-                end
-            end)
-            table.insert(_G.GhostyysACLConnections, connection)
-        else
-            local ChatBar
-            local function findChatBar()
-                local textBoxContainer = CoreGui:FindFirstChild("TextBoxContainer", true)
-                if textBoxContainer then
-                    return textBoxContainer:FindFirstChild("TextBox") or textBoxContainer
-                end
-                return nil
-            end
-            ChatBar = findChatBar()
-            if ChatBar then
-                pcall(function()
-                    for _, c in pairs(getconnections(ChatBar.FocusLost)) do
-                        c:Disconnect()
-                    end
-                end)
-                local connection = ChatBar.FocusLost:Connect(function(enterPressed)
-                    if enterPressed then
-                        local message = ChatBar.Text
-                        ChatBar.Text = ""
-                        if message and message ~= "" then
-                            local modifiedMessage = AntiChatLog(message)
-                            local Channel = TextChatService.TextChannels:FindFirstChild("RBXGeneral")
-                            if Channel then
-                                Channel:SendAsync(modifiedMessage)
-                            end
-                            startCheerSequence()
-                        end
-                    end
-                end)
-                table.insert(_G.GhostyysACLConnections, connection)
-            end
-        end
-    end
-
-    setupChatHook()
-else
-    if not pcall(function()
-        loadstring(game:HttpGet("https://raw.githubusercontent.com/GhostyySoftworks/G-Projects/refs/heads/main/GACL"))()
-    end) then
-        loadstring(game:HttpGet("https://raw.githubusercontent.com/GhostyySoftworks/G-Projects/refs/heads/main/GACL"))()
-    end
-    showNotification("Ghostyys ACL", "Anti Chat & Screenshot Logger Loaded!", "rbxassetid://89861885969531")
+if _G.GhostyysACLLoaded then
+    ShowNotification("Ghostyys ACL", "LogFlood & ResetFilter Already Loaded!")
+    return
 end
+_G.GhostyysACLLoaded = true
+
+print("Loading Ghostyys Logs Flooder & ResetFilter Bypass...")
+
+if setfflag then
+    pcall(function()
+        setfflag("GetFFlagVoiceAbuseReportsEnabled", "False")
+    end)
+end
+
+if not CoreGui:FindFirstChild("DevConsoleMaster") then
+task.spawn(function()
+        pcall(function()
+            TextChatService.TextChannels.RBXGeneral:SendAsync("/console")
+        end)
+    end)
+end
+
+wait(.1)
+
+local DevConsole = CoreGui.DevConsoleMaster
+local DevConsoleWindow = DevConsole.DevConsoleWindow
+local DevConsoleUI = DevConsoleWindow.DevConsoleUI
+local CloseButton = DevConsoleUI.TopBar.CloseButton
+
+if DevConsoleUI:FindFirstChild("MainView") and not DevConsoleUI:FindFirstChild("MainView_Copy") then
+    local NewMainView = DevConsoleUI.MainView:Clone()
+    NewMainView.Visible = false
+    NewMainView.Name = "MainView_Copy"
+    NewMainView.Parent = DevConsoleUI
+end
+
+if not DevConsoleUI:FindFirstChild("MainView") then
+    TextChatService.TextChannels.RBXGeneral:SendAsync("/console")
+    wait(.1)
+    local NewMainView = DevConsoleUI.MainView:Clone()
+    NewMainView.Visible = false
+    NewMainView.Name = "MainView_Copy"
+    NewMainView.Parent = DevConsoleUI
+end
+HiddingConsole = false
+LeavingConsoleOpen = false
+
+task.spawn(function()task.wait(.6) DevConsoleWindow.Visible = false end)
+task.spawn(function()
+    while true do
+        pcall(function()
+            if LeavingConsoleOpen then
+                DevConsoleWindow.Visible = true
+            elseif HiddingConsole then
+                DevConsoleWindow.Visible = false
+            end
+        end)
+        task.wait(0.03)
+    end
+end)
+
+pcall(function()
+    CloseButton.MouseButton1Click:Connect(function()
+        LeavingConsoleOpen = false
+        HiddingConsole = true
+        pcall(function()
+            DevConsoleWindow.Visible = false
+        end)
+    end)
+end)
+
+UserInputService.InputBegan:Connect(function(input, gp)
+    if not gp and input.KeyCode == Enum.KeyCode.F9 then
+        if HiddingConsole or (not LeavingConsoleOpen and not HiddingConsole) then
+            LeavingConsoleOpen = true
+            HiddingConsole = false
+        else
+            LeavingConsoleOpen = false
+            HiddingConsole = true
+        end
+    end
+end)
+
+TextChatService.OnIncomingMessage = function(message)
+    if message.TextSource and message.TextSource.UserId == lp.UserId then
+        local text = message.Text:lower()
+        if text == "/console" or text:sub(1,9) == "/console " then
+            if HiddingConsole or (not LeavingConsoleOpen and not HiddingConsole) then
+                LeavingConsoleOpen = true
+                HiddingConsole = false
+            else
+                LeavingConsoleOpen = false
+                HiddingConsole = true
+            end
+        end
+    end
+end
+
+local function GenerateCleanString(length)
+    local chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789"
+    local lesstagschanceig = {"fu", "shi", "tf", "ki", "bl"}
+    local result = ""
+    
+    for i = 1, length do
+        local RandomIndex = math.random(1, #chars)
+        result = result .. string.sub(chars, RandomIndex, RandomIndex)
+    end
+    
+    for _, word in pairs(lesstagschanceig) do
+        result = string.gsub(result:lower(), word, "x")
+    end
+    
+    return result
+end
+
+local string = GenerateCleanString(8)
+local uwunyaa = "/console ".. string
+
+local function CreateSpamChannels()
+    for i = 1, 3 do
+        pcall(function()
+            TextChatService:AddChannel("SpamChannel"..i)
+         end)
+    end
+end
+CreateSpamChannels()
+
+local function TextChatSpammer()
+    while true do
+        pcall(function()
+            TextChatService.TextChannels["SpamChannel"..math.random(1,3)]:SendAsync(uwunyaa)
+        end)
+        task.wait(0.03)
+    end
+end
+
+task.spawn(TextChatSpammer)
+
+local function AntiChatLog(message)
+    if message:sub(1, 2) == "/e" then
+        return message
+    else
+        return "ּ" .. message
+    end
+end
+
+TextChatService.OnIncomingMessage = function(message)
+local modifiedMessage = AntiChatLog(message.Text)
+    message.Text = modifiedMessage
+end
+
+local LoadTime = string.format("%.2f", tick() - StartTime)
+ShowNotification("Ghostyys ACL", "Log Flood & ResetFilter Loaded in ".. LoadTime .."s")
+print("Ghostyys LogsFlooder & ResetFilter Loaded in ".. LoadTime .."s!")
 
 task.spawn(function()
     repeat
         StarterGui:SetCoreGuiEnabled(Enum.CoreGuiType.Chat, true)
         task.wait()
     until StarterGui:GetCoreGuiEnabled(Enum.CoreGuiType.Chat)
-
 end)
-
-
-
