@@ -14,8 +14,8 @@ end
 
 local Colors = {
     Background = Color3.fromRGB(10, 10, 10),
-    Text = Color3.fromRGB(255, 255, 255),
-    Border = Color3.fromRGB(255, 255, 255)
+    Text = Color3.fromRGB(0, 99, 177),
+    Border = Color3.fromRGB(0, 99, 177)
 }
 
 local existing = CoreGui:FindFirstChild("GhostyyWareGui")
